@@ -4,6 +4,9 @@ lk/studysmart/apps/service/service/ApplicationConfig.class
 lk/studysmart/apps/SubjectView.class
 lk/studysmart/apps/service/service/AbstractFacade.class
 lk/studysmart/apps/models/Subject.class
-lk/studysmart/apps/models/Quiz.class
+lk/studysmart/apps/models/Quizset.class
 lk/studysmart/apps/UserLogin.class
+lk/studysmart/apps/service/service/QuizsetFacadeREST.class
+lk/studysmart/apps/Quizset.class
+lk/studysmart/apps/models/Quiz.class
 lk/studysmart/apps/models/User.class

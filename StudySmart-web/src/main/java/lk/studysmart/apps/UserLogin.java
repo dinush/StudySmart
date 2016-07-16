@@ -70,6 +70,7 @@ public class UserLogin extends HttpServlet {
                 request.getSession().setAttribute("accesslevel", user.getLevel());
                 request.getSession().setAttribute("name", user.getName());
                 request.getSession().setAttribute("grade", user.getGrade());
+                request.getSession().setAttribute("subject", user.getSubject());
                 response.sendRedirect("index.jsp");
             } else {
                 response.sendRedirect("login.jsp?msg=Wrong Password");

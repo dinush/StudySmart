@@ -70,7 +70,7 @@
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active"><a href="#">Home</a></li>
                             <li role="presentation"><a href="#">Profile</a></li>
-                            <% if (acc_level != 3) { %>
+                            <% if (acc_level != 2) { %>
                             <sql:query dataSource="${StudySmart}" var="subjects">
                                 SELECT * FROM Subject WHERE grade = ${grade};
                             </sql:query>
@@ -85,8 +85,8 @@
                                 </ul>
                             </li>
                             <% } %>
-                            <% if (acc_level == 3) { %>
-                            <li role="presentation"><a href="quizmanager.jsp">Quiz Manager</a></li>
+                            <% if (acc_level == 2) { %>
+                            <li role="presentation"><a href="Quizset">Quiz Manager</a></li>
                             <% } %>
                             <% if (acc_level == 0) { %>
                             <li role="presentation" class="dropdown">

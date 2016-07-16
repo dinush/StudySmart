@@ -6,6 +6,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
 
+<%@page import="lk.studysmart.apps.models.Quizset"%>
+<%@page import="java.util.List"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -18,7 +20,7 @@
 
 <% 
     int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); 
-    if (acc_level != 3) {
+    if (acc_level != 2) {
         response.sendRedirect("index.jsp");
     }
 %>
@@ -75,7 +77,7 @@
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation"><a href="index.jsp">Home</a></li>
                             <li role="presentation"><a href="#">Profile</a></li>
-                            <% if (acc_level != 3) { %>
+                            <% if (acc_level != 2) { %>
                             <sql:query dataSource="${StudySmart}" var="subjects">
                                 SELECT * FROM Subject WHERE grade = ${grade};
                             </sql:query>
@@ -90,7 +92,7 @@
                                 </ul>
                             </li>
                             <% } %>
-                            <% if (acc_level == 3) { %>
+                            <% if (acc_level == 2) { %>
                             <li role="presentation" class="active"><a href="quizmanager.jsp">Quiz Manager</a></li>
                             <% } %>
                             <% if (acc_level == 0) { %>
@@ -111,7 +113,34 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-md-8">
-                                
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Quiz sets
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Title</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- TODO -->
+                                                <%
+                                                List quizsets = (List)request.getAttribute("quizsets");
+                                                for(int i=0; i<quizsets.size();i++) { 
+                                                    Quizset quizset = (Quizset) quizsets.get(i);
+                                                %>
+                                                    <tr>
+                                                        <td><% quizset.getQuizsetId(); %></td>
+                                                        <td><% quizset.getTitle(); %></td>
+                                                    </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="panel panel-default">
