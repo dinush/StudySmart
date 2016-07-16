@@ -1,0 +1,39 @@
+.page-header {
+    height: 70px;
+}
+
+#page-title {
+    float: left;
+}
+
+.user-details {
+    float: right;
+    margin-top: 20px;
+}
+
+#user-name {
+    font-weight: bold;
+}
+
+.nav-bar-vertical {
+    width: 180px;
+    float: left;
+}
+
+.table-col-max {
+    width: 100%;
+    padding: 10px;
+}
+
+.table-col-fixed {
+    width: 180px;
+}
+
+.content {
+    width: 100%;
+}
+
+.right-panels {
+    width: 400px;
+    float: right;
+}

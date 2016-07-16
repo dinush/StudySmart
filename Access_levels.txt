@@ -1,0 +1,7 @@
+[[[Access levels]]]
+
+0 - Admin
+1 - Principal
+2 - Teacher
+3 - Student
+4 - Parent
