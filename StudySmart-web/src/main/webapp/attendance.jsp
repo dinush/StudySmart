@@ -62,6 +62,7 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
+            <li>Mark Attendance</li>
         </ol>
         <table border="0">
             <tr>
@@ -72,7 +73,22 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Student ID</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="row" items="${students}">
+                                        <tr>
+                                            <td>${row.username}</td>
+                                            <td>${row.name}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="col-md-4">
                                 <div class="panel panel-default">

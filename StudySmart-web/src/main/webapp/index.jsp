@@ -66,46 +66,12 @@
         <table border="0">
             <tr>
                 <td valign="top" class="table-col-fixed">
-                    <div class="nav-bar-vertical">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation" class="active"><a href="#">Home</a></li>
-                            <li role="presentation"><a href="#">Profile</a></li>
-                            <% if (acc_level != 2) { %>
-                            <sql:query dataSource="${StudySmart}" var="subjects">
-                                SELECT * FROM Subject WHERE grade = ${grade};
-                            </sql:query>
-                            <li role="presentation" class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
-                                    Subjects<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <c:forEach var="row" items="${subjects.rows}">
-                                        <li role="presentation"><a href="subject?id=<c:out value='${row.idSubject}'/>"><c:out value="${row.name}"/></a></li>
-                                        </c:forEach>
-                                </ul>
-                            </li>
-                            <% } %>
-                            <% if (acc_level == 2) { %>
-                            <li role="presentation"><a href="Quizset">Quiz Manager</a></li>
-                            <% } %>
-                            <% if (acc_level == 0) { %>
-                            <li role="presentation" class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
-                                    User Management<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li role="presentation"><a href="registeruser.jsp">Register User</a></li>
-                                    <li role="presentation"><a href="changeuser.jsp">Change User</a></li>
-                                </ul>
-                            </li>
-                            <% } %>
-                        </ul>
-                    </div>
+                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
                 </td>
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div id="main-content" class="col-md-8">
                                 
                             </div>
                             <div class="col-md-4">
