@@ -6,6 +6,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -17,7 +20,12 @@
 
 
 
-<% int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); %>
+<% 
+    int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); 
+    int teachingGrade = Integer.parseInt(session.getAttribute("grade").toString());
+    Date date = new Date();
+    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -73,22 +81,28 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="row" items="${students}">
-                                        <tr>
-                                            <td>${row.username}</td>
-                                            <td>${row.name}</td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                <h3>Grade <% out.print(teachingGrade); %> attendance details <% out.print(format.format(date)); %></h3>
+                                <form action="StudentManager?action=attendancemarked" method="POST">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>Student Name</th>
+                                                <th>Attended?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="row" items="${students}">
+                                            <tr>
+                                                <td>${row.username}</td>
+                                                <td>${row.name}</td>
+                                                <td><input type="checkbox" name="attendance" value="${row.username}" /></td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-default">Finish</button>
+                                </form>
                             </div>
                             <div class="col-md-4">
                                 <div class="panel panel-default">
