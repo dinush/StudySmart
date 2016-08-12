@@ -3,40 +3,29 @@
     Created on : Jun 29, 2016, 8:10:42 PM
     Author     : dinush
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 --%>
 
+<%@page import="lk.studysmart.apps.models.User"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
-<sql:setDataSource var="StudySmart" driver="com.mysql.jdbc.Driver"
-                   url="jdbc:mysql://localhost/StudySmart"
-                   user="root" password="abc123" />
+<%@include file="utils/logincheck.jsp" %>
+<%@include file="utils/database.jsp" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    Object user = session.getAttribute("username");
-    if (user == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-    
-    String idSubject = (String) request.getAttribute("idSubject");
-    if (idSubject == null) {
-        response.sendRedirect("index.jsp");
-        return;
-    }
-    String nameSubject = (String) request.getAttribute("nameSubject");
-    String gradeSubject = (String) request.getAttribute("gradeSubject");
-    
-    int grade = (Integer) session.getAttribute("grade");
-%>
 
-<sql:query dataSource="${StudySmart}" var="result">
-    SELECT * FROM Subject WHERE grade = ${grade};
-</sql:query>
+
+
+<% 
+    Date date = new Date();
+    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,7 +59,7 @@
                 Signed in as:
                 <span id="user-name">
                     <%
-                        out.print(session.getAttribute("name"));
+                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -81,37 +70,18 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="#">Subject (${nameSubject})</a></li>
+            <li>Mark Attendance</li>
         </ol>
         <table border="0">
             <tr>
                 <td valign="top" class="table-col-fixed">
-                    <div class="nav-bar-vertical">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation"><a href="index.jsp">Home</a></li>
-                            <li role="presentation"><a href="#">Profile</a></li>
-                            <li role="presentation" class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
-                                    Subjects<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <c:forEach var="row" items="${result.rows}">
-                                        <li role="presentation"><a href="subject?id=<c:out value='${row.idSubject}'/>"><c:out value="${row.name}"/></a></li>
-                                    </c:forEach>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
                 </td>
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div class="col-md-8">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        Forum
-                                    </div>
-                                </div>
+                            <div id="main-content" class="col-md-8">
+                                
                             </div>
                             <div class="col-md-4">
                                 <div class="panel panel-default">

@@ -3,15 +3,17 @@
     Created on : Jun 29, 2016, 8:10:42 PM
     Author     : dinush
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 --%>
 
+<%@page import="lk.studysmart.apps.models.User"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
@@ -21,8 +23,6 @@
 
 
 <% 
-    int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); 
-    int teachingGrade = Integer.parseInt(session.getAttribute("grade").toString());
     Date date = new Date();
     DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 %>
@@ -59,7 +59,7 @@
                 Signed in as:
                 <span id="user-name">
                     <%
-                        out.print(session.getAttribute("name"));
+                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -81,7 +81,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <h3>Grade <% out.print(teachingGrade); %> attendance details <% out.print(format.format(date)); %></h3>
+                                <h3>Grade <% out.print(grade); %> attendance details <% out.print(format.format(date)); %></h3>
                                 <form action="StudentManager?action=attendancemarked" method="POST">
                                     <table class="table table-striped">
                                         <thead>

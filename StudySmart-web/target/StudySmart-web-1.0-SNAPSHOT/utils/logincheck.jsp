@@ -4,13 +4,15 @@
     Author     : dinush
 --%>
 
+<%@page import="lk.studysmart.apps.models.User"%>
 <%
-    Object user = session.getAttribute("username");
-    if (user == null) {
+    Object u = session.getAttribute("user");
+    if (u == null) {
         response.sendRedirect("login.jsp");
         return;
     }
-    String username = (String) user;
-    int grade = (Integer) session.getAttribute("grade");
-    int accesslevel = (Integer) session.getAttribute("accesslevel");
+    User user = (User) u;
+    
+    int grade = user.getGrade();
+    int acc_level = user.getLevel();
 %>

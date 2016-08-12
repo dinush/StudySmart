@@ -15,9 +15,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-
-<% int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +48,7 @@
                 Signed in as:
                 <span id="user-name">
                     <%
-                        out.print(session.getAttribute("name"));
+                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">

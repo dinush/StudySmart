@@ -66,11 +66,7 @@ public class UserLogin extends HttpServlet {
             }
             
             if (validPassword) {
-                request.getSession().setAttribute("username", user.getUsername());
-                request.getSession().setAttribute("accesslevel", user.getLevel());
-                request.getSession().setAttribute("name", user.getName());
-                request.getSession().setAttribute("grade", user.getGrade());
-                request.getSession().setAttribute("subject", user.getSubject());
+                request.getSession().setAttribute("user", user);
                 response.sendRedirect("index.jsp");
             } else {
                 response.sendRedirect("login.jsp?msg=Wrong Password");

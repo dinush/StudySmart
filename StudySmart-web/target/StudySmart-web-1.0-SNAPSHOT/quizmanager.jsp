@@ -17,13 +17,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-<% 
-    int acc_level = Integer.parseInt(request.getSession().getAttribute("accesslevel").toString()); 
-    if (acc_level != 2) {
-        response.sendRedirect("index.jsp");
-    }
-%>
 <!DOCTYPE html>
 <html>
     <head>

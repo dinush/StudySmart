@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.13, for Linux (x86_64)
+-- MySQL dump 10.15  Distrib 10.0.25-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: StudySmart
 -- ------------------------------------------------------
--- Server version	5.7.13
+-- Server version	10.0.25-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,32 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Attendance`
+--
+
+DROP TABLE IF EXISTS `Attendance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Attendance` (
+  `username` varchar(25) NOT NULL,
+  `date` date NOT NULL,
+  `attended` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`username`,`date`),
+  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Attendance`
+--
+
+LOCK TABLES `Attendance` WRITE;
+/*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
+INSERT INTO `Attendance` VALUES ('st1','2016-08-03',1),('st2','2016-08-03',1);
+/*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `Quiz`
@@ -76,6 +102,30 @@ LOCK TABLES `Quizset` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `SEQUENCE`
+--
+
+DROP TABLE IF EXISTS `SEQUENCE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SEQUENCE` (
+  `SEQ_NAME` varchar(50) NOT NULL,
+  `SEQ_COUNT` decimal(38,0) DEFAULT NULL,
+  PRIMARY KEY (`SEQ_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SEQUENCE`
+--
+
+LOCK TABLES `SEQUENCE` WRITE;
+/*!40000 ALTER TABLE `SEQUENCE` DISABLE KEYS */;
+INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',0);
+/*!40000 ALTER TABLE `SEQUENCE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Subject`
 --
 
@@ -126,7 +176,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,0,NULL),('user','123','user@email.com','Sample User',1,10,NULL);
+INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,0,NULL),('st1','123','st@studysmart','Student 1',3,10,NULL),('st2','123','st@studysmart','Student 2',3,10,NULL),('teacher','123','teacher@studysmart','Teacher',2,10,'IT'),('user','123','user@email.com','Sample User',1,10,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,30 +202,6 @@ CREATE TABLE `announcement` (
 LOCK TABLES `announcement` WRITE;
 /*!40000 ALTER TABLE `announcement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `announcement` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `attendance`
---
-
-DROP TABLE IF EXISTS `attendance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attendance` (
-  `user_Id` varchar(25) NOT NULL,
-  `date` date NOT NULL,
-  `attendent` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `attendance`
---
-
-LOCK TABLES `attendance` WRITE;
-/*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -501,4 +527,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-09 19:21:59
+-- Dump completed on 2016-08-07 12:20:15

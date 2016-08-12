@@ -6,8 +6,12 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import lk.studysmart.apps.models.StudentParent;
 
 /**
  *
@@ -24,6 +28,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findByGradeAndLevel", query = "SELECT u FROM User u WHERE u.grade = :grade AND u.level = :level")
 })
 public class User implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentid")
+    private Collection<StudentParent> studentParentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentid")
+    private Collection<StudentParent> studentParentCollection1;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "level")
+    private int level;
+    @JoinTable(name = "Child_Parent", joinColumns = {
+        @JoinColumn(name = "studentid", referencedColumnName = "username")}, inverseJoinColumns = {
+        @JoinColumn(name = "parentid", referencedColumnName = "username")})
+    @ManyToMany
+    private Collection<User> userCollection;
+    @ManyToMany(mappedBy = "userCollection")
+    private Collection<User> userCollection1;
     
     @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
 
@@ -39,8 +60,6 @@ public class User implements Serializable {
     private String email;
     @Column(name = "name")
     private String name;
-    @Column(name = "level")
-    private Integer level;
     @Column(name = "grade")
     private Integer grade;    
     @Column(name = "subject")
@@ -86,13 +105,6 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }   
 
     public Integer getGrade() {
         return grade;
@@ -125,6 +137,53 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.User[ id=" + username + " ]";
+    }
+
+    public User() {
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection1() {
+        return userCollection1;
+    }
+
+    public void setUserCollection1(Collection<User> userCollection1) {
+        this.userCollection1 = userCollection1;
+    }
+
+    @XmlTransient
+    public Collection<StudentParent> getStudentParentCollection() {
+        return studentParentCollection;
+    }
+
+    public void setStudentParentCollection(Collection<StudentParent> studentParentCollection) {
+        this.studentParentCollection = studentParentCollection;
+    }
+
+    @XmlTransient
+    public Collection<StudentParent> getStudentParentCollection1() {
+        return studentParentCollection1;
+    }
+
+    public void setStudentParentCollection1(Collection<StudentParent> studentParentCollection1) {
+        this.studentParentCollection1 = studentParentCollection1;
     }
     
 }

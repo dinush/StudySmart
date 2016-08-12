@@ -35,6 +35,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
+import lk.studysmart.apps.models.User;
 
 /**
  *
@@ -65,20 +66,50 @@ public class StudentManager extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        User user = (User) request.getSession().getAttribute("user");
+        
         List resultList = em.createNamedQuery("User.findByGradeAndLevel")
-                .setParameter("grade", request.getSession().getAttribute("grade"))
+                .setParameter("grade", user.getGrade())
                 .setParameter("level", 3)
                 .getResultList();
                 
-        System.out.println(request.getParameter("action"));
+        // Show input attendance form
         if(request.getParameter("action").equals("attendance")) {   // Send attendance input page
             request.setAttribute("students", resultList);
             request.getRequestDispatcher("/attendance.jsp").forward(request, response);
+            
+        // Input attendance details to database
         } else if(request.getParameter("action").equals("attendancemarked")) {  
-            try {
+            try {                
                 // Insert attendance details to db
                 String[] attendees = request.getParameterValues("attendance");
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                attendanceDetailsToDB(attendees);
+                response.sendRedirect("index.jsp");
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        // View students belongs to parent
+        } else if(request.getParameter("action").equals("checkattendance")) {
+            if(user.getLevel() == 4) {    //Parent
+                List studentList = em.createNamedQuery("StudentParent.findByParentId")
+                        .setParameter("parentid", user.getUsername())
+                        .getResultList();
+                // if only one student belongs to this parent, show his attendance.
+                if(studentList.size() == 1) {
+                    User student = (User) studentList.get(0);
+                    response.sendRedirect("StudentManager?action=checkattendancefor&id=" + student.getUsername());
+                }
+            }
+            
+        // View attendance for specific student
+        } else if (request.getParameter("action").equals("checkattendancefor")){
+            
+        }
+    }
+    
+    private void attendanceDetailsToDB(String[] attendees) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 Date date = new Date();
                 
 //                UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -92,12 +123,6 @@ public class StudentManager extends HttpServlet {
                     em.persist(attendance);
                     utx.commit();
                 }
-                
-                response.sendRedirect("index.jsp");
-            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

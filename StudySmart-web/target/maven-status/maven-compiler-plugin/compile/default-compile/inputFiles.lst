@@ -2,11 +2,13 @@
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/service/service/AbstractFacade.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/UserLogin.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/Quiz.java
+/media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/service/service/StudentParentFacadeREST.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/Attendance.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/service/service/ApplicationConfig.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/service/service/UserFacadeREST.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/SubjectView.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/Subject.java
+/media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/StudentParent.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/User.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/models/AttendancePK.java
 /media/SEC/Code/NetBeansProjects/StudySmart/StudySmart-web/src/main/java/lk/studysmart/apps/StudentManager.java
