@@ -104,7 +104,22 @@ public class StudentManager extends HttpServlet {
             
         // View attendance for specific student
         } else if (request.getParameter("action").equals("checkattendancefor")){
+         
             
+        } else if (request.getParameter("action").equals("termtestmarks")) {    // Other student details
+            
+            if (user.getLevel() > 2) {  // Students and Parents are not allowed here
+                response.sendRedirect("index.jsp");
+            }
+            
+            // Get students in that class
+            List studentList = em.createNamedQuery("User.findByGradeAndLevel")
+                    .setParameter("grade", user.getGrade())
+                    .setParameter("level", 3)
+                    .getResultList();
+            
+            request.setAttribute("students", studentList);
+            request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
         }
     }
     

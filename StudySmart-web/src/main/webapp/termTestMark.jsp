@@ -78,23 +78,15 @@
                                             <th>Marks</th>
                                            
                                           </tr>
-                                          <tr>
-                                            <td> </td>
-                                            <td></td>
-
-                                          </tr>
-                                          <tr>
-                                            <td></td>
-                                            <td></td>
-
-                                          </tr>
-                                          <tr>
-                                            <td></td>
-                                            <td></td>
-
-                                          </tr>
+                                          <c:forEach var="row" items="${students}">
+                                            <tr>
+                                                <td>${row.name}</td>
+                                                <td><input type="text" class="form-control" id="${row.username}"></td>
+                                            </tr>
+                                        </c:forEach>
                                     </table>
-                                <form>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
                             </div>
                             <div class="col-md-4">
                                 <div class="panel panel-default">

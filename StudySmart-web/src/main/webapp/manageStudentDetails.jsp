@@ -71,7 +71,7 @@
                             <div id="main-content" class="col-md-8">
                                 <!change code here>
                                      <ul style="list-style-type:none">
-                                            <li><a href="termTestMark.jsp">Enter term test marks </a></li>
+                                            <li><a href="StudentManager?action=termtestmarks">Enter term test marks </a></li>
                                             <li><a href="membershipDetails.jsp">Enter membership details</a></li>
                                             <li><a href="achievementDetails.jsp">Enter achievements details</a></li>
                                             
