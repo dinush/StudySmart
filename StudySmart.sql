@@ -42,6 +42,58 @@ INSERT INTO `Attendance` VALUES ('st1','2016-08-03',1),('st2','2016-08-03',1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Child_Parent`
+--
+
+DROP TABLE IF EXISTS `Child_Parent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Child_Parent` (
+  `studentid` varchar(255) NOT NULL,
+  `parentid` varchar(255) NOT NULL,
+  PRIMARY KEY (`studentid`,`parentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Child_Parent`
+--
+
+LOCK TABLES `Child_Parent` WRITE;
+/*!40000 ALTER TABLE `Child_Parent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Child_Parent` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Marks`
+--
+
+DROP TABLE IF EXISTS `Marks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Marks` (
+  `username` varchar(25) NOT NULL,
+  `idSubject` varchar(25) NOT NULL,
+  `term` int(11) NOT NULL,
+  `marks` int(3) NOT NULL,
+  PRIMARY KEY (`username`,`idSubject`,`term`),
+  KEY `fk_marks_idsubject` (`idSubject`),
+  CONSTRAINT `fk_marks_idsubject` FOREIGN KEY (`idSubject`) REFERENCES `Subject` (`idSubject`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_marks_username` FOREIGN KEY (`username`) REFERENCES `User` (`username`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Marks`
+--
+
+LOCK TABLES `Marks` WRITE;
+/*!40000 ALTER TABLE `Marks` DISABLE KEYS */;
+INSERT INTO `Marks` VALUES ('st1','004',1,10),('st2','004',1,20);
+/*!40000 ALTER TABLE `Marks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Quiz`
 --
 
@@ -126,6 +178,34 @@ INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',0);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Student_Parent`
+--
+
+DROP TABLE IF EXISTS `Student_Parent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Student_Parent` (
+  `_id` int(11) NOT NULL AUTO_INCREMENT,
+  `parentid` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `studentid` varchar(8) CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`_id`),
+  UNIQUE KEY `uniq_parent_child` (`parentid`,`studentid`),
+  KEY `fk_student_parent_2` (`studentid`),
+  CONSTRAINT `fk_student_parent_1` FOREIGN KEY (`parentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_student_parent_2` FOREIGN KEY (`studentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Student_Parent`
+--
+
+LOCK TABLES `Student_Parent` WRITE;
+/*!40000 ALTER TABLE `Student_Parent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Student_Parent` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Subject`
 --
 
@@ -176,7 +256,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,0,NULL),('st1','123','st@studysmart','Student 1',3,10,NULL),('st2','123','st@studysmart','Student 2',3,10,NULL),('teacher','123','teacher@studysmart','Teacher',2,10,'IT'),('user','123','user@email.com','Sample User',1,10,NULL);
+INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,0,NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL),('st1','123','st@studysmart','Student 1',3,10,NULL),('st2','123','st@studysmart','Student 2',3,10,NULL),('teacher','123','teacher@studysmart','Teacher',2,10,'004'),('user','123','user@email.com','Sample User',1,10,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,30 +331,6 @@ LOCK TABLES `forum_thead` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `marks`
---
-
-DROP TABLE IF EXISTS `marks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `marks` (
-  `user_Id` varchar(25) NOT NULL,
-  `subject_id` varchar(25) NOT NULL,
-  `marks` int(3) NOT NULL,
-  PRIMARY KEY (`subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `marks`
---
-
-LOCK TABLES `marks` WRITE;
-/*!40000 ALTER TABLE `marks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `marks` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `message`
 --
 
@@ -299,30 +355,6 @@ CREATE TABLE `message` (
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parent`
---
-
-DROP TABLE IF EXISTS `parent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `parent` (
-  `user_Id` varchar(25) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parent`
---
-
-LOCK TABLES `parent` WRITE;
-/*!40000 ALTER TABLE `parent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -527,4 +559,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-07 12:20:15
+-- Dump completed on 2016-08-13 13:49:25
