@@ -23,14 +23,14 @@
                             </li>
                             <% } %>
                             <% if (acc_level == 2) { %>
-                            <li role="presentation"><a href="Quizset">Quiz Manager</a></li>
+                          
                             <li role="presentation" class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
                                     Student Management<span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li role="presentation"><a href="StudentManager?action=attendance">Mark Attendance</a></li>
-                                    <li role="presentation"><a href="StudentManager?action=attendance">Other Tasks</a></li>
+                                    <li role="presentation"><a href="manageStudentDetails.jsp">Other Tasks</a></li>
                                 </ul>
                             </li>
                             <% } %>
