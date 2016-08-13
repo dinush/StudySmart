@@ -6,8 +6,11 @@ lk/studysmart/apps/service/service/AbstractFacade.class
 lk/studysmart/apps/models/Subject.class
 lk/studysmart/apps/models/AttendancePK.class
 lk/studysmart/apps/models/StudentParent.class
+lk/studysmart/apps/models/Marks.class
 lk/studysmart/apps/UserLogin.class
 lk/studysmart/apps/models/Attendance.class
+lk/studysmart/apps/service/service/MarksFacadeREST.class
+lk/studysmart/apps/models/MarksPK.class
 lk/studysmart/apps/StudentManager.class
 lk/studysmart/apps/service/service/StudentParentFacadeREST.class
 lk/studysmart/apps/service/service/AttendanceFacadeREST.class

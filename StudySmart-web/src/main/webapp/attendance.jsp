@@ -81,7 +81,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <h3>Grade <% out.print(grade); %> attendance details <% out.print(format.format(date)); %></h3>
+                                <h3>Grade <% out.print(request.getAttribute("grade")); %> attendance details <% out.print(format.format(date)); %></h3>
                                 <form action="StudentManager?action=attendancemarked" method="POST">
                                     <table class="table table-striped">
                                         <thead>

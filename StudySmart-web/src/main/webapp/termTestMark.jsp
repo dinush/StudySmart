@@ -71,7 +71,12 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <form>
+                                <form action="StudentManager?action=termtestmarkssave" method="POST">
+                                    <select name="term" class="form-control">
+                                        <option value="1">Term 1</option>
+                                        <option value="2">Term 2</option>
+                                        <option value="3">Term 3</option>
+                                    </select>
                                     <table class="table table-hover">
                                           <tr>
                                             <th>Name</th>
@@ -81,7 +86,7 @@
                                           <c:forEach var="row" items="${students}">
                                             <tr>
                                                 <td>${row.name}</td>
-                                                <td><input type="text" class="form-control" id="${row.username}"></td>
+                                                <td><input type="text" class="form-control" name="${row.username}"></td>
                                             </tr>
                                         </c:forEach>
                                     </table>

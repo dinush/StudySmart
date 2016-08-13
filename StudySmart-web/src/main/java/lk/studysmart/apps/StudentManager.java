@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,8 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
+import lk.studysmart.apps.models.Marks;
+import lk.studysmart.apps.models.MarksPK;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -74,52 +77,85 @@ public class StudentManager extends HttpServlet {
                 .getResultList();
                 
         // Show input attendance form
-        if(request.getParameter("action").equals("attendance")) {   // Send attendance input page
-            request.setAttribute("students", resultList);
-            request.getRequestDispatcher("/attendance.jsp").forward(request, response);
-            
-        // Input attendance details to database
-        } else if(request.getParameter("action").equals("attendancemarked")) {  
-            try {                
-                // Insert attendance details to db
-                String[] attendees = request.getParameterValues("attendance");
-                attendanceDetailsToDB(attendees);
-                response.sendRedirect("index.jsp");
-            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        // View students belongs to parent
-        } else if(request.getParameter("action").equals("checkattendance")) {
-            if(user.getLevel() == 4) {    //Parent
-                List studentList = em.createNamedQuery("StudentParent.findByParentId")
-                        .setParameter("parentid", user.getUsername())
-                        .getResultList();
-                // if only one student belongs to this parent, show his attendance.
-                if(studentList.size() == 1) {
-                    User student = (User) studentList.get(0);
-                    response.sendRedirect("StudentManager?action=checkattendancefor&id=" + student.getUsername());
+        switch (request.getParameter("action")) {
+            case "attendance":
+                // Send attendance input page
+                request.setAttribute("students", resultList);
+                request.setAttribute("grade", user.getGrade());
+                request.getRequestDispatcher("/attendance.jsp").forward(request, response);
+                
+                // Input attendance details to database
+                break;
+            case "attendancemarked":
+                try {
+                    // Insert attendance details to db
+                    String[] attendees = request.getParameterValues("attendance");
+                    attendanceDetailsToDB(attendees);
+                    response.sendRedirect("index.jsp");
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            
-        // View attendance for specific student
-        } else if (request.getParameter("action").equals("checkattendancefor")){
-         
-            
-        } else if (request.getParameter("action").equals("termtestmarks")) {    // Other student details
-            
-            if (user.getLevel() > 2) {  // Students and Parents are not allowed here
-                response.sendRedirect("index.jsp");
-            }
-            
-            // Get students in that class
-            List studentList = em.createNamedQuery("User.findByGradeAndLevel")
-                    .setParameter("grade", user.getGrade())
-                    .setParameter("level", 3)
-                    .getResultList();
-            
-            request.setAttribute("students", studentList);
-            request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
+                
+                // View students belongs to parent
+                break;
+            case "checkattendance":
+                if(user.getLevel() == 4) {    //Parent
+                    List studentList = em.createNamedQuery("StudentParent.findByParentId")
+                            .setParameter("parentid", user.getUsername())
+                            .getResultList();
+                    // if only one student belongs to this parent, show his attendance.
+                    if(studentList.size() == 1) {
+                        User student = (User) studentList.get(0);
+                        response.sendRedirect("StudentManager?action=checkattendancefor&id=" + student.getUsername());
+                    }
+                }
+                
+                // View attendance for specific student
+                break;
+            case "checkattendancefor":
+                break;
+            case "termtestmarks":
+                {
+                    // Other student details
+                    
+                    if (user.getLevel() > 2) {  // Students and Parents are not allowed here
+                        response.sendRedirect("index.jsp");
+                    }       // Get students in that class
+                    List studentList = em.createNamedQuery("User.findByGradeAndLevel")
+                            .setParameter("grade", user.getGrade())
+                            .setParameter("level", 3)
+                            .getResultList();
+                    request.setAttribute("students", studentList);
+                    request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
+                    break;
+                }
+            case "termtestmarkssave":
+                {
+                    // Save marks to Database
+                    if (request.getParameter("term") == null)
+                        response.sendRedirect("index.jsp");
+                    // Get students in that class
+                    List<User> studentList = em.createNamedQuery("User.findByGradeAndLevel")
+                            .setParameter("grade", user.getGrade())
+                            .setParameter("level", 3)
+                            .getResultList();
+                    for(User student : studentList) {
+                        int mark = Integer.parseInt(request.getParameter(student.getUsername()));
+                        MarksPK marksPK = new MarksPK(student.getUsername(), user.getSubject(), Integer.parseInt(request.getParameter("term")));
+                        Marks marks = new Marks(marksPK, mark);
+                        
+                        try {
+                            utx.begin();
+                            em.persist(marks);
+                            utx.commit();
+                        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                            Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }       response.sendRedirect("index.jsp");
+                    break;
+                }
+            default:
+                break;
         }
     }
     

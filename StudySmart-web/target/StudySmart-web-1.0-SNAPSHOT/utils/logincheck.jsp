@@ -13,6 +13,9 @@
     }
     User user = (User) u;
     
-    int grade = user.getGrade();
+    if (user.getGrade() != null) {
+        int grade =  user.getGrade();
+    }
+    
     int acc_level = user.getLevel();
 %>
