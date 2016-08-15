@@ -71,6 +71,19 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <form>
+                                    <div class="form-group">
+                                      <label for="exampleInputMembership">Membership</label>
+                                      <input type="Membership" class="form-control" id="InputMembership" placeholder="Achievement">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Description</label>
+                                      <textarea type="Description" class="form-control" id="InputDescription" placeholder="Description"></textarea>
+                                    </div>
+                                   
+                             
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                  </form>
                                 
                             </div>
                             <div class="col-md-4">
