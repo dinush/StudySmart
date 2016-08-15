@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `AssignmentMarks`
+--
+
+DROP TABLE IF EXISTS `AssignmentMarks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AssignmentMarks` (
+  `username` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `idSubject` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `assignment` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `marks` int(11) NOT NULL,
+  PRIMARY KEY (`username`,`idSubject`,`assignment`),
+  KEY `fk_assignment_idsubject` (`idSubject`),
+  CONSTRAINT `fk_assignment_idsubject` FOREIGN KEY (`idSubject`) REFERENCES `Subject` (`idSubject`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_assignment_username` FOREIGN KEY (`username`) REFERENCES `User` (`username`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AssignmentMarks`
+--
+
+LOCK TABLES `AssignmentMarks` WRITE;
+/*!40000 ALTER TABLE `AssignmentMarks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AssignmentMarks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Attendance`
 --
 
@@ -559,4 +587,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-13 13:49:25
+-- Dump completed on 2016-08-15 17:25:20
