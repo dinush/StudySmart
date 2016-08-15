@@ -35,6 +35,7 @@ import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Marks;
 import lk.studysmart.apps.models.MarksPK;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -96,20 +97,32 @@ public class StudentManager extends HttpServlet {
                 // View students belongs to parent
                 break;
             case "checkattendance":
-                if (user.getLevel() == 4) {    //Parent
-                    List studentList = em.createNamedQuery("StudentParent.findByParentId")
-                            .setParameter("parentid", user.getUsername())
-                            .getResultList();
-                    // if only one student belongs to this parent, show his attendance.
-                    if (studentList.size() == 1) {
-                        User student = (User) studentList.get(0);
-                        response.sendRedirect("StudentManager?action=checkattendancefor&id=" + student.getUsername());
-                    }
+            {
+                List students = em.createNamedQuery("StudentParent.findByParentId")
+                        .setParameter("parentid", user)
+                        .getResultList();
+                
+                if (students.size() < 1) {
+                    // WTF. There is no child registered for this parent.
+                    response.sendRedirect("index.jsp");
+                }
+                // if only one student belongs to this parent, show his attendance.
+                if (students.size() == 1) {
+                    StudentParent belonging = (StudentParent) students.get(0);
+                    response.sendRedirect("StudentManager?action=checkattendancefor&id=" + belonging.getStudentid().getUsername());
                 }
 
                 // View attendance for specific student
                 break;
+            }
             case "checkattendancefor":
+                String studentId = request.getParameter("id");
+                
+                List days = em.createNamedQuery("Attendance.findByUsername")
+                        .setParameter("username", studentId)
+                        .getResultList();
+                request.setAttribute("days", days);
+                request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);
                 break;
             case "termtestmarks": {
                 // Other student details
@@ -131,11 +144,11 @@ public class StudentManager extends HttpServlet {
                     response.sendRedirect("index.jsp");
                 }
                 // Get students in that class
-                List<User> studentList = em.createNamedQuery("User.findByGradeAndLevel")
+                List<User> students = em.createNamedQuery("User.findByGradeAndLevel")
                         .setParameter("grade", user.getGrade())
                         .setParameter("level", 3)
                         .getResultList();
-                for (User student : studentList) {
+                for (User student : students) {
                     int mark = Integer.parseInt(request.getParameter(student.getUsername()));
                     MarksPK marksPK = new MarksPK(student.getUsername(), user.getSubject(), Integer.parseInt(request.getParameter("term")));
                     Marks marks = new Marks(marksPK, mark);
@@ -164,19 +177,18 @@ public class StudentManager extends HttpServlet {
                 request.getRequestDispatcher("/assignmentmarks.jsp").forward(request, response);
                 break;
             }
-            case "assignmentMarksSave":
-            {
+            case "assignmentMarksSave": {
                 // Save marks to Database
                 if (request.getParameter("assignmentName") == null) {
                     response.sendRedirect("index.jsp");
                 }
                 String assignment = request.getParameter("assignmentName");
                 // Get students in that class
-                List<User> studentList = em.createNamedQuery("User.findByGradeAndLevel")
+                List<User> students = em.createNamedQuery("User.findByGradeAndLevel")
                         .setParameter("grade", user.getGrade())
                         .setParameter("level", 3)
                         .getResultList();
-                for (User student : studentList) {
+                for (User student : students) {
                     int mark = Integer.parseInt(request.getParameter(student.getUsername()));
                     AssignmentMarksPK assignmentMarksPK = new AssignmentMarksPK(student.getUsername(), user.getSubject(), assignment);
                     AssignmentMarks assignmentMarks = new AssignmentMarks(assignmentMarksPK, mark);
