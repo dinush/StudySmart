@@ -116,14 +116,21 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "checkattendancefor":
+            {
                 String studentId = request.getParameter("id");
+                
+                User student = (User) em.createNamedQuery("User.findByUsername")
+                        .setParameter("username", studentId)
+                        .getSingleResult();
                 
                 List days = em.createNamedQuery("Attendance.findByUsername")
                         .setParameter("username", studentId)
                         .getResultList();
+                request.setAttribute("student", student);
                 request.setAttribute("days", days);
                 request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);
                 break;
+            }
             case "termtestmarks": {
                 // Other student details
 

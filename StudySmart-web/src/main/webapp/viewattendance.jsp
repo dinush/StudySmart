@@ -47,8 +47,7 @@
             <div class="user-details">
                 Signed in as:
                 <span id="user-name">
-                    <%
-                        out.print(user.getName());
+                    <%                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -70,22 +69,39 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Attended?</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="day" items="${days}">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Attendance Details</div>
+                                    <div class="panel-body">
+                                        <% User student = (User) request.getAttribute("student"); %>
+                                        Student Name: <% out.println(student.getName()); %> <br>
+                                        Grade: <% out.println(student.getGrade());%>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>${day.attendancePK.date}</td>
-                                                <td>${day.attended}</td>
+                                                <th>Date</th>
+                                                <th>Attended?</th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="day" items="${days}">
+                                                <tr>
+                                                    <td>${day.attendancePK.date}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${day.attended}">
+                                                                Yes
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                No
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
