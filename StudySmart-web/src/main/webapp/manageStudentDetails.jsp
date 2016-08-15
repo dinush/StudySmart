@@ -45,8 +45,7 @@
             <div class="user-details">
                 Signed in as:
                 <span id="user-name">
-                    <%
-                        out.print(user.getName());
+                    <%                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -58,7 +57,7 @@
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
             <li>Student management</li>
-            
+
         </ol>
         <table border="0">
             <tr>
@@ -70,31 +69,19 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <!change code here>
-                                     <ul style="list-style-type:none">
-                                            <li><a href="StudentManager?action=termtestmarks">Enter term test marks </a></li>
-                                            <li><a href="membershipDetails.jsp">Enter membership details</a></li>
-                                            <li><a href="achievementDetails.jsp">Enter achievements details</a></li>
-                                            
-                                            
-                                     </ul>
-                                
-                               
+                                <ul style="list-style-type:none">
+                                    <li><a href="StudentManager?action=assignmentMarks">Enter assignment marks</a></li>
+                                    <li><a href="StudentManager?action=termtestmarks">Enter term test marks </a></li>
+                                    <li><a href="membershipDetails.jsp">Enter membership details</a></li>
+                                    <li><a href="achievementDetails.jsp">Enter achievements details</a></li>
+
+
+                                </ul>
+
+
                             </div>
                             <div class="col-md-4">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Calendar</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div id="jqxcalendar"></div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">News feed</h3>
-                                    </div>
-                                    <div class="panel-body"></div>
-                                </div>
+                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
                     </div>
