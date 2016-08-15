@@ -1,5 +1,7 @@
 <%-- 
-    
+    Document   : index
+    Created on : Jun 29, 2016, 8:10:42 PM
+    Author     : dinush
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
@@ -45,7 +47,8 @@
             <div class="user-details">
                 Signed in as:
                 <span id="user-name">
-                    <%                        out.print(user.getName());
+                    <%
+                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -56,8 +59,6 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li>Student management</li>
-
         </ol>
         <table border="0">
             <tr>
@@ -68,17 +69,23 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <!change code here>
-                                <ul style="list-style-type:none">
-                                    <li><a href="StudentManager?action=assignmentmarks">Enter assignment marks</a></li>
-                                    <li><a href="StudentManager?action=termtestmarks">Enter term test marks </a></li>
-                                    <li><a href="membershipDetails.jsp">Enter membership details</a></li>
-                                    <li><a href="achievementDetails.jsp">Enter achievements details</a></li>
-
-
-                                </ul>
-
-
+                                <form action="StudentManager?action=assignmentMarksSave" method="POST">
+                                    <input type="text" class="form-control" name="assignmentName" placeholder="Assignment Name"/>
+                                    <table class="table table-hover">
+                                          <tr>
+                                            <th>Name</th>
+                                            <th>Marks</th>
+                                           
+                                          </tr>
+                                          <c:forEach var="row" items="${students}">
+                                            <tr>
+                                                <td>${row.name}</td>
+                                                <td><input type="text" class="form-control" name="${row.username}"></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
