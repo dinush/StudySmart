@@ -59,6 +59,8 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
+            <li><a href="manageStudentDetails.jsp">Student Management</a></li>
+            <li>Assignment Marks</li>
         </ol>
         <table border="0">
             <tr>
