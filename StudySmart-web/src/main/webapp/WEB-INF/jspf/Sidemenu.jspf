@@ -17,12 +17,12 @@
                                 <ul class="dropdown-menu">
                                     <li role="presentation"><a href="StudentManager?action=attendance">Mark Attendance</a></li>
                                    
-                                    <li role="presentation"><a href="">View Attendance</a></li>              
+                                    <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>              
                                     <li role="presentation"><a href="achievementDetails.jsp">Enter Achievement Details</a></li>
                                     <li role="presentation"><a href="membershipDetails.jsp">Enter Membership Details</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><a href="index.jsp">Enter Marks</a></li>
+                            <li role="presentation"><a href="assignmentmarks.jsp">Enter Marks</a></li>
                             <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
                             <% } %>
                             <% if (acc_level == 0) { %>
