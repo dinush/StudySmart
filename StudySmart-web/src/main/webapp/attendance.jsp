@@ -81,7 +81,33 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <h3>Grade <% out.print(request.getAttribute("grade")); %> attendance details <% out.print(format.format(date)); %></h3>
+                                <div class="row">
+                                    
+                                    <div class="col-lg-3">
+                                        <select name="grade" class="form-control">
+                                            <option value="1">Grade 10</option>
+                                            <option value="2">Grade 11</option>
+                                        </select>
+                                    </div>
+                                    
+
+                                    <div class="col-lg-3">
+                                        <select name="class" class="form-control">
+                                            <option value="1">Class A</option>
+                                            <option value="2">Class B</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-primary">Load Students</button>
+                                    </div>
+                                    
+                                </div>
+                                <br>
+                                
+                                
+                                
+                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Mark Attendance on <% out.print(format.format(date)); %></h3>
                                 <form action="StudentManager?action=attendancemarked" method="POST">
                                     <table class="table table-striped">
                                         <thead>
