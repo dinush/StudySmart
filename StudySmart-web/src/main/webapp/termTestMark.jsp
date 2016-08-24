@@ -72,25 +72,14 @@
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
                                     
-                                    <div class="col-lg-3">
-                                        <select name="grade" class="form-control">
-                                            <option value="1">Grade 10</option>
-                                            <option value="2">Grade 11</option>
-                                        </select>
-                                    </div>
-                                    
 
                                     <div class="col-lg-3">
                                         <select name="class" class="form-control">
+                                            <c:forEach var="row" items="${teachesfor}">
+                                                <option value="${row.getId()}">${row.getSubjectId().getName()} for Grade ${row.getClass1().getGrade()} ${row.getClass1().getSubclass()} </option>
+                                            </c:forEach>
                                             <option value="1">Class A</option>
                                             <option value="2">Class B</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-lg-3">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Science</option>
-                                            <option value="2">English</option>
                                         </select>
                                     </div>
                                     

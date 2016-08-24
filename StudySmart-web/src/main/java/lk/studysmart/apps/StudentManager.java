@@ -43,6 +43,7 @@ import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.Marks;
 import lk.studysmart.apps.models.MarksPK;
 import lk.studysmart.apps.models.StudentParent;
+import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -177,17 +178,23 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "termtestmarks": {
-                // Other student details
-/*
                 if (user.getLevel() > 2) {  // Students and Parents are not allowed here
                     response.sendRedirect("index.jsp");
-                }       // Get students in that class
+                }
+                List teachesfor = em.createNamedQuery("TeacherTeaches.findByUser")
+                        .setParameter("user", user)
+                        .getResultList();
+                request.setAttribute("teachesfor", teachesfor);
+                request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
+                // Other student details
+/*
+                       // Get students in that class
                 List studentList = em.createNamedQuery("User.findByGradeAndLevel")
                         .setParameter("grade", user.getGrade())
                         .setParameter("level", 3)
                         .getResultList();
                 request.setAttribute("students", studentList);
-                request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);*/
+                */
                 break;
             }
             case "termtestmarkssave": {

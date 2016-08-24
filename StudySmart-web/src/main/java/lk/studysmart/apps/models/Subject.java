@@ -6,50 +6,60 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author dinush
  */
 @Entity
-@Table(name="Subject")
+@Table(name = "Subject")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Subject.count", query = "SELECT COUNT(s) FROM Subject s"),
-    @NamedQuery(name = "Subject.findById", query = "SELECT s FROM Subject s WHERE s.idSubject = :idSubject")
-})
+    @NamedQuery(name = "Subject.findAll", query = "SELECT s FROM Subject s"),
+    @NamedQuery(name = "Subject.findByIdSubject", query = "SELECT s FROM Subject s WHERE s.idSubject = :idSubject"),
+    @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name")})
 public class Subject implements Serializable {
 
-    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
+    private Collection<TeacherTeaches> teacherTeachesCollection;
+
     private static final long serialVersionUID = 1L;
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "idSubject")
     private String idSubject;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "name")
     private String name;
-    @Column(name = "grade")
-    private int grade;
 
-    public String getId() {
-        return idSubject;
+    public Subject() {
     }
 
-    public void setId(String idSubject) {
+    public Subject(String idSubject) {
         this.idSubject = idSubject;
+    }
+
+    public Subject(String idSubject, String name) {
+        this.idSubject = idSubject;
+        this.name = name;
     }
 
     public String getIdSubject() {
@@ -66,14 +76,6 @@ public class Subject implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
     }
 
     @Override
@@ -98,7 +100,16 @@ public class Subject implements Serializable {
 
     @Override
     public String toString() {
-        return "lk.studysmart.apps.models.Subject[ id=" + idSubject + " ]";
+        return "lk.studysmart.apps.models.Subject[ idSubject=" + idSubject + " ]";
+    }
+
+    @XmlTransient
+    public Collection<TeacherTeaches> getTeacherTeachesCollection() {
+        return teacherTeachesCollection;
+    }
+
+    public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
+        this.teacherTeachesCollection = teacherTeachesCollection;
     }
     
 }

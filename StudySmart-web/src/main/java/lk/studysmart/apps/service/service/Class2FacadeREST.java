@@ -18,34 +18,34 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import lk.studysmart.apps.models.TeacherSubject;
+import lk.studysmart.apps.models.Class2;
 
 /**
  *
  * @author dinush
  */
 @Stateless
-@Path("lk.studysmart.apps.models.teachersubject")
-public class TeacherSubjectFacadeREST extends AbstractFacade<TeacherSubject> {
+@Path("lk.studysmart.apps.models.class2")
+public class Class2FacadeREST extends AbstractFacade<Class2> {
 
     @PersistenceContext(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public TeacherSubjectFacadeREST() {
-        super(TeacherSubject.class);
+    public Class2FacadeREST() {
+        super(Class2.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(TeacherSubject entity) {
+    public void create(Class2 entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, TeacherSubject entity) {
+    public void edit(@PathParam("id") Integer id, Class2 entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class TeacherSubjectFacadeREST extends AbstractFacade<TeacherSubject> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public TeacherSubject find(@PathParam("id") Integer id) {
+    public Class2 find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TeacherSubject> findAll() {
+    public List<Class2> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TeacherSubject> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Class2> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

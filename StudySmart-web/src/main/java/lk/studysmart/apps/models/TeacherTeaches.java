@@ -24,12 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author dinush
  */
 @Entity
-@Table(name = "TeacherSubject")
+@Table(name = "TeacherTeaches")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TeacherSubject.findAll", query = "SELECT t FROM TeacherSubject t"),
-    @NamedQuery(name = "TeacherSubject.findById", query = "SELECT t FROM TeacherSubject t WHERE t.id = :id")})
-public class TeacherSubject implements Serializable {
+    @NamedQuery(name = "TeacherTeaches.findAll", query = "SELECT t FROM TeacherTeaches t"),
+    @NamedQuery(name = "TeacherTeaches.findById", query = "SELECT t FROM TeacherTeaches t WHERE t.id = :id"),
+    @NamedQuery(name = "TeacherTeaches.findByUser", query = "SELECT t FROM TeacherTeaches t WHERE t.userId = :user")})
+public class TeacherTeaches implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,6 +38,9 @@ public class TeacherSubject implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @JoinColumn(name = "class", referencedColumnName = "id")
+    @ManyToOne
+    private Class2 class1;
     @JoinColumn(name = "subjectId", referencedColumnName = "idSubject")
     @ManyToOne(optional = false)
     private Subject subjectId;
@@ -44,10 +48,10 @@ public class TeacherSubject implements Serializable {
     @ManyToOne(optional = false)
     private User userId;
 
-    public TeacherSubject() {
+    public TeacherTeaches() {
     }
 
-    public TeacherSubject(Integer id) {
+    public TeacherTeaches(Integer id) {
         this.id = id;
     }
 
@@ -57,6 +61,14 @@ public class TeacherSubject implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Class2 getClass1() {
+        return class1;
+    }
+
+    public void setClass1(Class2 class1) {
+        this.class1 = class1;
     }
 
     public Subject getSubjectId() {
@@ -85,10 +97,10 @@ public class TeacherSubject implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TeacherSubject)) {
+        if (!(object instanceof TeacherTeaches)) {
             return false;
         }
-        TeacherSubject other = (TeacherSubject) object;
+        TeacherTeaches other = (TeacherTeaches) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +109,7 @@ public class TeacherSubject implements Serializable {
 
     @Override
     public String toString() {
-        return "lk.studysmart.apps.models.TeacherSubject[ id=" + id + " ]";
+        return "lk.studysmart.apps.models.TeacherTeaches[ id=" + id + " ]";
     }
     
 }

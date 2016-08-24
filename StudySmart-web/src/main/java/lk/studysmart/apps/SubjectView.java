@@ -61,7 +61,6 @@ public class SubjectView extends HttpServlet {
         Subject subject = (Subject) resultList.get(0);
         request.setAttribute("idSubject", idSubject);
         request.setAttribute("nameSubject", subject.getName());
-        request.setAttribute("gradeSubject", String.valueOf(subject.getGrade()));
         
         request.getRequestDispatcher("subject.jsp").forward(request, response);
     }

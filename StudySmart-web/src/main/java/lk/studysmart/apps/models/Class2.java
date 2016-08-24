@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Class2 implements Serializable {
 
+    @OneToMany(mappedBy = "class1")
+    private Collection<TeacherTeaches> teacherTeachesCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -125,6 +128,15 @@ public class Class2 implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.Class[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<TeacherTeaches> getTeacherTeachesCollection() {
+        return teacherTeachesCollection;
+    }
+
+    public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
+        this.teacherTeachesCollection = teacherTeachesCollection;
     }
     
 }
