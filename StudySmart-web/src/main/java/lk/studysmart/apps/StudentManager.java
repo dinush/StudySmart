@@ -184,17 +184,10 @@ public class StudentManager extends HttpServlet {
                 List teachesfor = em.createNamedQuery("TeacherTeaches.findByUser")
                         .setParameter("user", user)
                         .getResultList();
+                int len = teachesfor.size();
                 request.setAttribute("teachesfor", teachesfor);
                 request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
-                // Other student details
-/*
-                       // Get students in that class
-                List studentList = em.createNamedQuery("User.findByGradeAndLevel")
-                        .setParameter("grade", user.getGrade())
-                        .setParameter("level", 3)
-                        .getResultList();
-                request.setAttribute("students", studentList);
-                */
+                
                 break;
             }
             case "termtestmarkssave": {

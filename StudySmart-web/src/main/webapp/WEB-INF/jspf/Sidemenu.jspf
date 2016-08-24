@@ -36,7 +36,7 @@
                                     <li role="presentation"><a href="membershipDetails.jsp">Enter Membership Details</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><a href="termTestMark.jsp">Enter Marks</a></li>
+                            <li role="presentation"><a href="StudentManager?action=termtestmarks">Enter Marks</a></li>
                             <li role="presentation"><a href="assignmentmarks.jsp">Enter Assignment Marks</a></li>
                             <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
                             <% } %>
