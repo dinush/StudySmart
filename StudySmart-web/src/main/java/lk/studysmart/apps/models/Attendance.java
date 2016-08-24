@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Attendance.findByUsername", query = "SELECT a FROM Attendance a WHERE a.attendancePK.username = :username"),
     @NamedQuery(name = "Attendance.findByDate", query = "SELECT a FROM Attendance a WHERE a.attendancePK.date = :date"),
     @NamedQuery(name = "Attendance.findByAttended", query = "SELECT a FROM Attendance a WHERE a.attended = :attended"),
-    @NamedQuery(name = "Attendance.findByUsernameAndDate", query = "SELECT a FROM Attendance a WHERE a.attendancePK.username = :username AND a.attendancePK.date = :date")})
+    @NamedQuery(name = "Attendance.findByUserAndDate", query = "SELECT a FROM Attendance a WHERE a.attendancePK = :attendancePk")})
 public class Attendance implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,12 @@ public class Attendance implements Serializable {
     protected AttendancePK attendancePK;
     @Column(name = "attended")
     private Boolean attended;
+    @JoinColumn(name = "markedBy", referencedColumnName = "username")
+    @ManyToOne
+    private User markedBy;
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private User user;
 
     public Attendance() {
     }
@@ -61,6 +69,22 @@ public class Attendance implements Serializable {
 
     public void setAttended(Boolean attended) {
         this.attended = attended;
+    }
+
+    public User getMarkedBy() {
+        return markedBy;
+    }
+
+    public void setMarkedBy(User markedBy) {
+        this.markedBy = markedBy;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

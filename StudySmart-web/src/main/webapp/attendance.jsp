@@ -6,6 +6,8 @@
 
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="lk.studysmart.apps.models.Attendance"%>
 <%@page import="lk.studysmart.apps.models.User"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -82,33 +84,33 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
-                                    
+                                    <form action="StudentManager?action=attendance" method="POST">
                                     <div class="col-lg-3">
                                         <select name="grade" class="form-control">
-                                            <option value="1">Grade 10</option>
-                                            <option value="2">Grade 11</option>
+                                            <option value="10">Grade 10</option>
+                                            <option value="11">Grade 11</option>
                                         </select>
                                     </div>
                                     
 
                                     <div class="col-lg-3">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Class A</option>
-                                            <option value="2">Class B</option>
+                                        <select name="subclass" class="form-control">
+                                            <option value="a">Class A</option>
+                                            <option value="b">Class B</option>
                                         </select>
                                     </div>
                                     
                                     <div class="col-lg-2">
-                                        <button type="button" class="btn btn-primary">Load Students</button>
+                                        <button type="submit" class="btn btn-primary">Load Students</button>
                                     </div>
-                                    
+                                    </form>
                                 </div>
                                 <br>
                                 
                                 
-                                
-                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Mark Attendance on <% out.print(format.format(date)); %></h3>
-                                <form action="StudentManager?action=attendancemarked" method="POST">
+                                <% if (request.getAttribute("grade") != null) { %>
+                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <% out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> Mark Attendance for <% out.print(format.format(date)); %></h3>
+                                <form action="StudentManager?action=attendancemarked&grade=<%out.print(request.getAttribute("grade"));%>&subclass=<% out.print(request.getAttribute("subclass")); %>" method="POST">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
@@ -120,15 +122,16 @@
                                         <tbody>
                                         <c:forEach var="row" items="${students}">
                                             <tr>
-                                                <td>${row.username}</td>
-                                                <td>${row.name}</td>
-                                                <td><input type="checkbox" name="attendance" value="${row.username}" /></td>
+                                                <td>${row.key.getUsername()}</td>
+                                                <td>${row.key.getName()}</td>
+                                                <td><input type="checkbox" name="attendance" value="${row.key.getUsername()}" ${row.value ? "checked" : ""}/></td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
                                     <button type="submit" class="btn btn-default">Finish</button>
                                 </form>
+                                <% } %>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

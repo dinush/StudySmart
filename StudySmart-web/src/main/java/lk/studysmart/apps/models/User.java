@@ -6,12 +6,18 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import lk.studysmart.apps.models.StudentParent;
 
 /**
  *
@@ -21,56 +27,64 @@ import lk.studysmart.apps.models.StudentParent;
 @Table(name = "User")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.count", query = "SELECT COUNT(u) FROM User u"),
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByGradeAndLevel", query = "SELECT u FROM User u WHERE u.grade = :grade AND u.level = :level")
-})
+    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByLevel", query = "SELECT u FROM User u WHERE u.level = :level"),
+    @NamedQuery(name = "User.findBySubject", query = "SELECT u FROM User u WHERE u.subject = :subject"),
+    @NamedQuery(name = "User.findByClass", query = "SELECT u FROM User u WHERE u.class1 = :class2")})
+
 public class User implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentid")
-    private Collection<StudentParent> studentParentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentid")
-    private Collection<StudentParent> studentParentCollection1;
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = "username")
+    private String username;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "password")
+    private String password;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "email")
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "name")
+    private String name;
     @Basic(optional = false)
     @NotNull
     @Column(name = "level")
     private int level;
-    @JoinTable(name = "Child_Parent", joinColumns = {
-        @JoinColumn(name = "studentid", referencedColumnName = "username")}, inverseJoinColumns = {
-        @JoinColumn(name = "parentid", referencedColumnName = "username")})
-    @ManyToMany
-    private Collection<User> userCollection;
-    @ManyToMany(mappedBy = "userCollection")
-    private Collection<User> userCollection1;
-    
-    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "username")
-    private String username;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "grade")
-    private Integer grade;    
+    @Size(max = 25)
     @Column(name = "subject")
     private String subject;
+    @JoinColumn(name = "class", referencedColumnName = "id")
+    @ManyToOne
+    private Class2 class1;
 
-    public String getSubject() {
-        return subject;
+    public User() {
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public User(String username) {
+        this.username = username;
+    }
+
+    public User(String username, String password, String email, String name, int level) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.level = level;
     }
 
     public String getUsername() {
@@ -105,13 +119,28 @@ public class User implements Serializable {
         this.name = name;
     }
 
-
-    public Integer getGrade() {
-        return grade;
+    public int getLevel() {
+        return level;
     }
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public Class2 getClass1() {
+        return class1;
+    }
+
+    public void setClass1(Class2 class1) {
+        this.class1 = class1;
     }
 
     @Override
@@ -136,54 +165,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "lk.studysmart.apps.models.User[ id=" + username + " ]";
-    }
-
-    public User() {
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
-
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
-
-    @XmlTransient
-    public Collection<User> getUserCollection1() {
-        return userCollection1;
-    }
-
-    public void setUserCollection1(Collection<User> userCollection1) {
-        this.userCollection1 = userCollection1;
-    }
-
-    @XmlTransient
-    public Collection<StudentParent> getStudentParentCollection() {
-        return studentParentCollection;
-    }
-
-    public void setStudentParentCollection(Collection<StudentParent> studentParentCollection) {
-        this.studentParentCollection = studentParentCollection;
-    }
-
-    @XmlTransient
-    public Collection<StudentParent> getStudentParentCollection1() {
-        return studentParentCollection1;
-    }
-
-    public void setStudentParentCollection1(Collection<StudentParent> studentParentCollection1) {
-        this.studentParentCollection1 = studentParentCollection1;
+        return "lk.studysmart.apps.models.User[ username=" + username + " ]";
     }
     
 }

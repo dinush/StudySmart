@@ -5,14 +5,7 @@
  */
 package lk.studysmart.apps.service.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.chart.PieChart;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,12 +49,7 @@ public class AttendanceFacadeREST extends AbstractFacade<Attendance> {
         }
         java.util.List<String> date = map.get("date");
         if (date != null && !date.isEmpty()) {
-            DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-            try {
-                key.setDate(format.parse(date.get(0)));
-            } catch (ParseException ex) {
-                Logger.getLogger(AttendanceFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            key.setDate(new java.util.Date(date.get(0)));
         }
         return key;
     }
