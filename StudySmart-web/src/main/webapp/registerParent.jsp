@@ -71,35 +71,34 @@
                             <div id="main-content" class="col-md-8">
                                 
                                  <ul class="nav nav-tabs">
-                                    <li role="presentation" class="active"><a href="#">Student</a></li>
-                                    <li role="presentation"><a href="registerParent.jsp">Parent</a></li>
+                                    <li role="presentation"><a href="registerStudent.jsp">Student</a></li>
+                                    <li role="presentation" class="active"><a href="#">Parent</a></li>
                                     <li role="presentation"><a href="#">Teacher</a></li>
                                     <li role="presentation"><a href="#">Principal</a></li>
                                     <li role="presentation"><a href="#">System Admin</a></li>
                                  </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Create New Student Entry</span></h1>
+                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Create New Parent Entry</span></h1>
                                     
-                                
-                                <br>
+                               
                                 <br>
                                 <!--adding student registration-->
                                 
+                                <br>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                    <div class="col-xs-10">
+                                      <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Child's Name:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
                                 
-                                <div class="form-group row">
-                                    <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
+                                 <div class="row">
                                     <div class="col-lg-2"><b>Gender: </b></div>
                                     <div class="col-lg-4">
                                         <select name="class" class="form-control">
@@ -110,49 +109,36 @@
                                 </div>
                                 <br>
                                 
-                                <div class="form-group row">
-                                    <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
+                                 <div class="form-group row">
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Address:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" value="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
                                 
-                                <div class="row">
-                                    <div class="col-lg-2"><b>Entering Grade: </b></div>
-                                    <div class="col-lg-4">
-                                        <select name="class" class="form-control">
-                                            <option value="1">10</option>
-                                            <option value="2">11</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <br>
-                                
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Main Mode of Transportation:</label>
-                                    <input type="text" class="form-control" value="School Van" id="formGroupExampleInput" placeholder="Example input" style="width:510px; margin-left:108px">
-                                </div>
-                                <br><br>
-                                <span>
-                                <h3><u> Guardian's Information</u> </h3> <h4 style="padding-left: 110px;">(Contact in case of Emergency)</h4>
-                                </span>
-                                <br>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Occupation:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-email-input" class="col-xs-2 col-form-label">Guardian Email:</label>
+                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Home TP</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" value="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" type="tel" value="0XX-XXXXXXX" id="example-tel-input">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group row">
+                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Mobile</label>
+                                    <div class="col-xs-10">
+                                      <input class="form-control" type="tel" value="0XX-XXXXXXX" id="example-tel-input">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
+                                    <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
+                                      <input class="form-control" type="email" value="artisanal@example.com" id="example-email-input">
                                     </div>
                                 </div>
                                 <br>
