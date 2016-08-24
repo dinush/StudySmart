@@ -69,7 +69,7 @@ CREATE TABLE `Attendance` (
 
 LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
-INSERT INTO `Attendance` VALUES ('st1','2016-08-23',1,NULL);
+INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st2','2016-08-24',1,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +108,7 @@ CREATE TABLE `Class` (
   `grade` int(2) NOT NULL,
   `subclass` varchar(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,37 +117,8 @@ CREATE TABLE `Class` (
 
 LOCK TABLES `Class` WRITE;
 /*!40000 ALTER TABLE `Class` DISABLE KEYS */;
-INSERT INTO `Class` VALUES (1,10,'a'),(2,10,'b'),(3,11,'a'),(4,11,'b');
+INSERT INTO `Class` VALUES (5,10,'A'),(6,10,'B'),(7,11,'A'),(8,11,'B');
 /*!40000 ALTER TABLE `Class` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Marks`
---
-
-DROP TABLE IF EXISTS `Marks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Marks` (
-  `username` varchar(25) NOT NULL,
-  `idSubject` varchar(25) NOT NULL,
-  `term` int(11) NOT NULL,
-  `marks` int(3) NOT NULL,
-  PRIMARY KEY (`username`,`idSubject`,`term`),
-  KEY `fk_marks_idsubject` (`idSubject`),
-  CONSTRAINT `fk_marks_idsubject` FOREIGN KEY (`idSubject`) REFERENCES `Subject` (`idSubject`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_marks_username` FOREIGN KEY (`username`) REFERENCES `User` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Marks`
---
-
-LOCK TABLES `Marks` WRITE;
-/*!40000 ALTER TABLE `Marks` DISABLE KEYS */;
-INSERT INTO `Marks` VALUES ('st1','004',1,10),('st2','004',1,20);
-/*!40000 ALTER TABLE `Marks` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -302,7 +273,6 @@ DROP TABLE IF EXISTS `Subject`;
 CREATE TABLE `Subject` (
   `idSubject` varchar(25) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `grade` int(2) NOT NULL,
   PRIMARY KEY (`idSubject`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -313,7 +283,7 @@ CREATE TABLE `Subject` (
 
 LOCK TABLES `Subject` WRITE;
 /*!40000 ALTER TABLE `Subject` DISABLE KEYS */;
-INSERT INTO `Subject` VALUES ('001','Maths',10),('002','Science',10),('003','English',10),('004','IT',10);
+INSERT INTO `Subject` VALUES ('001','Maths'),('002','Science'),('003','English'),('004','IT');
 /*!40000 ALTER TABLE `Subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,14 +296,10 @@ DROP TABLE IF EXISTS `TeacherSubject`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `TeacherSubject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` varchar(8) CHARACTER SET latin1 NOT NULL,
-  `subjectId` varchar(25) CHARACTER SET latin1 NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_index` (`userId`),
-  KEY `subject_index` (`subjectId`),
-  CONSTRAINT `fk_subject` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_user` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `subjectId` varchar(255) DEFAULT NULL,
+  `userId` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,8 +308,76 @@ CREATE TABLE `TeacherSubject` (
 
 LOCK TABLES `TeacherSubject` WRITE;
 /*!40000 ALTER TABLE `TeacherSubject` DISABLE KEYS */;
-INSERT INTO `TeacherSubject` VALUES (1,'teacher','001'),(2,'teacher','002'),(3,'teacher','003'),(4,'teacher','004');
 /*!40000 ALTER TABLE `TeacherSubject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TeacherTeaches`
+--
+
+DROP TABLE IF EXISTS `TeacherTeaches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TeacherTeaches` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `subjectId` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `class` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_index` (`userId`),
+  KEY `subject_index` (`subjectId`),
+  KEY `class_index` (`class`) USING BTREE,
+  CONSTRAINT `TeacherTeaches_ibfk_1` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_subject` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TeacherTeaches`
+--
+
+LOCK TABLES `TeacherTeaches` WRITE;
+/*!40000 ALTER TABLE `TeacherTeaches` DISABLE KEYS */;
+INSERT INTO `TeacherTeaches` VALUES (1,'teacher','001',5),(2,'teacher','002',6);
+/*!40000 ALTER TABLE `TeacherTeaches` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TermMarks`
+--
+
+DROP TABLE IF EXISTS `TermMarks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TermMarks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `subject` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `class` int(11) NOT NULL,
+  `term` int(1) NOT NULL,
+  `value` int(4) NOT NULL,
+  `markedby` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `subject` (`subject`) USING BTREE,
+  UNIQUE KEY `markedby` (`markedby`),
+  KEY `student` (`student`),
+  KEY `class` (`class`),
+  CONSTRAINT `fk_class_tm` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_markedby_tm` FOREIGN KEY (`markedby`) REFERENCES `User` (`username`),
+  CONSTRAINT `fk_student_tm` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_subject_tm` FOREIGN KEY (`subject`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TermMarks`
+--
+
+LOCK TABLES `TermMarks` WRITE;
+/*!40000 ALTER TABLE `TermMarks` DISABLE KEYS */;
+INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,14,'teacher');
+/*!40000 ALTER TABLE `TermMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -373,7 +407,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,1),('st2','123','st@studysmart','Student 2',3,NULL,2),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL),('user','123','user@email.com','Sample User',1,NULL,NULL);
+INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,5),('st2','123','st@studysmart','Student 2',3,NULL,6),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL),('user','123','user@email.com','Sample User',1,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,4 +710,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-23 16:51:51
+-- Dump completed on 2016-08-24 22:08:39
