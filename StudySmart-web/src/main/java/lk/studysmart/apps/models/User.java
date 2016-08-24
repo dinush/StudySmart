@@ -192,31 +192,5 @@ public class User implements Serializable {
     public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
         this.teacherTeachesCollection = teacherTeachesCollection;
     }
-
-    @XmlTransient
-    public Collection<TermMarks> getTermMarksCollection() {
-        return termMarksCollection;
-    }
-
-    public void setTermMarksCollection(Collection<TermMarks> termMarksCollection) {
-        this.termMarksCollection = termMarksCollection;
-    }
-
-    @XmlTransient
-    public Collection<TermMarks> getTermMarksCollection1() {
-        return termMarksCollection1;
-    }
-
-    public void setTermMarksCollection1(Collection<TermMarks> termMarksCollection1) {
-        this.termMarksCollection1 = termMarksCollection1;
-    }
-
-    public TermMarks getTermMarks() {
-        return termMarks;
-    }
-
-    public void setTermMarks(TermMarks termMarks) {
-        this.termMarks = termMarks;
-    }
     
 }

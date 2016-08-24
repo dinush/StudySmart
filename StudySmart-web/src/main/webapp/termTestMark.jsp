@@ -91,7 +91,7 @@
                                     </div>
                                 </form>
                                 <% if (request.getAttribute("selected") != null) { %>
-                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test marks for <% out.print(request.getAttribute("subjectname")); %></h3>
+                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test <% out.print(request.getAttribute("term")); %> marks for <% out.print(request.getAttribute("subjectname")); %></h3>
                                 <form action="StudentManager?action=termtestmarkssave&subjectid=<% out.print(request.getAttribute("subjectid")); %>&classid=<% out.print(request.getAttribute("classid")); %>&term=<% out.print(request.getAttribute("term")); %>" method="POST">
                                     
                                     <table class="table table-striped">

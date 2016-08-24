@@ -9,6 +9,7 @@
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
@@ -23,6 +24,8 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
         <script src="js/jquery-2.0.0.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
@@ -69,24 +72,37 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <div class="panel panel-primary">
+                                <form class="form-inline" action="StudentManager?action=checkattendance" method="POST">
+                                    From <input type="text" id="from" name="from" value="<% out.print(request.getAttribute("from")); %>">
+                                    To <input type="text" id="to" name="to" value="<% out.print(request.getAttribute("to")); %>">
+                                    <% if (acc_level < 3) { %>
+                                    <div class="form-group">
+                                        <label for="exampleInputName">Student Name: </label>
+                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                                    </div>
+                                    <% } %>
+                                    <button type="submit" class="btn btn-primary">View Attendance</button>
+                                </form>
+                                <div class="panel panel-primary" style="margin-top:16px;">
+
                                     <div class="panel-heading">Attendance Details</div>
                                     <div class="panel-body">
                                         <% User student = (User) request.getAttribute("student"); %>
-                                        Student Name: <% out.println(student.getName()); %> <br>
-                                        Grade: <% out.println(student.getGrade());%>
+                                        Student Name: <% out.println(student.getName());%> <br>
+                                        Student username: <% out.println(student.getUsername());%>
                                     </div>
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
                                                 <th>Attended?</th>
+                                                <th>Marked By</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach var="day" items="${days}">
                                                 <tr>
-                                                    <td>${day.attendancePK.date}</td>
+                                                    <td><fmt:formatDate type="date" value="${day.getAttendancePK().getDate()}" /></td>
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${day.attended}">
@@ -97,56 +113,15 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
+                                                    <td>
+                                                        ${day.getMarkedBy().getName()}
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
-                                    
-                                <!-- View Attendance by the Teacher -->
-                                <div class="row">
-                                    
-                                    <div class="col-lg-4">
-                                        <select name="grade" class="form-control">
-                                               <option value="1">Grade 10</option>
-                                               <option value="2">Grade 11</option>
-                                        </select>
-                                    </div>
-                               
-                                
-                                    
-                                    <div class="col-lg-4">
-                                        <select name="class" class="form-control">
-                                               <option value="1">Class A</option>
-                                               <option value="2">Class B</option>
-                                               <option value="2">Class C</option>
-                                        </select>
-                                    </div>
-                                    
-                                </div>
-                           
-                                <br>
-                                
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                      <label for="exampleInputStartDate">From:     </label>
-                                      <input type="date" class="form-control" id="exampleInputName2" placeholder="yyyy/mm/dd">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputEndDate">To:    </label>
-                                      <input type="date" class="form-control" id="exampleInputEmail2" placeholder="yyyy/mm/dd">
-                                    </div>
-                                    <br></br>
-                                    <div class="form-group">
-                                      <label for="exampleInputName">Student Name: </label>
-                                      <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                </form>
-                                <br> </br>
-                                <button type="button" class="btn btn-primary">View Attendance</button>
 
-                            
-                                
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
@@ -157,5 +132,10 @@
             </tr>
         </table>
     </div>
+    <script>
+        $("#from").datepicker();
+        $("#to").datepicker();
+    </script>
 </body>
+
 </html>

@@ -145,25 +145,58 @@ public class StudentManager extends HttpServlet {
                 break;
             // View students belongs to parent
             case "checkattendance": {
-                List students = em.createNamedQuery("StudentParent.findByParentId")
+                List relations = em.createNamedQuery("StudentParent.findByParentId")
                         .setParameter("parentid", user)
                         .getResultList();
 
-                if (students.size() < 1) {
+                if (relations.size() < 1) {
                     // WTF. There is no child registered for this parent.
                     response.sendRedirect("index.jsp");
                 }
-                // if only one student belongs to this parent, show his attendance.
-                if (students.size() == 1) {
-                    StudentParent belonging = (StudentParent) students.get(0);
-                    response.sendRedirect("StudentManager?action=checkattendancefor&id=" + belonging.getStudentid().getUsername());
+                StudentParent relation = (StudentParent) relations.get(0);
+                User student = relation.getStudentid();
+
+                // get dates
+                Date from = null, to = null;
+                String sfrom = request.getParameter("from");
+                if (sfrom == null) {
+                    from = getFormattedDate();
+                } else {
+                    try {
+                        from = getFormattedDate(sfrom);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                String sto = request.getParameter("to");
+                if (sto == null) {
+                    to = getFormattedDate();
+                } else {
+                    try {
+                        to = getFormattedDate(sto);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                List days = em.createNamedQuery("Attendance.findByUserAndDateRange")
+                        .setParameter("username", relation.getStudentid().getUsername())
+                        .setParameter("from", from)
+                        .setParameter("to", to)
+                        .getResultList();
+                sfrom = getFormattedDateString(from);
+                sto = getFormattedDateString(to);
+                request.setAttribute("days", days);
+                request.setAttribute("student", student);
+                request.setAttribute("from", sfrom);
+                request.setAttribute("to", sto);
+                request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);
 
                 // View attendance for specific student
                 break;
             }
             case "checkattendancefor": {
-                String studentId = request.getParameter("id");
+                /*String studentId = request.getParameter("id");
 
                 User student = (User) em.createNamedQuery("User.findByUsername")
                         .setParameter("username", studentId)
@@ -174,14 +207,14 @@ public class StudentManager extends HttpServlet {
                         .getResultList();
                 request.setAttribute("student", student);
                 request.setAttribute("days", days);
-                request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);
+                request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);*/
                 break;
             }
             case "termtestmarks": {
                 if (user.getLevel() > 2) {  // Students and Parents are not allowed here
                     response.sendRedirect("index.jsp");
                 }
-                
+
                 // after user selecting the subject and class to input marks for
                 if (request.getParameter("selected") != null) {
                     int classid = Integer.parseInt(request.getParameter("teaches"));
@@ -190,7 +223,7 @@ public class StudentManager extends HttpServlet {
                     List students = em.createNamedQuery("User.findByClass")
                             .setParameter("class2", teaches.getClass1())
                             .getResultList();
-                    
+
                     HashMap<User, String> marks = new HashMap<>();
                     for (Object student : students) {
                         User s = (User) student;
@@ -208,7 +241,7 @@ public class StudentManager extends HttpServlet {
                                 marks.replace(s, String.valueOf(termMark.getValue()));
                             }
                         } catch (NoResultException e) {
-                            
+
                         }
                     }
                     request.setAttribute("term", request.getParameter("term"));
@@ -216,18 +249,18 @@ public class StudentManager extends HttpServlet {
                     request.setAttribute("classid", teaches.getClass1().getId());
                     request.setAttribute("grade", teaches.getClass1().getGrade());
                     request.setAttribute("subclass", teaches.getClass1().getSubclass());
-                    request.setAttribute("subjectid", teaches.getSubjectId().getIdSubject() );
+                    request.setAttribute("subjectid", teaches.getSubjectId().getIdSubject());
                     request.setAttribute("subjectname", teaches.getSubjectId().getName());
                     request.setAttribute("selected", true);
                 }
-                
+
                 List teachesfor = em.createNamedQuery("TeacherTeaches.findByUser")
                         .setParameter("user", user)
                         .getResultList();
                 int len = teachesfor.size();
                 request.setAttribute("teachesfor", teachesfor);
                 request.getRequestDispatcher("/termTestMark.jsp").forward(request, response);
-                
+
                 break;
             }
             case "termtestmarkssave": {
@@ -236,15 +269,15 @@ public class StudentManager extends HttpServlet {
                 int classid = Integer.parseInt(request.getParameter("classid"));
                 int term = Integer.parseInt(request.getParameter("term"));
                 String subjectid = request.getParameter("subjectid");
-                
+
                 Class2 class2 = em.find(Class2.class, classid);
                 Subject subject = em.find(Subject.class, subjectid);
-                
+
                 // get all the students in that class
                 List students = em.createNamedQuery("User.findByClass")
                         .setParameter("class2", class2)
                         .getResultList();
-                
+
                 for (Object st : students) {
                     try {
                         User student = (User) st;
@@ -255,13 +288,13 @@ public class StudentManager extends HttpServlet {
                                 .setParameter("subject", subject)
                                 .setParameter("term", term)
                                 .getResultList();
-                        
+
                         utx.begin();
                         if (termMarks.size() > 0) {
                             TermMarks tm = (TermMarks) termMarks.get(0);
                             tm.setValue(m);
                             tm.setMarkedby(user);
-                            em.merge(tm);                        
+                            em.merge(tm);
                         } else {
                             TermMarks tm = new TermMarks();
                             tm.setStudent(student);
@@ -273,13 +306,13 @@ public class StudentManager extends HttpServlet {
                             em.persist(tm);
                         }
                         utx.commit();
-                        
+
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
-                
+
                 response.sendRedirect("index.jsp");
                 break;
             }
@@ -337,6 +370,16 @@ public class StudentManager extends HttpServlet {
             Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return date;
+    }
+
+    private Date getFormattedDate(String d) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.parse(d);
+    }
+    
+    private String getFormattedDateString(Date d) {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        return format.format(d);
     }
 
     private void attendanceDetailsToDB(List students, String[] attendees) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException, ParseException {
