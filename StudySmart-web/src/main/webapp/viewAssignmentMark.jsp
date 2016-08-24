@@ -1,20 +1,31 @@
 <%-- 
     Document   : index
     Created on : Jun 29, 2016, 8:10:42 PM
-    Author     : Kaveesh
+    Author     : dinush
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 --%>
 
+<%@page import="lk.studysmart.apps.models.User"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+
+
+<% 
+    Date date = new Date();
+    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -58,9 +69,9 @@
         </div>
         <!-- Path -->
         <ol class="breadcrumb">
-            <li><a href="index.jsp">Home </a></li> 
-            <li>Term Test Marks</li>
-        </ol> 
+            <li><a href="index.jsp">Home</a></li>
+            <li>View Assignments Marks</li>
+        </ol>
         <table border="0">
             <tr>
                 <td valign="top" class="table-col-fixed">
@@ -74,19 +85,13 @@
                                     
                                     <div class="col-lg-3">
                                         <select name="grade" class="form-control">
-                                            <option value="1">Grade 10</option>
-                                            <option value="2">Grade 11</option>
+                                            <option value="1">Term 1</option>
+                                            <option value="2">Term 2</option>
+                                            <option value="2">Term 3</option>
                                         </select>
                                     </div>
                                     
 
-                                    <div class="col-lg-3">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Class A</option>
-                                            <option value="2">Class B</option>
-                                        </select>
-                                    </div>
-                                    
                                     <div class="col-lg-3">
                                         <select name="class" class="form-control">
                                             <option value="1">Science</option>
@@ -95,10 +100,12 @@
                                     </div>
                                     
                                     <div class="col-lg-2">
-                                        <button type="button" class="btn btn-primary">Load Students</button>
+                                        <button type="button" class="btn btn-primary">Load Marks</button>
                                     </div>
                                     
                                 </div>
+                                <br>
+                                
                                 
                                 
                                 

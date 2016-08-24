@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : Jun 29, 2016, 8:10:42 PM
-    Author     : Kaveesh
+    Author     : dinush
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
@@ -58,9 +58,8 @@
         </div>
         <!-- Path -->
         <ol class="breadcrumb">
-            <li><a href="index.jsp">Home </a></li> 
-            <li>Term Test Marks</li>
-        </ol> 
+            <li><a href="index.jsp">Home</a></li>
+        </ol>
         <table border="0">
             <tr>
                 <td valign="top" class="table-col-fixed">
@@ -70,38 +69,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <div class="row">
-                                    
-                                    <div class="col-lg-3">
-                                        <select name="grade" class="form-control">
-                                            <option value="1">Grade 10</option>
-                                            <option value="2">Grade 11</option>
-                                        </select>
-                                    </div>
-                                    
-
-                                    <div class="col-lg-3">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Class A</option>
-                                            <option value="2">Class B</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-lg-3">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Science</option>
-                                            <option value="2">English</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-lg-2">
-                                        <button type="button" class="btn btn-primary">Load Students</button>
-                                    </div>
-                                    
-                                </div>
-                                
-                                
-                                
+                                <p>Student VLE main interface</p>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
