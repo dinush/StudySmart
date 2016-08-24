@@ -47,8 +47,7 @@
             <div class="user-details">
                 Signed in as:
                 <span id="user-name">
-                    <%
-                        out.print(user.getName());
+                    <%                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -69,26 +68,54 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                <div class="row">
-                                    
-
-                                    <div>
-                                        <select name="class" class="form-control">
+                            <div id="main-content" class="col-md-8">                                   
+                                <form action="StudentManager?action=termtestmarks&selected=true" method="POST">
+                                    <div style="float: left;">
+                                        <select name="teaches" class="form-control">
                                             <c:forEach var="row" items="${teachesfor}">
                                                 <option value="${row.getId()}">${row.getSubjectId().getName()} for Grade ${row.getClass1().getGrade()} ${row.getClass1().getSubclass()} </option>
                                             </c:forEach>
                                         </select>
+                                        
                                     </div>
-                                    
+                                    <div style="float: left">
+                                        <select name="term" class="form-control">
+                                            <option value="1">Term 1</option>
+                                            <option value="2">Term 2</option>
+                                            <option value="3">Term 3</option>
+                                        </select>
+                                    </div>
+
                                     <div>
-                                        <button type="button" class="btn btn-primary">Load Students</button>
+                                        <button type="submit" class="btn btn-primary">Load Students</button>
                                     </div>
+                                </form>
+                                <% if (request.getAttribute("selected") != null) { %>
+                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test marks for <% out.print(request.getAttribute("subjectname")); %></h3>
+                                <form action="StudentManager?action=termtestmarkssave&subjectid=<% out.print(request.getAttribute("subjectid")); %>&classid=<% out.print(request.getAttribute("classid")); %>&term=<% out.print(request.getAttribute("term")); %>" method="POST">
                                     
-                                </div>
-                                
-                                
-                                
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>Student Name</th>
+                                                <th>Marks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="row" items="${marks}">
+                                                <tr>
+                                                    <td>${row.key.getUsername()}</td>
+                                                    <td>${row.key.getName()}</td>
+                                                    <td><input type="number" name="${row.key.getUsername()}" required="true" value="${row.value != null ? row.value : ""}"/></td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-default">Finish</button>
+                                </form>
+                                <% }%>
+
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

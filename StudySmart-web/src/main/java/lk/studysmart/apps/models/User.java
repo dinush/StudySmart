@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,6 +42,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByClass", query = "SELECT u FROM User u WHERE u.class1 = :class2")})
 
 public class User implements Serializable {
+
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "markedby")
+//    private TermMarks termMarks;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+//    private Collection<TermMarks> termMarksCollection;
+//    @OneToMany(mappedBy = "markedby")
+//    private Collection<TermMarks> termMarksCollection1;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<TeacherTeaches> teacherTeachesCollection;
@@ -182,6 +191,32 @@ public class User implements Serializable {
 
     public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
         this.teacherTeachesCollection = teacherTeachesCollection;
+    }
+
+    @XmlTransient
+    public Collection<TermMarks> getTermMarksCollection() {
+        return termMarksCollection;
+    }
+
+    public void setTermMarksCollection(Collection<TermMarks> termMarksCollection) {
+        this.termMarksCollection = termMarksCollection;
+    }
+
+    @XmlTransient
+    public Collection<TermMarks> getTermMarksCollection1() {
+        return termMarksCollection1;
+    }
+
+    public void setTermMarksCollection1(Collection<TermMarks> termMarksCollection1) {
+        this.termMarksCollection1 = termMarksCollection1;
+    }
+
+    public TermMarks getTermMarks() {
+        return termMarks;
+    }
+
+    public void setTermMarks(TermMarks termMarks) {
+        this.termMarks = termMarks;
     }
     
 }

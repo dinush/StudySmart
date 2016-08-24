@@ -40,10 +40,10 @@ import lk.studysmart.apps.models.AssignmentMarksPK;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;
-import lk.studysmart.apps.models.Marks;
-import lk.studysmart.apps.models.MarksPK;
 import lk.studysmart.apps.models.StudentParent;
+import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
+import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -181,6 +181,46 @@ public class StudentManager extends HttpServlet {
                 if (user.getLevel() > 2) {  // Students and Parents are not allowed here
                     response.sendRedirect("index.jsp");
                 }
+                
+                // after user selecting the subject and class to input marks for
+                if (request.getParameter("selected") != null) {
+                    int classid = Integer.parseInt(request.getParameter("teaches"));
+                    int term = Integer.parseInt(request.getParameter("term"));
+                    TeacherTeaches teaches = em.find(TeacherTeaches.class, classid);
+                    List students = em.createNamedQuery("User.findByClass")
+                            .setParameter("class2", teaches.getClass1())
+                            .getResultList();
+                    
+                    HashMap<User, String> marks = new HashMap<>();
+                    for (Object student : students) {
+                        User s = (User) student;
+                        marks.put(s, null);
+                        try {
+                            List termMarks = em.createNamedQuery("TermMarks.findByAll")
+                                    .setParameter("student", s)
+                                    .setParameter("class2", teaches.getClass1())
+                                    .setParameter("subject", teaches.getSubjectId())
+                                    .setParameter("term", term)
+                                    .getResultList();
+                            if (termMarks.size() > 0) {
+                                TermMarks termMark = (TermMarks) termMarks.get(0);
+
+                                marks.replace(s, String.valueOf(termMark.getValue()));
+                            }
+                        } catch (NoResultException e) {
+                            
+                        }
+                    }
+                    request.setAttribute("term", request.getParameter("term"));
+                    request.setAttribute("marks", marks);
+                    request.setAttribute("classid", teaches.getClass1().getId());
+                    request.setAttribute("grade", teaches.getClass1().getGrade());
+                    request.setAttribute("subclass", teaches.getClass1().getSubclass());
+                    request.setAttribute("subjectid", teaches.getSubjectId().getIdSubject() );
+                    request.setAttribute("subjectname", teaches.getSubjectId().getName());
+                    request.setAttribute("selected", true);
+                }
+                
                 List teachesfor = em.createNamedQuery("TeacherTeaches.findByUser")
                         .setParameter("user", user)
                         .getResultList();
@@ -191,29 +231,56 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "termtestmarkssave": {
-                // Save marks to Database
-                /*               if (request.getParameter("term") == null) {
-                    response.sendRedirect("index.jsp");
-                }
-                // Get students in that class
-                List<User> students = em.createNamedQuery("User.findByGradeAndLevel")
-                        .setParameter("grade", user.getGrade())
-                        .setParameter("level", 3)
+                String sclassid = request.getParameter("classid");
+                String sterm = request.getParameter("term");
+                int classid = Integer.parseInt(request.getParameter("classid"));
+                int term = Integer.parseInt(request.getParameter("term"));
+                String subjectid = request.getParameter("subjectid");
+                
+                Class2 class2 = em.find(Class2.class, classid);
+                Subject subject = em.find(Subject.class, subjectid);
+                
+                // get all the students in that class
+                List students = em.createNamedQuery("User.findByClass")
+                        .setParameter("class2", class2)
                         .getResultList();
-                for (User student : students) {
-                    int mark = Integer.parseInt(request.getParameter(student.getUsername()));
-                    MarksPK marksPK = new MarksPK(student.getUsername(), user.getSubject(), Integer.parseInt(request.getParameter("term")));
-                    Marks marks = new Marks(marksPK, mark);
-
+                
+                for (Object st : students) {
                     try {
+                        User student = (User) st;
+                        int m = Integer.parseInt(request.getParameter(student.getUsername()));
+                        List termMarks = em.createNamedQuery("TermMarks.findByAll")
+                                .setParameter("student", student)
+                                .setParameter("class2", class2)
+                                .setParameter("subject", subject)
+                                .setParameter("term", term)
+                                .getResultList();
+                        
                         utx.begin();
-                        em.persist(marks);
+                        if (termMarks.size() > 0) {
+                            TermMarks tm = (TermMarks) termMarks.get(0);
+                            tm.setValue(m);
+                            tm.setMarkedby(user);
+                            em.merge(tm);                        
+                        } else {
+                            TermMarks tm = new TermMarks();
+                            tm.setStudent(student);
+                            tm.setClass1(class2);
+                            tm.setSubject(subject);
+                            tm.setTerm(term);
+                            tm.setValue(m);
+                            tm.setMarkedby(user);
+                            em.persist(tm);
+                        }
                         utx.commit();
+                        
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
                 }
-                response.sendRedirect("index.jsp");*/
+                
+                response.sendRedirect("index.jsp");
                 break;
             }
             case "assignmentmarks": {

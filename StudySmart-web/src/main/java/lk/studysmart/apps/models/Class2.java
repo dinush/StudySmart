@@ -8,6 +8,7 @@ package lk.studysmart.apps.models;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Class.findByGradeAndSubclass", query = "SELECT c FROM Class2 c WHERE c.grade = :grade AND c.subclass = :subclass")})
 
 public class Class2 implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "class1")
+    private Collection<TermMarks> termMarksCollection;
 
     @OneToMany(mappedBy = "class1")
     private Collection<TeacherTeaches> teacherTeachesCollection;
@@ -137,6 +141,15 @@ public class Class2 implements Serializable {
 
     public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
         this.teacherTeachesCollection = teacherTeachesCollection;
+    }
+
+    @XmlTransient
+    public Collection<TermMarks> getTermMarksCollection() {
+        return termMarksCollection;
+    }
+
+    public void setTermMarksCollection(Collection<TermMarks> termMarksCollection) {
+        this.termMarksCollection = termMarksCollection;
     }
     
 }

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,6 +34,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Subject.findByIdSubject", query = "SELECT s FROM Subject s WHERE s.idSubject = :idSubject"),
     @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name")})
 public class Subject implements Serializable {
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "subject")
+    private TermMarks termMarks;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Collection<TermMarks> termMarksCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<TeacherTeaches> teacherTeachesCollection;
@@ -110,6 +117,23 @@ public class Subject implements Serializable {
 
     public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
         this.teacherTeachesCollection = teacherTeachesCollection;
+    }
+
+    @XmlTransient
+    public Collection<TermMarks> getTermMarksCollection() {
+        return termMarksCollection;
+    }
+
+    public void setTermMarksCollection(Collection<TermMarks> termMarksCollection) {
+        this.termMarksCollection = termMarksCollection;
+    }
+
+    public TermMarks getTermMarks() {
+        return termMarks;
+    }
+
+    public void setTermMarks(TermMarks termMarks) {
+        this.termMarks = termMarks;
     }
     
 }
