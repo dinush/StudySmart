@@ -46,7 +46,7 @@
                                     User Management<span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li role="presentation"><a href="registeruser.jsp">Register User</a></li>
+                                    <li role="presentation"><a href="registerStudent.jsp">Register User</a></li>
                                     <li role="presentation"><a href="changeuser.jsp">Change User</a></li>
                                 </ul>
                             </li>
