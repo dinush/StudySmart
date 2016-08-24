@@ -72,8 +72,8 @@
                                 
                                  <ul class="nav nav-tabs">
                                     <li role="presentation"><a href="registerStudent.jsp">Student</a></li>
-                                    <li role="presentation" ><a href="registerParent.hsp">Parent</a></li>
-                                    <li role="presentation"class="active"><a href="#">Teacher</a></li>
+                                    <li role="presentation" ><a href="registerParent.jsp">Parent</a></li>
+                                    <li role="presentation" class="active"><a href="#">Teacher</a></li>
                                     <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
                                     <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
                                  </ul> 
