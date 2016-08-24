@@ -73,9 +73,9 @@
                                  <ul class="nav nav-tabs">
                                     <li role="presentation"><a href="registerStudent.jsp">Student</a></li>
                                     <li role="presentation" class="active"><a href="#">Parent</a></li>
-                                    <li role="presentation"><a href="#">Teacher</a></li>
-                                    <li role="presentation"><a href="#">Principal</a></li>
-                                    <li role="presentation"><a href="#">System Admin</a></li>
+                                    <li role="presentation"><a href="registerTeacher.jsp">Teacher</a></li>
+                                    <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
+                                    <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
                                  </ul> 
                                 <br>
                                  <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Create New Parent Entry</span></h1>
@@ -108,7 +108,12 @@
                                     </div>
                                 </div>
                                 <br>
-                                
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
+                                    <div class="col-xs-10">
+                                      <input class="form-control" type="text" value="XXXXXXXXXV" id="example-text-input">
+                                    </div>
+                                </div>
                                  <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Address:</label>
                                     <div class="col-xs-10">
