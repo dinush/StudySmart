@@ -102,6 +102,51 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                    
+                                <!-- View Attendance by the Teacher -->
+                                <div class="row">
+                                    
+                                    <div class="col-lg-4">
+                                        <select name="grade" class="form-control">
+                                               <option value="1">Grade 10</option>
+                                               <option value="2">Grade 11</option>
+                                        </select>
+                                    </div>
+                               
+                                
+                                    
+                                    <div class="col-lg-4">
+                                        <select name="class" class="form-control">
+                                               <option value="1">Class A</option>
+                                               <option value="2">Class B</option>
+                                               <option value="2">Class C</option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                           
+                                <br>
+                                
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                      <label for="exampleInputStartDate">From:     </label>
+                                      <input type="date" class="form-control" id="exampleInputName2" placeholder="yyyy/mm/dd">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEndDate">To:    </label>
+                                      <input type="date" class="form-control" id="exampleInputEmail2" placeholder="yyyy/mm/dd">
+                                    </div>
+                                    <br></br>
+                                    <div class="form-group">
+                                      <label for="exampleInputName">Student Name: </label>
+                                      <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                                    </div>
+                                </form>
+                                <br> </br>
+                                <button type="button" class="btn btn-primary">View Attendance</button>
+
+                            
+                                
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
