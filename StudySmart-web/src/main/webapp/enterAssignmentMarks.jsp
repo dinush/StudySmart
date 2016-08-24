@@ -109,11 +109,18 @@
                                 <br>
                                 <form class="form-inline">
                                     <div class="form-group">
-                                        <label for="exampleInputName2" style="margin-left:100px;">Cut-off Mark: </label>
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="25">
+                                        <label for="exampleInputName2" style="margin-left:80px;">Assignment Name: </label>
+                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Assignment I">
                                     </div>
                                 </form>
                                 <br>
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2" style="margin-left:110px;">Cut-off Marks: </label>
+                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="25">
+                                    </div>
+                                </form>
+                                
                                 <br>
                                 
                                 <div>
@@ -129,7 +136,7 @@
                                             <th>Student Name</th>
                                             <th>Marks Obtained</th>
                                             <th>Marks out of 100</th>
-                                            <th> Comment </th>
+                                            <th>Comment</th>
                                         </tr>
                                     </thead>
                                      <tbody>
