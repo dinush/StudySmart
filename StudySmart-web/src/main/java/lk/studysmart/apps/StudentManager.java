@@ -84,6 +84,7 @@ public class StudentManager extends HttpServlet {
             case "attendance":
                 // Send attendance input page
                 if (request.getParameter("grade") != null) {
+                    User lastMarkedUser = null;
                     int grade = Integer.valueOf(request.getParameter("grade"));
                     String subclass = request.getParameter("subclass");
                     request.setAttribute("grade", request.getParameter("grade"));
@@ -109,12 +110,14 @@ public class StudentManager extends HttpServlet {
                                     .setParameter("attendancePk", apk)
                                     .getSingleResult();
                             attended = att.getAttended();
+                            lastMarkedUser = att.getMarkedBy();
                         } catch (NoResultException e) {
                             // do nothing
                         }
                         attendances.put(s, attended);
                     }
                     request.setAttribute("students", attendances);
+                    request.setAttribute("lastmarkeduser", lastMarkedUser);
                 }
 
                 request.getRequestDispatcher("/attendance.jsp").forward(request, response);

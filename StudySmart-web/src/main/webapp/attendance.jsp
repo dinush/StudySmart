@@ -26,7 +26,7 @@
 
 <% 
     Date date = new Date();
-    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat format = new SimpleDateFormat("MMMM dd yyyy");
 %>
 <!DOCTYPE html>
 <html>
@@ -109,7 +109,15 @@
                                 
                                 
                                 <% if (request.getAttribute("grade") != null) { %>
+                                <% if (request.getAttribute("lastmarkeduser") != null) { %>
+                                Previously Marked by:
+                                <% 
+                                    User lastMarkedUser = (User)request.getAttribute("lastmarkeduser"); 
+                                    out.print(lastMarkedUser.getName());
+                                %>
+                                <% } %>
                                 <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <% out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> Mark Attendance for <% out.print(format.format(date)); %></h3>
+                                
                                 <form action="StudentManager?action=attendancemarked&grade=<%out.print(request.getAttribute("grade"));%>&subclass=<% out.print(request.getAttribute("subclass")); %>" method="POST">
                                     <table class="table table-striped">
                                         <thead>
