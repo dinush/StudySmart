@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -65,12 +66,15 @@ public class UserLogin extends HttpServlet {
                 validPassword = password.equals(request.getParameter("password"));
             }
             
-            if (validPassword) {
-                request.getSession().setAttribute("user", user);
-                response.sendRedirect("index.jsp");
-            } else {
+            if (!validPassword) {
                 response.sendRedirect("login.jsp?msg=Wrong Password");
-            }            
+                return;
+            } 
+            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("entitymanager", em);
+            response.sendRedirect("index.jsp");
+                
+                       
         }
         catch(Exception e) {
             e.printStackTrace();

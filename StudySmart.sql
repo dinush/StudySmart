@@ -3,7 +3,7 @@
 -- Host: localhost    Database: StudySmart
 -- ------------------------------------------------------
 -- Server version	10.0.25-MariaDB
-use studysmart;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -69,7 +69,7 @@ CREATE TABLE `Attendance` (
 
 LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
-INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st2','2016-08-24',1,'teacher');
+INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st2','2016-08-24',1,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -436,6 +436,39 @@ LOCK TABLES `announcement` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `classnews`
+--
+
+DROP TABLE IF EXISTS `classnews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `classnews` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class` int(11) NOT NULL,
+  `addedby` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `message` varchar(1000) NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_addedby` (`addedby`),
+  KEY `fk_class` (`class`),
+  CONSTRAINT `fk_addedby` FOREIGN KEY (`addedby`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_class_news` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `classnews`
+--
+
+LOCK TABLES `classnews` WRITE;
+/*!40000 ALTER TABLE `classnews` DISABLE KEYS */;
+INSERT INTO `classnews` VALUES (1,5,'teacher','titl212','1dfsd',NULL,NULL),(2,5,'teacher','News 2','this is the message',NULL,NULL);
+/*!40000 ALTER TABLE `classnews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `files`
 --
 
@@ -488,25 +521,25 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
--- CREATE TABLE `message` (
---   `message_id` varchar(25) NOT NULL,
---   `sender_user_id` varchar(25) NOT NULL,
---   `reciever_user_id` varchar(25) NOT NULL,
---   `content` varchar(200) NOT NULL,
---   `date_time` datetime(6) NOT NULL,
---   PRIMARY KEY (`message_id`),
---   KEY `message_id` (`message_id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `message` (
+  `message_id` varchar(25) NOT NULL,
+  `sender_user_id` varchar(25) NOT NULL,
+  `reciever_user_id` varchar(25) NOT NULL,
+  `content` varchar(200) NOT NULL,
+  `date_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `message_id` (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `message`
 --
 
--- LOCK TABLES `message` WRITE;
--- /*!40000 ALTER TABLE `message` DISABLE KEYS */;
--- /*!40000 ALTER TABLE `message` ENABLE KEYS */;
--- UNLOCK TABLES;
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `post`
@@ -710,4 +743,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-24 22:08:39
+-- Dump completed on 2016-08-25 21:05:19
