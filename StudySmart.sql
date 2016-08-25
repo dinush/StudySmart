@@ -3,7 +3,7 @@
 -- Host: localhost    Database: StudySmart
 -- ------------------------------------------------------
 -- Server version	10.0.25-MariaDB
-
+use studysmart;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -488,25 +488,25 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `message` (
-  `message_id` varchar(25) NOT NULL,
-  `sender_user_id` varchar(25) NOT NULL,
-  `reciever_user_id` varchar(25) NOT NULL,
-  `content` varchar(200) NOT NULL,
-  `date_time` datetime(6) NOT NULL,
-  PRIMARY KEY (`message_id`),
-  KEY `message_id` (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- CREATE TABLE `message` (
+--   `message_id` varchar(25) NOT NULL,
+--   `sender_user_id` varchar(25) NOT NULL,
+--   `reciever_user_id` varchar(25) NOT NULL,
+--   `content` varchar(200) NOT NULL,
+--   `date_time` datetime(6) NOT NULL,
+--   PRIMARY KEY (`message_id`),
+--   KEY `message_id` (`message_id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `message`
 --
 
-LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `message` WRITE;
+-- /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+-- /*!40000 ALTER TABLE `message` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `post`
