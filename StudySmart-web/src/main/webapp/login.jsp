@@ -35,7 +35,52 @@
             <table border="0" >
                 <tr>
                     <td valign="top" class="table-col-max">
+                        
+                         
+                            <!--Adding the general news feed-->
+                            
+                            <div class="panel panel-primary" style="margin-top:-12px;">
+                                <div class="panel-heading">
+                                    <h1 class="panel-title"><i><b>General News Feed</b></i></h1>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">8/25/2016</h3>
+                                </div>
+                                <div class="panel-body">
+                                    The annual school assembly will be held on 8th September 2016. All studetns are required to be present st the school grounds at 8.00 am. 
+                                </div>
+                                <div class="panel-footer">Author: Sisinda Dinush</div>
+                            </div>
+                                
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">02/02/2016</h3>
+                                </div>
+                                <div class="panel-body">
+                                    The school Sports Day is scheduled to be held on the 02/28/2016 at the Sugathadasa Stadium.
+                                </div>
+                                    <div class="panel-footer">Author: Sisinda Dinush</div>
+                                </div>
+                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">01/30/2016</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                      The school calender for the year 2016 has been uploaded. Please check the attachment below. 
+                                    </div>
+                                    <div class="panel-footer">Author: Sisinda Dinush</div>
+                                </div>
+                           
+                            <a href="#" style="float:right;"> <i>See older topics..</i>
+                            
+                            <!--general news feed ends here-->
+                            
+                            
                         <div class="overview hidden-xs">
+                           
                             <table border="0" hidden="true">
                                 <tr>
                                     <td>
@@ -62,6 +107,7 @@
                                 <button type="submit" class="btn btn-default">Sign in</button>
                             </form>
                         </div>  
+                                
                     </td>
                 </tr>
             </table>
