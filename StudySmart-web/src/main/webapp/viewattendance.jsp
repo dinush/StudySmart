@@ -24,8 +24,8 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
         <script src="js/jquery-2.0.0.js"></script>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <script src="js/jquery-ui.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
