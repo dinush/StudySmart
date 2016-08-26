@@ -72,13 +72,13 @@
                                 
                                  <ul class="nav nav-tabs">
                                     <li role="presentation"><a href="registerStudent.jsp">Student</a></li>
-                                    <li role="presentation" class="active"><a href="#">Parent</a></li>
+                                    <li role="presentation" ><a href="registerParent.jsp">Parent</a></li>
                                     <li role="presentation"><a href="registerTeacher.jsp">Teacher</a></li>
-                                    <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
-                                    <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
+                                    <li role="presentation" class="active"><a href="#">Principal</a></li>
+                                    <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                  </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add new Parent</span></h1>
+                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Principal</span></h1>
                                     
                                
                                 <br>
@@ -86,66 +86,66 @@
                                 
                                 <br>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                      <input class="form-control" type="text" placeholder="Amanda Baddage" id="example-text-input">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Child's Name:</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
-                                    </div>
-                                </div>
-                                
+                               
                                  <div class="row">
                                     <div class="col-lg-2"><b>Gender: </b></div>
                                     <div class="col-lg-4">
                                         <select name="class" class="form-control">
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
+                                            <option placeholder="1">Male</option>
+                                            <option placeholder="2">Female</option>
                                         </select>
                                     </div>
                                 </div>
                                 <br>
-                                <div class="form-group row">
+                                
+                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="text" placeholder="XXXXXXXXXV" id="example-text-input">
                                     </div>
                                 </div>
+                                
                                  <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Address:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
+                               
+                                <div class="form-group row">
+                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone:</label>
+                                    <div class="col-xs-10">
+                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
+                                    </div>
+                                </div>
                                 
-                                <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Occupation:</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Home TP</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Mobile</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
+                                 <div class="form-group row">
                                     <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">No. of years in this position:</label>
+                                    <input type="text" class="form-control"  id="formGroupExampleInput" placeholder="5" style="width:510px; margin-left:108px">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Working in our school since:</label>
+                                    <input type="date" class="form-control" id="formGroupExampleInput" placeholder="8/26/2015" style="width:510px; margin-left:108px">
+                                </div>
+                                
+                                <div class="form-group">
+                                      <label for="exampleInputPassword1">Qualifications: </label>
+                                      <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
+                                </div>
+                               
+                                
+                               
                                 <br>
                                 
                                 

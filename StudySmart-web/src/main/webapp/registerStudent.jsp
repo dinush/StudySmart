@@ -75,10 +75,10 @@
                                     <li role="presentation"><a href="registerParent.jsp">Parent</a></li>
                                     <li role="presentation"><a href="registerTeacher.jsp">Teacher</a></li>
                                     <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
-                                    <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
+                                    <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                  </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Create New Student Entry</span></h1>
+                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Student</span></h1>
                                     
                                 
                                 <br>
@@ -88,14 +88,14 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                      <input class="form-control" type="date" placeholder="2011-08-19" id="example-date-input">
                                     </div>
                                 </div>
                                 
@@ -113,7 +113,7 @@
                                 <div class="form-group row">
                                     <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" value="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
                                     </div>
                                 </div>
                                 
@@ -140,25 +140,25 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" value="XXXXXXXXXV" id="example-text-input">
+                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" id="example-text-input">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="example-email-input" class="col-xs-2 col-form-label">Guardian Email:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" value="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
+                                      <input class="form-control" type="tel" placeholder="1-(555)-555-5555" id="example-tel-input">
                                     </div>
                                 </div>
                                 <br>
