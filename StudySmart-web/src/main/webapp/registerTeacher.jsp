@@ -78,7 +78,7 @@
                                     <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                  </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Create New Teacher</span></h1>
+                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Teacher</span></h1>
                                     
                                
                                 <br>

@@ -109,14 +109,14 @@
                                 <br>
                                 <form class="form-inline">
                                     <div class="form-group">
-                                        <label for="exampleInputName2" style="margin-left:80px;">Assignment Name: </label>
+                                        <label for="exampleInputName2" style="margin-left:90px;">Assignment Name: </label>
                                         <input type="text" class="form-control" id="exampleInputName2" placeholder="Assignment I">
                                     </div>
                                 </form>
                                 <br>
                                 <form class="form-inline">
                                     <div class="form-group">
-                                        <label for="exampleInputName2" style="margin-left:110px;">Cut-off Marks: </label>
+                                        <label for="exampleInputName2" style="margin-left:0px;">Total Marks for the Assignment: </label>
                                         <input type="text" class="form-control" id="exampleInputName2" placeholder="25">
                                     </div>
                                 </form>

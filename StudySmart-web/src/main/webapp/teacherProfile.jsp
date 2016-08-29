@@ -69,7 +69,33 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <!--teachers personal information-->
                                 
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="#">Personal Details</a></li>
+                                </ul>
+                                <br>
+                                <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                <span class="label label-primary">Teacher's Information</span></h1>
+                                
+                                <div class="panel panel-info"
+                                    <!-- List group -->
+                                    <div class="panel-body"
+                                        <ul class="list-group" style="font-size:16px;">
+                                          <li class="list-group-item"><b>Teacher's Name     : <b></li>
+                                          <li class="list-group-item">Gender:</li>
+                                          <li class="list-group-item">NIC: </li>
+                                          <li class="list-group-item">Address: </li>
+                                          <li class="list-group-item">Telephone: </li>
+                                          <li class="list-group-item">Email: </li>
+                                          <li class="list-group-item">Teaching since: </li>
+                                          <li class="list-group-item" style="height:100px;">Qualifications: </li>
+                                          </ul>
+                                    </div>
+                                </div>
+                                          
+                                
+                                <!--teachers personal information ends here-->
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

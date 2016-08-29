@@ -58,10 +58,8 @@
         </div>
         <!-- Path -->
         <ol class="breadcrumb">
-            <li><a href="index.jsp">Home </a></li>
-            <li><a href="manageStudentDetails.jsp">Student Management </a></li>
-            <li>Membership details </li>
-        </ol> 
+            <li><a href="index.jsp">Home</a></li>
+        </ol>
         <table border="0">
             <tr>
                 <td valign="top" class="table-col-fixed">
@@ -71,20 +69,37 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <form>
-                                    <div class="form-group">
-                                      <label for="exampleInputMembership">Membership</label>
-                                      <input type="Membership" class="form-control" id="InputMembership" placeholder="Achievement">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Description</label>
-                                      <textarea type="Description" class="form-control" id="InputDescription" placeholder="Description"></textarea>
-                                    </div>
-                                   
-                             
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                  </form>
+                                <!--parent's profile-->
                                 
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="#">Personal Details</a></li>
+                                    <li role="presentation"><a href="#">Student's Profile</a></li>
+                                </ul>
+                                
+                                <h1>
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                    <span class="label label-primary">Guardian's Information</span>
+                                </h1>
+                                <br>
+                                
+                                <div class="panel panel-info" style="font-size:16px;">
+                                    <!-- List group -->
+                                    <div class="panel-body"
+                                        <ul class="list-group" >
+                                          <li class="list-group-item"><b>Guardian Name     : <b></li>
+                                          <li class="list-group-item">No. of children studying in our school        :</li>
+                                          <li class="list-group-item" style="height:100px;">Their Names: </li>
+                                          <li class="list-group-item ">Gender: </li>
+                                          <li class="list-group-item">NIC: </li>
+                                          <li class="list-group-item">Address:</li>
+                                          <li class="list-group-item">Occupation:</li>
+                                          <li class="list-group-item">Home Telephone No.:</li>
+                                          <li class="list-group-item">Mobile:</li>
+                                          <li class="list-group-item">Email:</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--parent profile ends here-->
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

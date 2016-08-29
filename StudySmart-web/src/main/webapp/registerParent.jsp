@@ -78,7 +78,7 @@
                                     <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
                                  </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add new Parent</span></h1>
+                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Parent</span></h1>
                                     
                                
                                 <br>
@@ -91,10 +91,14 @@
                                       <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Number of Children Studying in Our School:</label>
+                                    <input type="text" class="form-control" placeholder="3" id="formGroupExampleInput" placeholder="Example input" style="width:185px; margin-left:108px">
+                                </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Child's Name:</label>
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Their Names:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                      <textarea type="Description" class="form-control" id="InputDescription" placeholder="Description"></textarea>
                                     </div>
                                 </div>
                                 
@@ -128,14 +132,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Home TP</label>
+                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Home TP:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
                                     </div>
                                 </div>
                                 <br>
                                 <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Mobile</label>
+                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Mobile:</label>
                                     <div class="col-xs-10">
                                       <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
                                     </div>
