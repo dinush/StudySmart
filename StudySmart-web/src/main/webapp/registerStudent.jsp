@@ -83,19 +83,21 @@
                                 
                                 <br>
                                 <br>
-                                <!--adding student registration-->
-                                
+                                <!--adding student registration(with validation)-->
+                                <form name="myform" method="post" action="#" onsubmit="return validateForm(); ">
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                        <span style="color:#d9534f;"><b> *</b></span>
+                                      <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
                                     </div>
                                 </div>
-                                
+                                 
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="date" placeholder="2011-08-19" id="example-date-input">
+                                        <span style="color:#d9534f;"> *</span>
+                                      <input class="form-control" type="date" placeholder="2011-08-19" id="bd" style="margin-left:5px;">
                                     </div>
                                 </div>
                                 
@@ -113,7 +115,7 @@
                                 <div class="form-group row">
                                     <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" type="email" name="email" placeholder="artisanal@example.com" id="example-email-input">
                                     </div>
                                 </div>
                                 
@@ -140,13 +142,15 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                      <span style="color:#d9534f;"> *</span>
+                                      <input class="form-control" type="text" placeholder="Artisanal kale" name="name">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" id="example-text-input">
+                                        <span style="color:#d9534f;"> *</span>
+                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -158,15 +162,56 @@
                                 <div class="form-group row">
                                     <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="1-(555)-555-5555" id="example-tel-input">
+                                      <input class="form-control" type="tel" placeholder="07X-XXXXXXX" id="example-tel-input">
                                     </div>
                                 </div>
                                 <br>
                                 
                                 
-                                <button type="button" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                </form>
                             <!-- finishing student registration-->
                             </div>
+                            
+                            
+                            <!--email validation-->
+                            
+                            <script>  
+                                function validateEmail()  
+                                {  
+                                var x=document.myform.email.value;  
+                                var atposition=x.indexOf("@");  
+                                var dotposition=x.lastIndexOf(".");  
+                                if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+                                  alert("Please enter a valid e-mail address!");  
+                                  return false;  
+                                  }  
+                                }  
+                                
+                                function validateName() {
+                                var nm = document.myform.stuname.value;
+                                var gnm = document.myform.gname.value;
+                                var nic = document.myform.nic.value;
+                                var day = document.myform.bd.value;
+                                if (nm === "" || nic === "" || day === "" || gnm === "") { 
+                                    alert("Please make sure you have filled the compulsory fields");
+                                    return false; }
+                                return true;
+                                }
+                            
+                                function validateForm(){
+                                     
+                                    {   var validation = true;  
+                                        if ((validateName() && validateEmail())== true)
+                                            return validation;  
+                                    
+                                   }
+                                }
+                            </script>  
+                            
+                            
+                            <!--ends here-->
+                            
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
