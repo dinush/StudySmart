@@ -77,6 +77,14 @@
                                 <br>
                                 <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                 <span class="label label-primary">Teacher's Information</span></h1>
+                                <br>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 
                                 <div class="panel panel-info"
                                     <!-- List group -->

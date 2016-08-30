@@ -85,10 +85,12 @@
                                 <!--adding student registration-->
                                 
                                 <br>
+                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Amanda Baddage" id="example-text-input">
+                                         <span style="color:#cc0000;"><b> *</b></span>
+                                      <input class="form-control" type="text" placeholder="Amanda Baddage" name="nm" id="nm">
                                     </div>
                                 </div>
                                
@@ -106,7 +108,8 @@
                                  <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" id="example-text-input">
+                                      <span style="color:#cc0000;"><b> *</b></span>
+                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
                                     </div>
                                 </div>
                                 
@@ -135,9 +138,56 @@
                                 <br>
                                 
                                 
-                                <button type="button" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                </form>
                             <!-- finishing student registration-->
+                                
                             </div>
+                            
+                             <!--validation-->
+
+                            <script>
+                                function validateEmail()  
+                                {  
+                                var x=document.myform.email.value;  
+                                var atposition=x.indexOf("@");  
+                                var dotposition=x.lastIndexOf(".");  
+                                if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+                                  alert("Please enter a valid e-mail address!");  
+                                  return false;  
+                                  }  
+                                }  
+
+                                function validateName() {
+
+                                var nm = document.myform.nm.value;
+                                var nic = document.myform.nic.value;
+                                
+                                console.log("DEBUG vname ->");
+                                if (nm === "" || nic === "") {
+                                    alert("Please make sure you have filled the compulsory fields");
+                                    return false;
+                                }
+                                return true;
+                                }
+
+                                function validateForm(){
+//                                if (!validateName()) {
+//                                    
+//                                }
+                                var validation = true;
+                                if ((validateName() && validateEmail()) === true)
+                                      return validation;
+                                }
+                                
+
+                            </script>  
+
+
+                            <!--ends here-->
+                            
+                            
+                            
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
