@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name")})
 public class Subject implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Collection<Assignment> assignmentCollection;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "subject")
     private TermMarks termMarks;
 
@@ -134,6 +137,15 @@ public class Subject implements Serializable {
 
     public void setTermMarks(TermMarks termMarks) {
         this.termMarks = termMarks;
+    }
+
+    @XmlTransient
+    public Collection<Assignment> getAssignmentCollection() {
+        return assignmentCollection;
+    }
+
+    public void setAssignmentCollection(Collection<Assignment> assignmentCollection) {
+        this.assignmentCollection = assignmentCollection;
     }
     
 }

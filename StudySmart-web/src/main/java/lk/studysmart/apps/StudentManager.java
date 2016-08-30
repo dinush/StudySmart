@@ -35,8 +35,6 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import lk.studysmart.apps.models.AssignmentMarks;
-import lk.studysmart.apps.models.AssignmentMarksPK;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;

@@ -8,12 +8,17 @@ package lk.studysmart.apps.models;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,56 +30,90 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AssignmentMarks.findAll", query = "SELECT a FROM AssignmentMarks a"),
-    @NamedQuery(name = "AssignmentMarks.findByUsername", query = "SELECT a FROM AssignmentMarks a WHERE a.assignmentMarksPK.username = :username"),
-    @NamedQuery(name = "AssignmentMarks.findByIdSubject", query = "SELECT a FROM AssignmentMarks a WHERE a.assignmentMarksPK.idSubject = :idSubject"),
-    @NamedQuery(name = "AssignmentMarks.findByAssignment", query = "SELECT a FROM AssignmentMarks a WHERE a.assignmentMarksPK.assignment = :assignment"),
-    @NamedQuery(name = "AssignmentMarks.findByMarks", query = "SELECT a FROM AssignmentMarks a WHERE a.marks = :marks")})
+    @NamedQuery(name = "AssignmentMarks.findById", query = "SELECT a FROM AssignmentMarks a WHERE a.id = :id"),
+    @NamedQuery(name = "AssignmentMarks.findByMark", query = "SELECT a FROM AssignmentMarks a WHERE a.mark = :mark"),
+    @NamedQuery(name = "AssignmentMarks.findByComment", query = "SELECT a FROM AssignmentMarks a WHERE a.comment = :comment")})
 public class AssignmentMarks implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected AssignmentMarksPK assignmentMarksPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "marks")
-    private int marks;
+    @Column(name = "mark")
+    private int mark;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
+    @Column(name = "comment")
+    private String comment;
+    @JoinColumn(name = "assignment", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Assignment assignment;
+    @JoinColumn(name = "student", referencedColumnName = "username")
+    @ManyToOne(optional = false)
+    private User student;
 
     public AssignmentMarks() {
     }
 
-    public AssignmentMarks(AssignmentMarksPK assignmentMarksPK) {
-        this.assignmentMarksPK = assignmentMarksPK;
+    public AssignmentMarks(Integer id) {
+        this.id = id;
     }
 
-    public AssignmentMarks(AssignmentMarksPK assignmentMarksPK, int marks) {
-        this.assignmentMarksPK = assignmentMarksPK;
-        this.marks = marks;
+    public AssignmentMarks(Integer id, int mark, String comment) {
+        this.id = id;
+        this.mark = mark;
+        this.comment = comment;
     }
 
-    public AssignmentMarks(String username, String idSubject, String assignment) {
-        this.assignmentMarksPK = new AssignmentMarksPK(username, idSubject, assignment);
+    public Integer getId() {
+        return id;
     }
 
-    public AssignmentMarksPK getAssignmentMarksPK() {
-        return assignmentMarksPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setAssignmentMarksPK(AssignmentMarksPK assignmentMarksPK) {
-        this.assignmentMarksPK = assignmentMarksPK;
+    public int getMark() {
+        return mark;
     }
 
-    public int getMarks() {
-        return marks;
+    public void setMark(int mark) {
+        this.mark = mark;
     }
 
-    public void setMarks(int marks) {
-        this.marks = marks;
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (assignmentMarksPK != null ? assignmentMarksPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -85,7 +124,7 @@ public class AssignmentMarks implements Serializable {
             return false;
         }
         AssignmentMarks other = (AssignmentMarks) object;
-        if ((this.assignmentMarksPK == null && other.assignmentMarksPK != null) || (this.assignmentMarksPK != null && !this.assignmentMarksPK.equals(other.assignmentMarksPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -93,7 +132,7 @@ public class AssignmentMarks implements Serializable {
 
     @Override
     public String toString() {
-        return "lk.studysmart.apps.models.AssignmentMarks[ assignmentMarksPK=" + assignmentMarksPK + " ]";
+        return "lk.studysmart.apps.models.AssignmentMarks[ id=" + id + " ]";
     }
     
 }
