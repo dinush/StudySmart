@@ -176,35 +176,38 @@
                             <!--validation-->
 
                             <script>
-//                                function validateEmail()  
-//                                {  
-//                                var x=document.myform.email.value;  
-//                                var atposition=x.indexOf("@");  
-//                                var dotposition=x.lastIndexOf(".");  
-//                                if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
-//                                  alert("Please enter a valid e-mail address!");  
-//                                  return false;  
-//                                  }  
-//                                }  
+                                function validateEmail()  
+                                {  
+                                var x=document.myform.email.value;  
+                                var atposition=x.indexOf("@");  
+                                var dotposition=x.lastIndexOf(".");  
+                                if (x!==""){
+                                    if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+                                      alert("Please enter a valid e-mail address!");  
+                                      return false;  
+                                      }  
+                                 }
+                                return true;
+                                }  
 
-                                function validateEmail() {
-                                var email = document.myform.email.value;
-                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
-                                if (re.test(email)===false){
-                                alert("Wrong email format!");
-                                return false;
-                                }
-
-                                }
-
+//                                function validateEmail() {
+//                                var email = document.myform.email.value;
+//                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
+//                                if (re.test(email)===false){
+//                                alert("Wrong email format!");
+//                                return false;
+//                                }
+//
+//                                }
                                 function validateTP() {
                                     var tp = document.myform.tp.value;
                                     console.log("DEBUG tp -> " + tp);
                                     var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
-                                    if (re.test(tp) === false){
+                                    if ((re.test(tp) === false)&& tp!==""){
                                     alert("Wrong telephone number format!");
                                     return false;
                                     }
+                                    return true;
                                 }
 
                                 
@@ -225,12 +228,12 @@
                                 }
 
                                 function validateForm(){
-//                                if (!validateName()) {
-//                                    
-//                                }
+                             
                                 var validation = true;
-                                if ((validateName() && validateEmail() && validateTP()) === true)
+                                if ((validateName() && validateTP() && validateEmail()) === true){
                                       return validation;
+                                  }
+                                  return false;
                                 }
                                 
 

@@ -123,7 +123,7 @@
                                 <div class="form-group row">
                                     <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
+                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                     </div>
                                 </div>
                                 
@@ -157,7 +157,7 @@
                                 </form>
                             </div>
                             
-                            <!--validation-->
+                          <!--validation-->
 
                             <script>
                                 function validateEmail()  
@@ -165,17 +165,42 @@
                                 var x=document.myform.email.value;  
                                 var atposition=x.indexOf("@");  
                                 var dotposition=x.lastIndexOf(".");  
-                                if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
-                                  alert("Please enter a valid e-mail address!");  
-                                  return false;  
-                                  }  
+                                if (x!==""){
+                                    if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+                                      alert("Please enter a valid e-mail address!");  
+                                      return false;  
+                                      }  
+                                 }
+                                return true;
                                 }  
+
+//                                function validateEmail() {
+//                                var email = document.myform.email.value;
+//                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
+//                                if (re.test(email)===false){
+//                                alert("Wrong email format!");
+//                                return false;
+//                                }
+//
+//                                }
+                                function validateTP() {
+                                    var tp = document.myform.tp.value;
+                                    console.log("DEBUG tp -> " + tp);
+                                    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+                                    if ((re.test(tp) === false)&& tp!==""){
+                                    alert("Wrong telephone number format!");
+                                    return false;
+                                    }
+                                    return true;
+                                }
+
+                                
+
 
                                 function validateName() {
 
                                 var nm = document.myform.nm.value;
                                 var nic = document.myform.nic.value;
-                                
                                 console.log("DEBUG vname ->");
                                 if (nm === "" || nic === "") {
                                     alert("Please make sure you have filled the compulsory fields");
@@ -185,12 +210,12 @@
                                 }
 
                                 function validateForm(){
-//                                if (!validateName()) {
-//                                    
-//                                }
+                             
                                 var validation = true;
-                                if ((validateName() && validateEmail()) === true)
+                                if ((validateName() && validateTP() && validateEmail()) === true){
                                       return validation;
+                                  }
+                                  return false;
                                 }
                                 
 
@@ -198,7 +223,7 @@
 
 
                             <!--ends here-->
-                            
+
                             
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
