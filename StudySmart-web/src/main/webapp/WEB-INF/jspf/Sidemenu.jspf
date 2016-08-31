@@ -20,7 +20,7 @@
                                     <li role="presentation"><a href="viewAssignmentMark.jsp">View Term Test Marks</a></li>              
                                     
                                 </ul></li>
-                            <li role="presentation"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                            <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
                             <% } %>
                             
                             <% if (acc_level == 2) { %>
@@ -40,7 +40,7 @@
                             </li>
                             <li role="presentation"><a href="StudentManager?action=termtestmarks">Enter Term-Test tMarks</a></li>
                             <li role="presentation"><a href="enterAssignmentMarks.jsp">Enter Assignment Marks</a></li>
-                            <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
+                            <li role="presentation"><a href="errorPage.jsp">Manage VLE</a></li>
                             <% } %>
                             
                             <% if (acc_level == 1){ %>
