@@ -43,7 +43,7 @@
                         .done(function (data) {
                             var class_sel = document.getElementById("class");
                             class_sel.innerHTML = '';
-                            for (var i=0; i < data.length; i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 var row = "<option value='" + data[i].id + "'>Grade " + data[i].name + "</option>";
                                 class_sel.innerHTML += row;
                             }
@@ -102,19 +102,23 @@
                                 <br>
                                 <br>
                                 <!--adding student registration(with validation)-->
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();
-                                        ">
+                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:<span style="color:#d9534f;">*</span></label>
+                                        <label for="username" class="col-xs-2 col-form-label">Student ID (Username):</label>
+                                        <div class="col-xs-10">
+                                            <input name="username" required type="text" class="form-control" id="username" placeholder="Username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:<span style="color:#d9534f;">*</span></label>
+                                        <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
                                         <div id="bday-container" class="col-xs-10">
-
                                             <input class="form-control" type="date" placeholder="2011-08-19" id="bd"">
                                         </div>
                                     </div>
@@ -144,12 +148,6 @@
                                                 <!--Populated by ajax call-->
                                             </select>
                                         </div>
-                                    </div>
-                                    <br>
-
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput">Main Mode of Transportation:</label>
-                                        <input type="text" class="form-control" value="School Van" id="formGroupExampleInput" placeholder="Example input" style="width:510px; margin-left:108px">
                                     </div>
                                     <br><br>
                                     <span>
