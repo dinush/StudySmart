@@ -21,16 +21,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
-        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css"/>
+        <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
             $(document).ready(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+                $('#bday-container input').datepicker({
+                    
+                });
             });
         </script>
 
@@ -86,18 +91,17 @@
                                 <!--adding student registration(with validation)-->
                                 <form name="myform" method="post" action="#" onsubmit="return validateForm(); ">
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
+                                    <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:<span style="color:#d9534f;">*</span></label>
                                     <div class="col-xs-10">
-                                        <span style="color:#d9534f;"><b> *</b></span>
                                       <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
                                     </div>
                                 </div>
                                  
                                 <div class="form-group row">
-                                    <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
-                                    <div class="col-xs-10">
-                                        <span style="color:#d9534f;"> *</span>
-                                      <input class="form-control" type="date" placeholder="2011-08-19" id="bd" style="margin-left:5px;">
+                                    <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:<span style="color:#d9534f;">*</span></label>
+                                    <div id="bday-container" class="col-xs-10">
+                                        
+                                      <input class="form-control" type="date" placeholder="2011-08-19" id="bd"">
                                     </div>
                                 </div>
                                 
