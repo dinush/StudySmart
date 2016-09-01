@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import lk.studysmart.apps.models.Assignment;
+import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;
@@ -318,43 +321,79 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "assignmentmarks": {
+                if (user.getLevel() == 2) {
 
-                /*               if (user.getLevel() > 2) {  // Students and Parents are not allowed here
-                    response.sendRedirect("index.jsp");
-                }       // Get students in that class
-                List studentList = em.createNamedQuery("User.findByGradeAndLevel")
-                        .setParameter("grade", user.getGrade())
-                        .setParameter("level", 3)
-                        .getResultList();
-                request.setAttribute("students", studentList);
-                request.getRequestDispatcher("/assignmentmarks.jsp").forward(request, response);*/
+                    List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
+                            .setParameter("user", user)
+                            .getResultList();
+
+                    request.setAttribute("teaches", teachSubjects);
+                    request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
+                }
                 break;
             }
             case "assignmentMarksSave": {
-                // Save marks to Database
-                /*              if (request.getParameter("assignmentName") == null) {
-                    response.sendRedirect("index.jsp");
+                /**
+                 * Make sure inputs are validated
+                 */
+                
+                // check if assignment name exists.
+                Assignment as = em.find(Assignment.class, request.getParameter("name"));
+                if (as != null) {
+                    response.sendRedirect("StudentManager?action=assignmentmarks&msg=Assignment name already exists.");
+                    return;
                 }
-                String assignment = request.getParameter("assignmentName");
-                // Get students in that class
-                List<User> students = em.createNamedQuery("User.findByGradeAndLevel")
-                        .setParameter("grade", user.getGrade())
-                        .setParameter("level", 3)
-                        .getResultList();
-                for (User student : students) {
-                    int mark = Integer.parseInt(request.getParameter(student.getUsername()));
-                    AssignmentMarksPK assignmentMarksPK = new AssignmentMarksPK(student.getUsername(), user.getSubject(), assignment);
-                    AssignmentMarks assignmentMarks = new AssignmentMarks(assignmentMarksPK, mark);
-
+                
+                
+                Class2 class2 = em.find(Class2.class, Integer.parseInt(request.getParameter("class")));
+                Subject subject = em.find(Subject.class, request.getParameter("subject"));
+                
+                Assignment assignment = new Assignment();
+                assignment.setName(request.getParameter("name"));
+                assignment.setMax(Integer.parseInt(request.getParameter("max")));
+                assignment.setClass1(class2);
+                assignment.setSubject(subject);
+                
+            try {
+                utx.begin();
+                em.persist(assignment);
+                utx.commit();
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("StudentManager?action=assignmentmarks&msg=Something went wrong.");
+                return;
+            }
+                
+                
+                Enumeration<String> params = request.getParameterNames();
+                while (params.hasMoreElements()) {
+                    String elem = params.nextElement();
+                    if (!elem.startsWith("st##-"))
+                        continue;
+                    
+                    int indexOfDelim = elem.indexOf("-");
+                    String username = elem.substring(indexOfDelim+1);
+                    User student = em.find(User.class, username);
+                    int mark = Integer.parseInt(request.getParameter(elem));                    
+                    String comment = request.getParameter(username);
+                    
+                    AssignmentMarks am = new AssignmentMarks();
+                    am.setAssignment(assignment);
+                    am.setStudent(student);
+                    am.setMark(mark);
+                    am.setComment(comment);
+                    am.setAddedby(user);
+                    
                     try {
                         utx.begin();
-                        em.persist(assignmentMarks);
+                        em.persist(am);
                         utx.commit();
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                response.sendRedirect("index.jsp");*/
+                
+                response.sendRedirect("index.jsp");
                 break;
             }
             default:

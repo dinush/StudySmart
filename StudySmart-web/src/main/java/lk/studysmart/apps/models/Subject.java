@@ -59,6 +59,20 @@ public class Subject implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "grade")
+    private int grade;
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+    
 
     public Subject() {
     }

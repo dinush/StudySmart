@@ -39,7 +39,7 @@
                                 </ul>
                             </li>
                             <li role="presentation"><a href="StudentManager?action=termtestmarks">Enter Term-Test Marks</a></li>
-                            <li role="presentation"><a href="enterAssignmentMarks.jsp">Enter Assignment Marks</a></li>
+                            <li role="presentation"><a href="StudentManager?action=assignmentmarks">Enter Assignment Marks</a></li>
                             <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
                             <% } %>
                             

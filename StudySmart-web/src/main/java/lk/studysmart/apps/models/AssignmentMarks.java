@@ -50,7 +50,10 @@ public class AssignmentMarks implements Serializable {
     @Size(min = 1, max = 1000)
     @Column(name = "comment")
     private String comment;
-    @JoinColumn(name = "assignment", referencedColumnName = "id")
+    @JoinColumn(name = "addedby", referencedColumnName = "username")
+    @ManyToOne
+    private User addedby;
+    @JoinColumn(name = "assignment", referencedColumnName = "name")
     @ManyToOne(optional = false)
     private Assignment assignment;
     @JoinColumn(name = "student", referencedColumnName = "username")
@@ -92,6 +95,14 @@ public class AssignmentMarks implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public User getAddedby() {
+        return addedby;
+    }
+
+    public void setAddedby(User addedby) {
+        this.addedby = addedby;
     }
 
     public Assignment getAssignment() {

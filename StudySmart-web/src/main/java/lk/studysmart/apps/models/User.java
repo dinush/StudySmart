@@ -45,7 +45,7 @@ public class User implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Collection<AssignmentMarks> assignmentMarksCollection;
-
+//
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addedby")
     private Collection<Classnews> classnewsCollection;
 

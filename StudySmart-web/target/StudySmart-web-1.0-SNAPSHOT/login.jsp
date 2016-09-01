@@ -101,8 +101,8 @@
                                 </div>
                                 <% }%>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username" name="username">
-                                    <input type="password" class="form-control" placeholder="Password" name="password">
+                                    <input required type="text" class="form-control" placeholder="Username" name="username">
+                                    <input required type="password" class="form-control" placeholder="Password" name="password">
                                 </div>
                                 <button type="submit" class="btn btn-default">Sign in</button>
                             </form>
