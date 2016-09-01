@@ -49,8 +49,8 @@
                             }
                             loadSubjects(document.getElementById('class'));
                         });
-                        
-                
+
+
             });
 
             function loadSubjects(sel) {
@@ -61,11 +61,11 @@
                         .done(function (data) {
                             var plh = document.getElementById("sub-enroll-tbl");
                             plh.innerHTML = '';
-                            for(var i=0; i<data.length;i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td>" + data[i].id + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
-                                row += "<td><input type='checkbox' value='" + data[i].id + "'/></td>";
+                                row += "<td><input type='checkbox' name='subjects[]' value='" + data[i].id + "'/></td>";
                                 plh.innerHTML += row;
                             }
                         })
@@ -122,7 +122,7 @@
                                 <br>
                                 <br>
                                 <!--adding student registration(with validation)-->
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
+                                <form name="myform" method="post" action="Admin?action=registerstudent" onsubmit="return validateForm();">
                                     <div class="form-group row">
                                         <label for="username" class="col-xs-2 col-form-label">Student ID (Username):</label>
                                         <div class="col-xs-10">
@@ -132,14 +132,14 @@
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="name" id="example-text-input">
+                                            <input required class="form-control" type="text" placeholder="Name" name="name" id="example-text-input">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
                                         <div id="bday-container" class="col-xs-10">
-                                            <input class="form-control" type="date" placeholder="2011-08-19" id="bd" name="bdate">
+                                            <input required class="form-control" type="date" placeholder="Birth Date" id="bd" name="bdate">
                                         </div>
                                     </div>
 
@@ -157,7 +157,7 @@
                                     <div class="form-group row">
                                         <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="email" name="email" placeholder="artisanal@example.com" id="example-email-input">
+                                            <input class="form-control" type="email" name="email" placeholder="sample@host.com" id="example-email-input">
                                         </div>
                                     </div>
 
@@ -204,28 +204,11 @@
                                         alert("Please enter a valid e-mail address!");
                                         return false;
                                     }
-                                }
-
-                                function validateName() {
-                                    var nm = document.myform.stuname.value;
-                                    var gnm = document.myform.gname.value;
-                                    var nic = document.myform.nic.value;
-                                    var day = document.myform.bd.value;
-                                    if (nm === "" || nic === "" || day === "" || gnm === "") {
-                                        alert("Please make sure you have filled the compulsory fields");
-                                        return false;
-                                    }
                                     return true;
                                 }
 
                                 function validateForm() {
-
-                                    {
-                                        var validation = true;
-                                        if ((validateName() && validateEmail()) == true)
-                                            return validation;
-
-                                    }
+                                    return validateEmail();
                                 }
                             </script>  
 

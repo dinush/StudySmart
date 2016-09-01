@@ -31,7 +31,6 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(lk.studysmart.apps.service.service.AssignmentFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.AssignmentMarksFacadeREST.class);
-        resources.add(lk.studysmart.apps.service.service.AttendanceFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.Class2FacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.ClassnewsFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.RestServices.class);

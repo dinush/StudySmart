@@ -61,9 +61,6 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 40)
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
@@ -78,7 +75,7 @@ public class User implements Serializable {
     @Size(max = 25)
     @Column(name = "subject")
     private String subject;
-    @Size(max = 6)
+    @Size(max = 10)
     @Column(name = "gender")
     private String gender;
     @Column(name = "birthdate")

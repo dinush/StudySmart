@@ -22,8 +22,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.StudentSubject;
+import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -68,8 +75,8 @@ public class Admin extends HttpServlet {
                     Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                     return;
                 }
-                
-                Class2 class2 = em.find(Class2.class, request.getParameter("class"));
+
+                Class2 class2 = em.find(Class2.class, Integer.parseInt(request.getParameter("class")));
                 
                 User student = new User();
                 student.setUsername(request.getParameter("username"));
@@ -78,6 +85,37 @@ public class Admin extends HttpServlet {
                 student.setGender(request.getParameter("gender"));
                 student.setEmail(request.getParameter("email"));
                 student.setClass1(class2);
+                student.setPassword("123");
+
+                utils.Utils.entityValidator(student);
+                
+                try {
+                    utx.begin();
+                    em.persist(student);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
+                }
+                
+                // Process the subject enrollment
+                String subjectids[] = request.getParameterValues("subjects[]");
+                for (String subjectid:subjectids) {
+                    Subject subject = em.find(Subject.class, subjectid);
+                    StudentSubject ss = new StudentSubject();
+                    ss.setUserId(student);
+                    ss.setSubjectId(subject);
+                    try {
+                        utx.begin();
+                        em.persist(ss);
+                        utx.commit();
+                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                        Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                        return;
+                    }
+                    
+                }
+
             }
             break;
             default: {
