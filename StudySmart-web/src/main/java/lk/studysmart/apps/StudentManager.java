@@ -167,7 +167,7 @@ public class StudentManager extends HttpServlet {
                     from = getFormattedDate();
                 } else {
                     try {
-                        from = getFormattedDate(sfrom);
+                        from = utils.Utils.getFormattedDate(sfrom);
                     } catch (ParseException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -177,7 +177,7 @@ public class StudentManager extends HttpServlet {
                     to = getFormattedDate();
                 } else {
                     try {
-                        to = getFormattedDate(sto);
+                        to = utils.Utils.getFormattedDate(sto);
                     } catch (ParseException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -412,10 +412,7 @@ public class StudentManager extends HttpServlet {
         return date;
     }
 
-    private Date getFormattedDate(String d) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormat.parse(d);
-    }
+    
     
     private String getFormattedDateString(Date d) {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");

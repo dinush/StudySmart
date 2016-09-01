@@ -6,9 +6,8 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,13 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,26 +37,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByLevel", query = "SELECT u FROM User u WHERE u.level = :level"),
     @NamedQuery(name = "User.findBySubject", query = "SELECT u FROM User u WHERE u.subject = :subject"),
+    @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender"),
+    @NamedQuery(name = "User.findByBirthdate", query = "SELECT u FROM User u WHERE u.birthdate = :birthdate"),
+    @NamedQuery(name = "User.findByNic", query = "SELECT u FROM User u WHERE u.nic = :nic"),
+    @NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
+    @NamedQuery(name = "User.findByOccupation", query = "SELECT u FROM User u WHERE u.occupation = :occupation"),
+    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
+    @NamedQuery(name = "User.findByQualifications", query = "SELECT u FROM User u WHERE u.qualifications = :qualifications"),
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByClass", query = "SELECT u FROM User u WHERE u.class1 = :class2")})
-
 public class User implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
-    private Collection<AssignmentMarks> assignmentMarksCollection;
-//
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addedby")
-    private Collection<Classnews> classnewsCollection;
-
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "markedby")
-//    private TermMarks termMarks;
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private Collection<TermMarks> termMarksCollection;
-//    @OneToMany(mappedBy = "markedby")
-//    private Collection<TermMarks> termMarksCollection1;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<TeacherTeaches> teacherTeachesCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,6 +78,28 @@ public class User implements Serializable {
     @Size(max = 25)
     @Column(name = "subject")
     private String subject;
+    @Size(max = 6)
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "birthdate")
+    @Temporal(TemporalType.DATE)
+    private Date birthdate;
+    @Size(max = 11)
+    @Column(name = "nic")
+    private String nic;
+    @Size(max = 500)
+    @Column(name = "address")
+    private String address;
+    @Size(max = 500)
+    @Column(name = "occupation")
+    private String occupation;
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 13)
+    @Column(name = "phone")
+    private String phone;
+    @Size(max = 250)
+    @Column(name = "qualifications")
+    private String qualifications;
     @JoinColumn(name = "class", referencedColumnName = "id")
     @ManyToOne
     private Class2 class1;
@@ -157,6 +167,62 @@ public class User implements Serializable {
         this.subject = subject;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getQualifications() {
+        return qualifications;
+    }
+
+    public void setQualifications(String qualifications) {
+        this.qualifications = qualifications;
+    }
+
     public Class2 getClass1() {
         return class1;
     }
@@ -188,33 +254,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.User[ username=" + username + " ]";
-    }
-
-    @XmlTransient
-    public Collection<TeacherTeaches> getTeacherTeachesCollection() {
-        return teacherTeachesCollection;
-    }
-
-    public void setTeacherTeachesCollection(Collection<TeacherTeaches> teacherTeachesCollection) {
-        this.teacherTeachesCollection = teacherTeachesCollection;
-    }
-
-    @XmlTransient
-    public Collection<Classnews> getClassnewsCollection() {
-        return classnewsCollection;
-    }
-
-    public void setClassnewsCollection(Collection<Classnews> classnewsCollection) {
-        this.classnewsCollection = classnewsCollection;
-    }
-
-    @XmlTransient
-    public Collection<AssignmentMarks> getAssignmentMarksCollection() {
-        return assignmentMarksCollection;
-    }
-
-    public void setAssignmentMarksCollection(Collection<AssignmentMarks> assignmentMarksCollection) {
-        this.assignmentMarksCollection = assignmentMarksCollection;
     }
     
 }

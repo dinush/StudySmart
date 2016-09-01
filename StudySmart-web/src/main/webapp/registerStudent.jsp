@@ -47,9 +47,28 @@
                                 var row = "<option value='" + data[i].id + "'>Grade " + data[i].name + "</option>";
                                 class_sel.innerHTML += row;
                             }
-                        })
+                            loadSubjects(document.getElementById('class'));
+                        });
+                        
+                
             });
 
+            function loadSubjects(sel) {
+                $.ajax({
+                    url: "ws/rest/subjects/" + sel.value,
+                    async: true
+                })
+                        .done(function (data) {
+                            var plh = document.getElementById("sub-enroll-tbl");
+                            plh.innerHTML = '';
+                            for(var i=0; i<data.length;i++) {
+                                var row = "<tr>";
+                                row += "<td>" + data[i].name + "</td>";
+                                row += "<td><input type='checkbox' value='" + data[i].id + "'/></td>";
+                                plh.innerHTML += row;
+                            }
+                        })
+            }
 
         </script>
 
@@ -112,23 +131,23 @@
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
+                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="name" id="example-text-input">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
                                         <div id="bday-container" class="col-xs-10">
-                                            <input class="form-control" type="date" placeholder="2011-08-19" id="bd"">
+                                            <input class="form-control" type="date" placeholder="2011-08-19" id="bd" name="bdate">
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-2"><b>Gender: </b></div>
                                         <div class="col-lg-4">
-                                            <select name="class" class="form-control">
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
+                                            <select name="gender" class="form-control">
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select>
                                         </div>
                                     </div>
@@ -144,10 +163,24 @@
                                     <div class="row">
                                         <div class="col-lg-2"><b>Entering Grade: </b></div>
                                         <div class="col-lg-4">
-                                            <select id="class" name="class" class="form-control">
+                                            <select id="class" name="class" class="form-control" onchange="loadSubjects(this)">
                                                 <!--Populated by ajax call-->
                                             </select>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subject</th>
+                                                    <th>Enroll</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sub-enroll-tbl">
+                                                <!--Ajax fill-->
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <br><br>
                                     <span>

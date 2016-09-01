@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Subject.findAll", query = "SELECT s FROM Subject s"),
     @NamedQuery(name = "Subject.findByIdSubject", query = "SELECT s FROM Subject s WHERE s.idSubject = :idSubject"),
-    @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name")})
+    @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name"),
+    @NamedQuery(name = "Subject.findByGrade", query = "SELECT s FROM Subject s WHERE s.grade = :grade")})
 public class Subject implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
