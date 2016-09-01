@@ -91,4 +91,26 @@ public class RestServices {
         }
         return jarray.toString();
     }
+    
+    @GET
+    @Path("classes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getClasses(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
+        List<Class2> classes = em.createNamedQuery("Class.findAll")
+                .getResultList();
+        
+        JSONArray jarray = new JSONArray();
+        
+        for (Class2 class2 : classes) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", class2.getId());
+            jobj.put("name", class2.getGrade() + " " + class2.getSubclass());
+            jarray.put(jobj);
+        }
+        
+        return jarray.toString();
+    }
 }

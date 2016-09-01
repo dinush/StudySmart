@@ -31,12 +31,26 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $('#bday-container input').datepicker({
-                    
                 });
+
+                $.ajax({
+                    url: "ws/rest/classes",
+                    async: true
+                })
+                        .done(function (data) {
+                            var class_sel = document.getElementById("class");
+                            class_sel.innerHTML = '';
+                            for (var i=0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>Grade " + data[i].name + "</option>";
+                                class_sel.innerHTML += row;
+                            }
+                        })
             });
+
+
         </script>
 
 
@@ -52,8 +66,7 @@
             <div class="user-details">
                 Signed in as:
                 <span id="user-name">
-                    <%
-                        out.print(user.getName());
+                    <%                        out.print(user.getName());
                     %>
                 </span>
                 <a href="logout">
@@ -74,148 +87,150 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                
-                                 <ul class="nav nav-tabs">
+
+                                <ul class="nav nav-tabs">
                                     <li role="presentation" class="active"><a href="#">Student</a></li>
                                     <li role="presentation"><a href="registerParent.jsp">Parent</a></li>
                                     <li role="presentation"><a href="registerTeacher.jsp">Teacher</a></li>
                                     <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
                                     <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
-                                 </ul> 
+                                </ul> 
                                 <br>
-                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Student</span></h1>
-                                    
-                                
+                                <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Student</span></h1>
+
+
                                 <br>
                                 <br>
                                 <!--adding student registration(with validation)-->
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm(); ">
-                                <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:<span style="color:#d9534f;">*</span></label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
+                                <form name="myform" method="post" action="#" onsubmit="return validateForm();
+                                        ">
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:<span style="color:#d9534f;">*</span></label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="stuname" id="example-text-input">
+                                        </div>
                                     </div>
-                                </div>
-                                 
-                                <div class="form-group row">
-                                    <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:<span style="color:#d9534f;">*</span></label>
-                                    <div id="bday-container" class="col-xs-10">
-                                        
-                                      <input class="form-control" type="date" placeholder="2011-08-19" id="bd"">
+
+                                    <div class="form-group row">
+                                        <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:<span style="color:#d9534f;">*</span></label>
+                                        <div id="bday-container" class="col-xs-10">
+
+                                            <input class="form-control" type="date" placeholder="2011-08-19" id="bd"">
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-lg-2"><b>Gender: </b></div>
-                                    <div class="col-lg-4">
-                                        <select name="class" class="form-control">
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                        </select>
+
+                                    <div class="row">
+                                        <div class="col-lg-2"><b>Gender: </b></div>
+                                        <div class="col-lg-4">
+                                            <select name="class" class="form-control">
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                                
-                                <div class="form-group row">
-                                    <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="email" name="email" placeholder="artisanal@example.com" id="example-email-input">
+                                    <br>
+
+                                    <div class="form-group row">
+                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="email" name="email" placeholder="artisanal@example.com" id="example-email-input">
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-lg-2"><b>Entering Grade: </b></div>
-                                    <div class="col-lg-4">
-                                        <select name="class" class="form-control">
-                                            <option value="1">10</option>
-                                            <option value="2">11</option>
-                                        </select>
+
+                                    <div class="row">
+                                        <div class="col-lg-2"><b>Entering Grade: </b></div>
+                                        <div class="col-lg-4">
+                                            <select id="class" name="class" class="form-control">
+                                                <!--Populated by ajax call-->
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                                
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Main Mode of Transportation:</label>
-                                    <input type="text" class="form-control" value="School Van" id="formGroupExampleInput" placeholder="Example input" style="width:510px; margin-left:108px">
-                                </div>
-                                <br><br>
-                                <span>
-                                <h3><u> Guardian's Information</u> </h3> <h4 style="padding-left: 110px;">(Contact in case of Emergency)</h4>
-                                </span>
-                                <br>
-                                <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
-                                    <div class="col-xs-10">
-                                      <span style="color:#d9534f;"> *</span>
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" name="name">
+                                    <br>
+
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput">Main Mode of Transportation:</label>
+                                        <input type="text" class="form-control" value="School Van" id="formGroupExampleInput" placeholder="Example input" style="width:510px; margin-left:108px">
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
-                                    <div class="col-xs-10">
-                                        <span style="color:#d9534f;"> *</span>
-                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic">
+                                    <br><br>
+                                    <span>
+                                        <h3><u> Guardian's Information</u> </h3> <h4 style="padding-left: 110px;">(Contact in case of Emergency)</h4>
+                                    </span>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                        <div class="col-xs-10">
+                                            <span style="color:#d9534f;"> *</span>
+                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="name">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-email-input" class="col-xs-2 col-form-label">Guardian Email:</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
+                                        <div class="col-xs-10">
+                                            <span style="color:#d9534f;"> *</span>
+                                            <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
-                                    <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="07X-XXXXXXX" id="example-tel-input">
+                                    <div class="form-group row">
+                                        <label for="example-email-input" class="col-xs-2 col-form-label">Guardian Email:</label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                                
-                                
-                                <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                    <div class="form-group row">
+                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="tel" placeholder="07X-XXXXXXX" id="example-tel-input">
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
                                 </form>
-                            <!-- finishing student registration-->
+                                <!-- finishing student registration-->
                             </div>
-                            
-                            
+
+
                             <!--email validation-->
-                            
-                            <script>  
-                                function validateEmail()  
-                                {  
-                                var x=document.myform.email.value;  
-                                var atposition=x.indexOf("@");  
-                                var dotposition=x.lastIndexOf(".");  
-                                if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
-                                  alert("Please enter a valid e-mail address!");  
-                                  return false;  
-                                  }  
-                                }  
-                                
-                                function validateName() {
-                                var nm = document.myform.stuname.value;
-                                var gnm = document.myform.gname.value;
-                                var nic = document.myform.nic.value;
-                                var day = document.myform.bd.value;
-                                if (nm === "" || nic === "" || day === "" || gnm === "") { 
-                                    alert("Please make sure you have filled the compulsory fields");
-                                    return false; }
-                                return true;
+
+                            <script>
+                                function validateEmail()
+                                {
+                                    var x = document.myform.email.value;
+                                    var atposition = x.indexOf("@");
+                                    var dotposition = x.lastIndexOf(".");
+                                    if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
+                                        alert("Please enter a valid e-mail address!");
+                                        return false;
+                                    }
                                 }
-                            
-                                function validateForm(){
-                                     
-                                    {   var validation = true;  
-                                        if ((validateName() && validateEmail())== true)
-                                            return validation;  
-                                    
-                                   }
+
+                                function validateName() {
+                                    var nm = document.myform.stuname.value;
+                                    var gnm = document.myform.gname.value;
+                                    var nic = document.myform.nic.value;
+                                    var day = document.myform.bd.value;
+                                    if (nm === "" || nic === "" || day === "" || gnm === "") {
+                                        alert("Please make sure you have filled the compulsory fields");
+                                        return false;
+                                    }
+                                    return true;
+                                }
+
+                                function validateForm() {
+
+                                    {
+                                        var validation = true;
+                                        if ((validateName() && validateEmail()) == true)
+                                            return validation;
+
+                                    }
                                 }
                             </script>  
-                            
-                            
+
+
                             <!--ends here-->
-                            
+
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
