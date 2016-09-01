@@ -16,6 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Assignment`
+--
+
+DROP TABLE IF EXISTS `Assignment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Assignment` (
+  `name` varchar(250) NOT NULL,
+  `class` int(11) NOT NULL,
+  `subject` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `max` int(4) NOT NULL,
+  PRIMARY KEY (`name`),
+  KEY `fk_class_assignment` (`class`),
+  KEY `fk_subject_assignment` (`subject`),
+  CONSTRAINT `fk_class_assignment` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_subject_assignment` FOREIGN KEY (`subject`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Assignment`
+--
+
+LOCK TABLES `Assignment` WRITE;
+/*!40000 ALTER TABLE `Assignment` DISABLE KEYS */;
+INSERT INTO `Assignment` VALUES ('ass1',5,'001',34),('assig1',5,'001',12);
+/*!40000 ALTER TABLE `Assignment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `AssignmentMarks`
 --
 
@@ -23,15 +53,20 @@ DROP TABLE IF EXISTS `AssignmentMarks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `AssignmentMarks` (
-  `username` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `idSubject` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `assignment` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `marks` int(11) NOT NULL,
-  PRIMARY KEY (`username`,`idSubject`,`assignment`),
-  KEY `fk_assignment_idsubject` (`idSubject`),
-  CONSTRAINT `fk_assignment_idsubject` FOREIGN KEY (`idSubject`) REFERENCES `Subject` (`idSubject`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_assignment_username` FOREIGN KEY (`username`) REFERENCES `User` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `assignment` varchar(250) NOT NULL,
+  `student` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `mark` int(4) NOT NULL,
+  `comment` varchar(1000) NOT NULL,
+  `addedby` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_assignment_assignmentmarks` (`assignment`) USING BTREE,
+  KEY `fk_user_assignmentmarks` (`student`),
+  KEY `fk_addedby_assignmentmarks` (`addedby`),
+  CONSTRAINT `fk_addedby2_assignmentmarks` FOREIGN KEY (`addedby`) REFERENCES `User` (`username`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_assignment2_assignmentmarks` FOREIGN KEY (`assignment`) REFERENCES `Assignment` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_student_assignmentmarks` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +75,7 @@ CREATE TABLE `AssignmentMarks` (
 
 LOCK TABLES `AssignmentMarks` WRITE;
 /*!40000 ALTER TABLE `AssignmentMarks` DISABLE KEYS */;
-INSERT INTO `AssignmentMarks` VALUES ('st1','004','assignment 1',45),('st2','004','assignment 1',63);
+INSERT INTO `AssignmentMarks` VALUES (6,'assig1','st1',12,'2','teacher'),(7,'ass1','st1',3,'fd','teacher');
 /*!40000 ALTER TABLE `AssignmentMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,29 +106,6 @@ LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
 INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st2','2016-08-24',1,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Child_Parent`
---
-
-DROP TABLE IF EXISTS `Child_Parent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Child_Parent` (
-  `studentid` varchar(255) NOT NULL,
-  `parentid` varchar(255) NOT NULL,
-  PRIMARY KEY (`studentid`,`parentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Child_Parent`
---
-
-LOCK TABLES `Child_Parent` WRITE;
-/*!40000 ALTER TABLE `Child_Parent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Child_Parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -273,6 +285,7 @@ DROP TABLE IF EXISTS `Subject`;
 CREATE TABLE `Subject` (
   `idSubject` varchar(25) NOT NULL,
   `name` varchar(25) NOT NULL,
+  `grade` int(2) NOT NULL DEFAULT '10',
   PRIMARY KEY (`idSubject`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -283,7 +296,7 @@ CREATE TABLE `Subject` (
 
 LOCK TABLES `Subject` WRITE;
 /*!40000 ALTER TABLE `Subject` DISABLE KEYS */;
-INSERT INTO `Subject` VALUES ('001','Maths'),('002','Science'),('003','English'),('004','IT');
+INSERT INTO `Subject` VALUES ('001','Maths',10),('002','Science',10),('003','English',10),('004','IT',10);
 /*!40000 ALTER TABLE `Subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,30 +482,6 @@ INSERT INTO `classnews` VALUES (1,5,'teacher','titl212','1dfsd',NULL,NULL),(2,5,
 UNLOCK TABLES;
 
 --
--- Table structure for table `files`
---
-
-DROP TABLE IF EXISTS `files`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `files` (
-  `filename` varchar(100) NOT NULL,
-  `user_id` varchar(25) NOT NULL,
-  `file_id` varchar(25) NOT NULL,
-  PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `files`
---
-
-LOCK TABLES `files` WRITE;
-/*!40000 ALTER TABLE `files` DISABLE KEYS */;
-/*!40000 ALTER TABLE `files` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `forum_thead`
 --
 
@@ -565,30 +554,6 @@ LOCK TABLES `post` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `principal`
---
-
-DROP TABLE IF EXISTS `principal`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `principal` (
-  `user_Id` varchar(25) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `principal`
---
-
-LOCK TABLES `principal` WRITE;
-/*!40000 ALTER TABLE `principal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `principal` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `question`
 --
 
@@ -614,125 +579,6 @@ LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `quize`
---
-
-DROP TABLE IF EXISTS `quize`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `quize` (
-  `subject_id` varchar(25) NOT NULL,
-  `quize_id` varchar(25) NOT NULL,
-  `title` varchar(25) NOT NULL,
-  `question_id` varchar(25) NOT NULL,
-  PRIMARY KEY (`quize_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `quize`
---
-
-LOCK TABLES `quize` WRITE;
-/*!40000 ALTER TABLE `quize` DISABLE KEYS */;
-/*!40000 ALTER TABLE `quize` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `staff`
---
-
-DROP TABLE IF EXISTS `staff`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `staff` (
-  `user_Id` varchar(25) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `staff`
---
-
-LOCK TABLES `staff` WRITE;
-/*!40000 ALTER TABLE `staff` DISABLE KEYS */;
-/*!40000 ALTER TABLE `staff` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `student`
---
-
-DROP TABLE IF EXISTS `student`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `student` (
-  `user_Id` varchar(25) NOT NULL,
-  `student_id` varchar(25) NOT NULL,
-  PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `student`
---
-
-LOCK TABLES `student` WRITE;
-/*!40000 ALTER TABLE `student` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `system_addmin`
---
-
-DROP TABLE IF EXISTS `system_addmin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `system_addmin` (
-  `user_Id` varchar(25) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `system_addmin`
---
-
-LOCK TABLES `system_addmin` WRITE;
-/*!40000 ALTER TABLE `system_addmin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `system_addmin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `teacher`
---
-
-DROP TABLE IF EXISTS `teacher`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teacher` (
-  `user_id` varchar(25) NOT NULL,
-  `subject_id` varchar(25) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `teacher`
---
-
-LOCK TABLES `teacher` WRITE;
-/*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-/*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -743,4 +589,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-25 21:05:19
+-- Dump completed on 2016-09-01 13:08:09
