@@ -29,6 +29,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.User;
@@ -67,6 +68,9 @@ public class Admin extends HttpServlet {
         user = (User) request.getSession().getAttribute("user");
 
         switch (request.getParameter("action")) {
+            /**
+             * Register a new student.
+             */
             case "registerstudent": {
                 Date bdate = null;
                 try {
@@ -77,7 +81,7 @@ public class Admin extends HttpServlet {
                 }
 
                 Class2 class2 = em.find(Class2.class, Integer.parseInt(request.getParameter("class")));
-                
+
                 User student = new User();
                 student.setUsername(request.getParameter("username"));
                 student.setName(request.getParameter("name"));
@@ -89,7 +93,7 @@ public class Admin extends HttpServlet {
                 student.setLevel(3);
 
                 utils.Utils.entityValidator(student);
-                
+
                 try {
                     utx.begin();
                     em.persist(student);
@@ -98,10 +102,10 @@ public class Admin extends HttpServlet {
                     Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                     return;
                 }
-                
+
                 // Process the subject enrollment
                 String subjectids[] = request.getParameterValues("subjects[]");
-                for (String subjectid:subjectids) {
+                for (String subjectid : subjectids) {
                     Subject subject = em.find(Subject.class, subjectid);
                     StudentSubject ss = new StudentSubject();
                     ss.setUserId(student);
@@ -114,9 +118,53 @@ public class Admin extends HttpServlet {
                         Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                         return;
                     }
-                    
+
                 }
 
+            }
+            break;
+            /**
+             * Register a new parent.
+             */
+            case "registerparent": {
+                User parent = new User();
+                parent.setPassword("123");
+                parent.setLevel(4);
+                parent.setUsername(request.getParameter("username"));
+                parent.setName(request.getParameter("name"));
+                parent.setGender(request.getParameter("gender"));
+                parent.setNic(request.getParameter("nic"));
+                parent.setAddress(request.getParameter("address"));
+                parent.setOccupation(request.getParameter("occupation"));
+                parent.setPhone(request.getParameter("phone"));
+                parent.setEmail(request.getParameter("email"));
+
+                try {
+                    utx.begin();
+                    em.persist(parent);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
+                }
+                
+                String[] studentids = request.getParameterValues("students");
+                for (String studentid : studentids) {
+                    User student = em.find(User.class, studentid);
+                    StudentParent sp = new StudentParent();
+                    sp.setParentid(parent);
+                    sp.setStudentid(student);
+                    
+                    try {
+                        utx.begin();
+                        em.persist(sp);
+                        utx.commit();
+                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                        Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                        return;
+                    }
+                }
+                response.sendRedirect("index.jsp");
             }
             break;
             default: {

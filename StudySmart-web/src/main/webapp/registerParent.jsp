@@ -40,7 +40,7 @@
                 })
                         .done(function (data) {
                             var students_sel = document.getElementById("students");
-                            students_sel.innerHTML = '';
+                            students_sel.innerHTML = "<option disabled selected value=''>Select students belong to this parent</option>";
                             for (var i=0; i < data.length; i++) {
                                 var row = "<option name='students' value='" + data[i].id + "'>" + data[i].name + "</option>";
                                 students_sel.innerHTML += row;
@@ -104,52 +104,58 @@
                                 <!--adding student registration-->
 
                                 <br>
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();
-                                      ">
+                                <form name="myform" method="post" action="Admin?action=registerparent" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                        <label for="username" class="col-xs-2 col-form-label">Username:</label>
                                         <div class="col-xs-10">                                      
-                                            <input required class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
+                                            <input required class="form-control" type="text" placeholder="Username" name="username" id="username">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="name" class="col-xs-2 col-form-label">Guardian Name:</label>
+                                        <div class="col-xs-10">                                      
+                                            <input required class="form-control" type="text" placeholder="Name" name="name" id="name">
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-2"><b>Gender: </b></div>
                                         <div class="col-lg-4">
-                                            <select name="class" class="form-control">
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
+                                            <select name="gender" class="form-control">
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
+                                        <label for="nic" class="col-xs-2 col-form-label">NIC: </label>
                                         <div class="col-xs-10">
                                             <input required class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address:</label>
+                                        <label for="address" class="col-xs-2 col-form-label">Address:</label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                            <input required class="form-control" type="text" placeholder="Address" id="address" name="address">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Occupation:</label>
+                                        <label for="occupation" class="col-xs-2 col-form-label">Occupation:</label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                            <input required class="form-control" type="text" placeholder="Occupation" id="occupation" name="occupation">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Phone:</label>
+                                        <label for="phone" class="col-xs-2 col-form-label">Phone:</label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="phone" id="phone">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
+                                        <label for="email" class="col-xs-2 col-form-label">Email:</label>
                                         <div class="col-xs-10">
                                             <input class="form-control" name="email" type="email" placeholder="sample@host.com" id="email">
                                         </div>
