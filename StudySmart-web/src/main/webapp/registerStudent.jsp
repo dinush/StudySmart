@@ -49,8 +49,6 @@
                             }
                             loadSubjects(document.getElementById('class'));
                         });
-
-
             });
 
             function loadSubjects(sel) {
@@ -206,10 +204,23 @@
                                     }
                                     return true;
                                 }
+                                
+                                function validateTP() {
+                                    var tp = document.myform.tp.value;
+                                    console.log("DEBUG tp -> " + tp);
+                                    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+                                    if ((re.test(tp) === false)&& tp!==""){
+                                    alert("Wrong telephone number format!");
+                                    return false;
+                                    }
+                                    return true;
+                                }
 
                                 function validateForm() {
                                     return validateEmail();
                                 }
+                                
+
                             </script>  
 
 

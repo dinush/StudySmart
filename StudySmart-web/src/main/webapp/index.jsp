@@ -9,7 +9,6 @@
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
 
@@ -69,7 +68,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                
+                                 <%@ include file="WEB-INF/jspf/newsFeed.jspf" %>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

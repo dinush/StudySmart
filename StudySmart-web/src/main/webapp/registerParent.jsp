@@ -85,10 +85,12 @@
                                 <!--adding student registration-->
                                 
                                 <br>
+                                <form name="myform" method="post" action="#" onsubmit="return validateForm(); ">
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                      <span style="color:#cc0000;"><b> *</b></span>
+                                      <input class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -115,7 +117,8 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" id="example-text-input">
+                                      <span style="color:#cc0000;"><b> *</b></span>
+                                      <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
                                     </div>
                                 </div>
                                  <div class="form-group row">
@@ -134,28 +137,97 @@
                                 <div class="form-group row">
                                     <label for="example-tel-input" class="col-xs-2 col-form-label">Home TP:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
+                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp2" id="tp2">
                                     </div>
                                 </div>
                                 <br>
                                 <div class="form-group row">
                                     <label for="example-tel-input" class="col-xs-2 col-form-label">Mobile:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" id="example-tel-input">
+                                      <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
                                     <div class="col-xs-10">
-                                      <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                      <input class="form-control" name="email" type="email" placeholder="artisanal@example.com" id="email">
                                     </div>
                                 </div>
                                 <br>
                                 
                                 
-                                <button type="button" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
                             <!-- finishing student registration-->
+                                </form>
                             </div>
+                            
+                           <!--validation-->
+
+                            <script>
+                                function validateEmail()  
+                                {  
+                                var x=document.myform.email.value;  
+                                var atposition=x.indexOf("@");  
+                                var dotposition=x.lastIndexOf(".");  
+                                if (x!==""){
+                                    if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+                                      alert("Please enter a valid e-mail address!");  
+                                      return false;  
+                                      }  
+                                 }
+                                return true;
+                                }  
+
+//                                function validateEmail() {
+//                                var email = document.myform.email.value;
+//                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
+//                                if (re.test(email)===false){
+//                                alert("Wrong email format!");
+//                                return false;
+//                                }
+//
+//                                }
+                                function validateTP() {
+                                    var tp = document.myform.tp.value;
+                                    var tp2 = document.myform.tp2.value;
+                                    console.log("DEBUG tp -> " + tp);
+                                    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+                                    if ((re.test(tp) === false)&& tp!==""){
+                                    alert("Wrong telephone number format!");
+                                    return false;
+                                    }
+                                    return true;
+                                }
+
+                                
+
+
+                                function validateName() {
+
+                                var nm = document.myform.nm.value;
+                                var nic = document.myform.nic.value;
+                                console.log("DEBUG vname ->");
+                                if (nm === "" || nic === "") {
+                                    alert("Please make sure you have filled the compulsory fields");
+                                    return false;
+                                }
+                                return true;
+                                }
+
+                                function validateForm(){
+                             
+                                var validation = true;
+                                if ((validateName() && validateTP() && validateEmail()) === true){
+                                      return validation;
+                                  }
+                                  return false;
+                                }
+                                
+
+                            </script>  
+
+
+                            <!--ends here-->
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
