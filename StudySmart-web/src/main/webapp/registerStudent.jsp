@@ -63,6 +63,7 @@
                             plh.innerHTML = '';
                             for(var i=0; i<data.length;i++) {
                                 var row = "<tr>";
+                                row += "<td>" + data[i].id + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
                                 row += "<td><input type='checkbox' value='" + data[i].id + "'/></td>";
                                 plh.innerHTML += row;
@@ -173,7 +174,8 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Subject</th>
+                                                    <th>Subject ID</th>
+                                                    <th>Subject Name</th>
                                                     <th>Enroll</th>
                                                 </tr>
                                             </thead>
@@ -182,41 +184,9 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <br><br>
-                                    <span>
-                                        <h3><u> Guardian's Information</u> </h3> <h4 style="padding-left: 110px;">(Contact in case of Emergency)</h4>
-                                    </span>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Guardian Name:</label>
-                                        <div class="col-xs-10">
-                                            <span style="color:#d9534f;"> *</span>
-                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC: </label>
-                                        <div class="col-xs-10">
-                                            <span style="color:#d9534f;"> *</span>
-                                            <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Guardian Email:</label>
-                                        <div class="col-xs-10">
-                                            <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
-                                        <div class="col-xs-10">
-                                            <input class="form-control" type="tel" placeholder="07X-XXXXXXX" id="example-tel-input">
-                                        </div>
-                                    </div>
                                     <br>
 
-
-                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Register</h4> </button>
                                 </form>
                                 <!-- finishing student registration-->
                             </div>
