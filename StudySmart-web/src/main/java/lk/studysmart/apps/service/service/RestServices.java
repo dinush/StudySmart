@@ -162,4 +162,32 @@ public class RestServices {
         
         return jarray.toString();
     }
+    
+    /**
+     * Get all the students
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("students")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getParentlessStudents(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
+        List<User> students = em.createNamedQuery("User.findByLevel")
+                .setParameter("level", 3)
+                .getResultList();
+        
+        JSONArray jarray = new JSONArray();
+        
+        for (User student : students) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", student.getUsername());
+            jobj.put("name", student.getName());
+            jarray.put(jobj);
+        }
+        
+        return jarray.toString();
+    }
 }

@@ -86,6 +86,7 @@ public class Admin extends HttpServlet {
                 student.setEmail(request.getParameter("email"));
                 student.setClass1(class2);
                 student.setPassword("123");
+                student.setLevel(3);
 
                 utils.Utils.entityValidator(student);
                 
