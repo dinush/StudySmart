@@ -37,8 +37,8 @@
         </script>
         <script>
             function calculate(origin, target) {
-                var val = $(origin).val() * 1;
-                var max = $('#max').val() * 1;
+                var val = parseInt($(origin).val());
+                var max = parseInt($('#max').val());
                 if (isNaN(max)) {
                     $(target).html("<span style='color:red'>INVALID MAXIMUM</span>");
                     return;
@@ -52,7 +52,7 @@
                     $(target).html("<span style='color:red'>OUT OF RANGE</span>");
                     return;
                 }
-                $(target).html(per + "%");
+                $(target).html(per.toFixed(3) + "%");
             }
             function loadStudents() {
                 $.ajax({
