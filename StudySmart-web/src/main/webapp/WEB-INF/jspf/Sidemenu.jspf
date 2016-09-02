@@ -6,7 +6,7 @@
         <!--<li role="presentation"><a href="#">Profile</a></li>-->
         <% if (acc_level == 4) { %>
         <li role="presentation"><a href="parentProfile.jsp">Profile</a></li>
-        <li role="presentation"><a href="StudentManager?action=checkattendance">Check attendance</a></li>
+        <li role="presentation"><a href="viewattendance.jsp">Check attendance</a></li>
             <% } %>
 
         <% if (acc_level == 3) { %>

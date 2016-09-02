@@ -148,58 +148,6 @@ public class StudentManager extends HttpServlet {
                 }
 
                 break;
-            // View students belongs to parent
-            case "checkattendance": {
-                List relations = em.createNamedQuery("StudentParent.findByParentId")
-                        .setParameter("parentid", user)
-                        .getResultList();
-
-                if (relations.size() < 1) {
-                    // WTF. There is no child registered for this parent.
-                    response.sendRedirect("index.jsp");
-                }
-                StudentParent relation = (StudentParent) relations.get(0);
-                User student = relation.getStudentid();
-
-                // get dates
-                Date from = null, to = null;
-                String sfrom = request.getParameter("from");
-                if (sfrom == null) {
-                    from = Utils.getFormattedDate();
-                } else {
-                    try {
-                        from = utils.Utils.getFormattedDate(sfrom);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                String sto = request.getParameter("to");
-                if (sto == null) {
-                    to = Utils.getFormattedDate();
-                } else {
-                    try {
-                        to = utils.Utils.getFormattedDate(sto);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                List days = em.createNamedQuery("Attendance.findByUserAndDateRange")
-                        .setParameter("username", relation.getStudentid().getUsername())
-                        .setParameter("from", from)
-                        .setParameter("to", to)
-                        .getResultList();
-                sfrom = Utils.getFormattedDateString(from);
-                sto = Utils.getFormattedDateString(to);
-                request.setAttribute("days", days);
-                request.setAttribute("student", student);
-                request.setAttribute("from", sfrom);
-                request.setAttribute("to", sto);
-                request.getRequestDispatcher("/viewattendance.jsp").forward(request, response);
-
-                // View attendance for specific student
-                break;
-            }
             case "checkattendancefor": {
                 /*String studentId = request.getParameter("id");
 

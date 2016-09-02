@@ -6,6 +6,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="utils.Utils"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -23,18 +25,72 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
-        <script src="js/jquery-2.0.0.js"></script>
         <link rel="stylesheet" href="css/jquery-ui.css">
-        <script src="js/jquery-ui.js"></script>
+        <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
+        <script src="js/jquery-2.0.0.js"></script>        
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+
+                $("#from").datepicker({
+                });
+                $("#to").datepicker({
+                });
+
+                loadStudents();
             });
+
+            function loadStudents() {
+                var parentid = '<% out.print(user.getUsername()); %>';
+                $.ajax({
+                    url: "ws/rest/parent/" + parentid + "/students",
+                    async: true
+                })
+                        .done(function (data) {
+                            var student_view = document.getElementById("student");
+                            student_view.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + " (" + data[i].id + ")</option>";
+                                student_view.innerHTML += row;
+                            }
+                            loadAttendance();
+                        })
+            }
+
+            function loadAttendance() {
+                var from = encodeURIComponent($("#from").val());
+                var to = encodeURIComponent($("#to").val());
+                var studentid = $('#student').val();
+
+                $.ajax({
+                    url: "ws/rest/attendance/" + studentid + "/" + from + "/" + to,
+                    async: true
+                })
+                        .done(function (data) {
+                            var tbl = document.getElementById("tbl_data");
+                            tbl.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<tr>";
+                                row += "<td>" + data[i].date + "</td>";
+                                row += "<td>";
+                                if (data[i].attended) {
+                                    row += "Yes";
+                                } else {
+                                    row += "No";
+                                }
+                                row += "</td>";
+                                row += "<td>" + data[i].markedby + "</td>";
+                                row += "</tr>";
+                                tbl.innerHTML += row;
+                            }
+                        });
+            }
         </script>
 
 
@@ -73,8 +129,8 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <form class="form-inline" action="StudentManager?action=checkattendance" method="POST">
-                                    From <input type="text" id="from" name="from" value="<% out.print(request.getAttribute("from")); %>">
-                                    To <input type="text" id="to" name="to" value="<% out.print(request.getAttribute("to")); %>">
+                                    From <input type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
+                                    To <input type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
                                     <% if (acc_level < 3) { %>
                                     <div class="form-group">
                                         <label for="exampleInputName">Student Name: </label>
@@ -87,9 +143,9 @@
 
                                     <div class="panel-heading">Attendance Details</div>
                                     <div class="panel-body">
-                                        <% User student = (User) request.getAttribute("student"); %>
-                                        Student Name: <% out.println(student.getName());%> <br>
-                                        Student username: <% out.println(student.getUsername());%>
+                                        <% // User student = (User) request.getAttribute("student"); %>
+                                        Student: 
+                                        <select name="student" id="student" onchange="loadAttendance()"></select>
                                     </div>
                                     <table class="table table-striped">
                                         <thead>
@@ -99,25 +155,7 @@
                                                 <th>Marked By</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <c:forEach var="day" items="${days}">
-                                                <tr>
-                                                    <td><fmt:formatDate type="date" value="${day.getAttendancePK().getDate()}" /></td>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when test="${day.attended}">
-                                                                Yes
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                No
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </td>
-                                                    <td>
-                                                        ${day.getMarkedBy().getName()}
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
+                                        <tbody id="tbl_data">
                                         </tbody>
                                     </table>
                                 </div>
@@ -133,8 +171,7 @@
         </table>
     </div>
     <script>
-        $("#from").datepicker();
-        $("#to").datepicker();
+
     </script>
 </body>
 

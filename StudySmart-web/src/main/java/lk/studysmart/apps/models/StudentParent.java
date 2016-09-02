@@ -30,8 +30,8 @@ import lk.studysmart.apps.models.User;
 @NamedQueries({
     @NamedQuery(name = "StudentParent.findAll", query = "SELECT s FROM StudentParent s"),
     @NamedQuery(name = "StudentParent.findById", query = "SELECT s FROM StudentParent s WHERE s.id = :id"),
-    @NamedQuery(name = "StudentParent.findByStudentId", query = "SELECT s FROM StudentParent s WHERE s.studentid = :studentid"),
-    @NamedQuery(name = "StudentParent.findByParentId", query = "SELECT s FROM StudentParent s WHERE s.parentid = :parentid")})
+    @NamedQuery(name = "StudentParent.findByStudentId", query = "SELECT s FROM StudentParent s WHERE s.studentid = :student"),
+    @NamedQuery(name = "StudentParent.findByParentId", query = "SELECT s FROM StudentParent s WHERE s.parentid = :parent")})
 public class StudentParent implements Serializable {
 
     private static final long serialVersionUID = 1L;
