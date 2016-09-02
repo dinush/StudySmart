@@ -42,7 +42,7 @@
                             var students_sel = document.getElementById("students");
                             students_sel.innerHTML = "<option disabled selected value=''>Select students belong to this parent</option>";
                             for (var i=0; i < data.length; i++) {
-                                var row = "<option name='students' value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                var row = "<option name='students' value='" + data[i].id + "'>" + data[i].name + " (" + data[i].id + ")</option>";
                                 students_sel.innerHTML += row;
                             }
                             $('#students').selectize({
