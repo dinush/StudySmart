@@ -65,7 +65,7 @@
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td>" + data[i].name + "</td>";
-                                row += "<td><input required type='number' name='st##-" + data[i].username + "' oninput='calculate(this, \"#percentage-" + data[i].username + "\")'></td>";
+                                row += "<td><input required type='number' name='st##-" + data[i].username + "' onchange='checkMarks(this);calculate(this, \"#percentage-" + data[i].username + "\")'></td>";
                                 row += "<td><span id='percentage-" + data[i].username + "'></span></td>";
                                 row += "<td><input type='text' name='" + data[i].username + "'/></td>";
                                 row += "</tr>";
@@ -88,6 +88,24 @@
                             }
                             loadStudents();
                         });
+            }
+            
+            function checkMax(elem) {
+                var val = $(elem).val();
+                if (val == null || val == '' || val < 0) {
+                    $(elem).val('100');
+                }
+            }
+            
+            function checkMarks(elem) {
+                var max = parseInt($('#max').val());
+                var mark = parseInt($(elem).val());
+                if (mark > max) {
+                    mark = max;
+                } else if(mark < 0) {
+                    mark = 0;
+                }
+                $(elem).val(mark);
             }
 
             $(function () {
@@ -144,8 +162,8 @@
                                     </div>
                                     <br />
                                     <div class="form-group">
-                                        <label for="max" style="margin-left:0px;">Total Marks for the Assignment: </label>
-                                        <input required name="max" type="number" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
+                                        <label for="max"  style="margin-left:0px;">Total Marks for the Assignment: </label>
+                                        <input required name="max" type="number" value="100" onchange="checkMax(this)" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
                                     </div>
                                     <br />
                                     <div class="col-lg-3">
