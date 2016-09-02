@@ -90,14 +90,16 @@ public class RestServices {
      * @return 
      */
     @GET
-    @Path("teacher/subjects/{classid}")
+    @Path("teacher/{teacherid}/subjects/{classid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTeachingSubjects(@PathParam("classid") Integer classid, @Context HttpServletRequest request) {
+    public String getTeachingSubjects(@PathParam("teacherid") String teacherid, @PathParam("classid") Integer classid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null)
             return "Not authorized";
         
+        User teacher = em.find(User.class, teacherid);
         Class2 class2 = em.find(Class2.class, classid);
-        List<TeacherTeaches> teaching = em.createNamedQuery("TeacherTeaches.findByClass")
+        List<TeacherTeaches> teaching = em.createNamedQuery("TeacherTeaches.findByUserClass")
+                .setParameter("user", teacher)
                 .setParameter("class2", class2)
                 .getResultList();
         
@@ -276,4 +278,6 @@ public class RestServices {
         
         return jarr.toString();
     }
+    
+    
 }

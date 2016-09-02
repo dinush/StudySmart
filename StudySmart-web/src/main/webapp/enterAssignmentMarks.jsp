@@ -76,7 +76,7 @@
             }
             function loadSubjects() {
                 $.ajax({
-                    url: "ws/rest/teacher/subjects/" + $('#class').val(),
+                    url: "ws/rest/teacher/<%out.print(user.getUsername());%>/subjects/" + $('#class').val(),
                     async: true
                 })
                         .done(function (data) {
