@@ -128,7 +128,6 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <form class="form-inline" action="StudentManager?action=checkattendance" method="POST">
                                     From <input type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
                                     To <input type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
                                     <% if (acc_level < 3) { %>
@@ -137,8 +136,6 @@
                                         <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
                                     </div>
                                     <% } %>
-                                    <button type="submit" class="btn btn-primary">View Attendance</button>
-                                </form>
                                 <div class="panel panel-primary" style="margin-top:16px;">
 
                                     <div class="panel-heading">Attendance Details</div>
