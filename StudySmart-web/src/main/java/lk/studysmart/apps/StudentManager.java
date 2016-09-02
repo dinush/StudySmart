@@ -46,6 +46,7 @@ import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
+import utils.Utils;
 
 /**
  *
@@ -101,7 +102,7 @@ public class StudentManager extends HttpServlet {
                             .getResultList();
 
                     HashMap<User, Boolean> attendances = new HashMap<User, Boolean>();
-                    Date date = getFormattedDate();
+                    Date date = Utils.getFormattedDate();
                     for (Object student : students) {
                         User s = (User) student;
                         AttendancePK apk = new AttendancePK(s.getUsername(), date);
@@ -164,7 +165,7 @@ public class StudentManager extends HttpServlet {
                 Date from = null, to = null;
                 String sfrom = request.getParameter("from");
                 if (sfrom == null) {
-                    from = getFormattedDate();
+                    from = Utils.getFormattedDate();
                 } else {
                     try {
                         from = utils.Utils.getFormattedDate(sfrom);
@@ -174,7 +175,7 @@ public class StudentManager extends HttpServlet {
                 }
                 String sto = request.getParameter("to");
                 if (sto == null) {
-                    to = getFormattedDate();
+                    to = Utils.getFormattedDate();
                 } else {
                     try {
                         to = utils.Utils.getFormattedDate(sto);
@@ -188,8 +189,8 @@ public class StudentManager extends HttpServlet {
                         .setParameter("from", from)
                         .setParameter("to", to)
                         .getResultList();
-                sfrom = getFormattedDateString(from);
-                sto = getFormattedDateString(to);
+                sfrom = Utils.getFormattedDateString(from);
+                sto = Utils.getFormattedDateString(to);
                 request.setAttribute("days", days);
                 request.setAttribute("student", student);
                 request.setAttribute("from", sfrom);
@@ -401,26 +402,8 @@ public class StudentManager extends HttpServlet {
         }
     }
 
-    private Date getFormattedDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(dateFormat.format(new Date()));
-        } catch (ParseException ex) {
-            Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return date;
-    }
-
-    
-    
-    private String getFormattedDateString(Date d) {
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        return format.format(d);
-    }
-
     private void attendanceDetailsToDB(List students, String[] attendees) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException, ParseException {
-        Date date = getFormattedDate();
+        Date date = Utils.getFormattedDate();
 
 //                UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
         for (Object student : students) {

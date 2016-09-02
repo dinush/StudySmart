@@ -11,10 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import lk.studysmart.apps.StudentManager;
 
 /**
  *
@@ -25,6 +28,22 @@ public class Utils {
     public static Date getFormattedDate(String d) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.parse(d);
+    }
+    
+    public static Date getFormattedDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (ParseException ex) {
+            Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
+    }
+    
+    public static String getFormattedDateString(Date d) {
+        DateFormat format = new SimpleDateFormat("MMMM-dd-yyyy");
+        return format.format(d);
     }
 
     public static boolean entityValidator(Object entity) {

@@ -5,8 +5,12 @@
  */
 package lk.studysmart.apps.service.service;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleMapProperty;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,13 +23,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.Utils;
 
 /**
  *
@@ -189,5 +196,84 @@ public class RestServices {
         }
         
         return jarray.toString();
+    }
+    
+    /**
+     * Get attendance between date period and specific user
+     * @param studentid
+     * @param from
+     * @param to
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("attendance/{studentid}/{from}/{to}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAttendanceByUseridDate(@PathParam("studentid") String studentid, @PathParam("from") String from, @PathParam("to") String to, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
+        from = from.replace("%", "/");
+        to = to.replace("%2F", "/");
+        
+        Date dFrom, dTo;
+        try {
+            dFrom = Utils.getFormattedDate(from);
+            dTo = Utils.getFormattedDate(to);
+        } catch (ParseException ex) {
+            Logger.getLogger(RestServices.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        List<Attendance> att_datas = em.createNamedQuery("Attendance.findByUserAndDateRange")
+                .setParameter("username", studentid)
+                .setParameter("from", dFrom)
+                .setParameter("to", dTo)
+                .getResultList();
+        
+        JSONArray jarray = new JSONArray();
+        
+        for (Attendance att : att_datas) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("date", Utils.getFormattedDateString(att.getAttendancePK().getDate()));
+            jobj.put("attended", att.getAttended());
+            jobj.put("markedby", att.getMarkedBy().getName());
+            jobj.put("markedbyid", att.getMarkedBy().getUsername());
+            
+            jarray.put(jobj);
+        }
+        
+        return jarray.toString();
+    }
+    
+    /**
+     * Get students belong to specific parent
+     * @param parentid
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("parent/{parentid}/students")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStudentsBelongToParent(@PathParam("parentid") String parentid, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
+        User parent = em.find(User.class, parentid);
+        
+        List<StudentParent> spl = em.createNamedQuery("StudentParent.findByParentId")
+                .setParameter("parent", parent)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        
+        for(StudentParent sp : spl) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", sp.getStudentid().getUsername());
+            jobj.put("name", sp.getStudentid().getName());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
     }
 }
