@@ -175,7 +175,7 @@ public class RestServices {
     }
     
     /**
-     * Get all the classes in the school
+     * Get all the classes
      * @param request
      * @return 
      */

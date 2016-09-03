@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Message.findAll", query = "SELECT m FROM Message m"),
     @NamedQuery(name = "Message.findById", query = "SELECT m FROM Message m WHERE m.id = :id"),
-    @NamedQuery(name = "Message.findByNew1", query = "SELECT m FROM Message m WHERE m.new1 = :new1"),
+    @NamedQuery(name = "Message.findBySeen", query = "SELECT m FROM Message m WHERE m.seen = :seen"),
     @NamedQuery(name = "Message.findByTitle", query = "SELECT m FROM Message m WHERE m.title = :title"),
     @NamedQuery(name = "Message.findByContent", query = "SELECT m FROM Message m WHERE m.content = :content"),
     @NamedQuery(name = "Message.findByTargetdate", query = "SELECT m FROM Message m WHERE m.targetdate = :targetdate"),
@@ -71,7 +71,7 @@ public class Message implements Serializable {
     private Date targetdate;
     @Column(name = "targettime")
     @Temporal(TemporalType.TIME)
-    private Date targettime;
+    private String targettime;
     @Basic(optional = false)
     @NotNull
     @Column(name = "addeddate")
@@ -81,7 +81,7 @@ public class Message implements Serializable {
     @NotNull
     @Column(name = "addedtime")
     @Temporal(TemporalType.TIME)
-    private Date addedtime;
+    private String addedtime;
     @Basic(optional = false)
     @NotNull
     @Column(name = "type")
@@ -107,7 +107,7 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public Message(Integer id, boolean seen, String content, Date addeddate, Date addedtime, int type) {
+    public Message(Integer id, boolean seen, String content, Date addeddate, String addedtime, int type) {
         this.id = id;
         this.seen = seen;
         this.content = content;
@@ -156,11 +156,11 @@ public class Message implements Serializable {
         this.targetdate = targetdate;
     }
 
-    public Date getTargettime() {
+    public String getTargettime() {
         return targettime;
     }
 
-    public void setTargettime(Date targettime) {
+    public void setTargettime(String targettime) {
         this.targettime = targettime;
     }
 
@@ -172,11 +172,11 @@ public class Message implements Serializable {
         this.addeddate = addeddate;
     }
 
-    public Date getAddedtime() {
+    public String getAddedtime() {
         return addedtime;
     }
 
-    public void setAddedtime(Date addedtime) {
+    public void setAddedtime(String addedtime) {
         this.addedtime = addedtime;
     }
 

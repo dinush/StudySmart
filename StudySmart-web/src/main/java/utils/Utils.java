@@ -8,6 +8,7 @@ package utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
@@ -24,6 +25,12 @@ import lk.studysmart.apps.StudentManager;
  * @author dinush
  */
 public class Utils {
+    
+    public static String getFormattedTime() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(cal.getTime());
+    }
 
     public static Date getFormattedDate(String d) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

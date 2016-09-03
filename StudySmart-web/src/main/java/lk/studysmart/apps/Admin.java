@@ -66,6 +66,10 @@ public class Admin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         user = (User) request.getSession().getAttribute("user");
+        if(user == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         switch (request.getParameter("action")) {
             /**
