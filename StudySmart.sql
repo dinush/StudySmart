@@ -104,7 +104,7 @@ CREATE TABLE `Attendance` (
 
 LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
-INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st2','2016-08-24',1,'teacher');
+INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st1','2016-09-01',0,'teacher'),('st2','2016-08-24',1,'teacher'),('st2','2016-09-01',1,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `StudentSubject` (
   KEY `subjectid_index` (`subjectId`),
   CONSTRAINT `fk_subject_id` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +242,7 @@ CREATE TABLE `StudentSubject` (
 
 LOCK TABLES `StudentSubject` WRITE;
 /*!40000 ALTER TABLE `StudentSubject` DISABLE KEYS */;
-INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004');
+INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004'),(6,'st3','001'),(7,'st3','002'),(8,'st3','004');
 /*!40000 ALTER TABLE `StudentSubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +262,7 @@ CREATE TABLE `Student_Parent` (
   KEY `fk_student_parent_2` (`studentid`),
   CONSTRAINT `fk_student_parent_1` FOREIGN KEY (`parentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `fk_student_parent_2` FOREIGN KEY (`studentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +271,7 @@ CREATE TABLE `Student_Parent` (
 
 LOCK TABLES `Student_Parent` WRITE;
 /*!40000 ALTER TABLE `Student_Parent` DISABLE KEYS */;
-INSERT INTO `Student_Parent` VALUES (1,'parent','st1');
+INSERT INTO `Student_Parent` VALUES (2,'par1','st2'),(3,'par1','st3'),(1,'parent','st1');
 /*!40000 ALTER TABLE `Student_Parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,15 +372,15 @@ CREATE TABLE `TermMarks` (
   `value` int(4) NOT NULL,
   `markedby` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `subject` (`subject`) USING BTREE,
-  UNIQUE KEY `markedby` (`markedby`),
   KEY `student` (`student`),
   KEY `class` (`class`),
+  KEY `subject` (`subject`) USING BTREE,
+  KEY `markedby` (`markedby`) USING BTREE,
   CONSTRAINT `fk_class_tm` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_markedby_tm` FOREIGN KEY (`markedby`) REFERENCES `User` (`username`),
   CONSTRAINT `fk_student_tm` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_subject_tm` FOREIGN KEY (`subject`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -389,7 +389,7 @@ CREATE TABLE `TermMarks` (
 
 LOCK TABLES `TermMarks` WRITE;
 /*!40000 ALTER TABLE `TermMarks` DISABLE KEYS */;
-INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,14,'teacher');
+INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,14,'teacher'),(5,'st3','001',5,1,66,'teacher'),(12,'st2','002',6,1,55,'teacher');
 /*!40000 ALTER TABLE `TermMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,12 +402,19 @@ DROP TABLE IF EXISTS `User`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `User` (
   `username` varchar(8) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `email` varchar(40) NOT NULL,
+  `password` varchar(32) NOT NULL DEFAULT '123',
+  `email` varchar(40) DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `level` int(11) NOT NULL,
   `subject` varchar(25) DEFAULT NULL,
   `class` int(11) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `birthdate` date DEFAULT NULL,
+  `nic` varchar(11) DEFAULT NULL,
+  `address` varchar(500) DEFAULT NULL,
+  `occupation` varchar(500) DEFAULT NULL,
+  `phone` varchar(13) DEFAULT NULL,
+  `qualifications` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`username`),
   KEY `class_index` (`class`),
   CONSTRAINT `fk_class` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -420,7 +427,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,5),('st2','123','st@studysmart','Student 2',3,NULL,6),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL),('user','123','user@email.com','Sample User',1,NULL,NULL);
+INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('par1','123','wer@g.com','Smpl Parent 1',4,NULL,NULL,'Male',NULL,'0123456','afaff','werwef','0123456789',NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st2','123','st@studysmart','Student 2',3,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st3','123','jas@aa.com','Smpl Student 3',3,NULL,5,'Male','2016-08-31',NULL,NULL,NULL,NULL,NULL),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('user','123','user@email.com','Sample User',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -504,33 +511,6 @@ LOCK TABLES `forum_thead` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `message`
---
-
-DROP TABLE IF EXISTS `message`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `message` (
-  `message_id` varchar(25) NOT NULL,
-  `sender_user_id` varchar(25) NOT NULL,
-  `reciever_user_id` varchar(25) NOT NULL,
-  `content` varchar(200) NOT NULL,
-  `date_time` datetime(6) NOT NULL,
-  PRIMARY KEY (`message_id`),
-  KEY `message_id` (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `message`
---
-
-LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `post`
 --
 
@@ -589,4 +569,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-01 13:08:09
+-- Dump completed on 2016-09-03 17:37:28
