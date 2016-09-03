@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
@@ -324,6 +325,9 @@ public class RestServices {
             @PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request) {
         
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
         Class2 class2 = em.find(Class2.class, classid);
         Subject subject = em.find(Subject.class, subjectid);
         
@@ -362,6 +366,62 @@ public class RestServices {
             }
             
             jarr.put(jobj);            
+        }
+        
+        return jarr.toString();
+    }
+    
+    /**
+     * Get all the messages related to the user.
+     * If the user is a parent, students messages are shown. (student username is sent by a param, which is null otherwise).
+     * @param request
+     * @param studentid 
+     * @return 
+     */
+    @GET
+    @Path("messages/{studentid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getClassNews(@PathParam("studentid") String studentid, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "Not authorized";
+        
+        User user = (User) request.getSession().getAttribute("user");
+        Class2 class2 = user.getClass1();
+        if (class2 == null) {
+            if(user.getLevel() == 4) { 
+                // Use child's class
+                User student = em.find(User.class, studentid);
+                class2 = student.getClass1();
+            } else {
+                // build an impossible class ;)
+                class2 = new Class2();
+                class2.setGrade(-1);
+                class2.setSubclass("zz");
+            }
+        }
+        
+        List<Message> msgs = em.createNamedQuery("Message.findByFourOrs")
+                .setParameter("user", user)
+                .setParameter("userlevel", user.getLevel())
+                .setParameter("class2", class2)
+                .setParameter("grade", class2)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for(Message msg:msgs) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("seen", msg.getSeen());
+            jobj.put("title", msg.getTitle());
+            jobj.put("content", msg.getContent());
+            jobj.put("target-date", msg.getTargetdate());
+            jobj.put("target-time", msg.getTargettime());
+            jobj.put("added-user-id", msg.getAddeduser().getUsername());
+            jobj.put("added-user-name", msg.getAddeduser().getName());
+            jobj.put("added-date", msg.getAddeddate());
+            jobj.put("added-time", msg.getAddedtime());
+            jobj.put("type", msg.getType());
+            
+            jarr.put(jobj);
         }
         
         return jarr.toString();

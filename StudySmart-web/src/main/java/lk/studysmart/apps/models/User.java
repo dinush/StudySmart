@@ -53,8 +53,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByClassLevel", query = "SELECT u FROM User u WHERE u.class1 = :class2 AND u.level = :level")})
 public class User implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addedby")
-    private Collection<ClassNews> classNewsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addeduser")
+    private Collection<Message> messageCollection;
+    @OneToMany(mappedBy = "targetuser")
+    private Collection<Message> messageCollection1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -262,12 +264,21 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ClassNews> getClassNewsCollection() {
-        return classNewsCollection;
+    public Collection<Message> getMessageCollection() {
+        return messageCollection;
     }
 
-    public void setClassNewsCollection(Collection<ClassNews> classNewsCollection) {
-        this.classNewsCollection = classNewsCollection;
+    public void setMessageCollection(Collection<Message> messageCollection) {
+        this.messageCollection = messageCollection;
+    }
+
+    @XmlTransient
+    public Collection<Message> getMessageCollection1() {
+        return messageCollection1;
+    }
+
+    public void setMessageCollection1(Collection<Message> messageCollection1) {
+        this.messageCollection1 = messageCollection1;
     }
     
 }

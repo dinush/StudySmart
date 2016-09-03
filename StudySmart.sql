@@ -134,6 +134,82 @@ INSERT INTO `Class` VALUES (5,10,'A'),(6,10,'B'),(7,11,'A'),(8,11,'B');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ClassNews`
+--
+
+DROP TABLE IF EXISTS `ClassNews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ClassNews` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class` int(11) NOT NULL,
+  `addedby` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `message` varchar(1000) NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
+  `addeddate` date DEFAULT NULL,
+  `addedtime` time DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_addedby` (`addedby`),
+  KEY `fk_class` (`class`),
+  CONSTRAINT `fk_addedby` FOREIGN KEY (`addedby`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_class_news` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ClassNews`
+--
+
+LOCK TABLES `ClassNews` WRITE;
+/*!40000 ALTER TABLE `ClassNews` DISABLE KEYS */;
+INSERT INTO `ClassNews` VALUES (1,5,'teacher','titl212','1dfsd',NULL,NULL,NULL,NULL),(2,5,'teacher','News 2','this is the message',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `ClassNews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Message`
+--
+
+DROP TABLE IF EXISTS `Message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seen` tinyint(1) NOT NULL DEFAULT '0',
+  `title` varchar(512) DEFAULT NULL,
+  `content` varchar(5000) NOT NULL,
+  `targetdate` date DEFAULT NULL,
+  `targettime` time DEFAULT NULL,
+  `addeduser` varchar(8) CHARACTER SET latin1 NOT NULL,
+  `addeddate` date NOT NULL,
+  `addedtime` time NOT NULL,
+  `type` int(1) NOT NULL,
+  `targetuser` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
+  `userlevel` int(1) DEFAULT NULL,
+  `class` int(11) DEFAULT NULL,
+  `grade` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_addeduser_message` (`addeduser`),
+  KEY `fk_targetuser_message` (`targetuser`),
+  KEY `fk_class_message` (`class`),
+  CONSTRAINT `fk_addeduser_message` FOREIGN KEY (`addeduser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_class_message` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_targetuser_message` FOREIGN KEY (`targetuser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Message`
+--
+
+LOCK TABLES `Message` WRITE;
+/*!40000 ALTER TABLE `Message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Message` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Quiz`
 --
 
@@ -456,39 +532,6 @@ LOCK TABLES `announcement` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `classnews`
---
-
-DROP TABLE IF EXISTS `classnews`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `classnews` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `class` int(11) NOT NULL,
-  `addedby` varchar(8) CHARACTER SET latin1 NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `message` varchar(1000) NOT NULL,
-  `date` date DEFAULT NULL,
-  `time` time DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_addedby` (`addedby`),
-  KEY `fk_class` (`class`),
-  CONSTRAINT `fk_addedby` FOREIGN KEY (`addedby`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_class_news` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `classnews`
---
-
-LOCK TABLES `classnews` WRITE;
-/*!40000 ALTER TABLE `classnews` DISABLE KEYS */;
-INSERT INTO `classnews` VALUES (1,5,'teacher','titl212','1dfsd',NULL,NULL),(2,5,'teacher','News 2','this is the message',NULL,NULL);
-/*!40000 ALTER TABLE `classnews` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `forum_thead`
 --
 
@@ -569,4 +612,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-03 17:37:28
+-- Dump completed on 2016-09-03 21:57:36
