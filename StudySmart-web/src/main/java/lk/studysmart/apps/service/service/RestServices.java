@@ -327,25 +327,41 @@ public class RestServices {
         Class2 class2 = em.find(Class2.class, classid);
         Subject subject = em.find(Subject.class, subjectid);
         
-        List<TermMarks> trm_mrks = em.createNamedQuery("TermMarks.findByTermClassSubject")
-                .setParameter("term", term)
+        // get all the students in the class
+        List<User> students = em.createNamedQuery("User.findByClassLevel")
                 .setParameter("class2", class2)
+                .setParameter("level", 3)
+                .getResultList();
+        
+        // Get students who has enrolled for the specific subject
+        List<User> enrolls = em.createNamedQuery("StudentSubject.findBySubjectGetUser")
                 .setParameter("subject", subject)
                 .getResultList();
         
-        if (trm_mrks.isEmpty()) {
-            return null;
-        }
-        
         JSONArray jarr = new JSONArray();
-        for(TermMarks trm:trm_mrks) {
+        // filter students who has entrolled  for the specific subject
+        for(User st:students) {
+            if (!enrolls.contains(st)) 
+                continue;
+            
             JSONObject jobj = new JSONObject();
-            jobj.put("studentid", trm.getStudent().getUsername());
-            jobj.put("studentname", trm.getStudent().getName());
-            jobj.put("marks", trm.getValue());
-            jobj.put("markedbyid", trm.getMarkedby().getUsername());
-            jobj.put("markedbyname", trm.getMarkedby().getName());
-            jarr.put(jobj);
+            jobj.put("studentid", st.getUsername());
+            jobj.put("studentname", st.getName());
+            
+            // If marks exists, add them
+            List<TermMarks> marks = em.createNamedQuery("TermMarks.findByAll")
+                    .setParameter("student", st)
+                    .setParameter("class2", class2)
+                    .setParameter("subject", subject)
+                    .setParameter("term", term)
+                    .getResultList();            
+            if (!marks.isEmpty()) {
+                jobj.put("marks", marks.get(0).getValue());
+                jobj.put("markedbyid", marks.get(0).getMarkedby().getUsername());
+                jobj.put("markedbyname", marks.get(0).getMarkedby().getName());
+            }
+            
+            jarr.put(jobj);            
         }
         
         return jarr.toString();

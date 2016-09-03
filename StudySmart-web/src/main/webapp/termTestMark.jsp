@@ -33,6 +33,7 @@
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
 
                 getClasses();
+                $('#error').hide();
             });
 
             function getClasses() {
@@ -64,6 +65,23 @@
                                 var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
                                 sel_sbj.innerHTML += row;
                             }
+                        });
+            }
+            
+            function getStudents() {
+                var classid = $('#class').val();
+                var subjectid = $('#subject').val();
+                var term = $('#term').val();
+                if(classid === '' || subjectid === '' || term === '') {
+                    return;
+                }
+                
+                $.ajax({
+                    url: "ws/rest/termmarks/all/" + term + "/" + classid + "/" + subjectid,
+                    async: true
+                })
+                        .done(function(data){
+                            
                         });
             }
         </script>
@@ -116,10 +134,16 @@
                                         <option value="3">Term 3</option>
                                     </select>
                                 </div>
-
                                 <div>
                                     <button class="btn btn-primary" onclick="">Load Students</button>
                                 </div>
+                                <br>
+                                <!--Error-->
+                                <div id="error" class="alert alert-danger" role="alert" >                                    
+                                    <strong>Error : </strong> Record already exists. You might want to edit it.
+                                </div>
+                                
+                                
                                 <% if (request.getAttribute("selected") != null) { %>
                                 <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test <% out.print(request.getAttribute("term")); %> marks for <% out.print(request.getAttribute("subjectname")); %></h3>
                                 <form action="StudentManager?action=termtestmarkssave&subjectid=<% out.print(request.getAttribute("subjectid")); %>&classid=<% out.print(request.getAttribute("classid")); %>&term=<% out.print(request.getAttribute("term")); %>" method="POST">
