@@ -89,7 +89,7 @@
                                 var row = "<tr>";
                                 row += "<td>" + data[i].studentid + "</td>";
                                 row += "<td>" + data[i].studentname + "</td>";
-                                row += "<td><input class=marks type=number name='" + data[i].studentid + "' value='";
+                                row += "<td><input required class=marks type=number name='" + data[i].studentid + "' value='";
                                 if (data[i].marks !== null) {
                                     row += data[i].marks;
                                 }
@@ -123,6 +123,8 @@
                         .done(function() {
                             alert("success");
                         });
+                        
+                return false;
             }
         </script>
 
@@ -160,7 +162,8 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">                                   
+                            <div id="main-content" class="col-md-8">                   
+                                <form onsubmit="return sendPacket()">
                                 <div style="float: left;">
                                     <select name="class" class="form-control" id="class" onchange="getSubjects()"></select>
                                 </div>
@@ -193,9 +196,9 @@
                                             
                                         </tbody>
                                     </table>
-                                    <button type="button" class="btn btn-default" onclick="sendPacket()">Finish</button>
+                                    <button type="submit" class="btn btn-default">Finish</button>
                                 
-                                
+                                </form>
 
                             </div>
                             <div class="col-md-4">

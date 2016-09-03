@@ -251,14 +251,27 @@ public class StudentManager extends HttpServlet {
                         User student = em.find(User.class, item.getString("studentid"));
                         int marks = item.getInt("marks");
 
-                        TermMarks mrk = new TermMarks();
+                        // check if record exists
+                        List<TermMarks> checklist = em.createNamedQuery("TermMarks.findByAll")
+                                .setParameter("student", student)
+                                .setParameter("class2", class2)
+                                .setParameter("subject", subject)
+                                .setParameter("term", term)
+                                .getResultList();
+                        TermMarks mrk;
+                        
+                        if (checklist.size() > 0) {
+                            mrk = checklist.get(0);
+                        } else {
+                            mrk = new TermMarks();
+                        }                        
                         mrk.setClass1(class2);
                         mrk.setMarkedby(user);
                         mrk.setStudent(student);
                         mrk.setSubject(subject);
                         mrk.setTerm(term);
                         mrk.setValue(marks);
-                        
+
                         em.merge(mrk);
                     }
                     utx.commit();
