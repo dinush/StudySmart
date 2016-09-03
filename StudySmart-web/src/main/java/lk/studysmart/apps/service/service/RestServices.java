@@ -321,7 +321,7 @@ public class RestServices {
     public String getTermmarksByTermClassSubject(
             @PathParam("term") Integer term, 
             @PathParam("classid") Integer classid, 
-            @PathParam("subjectid") Integer subjectid,
+            @PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request) {
         
         Class2 class2 = em.find(Class2.class, classid);

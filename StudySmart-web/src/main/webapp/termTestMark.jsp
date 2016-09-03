@@ -31,9 +31,10 @@
         <script type = "text/javascript" >
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-
-                getClasses();
                 $('#error').hide();
+                
+                getClasses();                
+                getStudents();
             });
 
             function getClasses() {
@@ -65,6 +66,7 @@
                                 var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
                                 sel_sbj.innerHTML += row;
                             }
+                            getStudents();
                         });
             }
             
@@ -81,7 +83,45 @@
                     async: true
                 })
                         .done(function(data){
-                            
+                            var tbl = document.getElementById("tbl");
+                            tbl.innerHTML = '';
+                            for(var i=0; i < data.length; i++) {
+                                var row = "<tr>";
+                                row += "<td>" + data[i].studentid + "</td>";
+                                row += "<td>" + data[i].studentname + "</td>";
+                                row += "<td><input class=marks type=number name='" + data[i].studentid + "' value='";
+                                if (data[i].marks !== null) {
+                                    row += data[i].marks;
+                                }
+                                row += "'/></td>";
+                                tbl.innerHTML += row;
+                            }
+                        });
+            }
+            
+            function sendPacket() {
+                var packet = {};
+                packet['meta'] = {};
+                packet['meta']['classid'] = $('#class').val();
+                packet['meta']['subjectid'] = $('#subject').val();
+                packet['meta']['term'] = $('#term').val();
+                packet['values'] = [];
+                var elem_marks = document.getElementsByClassName("marks");
+                for (var i=0; i < elem_marks.length; i++) {
+                    packet['values'].push({});
+                    packet['values'][i]['studentid'] = elem_marks[i].name;
+                    packet['values'][i]['marks'] = $(elem_marks[i]).val();
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "StudentManager?action=termtestmarkssave",
+                    data: JSON.stringify(packet),
+                    contentType: "text/plain"
+                })
+                        .done(function() {
+                            alert("success");
                         });
             }
         </script>
@@ -128,25 +168,18 @@
                                     <select name="subject" class="form-control" id="subject"></select>
                                 </div>
                                 <div style="float: left">
-                                    <select name="term" class="form-control">
+                                    <select id="term" name="term" class="form-control" onchange="getStudents()">
                                         <option value="1">Term 1</option>
                                         <option value="2">Term 2</option>
                                         <option value="3">Term 3</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn btn-primary" onclick="">Load Students</button>
+                                    <button class="btn btn-primary" onclick="getStudents()">Load Students</button>
                                 </div>
                                 <br>
-                                <!--Error-->
-                                <div id="error" class="alert alert-danger" role="alert" >                                    
-                                    <strong>Error : </strong> Record already exists. You might want to edit it.
-                                </div>
                                 
                                 
-                                <% if (request.getAttribute("selected") != null) { %>
-                                <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test <% out.print(request.getAttribute("term")); %> marks for <% out.print(request.getAttribute("subjectname")); %></h3>
-                                <form action="StudentManager?action=termtestmarkssave&subjectid=<% out.print(request.getAttribute("subjectid")); %>&classid=<% out.print(request.getAttribute("classid")); %>&term=<% out.print(request.getAttribute("term")); %>" method="POST">
 
                                     <table class="table table-striped">
                                         <thead>
@@ -156,19 +189,13 @@
                                                 <th>Marks</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <c:forEach var="row" items="${marks}">
-                                                <tr>
-                                                    <td>${row.key.getUsername()}</td>
-                                                    <td>${row.key.getName()}</td>
-                                                    <td><input type="number" name="${row.key.getUsername()}" required="true" value="${row.value != null ? row.value : ""}"/></td>
-                                                </tr>
-                                            </c:forEach>
+                                        <tbody id="tbl">
+                                            
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="btn btn-default">Finish</button>
-                                </form>
-                                <% }%>
+                                    <button type="button" class="btn btn-default" onclick="sendPacket()">Finish</button>
+                                
+                                
 
                             </div>
                             <div class="col-md-4">

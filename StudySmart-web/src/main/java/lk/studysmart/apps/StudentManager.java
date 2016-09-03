@@ -5,6 +5,7 @@
  */
 package lk.studysmart.apps;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,6 +47,8 @@ import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.Utils;
 
 /**
@@ -80,6 +83,10 @@ public class StudentManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // Show input attendance form
         switch (request.getParameter("action")) {
@@ -217,6 +224,48 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "termtestmarkssave": {
+
+                StringBuilder buf = new StringBuilder();
+                String line = null;
+                try {
+                    BufferedReader reader = request.getReader();
+                    while ((line = reader.readLine()) != null) {
+                        buf.append(line);
+                    }
+                } catch (Exception e) {
+                    // error
+                    return;
+                }
+
+                JSONObject jobj = new JSONObject(buf.toString());
+                JSONObject meta = jobj.getJSONObject("meta");
+                Subject subject = em.find(Subject.class, meta.getString("subjectid"));
+                Class2 class2 = em.find(Class2.class, meta.getInt("classid"));
+                int term = meta.getInt("term");
+
+                JSONArray values = jobj.getJSONArray("values");
+                try {
+                    utx.begin();
+                    for (int i = 0; i < values.length(); i++) {
+                        JSONObject item = values.getJSONObject(i);
+                        User student = em.find(User.class, item.getString("studentid"));
+                        int marks = item.getInt("marks");
+
+                        TermMarks mrk = new TermMarks();
+                        mrk.setClass1(class2);
+                        mrk.setMarkedby(user);
+                        mrk.setStudent(student);
+                        mrk.setSubject(subject);
+                        mrk.setTerm(term);
+                        mrk.setValue(marks);
+                        
+                        em.merge(mrk);
+                    }
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                /*
                 String sclassid = request.getParameter("classid");
                 String sterm = request.getParameter("term");
                 int classid = Integer.parseInt(request.getParameter("classid"));
@@ -266,7 +315,7 @@ public class StudentManager extends HttpServlet {
 
                 }
 
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("index.jsp");*/
                 break;
             }
             case "assignmentmarks": {
@@ -285,54 +334,53 @@ public class StudentManager extends HttpServlet {
                 /**
                  * Make sure inputs are validated
                  */
-                
+
                 // check if assignment name exists.
                 Assignment as = em.find(Assignment.class, request.getParameter("name"));
                 if (as != null) {
                     response.sendRedirect("StudentManager?action=assignmentmarks&msg=Assignment name already exists.");
                     return;
                 }
-                
-                
+
                 Class2 class2 = em.find(Class2.class, Integer.parseInt(request.getParameter("class")));
                 Subject subject = em.find(Subject.class, request.getParameter("subject"));
-                
+
                 Assignment assignment = new Assignment();
                 assignment.setName(request.getParameter("name"));
                 assignment.setMax(Integer.parseInt(request.getParameter("max")));
                 assignment.setClass1(class2);
                 assignment.setSubject(subject);
-                
-            try {
-                utx.begin();
-                em.persist(assignment);
-                utx.commit();
-            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-                response.sendRedirect("StudentManager?action=assignmentmarks&msg=Something went wrong.");
-                return;
-            }
-                
-                
+
+                try {
+                    utx.begin();
+                    em.persist(assignment);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("StudentManager?action=assignmentmarks&msg=Something went wrong.");
+                    return;
+                }
+
                 Enumeration<String> params = request.getParameterNames();
                 while (params.hasMoreElements()) {
                     String elem = params.nextElement();
-                    if (!elem.startsWith("st##-"))
+                    if (!elem.startsWith("st##-")) {
                         continue;
-                    
+                    }
+
                     int indexOfDelim = elem.indexOf("-");
-                    String username = elem.substring(indexOfDelim+1);
+                    String username = elem.substring(indexOfDelim + 1);
                     User student = em.find(User.class, username);
-                    int mark = Integer.parseInt(request.getParameter(elem));                    
+                    int mark = Integer.parseInt(request.getParameter(elem));
                     String comment = request.getParameter(username);
-                    
+
                     AssignmentMarks am = new AssignmentMarks();
                     am.setAssignment(assignment);
                     am.setStudent(student);
                     am.setMark(mark);
                     am.setComment(comment);
                     am.setAddedby(user);
-                    
+
                     try {
                         utx.begin();
                         em.persist(am);
@@ -341,7 +389,7 @@ public class StudentManager extends HttpServlet {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 response.sendRedirect("index.jsp");
                 break;
             }
