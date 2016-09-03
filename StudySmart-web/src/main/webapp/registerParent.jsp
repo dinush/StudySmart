@@ -41,7 +41,7 @@
                         .done(function (data) {
                             var students_sel = document.getElementById("students");
                             students_sel.innerHTML = "<option disabled selected value=''>Select students belong to this parent</option>";
-                            for (var i=0; i < data.length; i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 var row = "<option name='students' value='" + data[i].id + "'>" + data[i].name + " (" + data[i].id + ")</option>";
                                 students_sel.innerHTML += row;
                             }
@@ -94,7 +94,7 @@
                                     <li role="presentation" class="active"><a href="#">Parent</a></li>
                                     <li role="presentation"><a href="registerTeacher.jsp">Teacher</a></li>
                                     <li role="presentation"><a href="registerPrincipal.jsp">Principal</a></li>
-                                    <li role="presentation"><a href="registerAdmin.jsp">System Admin</a></li>
+                                    <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                 </ul> 
                                 <br>
                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Parent</span></h1>
@@ -111,7 +111,7 @@
                                             <input required class="form-control" type="text" placeholder="Username" name="username" id="username">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
                                         <label for="name" class="col-xs-2 col-form-label">Guardian Name:</label>
                                         <div class="col-xs-10">                                      

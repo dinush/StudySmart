@@ -25,6 +25,14 @@
         <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+        <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
+
+        <!--Font Awesome (added because you use icons in your prepend/append)-->
+        <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+        <!-- Inline CSS based on choices in "Settings" tab -->
+        <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
@@ -114,11 +122,12 @@
                                     <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                 </ul> 
                                 <br>
-                                <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="label label-primary">Add New Student</span></h1>
+                                <h1><span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:#428bca"></span><i><u>Add New Student</u></i></h1>
 
 
                                 <br>
                                 <br>
+
                                 <!--adding student registration(with validation)-->
                                 <form name="myform" method="post" action="Admin?action=registerstudent" onsubmit="return validateForm();">
                                     <div class="form-group row">
@@ -128,7 +137,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name <span style="color:#cc0000;">*</span></label>
+
                                         <div class="col-xs-10">
                                             <input required class="form-control" type="text" placeholder="Name" name="name" id="example-text-input">
                                         </div>
@@ -141,8 +151,9 @@
                                         </div>
                                     </div>
 
+
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Gender: </b></div>
+                                        <div class="col-lg-2"><b>Gender </b><span style="color:#cc0000;">*</span></div>
                                         <div class="col-lg-4">
                                             <select name="gender" class="form-control">
                                                 <option value="Male">Male</option>
@@ -151,16 +162,23 @@
                                         </div>
                                     </div>
                                     <br>
-
+                                    
+                                     <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                        </div>
+                                    </div>
+                                    
                                     <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email:</label>
+                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="email" name="email" placeholder="sample@host.com" id="example-email-input">
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Entering Grade: </b></div>
+                                        <div class="col-lg-2"><b>Entering Grade </b><span style="color:#cc0000;">*</span></div>
                                         <div class="col-lg-4">
                                             <select id="class" name="class" class="form-control" onchange="loadSubjects(this)">
                                                 <!--Populated by ajax call-->
@@ -204,14 +222,13 @@
                                     }
                                     return true;
                                 }
-                                
                                 function validateTP() {
                                     var tp = document.myform.tp.value;
                                     console.log("DEBUG tp -> " + tp);
-                                    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
-                                    if ((re.test(tp) === false)&& tp!==""){
-                                    alert("Wrong telephone number format!");
-                                    return false;
+                                    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+                                    if ((re.test(tp) === false) && tp !== "") {
+                                        alert("Wrong telephone number format!");
+                                        return false;
                                     }
                                     return true;
                                 }
@@ -219,12 +236,30 @@
                                 function validateForm() {
                                     return validateEmail();
                                 }
-                                
+
 
                             </script>  
 
 
                             <!--ends here-->
+
+                           <!-- Include Date Range Picker -->
+                            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+                            <script>
+                                $(document).ready(function () {
+                                    var date_input = $('input[name="date"]'); //our date input has the name "date"
+                                    var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                                    date_input.datepicker({
+                                        format: 'mm/dd/yyyy',
+                                        container: container,
+                                        todayHighlight: true,
+                                        endDate: '+0d',
+                                        autoclose: true
+                                    });
+                                });
+                            </script>
 
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
