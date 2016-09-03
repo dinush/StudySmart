@@ -6,8 +6,10 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,12 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,6 +52,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findByClass", query = "SELECT u FROM User u WHERE u.class1 = :class2"),
     @NamedQuery(name = "User.findByClassLevel", query = "SELECT u FROM User u WHERE u.class1 = :class2 AND u.level = :level")})
 public class User implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addedby")
+    private Collection<ClassNews> classNewsCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -252,6 +259,15 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.User[ username=" + username + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ClassNews> getClassNewsCollection() {
+        return classNewsCollection;
+    }
+
+    public void setClassNewsCollection(Collection<ClassNews> classNewsCollection) {
+        this.classNewsCollection = classNewsCollection;
     }
     
 }
