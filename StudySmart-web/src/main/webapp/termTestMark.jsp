@@ -29,9 +29,43 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+
+                getClasses();
             });
+
+            function getClasses() {
+                $.ajax({
+                    url: "ws/rest/teacher/<% out.print(user.getUsername()); %>/classes",
+                    async: true
+                })
+                        .done(function (data) {
+                            var sel_cls = document.getElementById("class");
+                            sel_cls.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                sel_cls.innerHTML += row;
+                            }
+                            getSubjects();
+                        })
+            }
+
+            function getSubjects() {
+                var classid = $('#class').val();
+                $.ajax({
+                    url: "ws/rest/teacher/<% out.print(user.getUsername()); %>/subjects/" + classid,
+                    async: true
+                })
+                        .done(function (data) {
+                            var sel_sbj = document.getElementById("subject");
+                            sel_sbj.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                sel_sbj.innerHTML += row;
+                            }
+                        });
+            }
         </script>
 
 
@@ -69,31 +103,27 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">                                   
-                                <form action="StudentManager?action=termtestmarks&selected=true" method="POST">
-                                    <div style="float: left;">
-                                        <select name="teaches" class="form-control">
-                                            <c:forEach var="row" items="${teachesfor}">
-                                                <option value="${row.getId()}">${row.getSubjectId().getName()} for Grade ${row.getClass1().getGrade()} ${row.getClass1().getSubclass()} </option>
-                                            </c:forEach>
-                                        </select>
-                                        
-                                    </div>
-                                    <div style="float: left">
-                                        <select name="term" class="form-control">
-                                            <option value="1">Term 1</option>
-                                            <option value="2">Term 2</option>
-                                            <option value="3">Term 3</option>
-                                        </select>
-                                    </div>
+                                <div style="float: left;">
+                                    <select name="class" class="form-control" id="class" onchange="getSubjects()"></select>
+                                </div>
+                                <div style="float: left;">
+                                    <select name="subject" class="form-control" id="subject"></select>
+                                </div>
+                                <div style="float: left">
+                                    <select name="term" class="form-control">
+                                        <option value="1">Term 1</option>
+                                        <option value="2">Term 2</option>
+                                        <option value="3">Term 3</option>
+                                    </select>
+                                </div>
 
-                                    <div>
-                                        <button type="submit" class="btn btn-primary">Load Students</button>
-                                    </div>
-                                </form>
+                                <div>
+                                    <button class="btn btn-primary" onclick="">Load Students</button>
+                                </div>
                                 <% if (request.getAttribute("selected") != null) { %>
                                 <h3>Grade <% out.print(request.getAttribute("grade")); %> Class <%  out.print(String.valueOf(request.getAttribute("subclass")).toUpperCase()); %> term test <% out.print(request.getAttribute("term")); %> marks for <% out.print(request.getAttribute("subjectname")); %></h3>
                                 <form action="StudentManager?action=termtestmarkssave&subjectid=<% out.print(request.getAttribute("subjectid")); %>&classid=<% out.print(request.getAttribute("classid")); %>&term=<% out.print(request.getAttribute("term")); %>" method="POST">
-                                    
+
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>

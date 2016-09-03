@@ -29,6 +29,7 @@ import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
+import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -113,6 +114,33 @@ public class RestServices {
             jarray.put(jobj);
         }
         return jarray.toString();
+    }
+    
+    /**
+     * Get Classes taught by a teacher
+     * @param teacherid
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("teacher/{teacherid}/classes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTeacherSubjects(@PathParam("teacherid") String teacherid, @Context HttpServletRequest request) {
+        User teacher = em.find(User.class, teacherid);
+        List<TeacherTeaches> tch_clss = em.createNamedQuery("TeacherTeaches.findByUser")
+                .setParameter("user", teacher)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        
+        for (TeacherTeaches tt:tch_clss) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", tt.getClass1().getId());
+            jobj.put("name", "Grade " + tt.getClass1().getGrade() + " " + tt.getClass1().getSubclass());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
     }
     
     /**
@@ -279,5 +307,47 @@ public class RestServices {
         return jarr.toString();
     }
     
-    
+    /**
+     * Get Term test marks by term AND class AND subject
+     * @param term
+     * @param classid
+     * @param subjectid
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("termmarks/all/{term}/{classid}/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTermmarksByTermClassSubject(
+            @PathParam("term") Integer term, 
+            @PathParam("classid") Integer classid, 
+            @PathParam("subjectid") Integer subjectid,
+            @Context HttpServletRequest request) {
+        
+        Class2 class2 = em.find(Class2.class, classid);
+        Subject subject = em.find(Subject.class, subjectid);
+        
+        List<TermMarks> trm_mrks = em.createNamedQuery("TermMarks.findByTermClassSubject")
+                .setParameter("term", term)
+                .setParameter("class2", class2)
+                .setParameter("subject", subject)
+                .getResultList();
+        
+        if (trm_mrks.isEmpty()) {
+            return null;
+        }
+        
+        JSONArray jarr = new JSONArray();
+        for(TermMarks trm:trm_mrks) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("studentid", trm.getStudent().getUsername());
+            jobj.put("studentname", trm.getStudent().getName());
+            jobj.put("marks", trm.getValue());
+            jobj.put("markedbyid", trm.getMarkedby().getUsername());
+            jobj.put("markedbyname", trm.getMarkedby().getName());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
 }
