@@ -34,10 +34,10 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-
                 $("#from").datepicker({
                     daysOfWeekDisabled: [0, 6],
                     title: "From",
@@ -52,7 +52,6 @@
                     todayHighlight: true,
                     endDate: new Date()
                 });
-
                 loadStudents();
             });
             function loadStudents() {
@@ -74,10 +73,10 @@
 
             function loadAttendance() {
 
-                if($('#from').val() > $('#to').val()) {
+                if ($('#from').val() > $('#to').val()) {
                     alert('Invalid date period');
                 }
-            
+
                 var from = encodeURIComponent($("#from").val());
                 var to = encodeURIComponent($("#to").val());
                 var studentid = $('#student').val();
@@ -88,21 +87,62 @@
                         .done(function (data) {
                             var tbl = document.getElementById("tbl_data");
                             tbl.innerHTML = '';
+                            var attended = 0;
+                            var absent = 0;
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td>" + data[i].date + "</td>";
                                 row += "<td>";
                                 if (data[i].attended) {
                                     row += "Yes";
+                                    attended++;
                                 } else {
                                     row += "No";
+                                    absent++;
                                 }
                                 row += "</td>";
                                 row += "<td>" + data[i].markedby + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
                             }
+                            
+                            var nDays = attended + absent;
+                            var chart_data = [
+                                (attended/nDays)*360,
+                                (absent/nDays)*360
+                            ];
+                            if(nDays === 0) {
+                                chart_data = null;
+                            }
+                            drawChart(chart_data);
                         });
+            }
+
+            function drawChart(data) {
+                if(data === null) return;
+                
+                var chart_canvas = document.getElementById("att_chart");
+                var chart = new Chart(chart_canvas, {
+                    type: "pie",
+                    data: {
+                        labels: [
+                            "Attended",
+                            "Absent"
+                        ],
+                        datasets: [
+                            {
+                                data: data,
+                                backgroundColor: [                                    
+                                    "#36A2EB",
+                                    "#FF6384"
+                                ],
+                                hoverBackgroundColor: [                                    
+                                    "#36A2EB",
+                                    "#FF6384"
+                                ]
+                            }]
+                    }
+                });
             }
         </script>
 
@@ -156,6 +196,8 @@
                                         <% // User student = (User) request.getAttribute("student"); %>
                                         Student: 
                                         <select name="student" id="student" onchange="loadAttendance()"></select>
+                                        <!--Chart-->
+                                        <canvas id="att_chart" height="100"></canvas>
                                     </div>
                                     <table class="table table-striped">
                                         <thead>
@@ -170,6 +212,7 @@
                                     </table>
                                 </div>
 
+                                
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

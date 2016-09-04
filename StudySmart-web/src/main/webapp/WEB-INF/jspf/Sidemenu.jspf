@@ -31,7 +31,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li role="presentation"><a href="addClassNews.jsp">Add Class Announcements</a></li>
-                <li role="presentation"><a href="StudentManager?action=attendance">Mark Attendance</a></li>
+                <li role="presentation"><a href="attendance.jsp">Mark Attendance</a></li>
 
                 <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>     
                 <li role="presentation"><a href="addAchievementDetails.jsp">Enter Achievement Details</a></li>
