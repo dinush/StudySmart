@@ -39,13 +39,20 @@
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
 
                 $("#from").datepicker({
+                    daysOfWeekDisabled: [0, 6],
+                    title: "From",
+                    todayBtn: "linked",
+                    todayHighlight: true,
                 });
                 $("#to").datepicker({
+                    daysOfWeekDisabled: [0, 6],
+                    title: "To",
+                    todayBtn: "linked",
+                    todayHighlight: true
                 });
 
                 loadStudents();
             });
-
             function loadStudents() {
                 var parentid = '<% out.print(user.getUsername()); %>';
                 $.ajax({
@@ -64,10 +71,14 @@
             }
 
             function loadAttendance() {
+
+                if($('#from').val() > $('#to').val()) {
+                    alert('Invalid date period');
+                }
+            
                 var from = encodeURIComponent($("#from").val());
                 var to = encodeURIComponent($("#to").val());
                 var studentid = $('#student').val();
-
                 $.ajax({
                     url: "ws/rest/attendance/" + studentid + "/" + from + "/" + to,
                     async: true
@@ -128,14 +139,14 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                    From <input type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
-                                    To <input type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
-                                    <% if (acc_level < 3) { %>
-                                    <div class="form-group">
-                                        <label for="exampleInputName">Student Name: </label>
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                    <% } %>
+                                From <input type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
+                                To <input type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="loadAttendance()">
+                                <% if (acc_level < 3) { %>
+                                <div class="form-group">
+                                    <label for="exampleInputName">Student Name: </label>
+                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                                </div>
+                                <% } %>
                                 <div class="panel panel-primary" style="margin-top:16px;">
 
                                     <div class="panel-heading">Attendance Details</div>
