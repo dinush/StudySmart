@@ -123,7 +123,7 @@
                 
                 var chart_canvas = document.getElementById("att_chart");
                 var chart = new Chart(chart_canvas, {
-                    type: "pie",
+                    type: "doughnut",
                     data: {
                         labels: [
                             "Attended",
