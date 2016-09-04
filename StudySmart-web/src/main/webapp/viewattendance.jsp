@@ -43,12 +43,14 @@
                     title: "From",
                     todayBtn: "linked",
                     todayHighlight: true,
+                    endDate: new Date()
                 });
                 $("#to").datepicker({
                     daysOfWeekDisabled: [0, 6],
                     title: "To",
                     todayBtn: "linked",
-                    todayHighlight: true
+                    todayHighlight: true,
+                    endDate: new Date()
                 });
 
                 loadStudents();
