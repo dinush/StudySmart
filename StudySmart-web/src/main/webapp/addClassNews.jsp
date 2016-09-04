@@ -124,12 +124,12 @@
                                                 <div class="form-group">
                                                     <label for="class" >Class: </label>
                                                     <select name="class" id="class" class="form-control">
-                                                        <!--Fill with ajax-->
+                                                        <!--Filled with ajax-->
                                                     </select>
                                                 </div>
                                                 <div class="form-group" id="date-container">
                                                     <label for="date" >Date: </label>
-                                                    <input type="text" name="date" class="form-control" id="date" placeholder="8/28/2016">
+                                                    <input type="text" name="date" class="form-control" id="date" placeholder="">
                                                 </div>
                                             </h3>
                                         </div>
@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="content">Content: </label>
-                                                <textarea type="text" name="content" id="content" class="form-control" id="InputDescription" placeholder="Message"></textarea>
+                                                <textarea required type="text" name="content" id="content" class="form-control" id="InputDescription" placeholder="Message"></textarea>
                                             </div>
                                         </div>
                                     </div>

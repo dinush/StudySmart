@@ -69,8 +69,8 @@ public class Message implements Serializable {
     @Column(name = "targetdate")
     @Temporal(TemporalType.DATE)
     private Date targetdate;
+    @Size(max = 50)
     @Column(name = "targettime")
-    @Temporal(TemporalType.TIME)
     private String targettime;
     @Basic(optional = false)
     @NotNull
@@ -79,8 +79,8 @@ public class Message implements Serializable {
     private Date addeddate;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "addedtime")
-    @Temporal(TemporalType.TIME)
     private String addedtime;
     @Basic(optional = false)
     @NotNull

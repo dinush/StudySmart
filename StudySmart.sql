@@ -104,8 +104,36 @@ CREATE TABLE `Attendance` (
 
 LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
-INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st1','2016-09-01',0,'teacher'),('st2','2016-08-24',1,'teacher'),('st2','2016-09-01',1,'teacher');
+INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st1','2016-09-01',0,'teacher'),('st1','2016-09-04',0,'teacher'),('st2','2016-08-24',1,'teacher'),('st2','2016-09-01',1,'teacher'),('st2','2016-09-04',0,'teacher'),('st3','2016-09-04',0,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AttendanceClass`
+--
+
+DROP TABLE IF EXISTS `AttendanceClass`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AttendanceClass` (
+  `class` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `markedby` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`class`,`date`),
+  KEY `markedby` (`markedby`),
+  CONSTRAINT `fk_class_attendanceclass` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_markkedby_attendanceclass` FOREIGN KEY (`markedby`) REFERENCES `User` (`username`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AttendanceClass`
+--
+
+LOCK TABLES `AttendanceClass` WRITE;
+/*!40000 ALTER TABLE `AttendanceClass` DISABLE KEYS */;
+INSERT INTO `AttendanceClass` VALUES (5,'2016-09-04','teacher'),(6,'2016-09-04','teacher');
+/*!40000 ALTER TABLE `AttendanceClass` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -181,10 +209,10 @@ CREATE TABLE `Message` (
   `title` varchar(512) DEFAULT NULL,
   `content` varchar(5000) NOT NULL,
   `targetdate` date DEFAULT NULL,
-  `targettime` time DEFAULT NULL,
+  `targettime` varchar(50) DEFAULT NULL,
   `addeduser` varchar(8) CHARACTER SET latin1 NOT NULL,
   `addeddate` date NOT NULL,
-  `addedtime` time NOT NULL,
+  `addedtime` varchar(50) NOT NULL,
   `type` int(1) NOT NULL,
   `targetuser` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
   `userlevel` int(1) DEFAULT NULL,
@@ -612,4 +640,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-03 21:57:36
+-- Dump completed on 2016-09-04 13:13:28
