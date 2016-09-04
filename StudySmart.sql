@@ -208,6 +208,7 @@ CREATE TABLE `Message` (
   `seen` tinyint(1) NOT NULL DEFAULT '0',
   `title` varchar(512) DEFAULT NULL,
   `content` varchar(5000) NOT NULL,
+  `url` varchar(5000) DEFAULT NULL,
   `targetdate` date DEFAULT NULL,
   `targettime` varchar(50) DEFAULT NULL,
   `addeduser` varchar(8) CHARACTER SET latin1 NOT NULL,
@@ -640,4 +641,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-04 13:13:28
+-- Dump completed on 2016-09-04 16:58:05

@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Message.findBySeen", query = "SELECT m FROM Message m WHERE m.seen = :seen"),
     @NamedQuery(name = "Message.findByTitle", query = "SELECT m FROM Message m WHERE m.title = :title"),
     @NamedQuery(name = "Message.findByContent", query = "SELECT m FROM Message m WHERE m.content = :content"),
+    @NamedQuery(name = "Message.findByUrl", query = "SELECT m FROM Message m WHERE m.url = :url"),
     @NamedQuery(name = "Message.findByTargetdate", query = "SELECT m FROM Message m WHERE m.targetdate = :targetdate"),
     @NamedQuery(name = "Message.findByTargettime", query = "SELECT m FROM Message m WHERE m.targettime = :targettime"),
     @NamedQuery(name = "Message.findByAddeddate", query = "SELECT m FROM Message m WHERE m.addeddate = :addeddate"),
@@ -66,6 +67,9 @@ public class Message implements Serializable {
     @Size(min = 1, max = 5000)
     @Column(name = "content")
     private String content;
+    @Size(max = 5000)
+    @Column(name = "url")
+    private String url;
     @Column(name = "targetdate")
     @Temporal(TemporalType.DATE)
     private Date targetdate;
@@ -146,6 +150,14 @@ public class Message implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Date getTargetdate() {
