@@ -142,12 +142,16 @@
                                                 <label for="content">Content: </label>
                                                 <textarea required type="text" name="content" id="content" class="form-control" id="InputDescription" placeholder="Message"></textarea>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="urls">Urls:</label>
+                                                <input type="text" name="urls" id="urls" class="form-control" placeholder="Multiple urls seperate by commas"/>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" style="float: right"><h4> Submit</h4> </button>
                                         </div>
                                     </div>
+                                    
                                 </form>
-
-                                <br>
-                                <button type="button" class="btn btn-primary" style="margin-left:520px;"><h4> Submit</h4> </button>
+                                
                                 <!--ends here-->
                             </div>
                             <div class="col-md-4">
