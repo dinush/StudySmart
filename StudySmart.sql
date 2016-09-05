@@ -226,7 +226,7 @@ CREATE TABLE `Message` (
   CONSTRAINT `fk_addeduser_message` FOREIGN KEY (`addeduser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_class_message` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_targetuser_message` FOREIGN KEY (`targetuser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,6 +235,7 @@ CREATE TABLE `Message` (
 
 LOCK TABLES `Message` WRITE;
 /*!40000 ALTER TABLE `Message` DISABLE KEYS */;
+INSERT INTO `Message` VALUES (1,0,'title test','sample message',NULL,'2016-09-28',NULL,'teacher','2016-09-04','17:14:32',4,NULL,NULL,5,NULL);
 /*!40000 ALTER TABLE `Message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -641,4 +642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-04 16:58:05
+-- Dump completed on 2016-09-05 10:30:08
