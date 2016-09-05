@@ -128,7 +128,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone<span style="color:#cc0000;"><b>*</b></span></label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                         </div>
