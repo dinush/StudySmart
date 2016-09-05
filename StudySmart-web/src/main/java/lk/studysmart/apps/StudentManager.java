@@ -86,6 +86,7 @@ public class StudentManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         user = (User) request.getSession().getAttribute("user");
+        // if user is not signed in, send to the login page
         if (user == null) {
             response.sendRedirect("login.jsp");
             return;
@@ -94,10 +95,11 @@ public class StudentManager extends HttpServlet {
         // Show input attendance form
         switch (request.getParameter("action")) {
             case "attendancemarked": {
-
+                // Send attendance details to the database.
                 JSONObject data = new JSONObject(getRequestData(request));
                 JSONObject meta = data.getJSONObject("meta");
-
+                
+                // set or update attendance marked status for the class
                 Class2 class2 = em.find(Class2.class, meta.getInt("classid"));
                 AttendanceClassPK acpk = new AttendanceClassPK(class2.getId(), Utils.getFormattedDate());
                 AttendanceClass ac = new AttendanceClass(acpk);
@@ -110,6 +112,7 @@ public class StudentManager extends HttpServlet {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
+                // Send individual attendance records to the database
                 JSONArray values = data.getJSONArray("values");
                 for(int i=0; i < values.length(); i++) {
                     JSONObject value = values.getJSONObject(i);
@@ -130,7 +133,7 @@ public class StudentManager extends HttpServlet {
             }
                 break;
             case "termtestmarkssave": {
-
+                // Send term test marks data to database
                 JSONObject jobj = new JSONObject(getRequestData(request));
                 JSONObject meta = jobj.getJSONObject("meta");
                 Subject subject = em.find(Subject.class, meta.getString("subjectid"));
@@ -155,8 +158,10 @@ public class StudentManager extends HttpServlet {
                         TermMarks mrk;
 
                         if (checklist.size() > 0) {
+                            // Record exists. Load it for update
                             mrk = checklist.get(0);
                         } else {
+                            // Record does not exist. Make a new one.
                             mrk = new TermMarks();
                         }
                         mrk.setClass1(class2);
@@ -175,25 +180,30 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "assignmentmarks": {
-                if (user.getLevel() == 2) {
-
-                    List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
-                            .setParameter("user", user)
-                            .getResultList();
-
-                    request.setAttribute("teaches", teachSubjects);
-                    request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
-                }
+                /**
+                 * Replaced by a REST service
+                 */
+//                if (user.getLevel() == 2) {
+//
+//                    List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
+//                            .setParameter("user", user)
+//                            .getResultList();
+//
+//                    request.setAttribute("teaches", teachSubjects);
+//                    request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
+//                }
                 break;
             }
             case "assignmentMarksSave": {
                 /**
-                 * Make sure inputs are validated
+                 * Save assignment marks to the database.
+                 * Make sure inputs are validated.
                  */
 
                 // check if assignment name exists.
                 Assignment as = em.find(Assignment.class, request.getParameter("name"));
                 if (as != null) {
+                    // It exists. Abort and notify the user.
                     response.sendRedirect("StudentManager?action=assignmentmarks&msg=Assignment name already exists.");
                     return;
                 }
@@ -201,6 +211,7 @@ public class StudentManager extends HttpServlet {
                 Class2 class2 = em.find(Class2.class, Integer.parseInt(request.getParameter("class")));
                 Subject subject = em.find(Subject.class, request.getParameter("subject"));
 
+                // New assignment record.
                 Assignment assignment = new Assignment();
                 assignment.setName(request.getParameter("name"));
                 assignment.setMax(Integer.parseInt(request.getParameter("max")));
@@ -217,19 +228,22 @@ public class StudentManager extends HttpServlet {
                     return;
                 }
 
+                // New assignment individual records addition.
                 Enumeration<String> params = request.getParameterNames();
                 while (params.hasMoreElements()) {
                     String elem = params.nextElement();
+                    // If the element is not a student name (they have 'st##-' prefix), skip it.
                     if (!elem.startsWith("st##-")) {
                         continue;
                     }
 
+                    // Extract the username (after the identification prefix).
                     int indexOfDelim = elem.indexOf("-");
                     String username = elem.substring(indexOfDelim + 1);
                     User student = em.find(User.class, username);
                     int mark = Integer.parseInt(request.getParameter(elem));
                     String comment = request.getParameter(username);
-
+                    // Record individual assignment marks
                     AssignmentMarks am = new AssignmentMarks();
                     am.setAssignment(assignment);
                     am.setStudent(student);

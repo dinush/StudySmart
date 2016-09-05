@@ -107,7 +107,7 @@ public class Admin extends HttpServlet {
                     return;
                 }
 
-                // Process the subject enrollment
+                // Process the subject enrollment. Data is in subjects array in HTTP POST
                 String subjectids[] = request.getParameterValues("subjects[]");
                 for (String subjectid : subjectids) {
                     Subject subject = em.find(Subject.class, subjectid);
@@ -124,6 +124,7 @@ public class Admin extends HttpServlet {
                     }
 
                 }
+                response.sendRedirect("index.jsp");
 
             }
             break;
@@ -152,6 +153,8 @@ public class Admin extends HttpServlet {
                     return;
                 }
                 
+                // Mark students belongs to this parent.
+                // Data is in students array in HTTP POST.
                 String[] studentids = request.getParameterValues("students");
                 for (String studentid : studentids) {
                     User student = em.find(User.class, studentid);

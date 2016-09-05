@@ -73,6 +73,7 @@ public class Management extends HttpServlet {
 
         switch (request.getParameter("action")) {
             case "class-msg-add": { // Add class level msg
+                // Read data from the POST
                 StringBuilder buf = new StringBuilder();
                 String line;
                 try {
@@ -85,6 +86,7 @@ public class Management extends HttpServlet {
                     return;
                 }
 
+                // Get required attributes
                 JSONObject jobj = new JSONObject(buf.toString());
                 String title = jobj.getString("title");
                 String content = jobj.getString("content");
@@ -93,11 +95,11 @@ public class Management extends HttpServlet {
                 Class2 class2 = em.find(Class2.class, Integer.parseInt(jobj.getString("classid")));
 
                 Message message = new Message();
-                message.setType(4);
+                message.setType(4); // Class level msg
                 message.setTitle(title);
                 message.setContent(content);
                 message.setUrl(urls);
-                try {
+                try {   // Get current time.
                     message.setTargetdate(Utils.getFormattedDate(date));
                 } catch (ParseException ex) {
                     Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);

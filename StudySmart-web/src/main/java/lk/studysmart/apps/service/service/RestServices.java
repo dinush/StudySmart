@@ -77,12 +77,14 @@ public class RestServices {
 
         // First element of the array is the information about the previous marking
         JSONObject meta = new JSONObject();
+        // Previous attendance marked person might be null.
         if (ac != null) {
             meta.put("marked_name", ac.getMarkedby().getName());
         } else {
             meta.put("marked_name", "n/a");
         }
         jarr.put(meta);
+        // Put individual attendance into JSON Array
         for (User student : students) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", student.getUsername());
@@ -315,9 +317,11 @@ public class RestServices {
             return "Not authorized";
         }
 
+        // Dates are URI encoded.
         from = from.replace("%", "/");
         to = to.replace("%2F", "/");
 
+        // Format the dates
         Date dFrom, dTo;
         try {
             dFrom = Utils.getFormattedDate(from);
@@ -327,6 +331,7 @@ public class RestServices {
             return null;
         }
 
+        // Query from the database
         List<Attendance> att_datas = em.createNamedQuery("Attendance.findByUserAndDateRange")
                 .setParameter("username", studentid)
                 .setParameter("from", dFrom)
@@ -334,7 +339,7 @@ public class RestServices {
                 .getResultList();
 
         JSONArray jarray = new JSONArray();
-
+        // Make individual objects into JSON objects
         for (Attendance att : att_datas) {
             JSONObject jobj = new JSONObject();
             jobj.put("date", Utils.getFormattedDateString(att.getAttendancePK().getDate()));
@@ -370,7 +375,7 @@ public class RestServices {
                 .getResultList();
 
         JSONArray jarr = new JSONArray();
-
+        // Make JSON objects
         for (StudentParent sp : spl) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", sp.getStudentid().getUsername());
