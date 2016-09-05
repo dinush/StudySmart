@@ -86,7 +86,7 @@
                                 </ul> 
                                 <br>
                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:#428bca"></span><i><u>Add New Principal</u></i></span></h1>
-
+                                <h5><span style="color:#cc0000;">* Please fill all the fields before submitting </span></h5>
 
                                 <br>
                                 <!--adding student registration-->

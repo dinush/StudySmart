@@ -42,6 +42,7 @@
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $('#bday-container input').datepicker({
+                    endDate: new Date()
                 });
 
                 $.ajax({
@@ -124,20 +125,23 @@
                                 <br>
                                 <h1><span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:#428bca"></span><i><u>Add New Student</u></i></h1>
 
-
-                                <br>
+                                <h5><span style="color:#cc0000;">* Please fill all the fields before submitting </span></h5>
+                                
                                 <br>
 
                                 <!--adding student registration(with validation)-->
+                                
+                                
+                                
                                 <form name="myform" method="post" action="Admin?action=registerstudent" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="username" class="col-xs-2 col-form-label">Student ID (Username):</label>
+                                        <label for="username" class="col-xs-2 col-form-label">Student ID (Username)</label>
                                         <div class="col-xs-10">
                                             <input name="username" required type="text" class="form-control" id="username" placeholder="Username">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name <span style="color:#cc0000;">*</span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name </label>
 
                                         <div class="col-xs-10">
                                             <input required class="form-control" type="text" placeholder="Name" name="name" id="example-text-input">
@@ -145,7 +149,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date:</label>
+                                        <label for="example-date-input" class="col-xs-2 col-form-label">Birth Date</label>
                                         <div id="bday-container" class="col-xs-10">
                                             <input required class="form-control" type="date" placeholder="Birth Date" id="bd" name="bdate">
                                         </div>
@@ -153,7 +157,7 @@
 
 
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Gender </b><span style="color:#cc0000;">*</span></div>
+                                        <div class="col-lg-2"><b>Gender </b></div>
                                         <div class="col-lg-4">
                                             <select name="gender" class="form-control">
                                                 <option value="Male">Male</option>
@@ -164,7 +168,7 @@
                                     <br>
                                     
                                      <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address </label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
                                         </div>
@@ -178,7 +182,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Entering Grade </b><span style="color:#cc0000;">*</span></div>
+                                        <div class="col-lg-2"><b>Entering Grade </b></div>
                                         <div class="col-lg-4">
                                             <select id="class" name="class" class="form-control" onchange="loadSubjects(this)">
                                                 <!--Populated by ajax call-->
@@ -243,24 +247,7 @@
 
                             <!--ends here-->
 
-                           <!-- Include Date Range Picker -->
-                            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
-                            <script>
-                                $(document).ready(function () {
-                                    var date_input = $('input[name="date"]'); //our date input has the name "date"
-                                    var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-                                    date_input.datepicker({
-                                        format: 'mm/dd/yyyy',
-                                        container: container,
-                                        todayHighlight: true,
-                                        endDate: '+0d',
-                                        autoclose: true
-                                    });
-                                });
-                            </script>
-
+                           
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>

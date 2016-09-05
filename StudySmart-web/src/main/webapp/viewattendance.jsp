@@ -5,7 +5,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
-
 <%@page import="java.util.Date"%>
 <%@page import="utils.Utils"%>
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
