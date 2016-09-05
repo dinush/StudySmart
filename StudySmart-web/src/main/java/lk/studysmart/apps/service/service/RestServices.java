@@ -74,7 +74,7 @@ public class RestServices {
         Date date = Utils.getFormattedDate();
         AttendanceClassPK acpk = new AttendanceClassPK(class2.getId(), date);
         AttendanceClass ac = em.find(AttendanceClass.class, acpk);
-        
+
         // First element of the array is the information about the previous marking
         JSONObject meta = new JSONObject();
         if (ac != null) {
@@ -100,7 +100,7 @@ public class RestServices {
             jobj.put("attended", attended);
             jarr.put(jobj);
         }
-        
+
         return jarr.toString();
     }
 
@@ -448,18 +448,16 @@ public class RestServices {
     }
 
     /**
-     * Get all the messages related to the user. If the user is a parent,
-     * students messages are shown. (student username is sent by a param, which
-     * is null otherwise).
+     * Get all the messages related to the user.
      *
      * @param request
      * @param studentid
      * @return
      */
     @GET
-    @Path("messages/{studentid}")
+    @Path("messages")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getClassNews(@PathParam("studentid") String studentid, @Context HttpServletRequest request) {
+    public String getClassNews(@Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -467,23 +465,18 @@ public class RestServices {
         User user = (User) request.getSession().getAttribute("user");
         Class2 class2 = user.getClass1();
         if (class2 == null) {
-            if (user.getLevel() == 4) {
-                // Use child's class
-                User student = em.find(User.class, studentid);
-                class2 = student.getClass1();
-            } else {
-                // build an impossible class ;)
-                class2 = new Class2();
-                class2.setGrade(-1);
-                class2.setSubclass("zz");
-            }
+            // build an impossible class ;)
+            class2 = new Class2();
+            class2.setGrade(-1);
+            class2.setSubclass("zz");
+
         }
 
         List<Message> msgs = em.createNamedQuery("Message.findByFourOrs")
                 .setParameter("user", user)
                 .setParameter("userlevel", user.getLevel())
                 .setParameter("class2", class2)
-                .setParameter("grade", class2)
+                .setParameter("grade", class2.getGrade())
                 .getResultList();
 
         JSONArray jarr = new JSONArray();
@@ -492,11 +485,11 @@ public class RestServices {
             jobj.put("seen", msg.getSeen());
             jobj.put("title", msg.getTitle());
             jobj.put("content", msg.getContent());
-            jobj.put("target-date", msg.getTargetdate());
+            jobj.put("target-date", Utils.getFormattedDateString(msg.getTargetdate()));
             jobj.put("target-time", msg.getTargettime());
             jobj.put("added-user-id", msg.getAddeduser().getUsername());
             jobj.put("added-user-name", msg.getAddeduser().getName());
-            jobj.put("added-date", msg.getAddeddate());
+            jobj.put("added-date", Utils.getFormattedDateString(msg.getAddeddate()));
             jobj.put("added-time", msg.getAddedtime());
             jobj.put("type", msg.getType());
 

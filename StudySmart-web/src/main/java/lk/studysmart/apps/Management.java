@@ -89,12 +89,14 @@ public class Management extends HttpServlet {
                 String title = jobj.getString("title");
                 String content = jobj.getString("content");
                 String date = jobj.getString("date");
-                Class2 class2 = em.find(Class2.class, jobj.getInt("classid"));
+                String urls = jobj.getString("urls");
+                Class2 class2 = em.find(Class2.class, Integer.parseInt(jobj.getString("classid")));
 
                 Message message = new Message();
                 message.setType(4);
                 message.setTitle(title);
                 message.setContent(content);
+                message.setUrl(urls);
                 try {
                     message.setTargetdate(Utils.getFormattedDate(date));
                 } catch (ParseException ex) {

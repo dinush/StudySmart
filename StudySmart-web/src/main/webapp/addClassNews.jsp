@@ -46,23 +46,25 @@
                 })
                         .done(function (data) {
                             for (var i = 0; i < data.length; i++) {
-                                var row = "<option name='" + data[i].id + "'>Grade " + data[i].name + "</option>";
+                                var row = "<option value='" + data[i].id + "'>Grade " + data[i].name + "</option>";
                                 sel_cls.innerHTML += row;
                             }
                         })
             }
             
-            function send() {
+            function sendPacket() {
                 var date = $('#date').val();
                 var classid = $('#class').val();
                 var title = $('#title').val();
                 var content = $('#content').val();
+                var urls = $('#urls').val();
                 
                 var packet = {};
                 packet['classid'] = classid;
                 packet['date'] = date;
                 packet['title'] = title;
                 packet['content'] = content;
+                packet['urls'] = urls;
                 
                 $.ajax({
                     type: "POST",
@@ -117,7 +119,7 @@
                                 <!--class specific news-->
                                 <h3><b><i><u> Add Class-Specific Announcements </u></i></b></h3>
                                 <br>
-                                <form>
+                                <form onsubmit="return sendPacket()">
                                     <div class="panel panel-info">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">
@@ -146,7 +148,7 @@
                                                 <label for="urls">Urls:</label>
                                                 <input type="text" name="urls" id="urls" class="form-control" placeholder="Multiple urls seperate by commas"/>
                                             </div>
-                                            <button type="button" class="btn btn-primary" style="float: right"><h4> Submit</h4> </button>
+                                            <button type="submit" class="btn btn-primary" style="float: right"><h4> Submit</h4> </button>
                                         </div>
                                     </div>
                                     
