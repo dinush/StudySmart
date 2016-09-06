@@ -180,18 +180,15 @@ public class StudentManager extends HttpServlet {
                 break;
             }
             case "assignmentmarks": {
-                /**
-                 * Replaced by a REST service
-                 */
-//                if (user.getLevel() == 2) {
-//
-//                    List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
-//                            .setParameter("user", user)
-//                            .getResultList();
-//
-//                    request.setAttribute("teaches", teachSubjects);
-//                    request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
-//                }
+                if (user.getLevel() == 2) {
+
+                    List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
+                            .setParameter("user", user)
+                            .getResultList();
+
+                    request.setAttribute("teaches", teachSubjects);
+                    request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
+                }
                 break;
             }
             case "assignmentMarksSave": {
