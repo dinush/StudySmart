@@ -51,9 +51,13 @@
                     todayHighlight: true,
                     endDate: new Date()
                 });
-                loadStudents();
+                <% if (user.getLevel() == 4) { %>
+                    loadStudentsByParent();
+                <% } else if (user.getLevel() == 3) { %>
+                    loadAttendance();
+                <% } %>
             });
-            function loadStudents() {
+            function loadStudentsByParent() {
                 var parentid = '<% out.print(user.getUsername()); %>';
                 $.ajax({
                     url: "ws/rest/parent/" + parentid + "/students",
@@ -71,14 +75,21 @@
             }
 
             function loadAttendance() {
-
+                // Get the studentid according to user level
+                var studentid;
+                <% if(user.getLevel() == 3) { %> 
+                    studentid = '<% out.print(user.getUsername()); %>'
+                <% } else if(user.getLevel() == 4) { %>
+                    studentid = '$('#student').val()';
+                <% } %>
+                
                 if ($('#from').val() > $('#to').val()) {
                     alert('Invalid date period');
+                    return;
                 }
 
                 var from = encodeURIComponent($("#from").val());
                 var to = encodeURIComponent($("#to").val());
-                var studentid = $('#student').val();
                 $.ajax({
                     url: "ws/rest/attendance/" + studentid + "/" + from + "/" + to,
                     async: true
@@ -192,9 +203,10 @@
 
                                     <div class="panel-heading">Attendance Details</div>
                                     <div class="panel-body">
-                                        <% // User student = (User) request.getAttribute("student"); %>
+                                        <% if(user.getLevel() == 4) { %>
                                         Student: 
                                         <select name="student" id="student" onchange="loadAttendance()"></select>
+                                        <% } %>
                                         <!--Chart-->
                                         <canvas id="att_chart" height="100"></canvas>
                                     </div>
