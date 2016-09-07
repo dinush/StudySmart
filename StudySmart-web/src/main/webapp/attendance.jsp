@@ -86,7 +86,7 @@
                                 row += "<td>" + data[i].id + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
                                 row += "<td><input class='att_details' type=checkbox name='" + data[i].id + "' ";
-                                if (data[i].attended)
+                                if (data[i].attended || data[i].controlled)
                                     row += "checked";
                                 row += "/></td>";
                                 row += "</tr>";

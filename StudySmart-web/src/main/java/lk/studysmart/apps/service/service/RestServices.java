@@ -49,7 +49,7 @@ public class RestServices {
     private EntityManager em;
 
     /**
-     * Get students in a class and their attendance
+     * Get students in a class and their attendance for today (if marked).
      *
      * @param classid
      * @param request
@@ -86,21 +86,86 @@ public class RestServices {
             JSONObject jobj = new JSONObject();
             jobj.put("id", student.getUsername());
             jobj.put("name", student.getName());
-            Boolean attended = true;
+            Boolean attended = false;
             AttendancePK apk = new AttendancePK(student.getUsername(), date);
             try {
                 Attendance att = (Attendance) em.createNamedQuery("Attendance.findByUserAndDate")
                         .setParameter("attendancePk", apk)
                         .getSingleResult();
                 attended = att.getAttended();
+                jobj.put("controlled", false);  // Mark this as a recorded value. Do not controll by the UI.
             } catch (NoResultException e) {
-                // do nothing
+                jobj.put("controlled", true);   // Controll this record in ui.
             }
             jobj.put("attended", attended);
             jarr.put(jobj);
         }
 
         return jarr.toString();
+    }
+    
+    /**
+     * Get attendance details of students in a class in a period of date.
+     * @param classid
+     * @param from
+     * @param to
+     * @return 
+     */
+    @GET
+    @Path("student/attendance/{classid}/{from}/{to}")
+    @Produces
+    public String getClassStudentsAttendanceInAPeriod(@PathParam("classid") Integer classid, @PathParam("from") String from, @PathParam("to") String to, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        Class2 class2 = em.find(Class2.class, classid);
+        
+        // Get students in that class
+        List<User> students = em.createNamedQuery("User.findByClassLevel")
+                .setParameter("class2", class2)
+                .setParameter("level", 3)
+                .getResultList();
+        
+        JSONArray jarrContainer = new JSONArray();
+        
+        // Get individual attendance details
+        for(User student : students) {
+            try {
+                List<Attendance> lstAtten = em.createNamedQuery("Attendance.findByUserAndDateRange")
+                        .setParameter("username", student.getUsername())
+                        .setParameter("from", Utils.getFormattedDate(from))
+                        .setParameter("to", Utils.getFormattedDate(to))
+                        .getResultList();
+                
+                JSONObject jobjStudent = new JSONObject();
+                jobjStudent.put("username", student.getUsername());
+                jobjStudent.put("name", student.getName());
+                
+                // Put attendance details day-by-day to JSON.
+                JSONArray jarrAtts = new JSONArray();
+                for(Attendance att : lstAtten) {
+                    JSONObject jobjAtt = new JSONObject();
+                    jobjAtt.put("date", att.getAttendancePK().getDate());
+                    jobjAtt.put("attended", att.getAttended());
+                    jobjAtt.put("markedbyusername", att.getMarkedBy().getUsername());
+                    jobjAtt.put("markedbyname", att.getMarkedBy().getName());
+                    
+                    jarrAtts.put(jobjAtt);
+                }
+                
+                // Put all attendance details into student details JSON object.
+                jobjStudent.put("attendance", jarrAtts);
+                
+                // Put single complete into main array.
+                jarrContainer.put(jobjStudent);
+            } catch (ParseException ex) {
+                Logger.getLogger(RestServices.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+        
+        return jarrContainer.toString();
     }
 
     /**
@@ -147,6 +212,7 @@ public class RestServices {
      * Get the subjects which are taught by the teacher and for the specific
      * classroom.
      *
+     * @param teacherid
      * @param classid
      * @param request
      * @return

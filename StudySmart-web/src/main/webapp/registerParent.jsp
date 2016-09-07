@@ -162,7 +162,7 @@
                                     </div>
                                     <br>  
                                     <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Belongings</label>
+                                        <label for="students" class="col-xs-2 col-form-label">Belongings</label>
                                         <div class="col-xs-10">
                                             <select required name="students" id="students"></select>
                                         </div>
