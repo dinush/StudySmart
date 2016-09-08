@@ -37,6 +37,9 @@
         <script src="js/Chart/Chart.js"></script>
         <script src="js/selectize.min.js"></script>
         <script type = "text/javascript" >
+            var barChart = null;
+            var doughnutChart = null;
+
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $("#from").datepicker({
@@ -55,12 +58,16 @@
                 });
             <% if (user.getLevel() == 4) { %>
                 loadStudentsByParent();
+                initDoughnutChart();
             <% } else if (user.getLevel() == 3) { %>
                 loadAttendance();
+                initDoughnutChart();
             <% } else { %>
                 loadClasses();
+                
             <% } %>
             });
+
             function loadStudentsByParent() {
                 var parentid = '<% out.print(user.getUsername()); %>';
                 $.ajax({
@@ -76,6 +83,40 @@
                             }
                             loadAttendance();
                         })
+            }
+
+            function initDoughnutChart() {
+                var canvas = document.getElementById("att_chart");
+                doughnutChart = new Chart(canvas, {
+                    type: "doughnut",
+                    data: {
+                        labels: [
+                            "Attended",
+                            "Absent"
+                        ],
+                        datasets: [
+                            {
+                                data: [],
+                                backgroundColor: [
+                                    "#36A2EB",
+                                    "#FF6384"
+                                ],
+                                hoverBackgroundColor: [
+                                    "#36A2EB",
+                                    "#FF6384"
+                                ]
+                            }
+                        ]
+                    }
+                });
+            }
+
+            function initBarChart(data) {
+                var canvas = document.getElementById("att_chart");
+                barChart = new Chart(canvas, {
+                    type: "bar",
+                    data: data
+                });
             }
 
             function loadAttendance() {
@@ -128,36 +169,21 @@
                             if (nDays === 0) {
                                 chart_data = null;
                             }
-                            drawChart(chart_data);
+                            updateDoughnutChart(chart_data);
                         });
             }
 
-            function drawChart(data) {
+            function updateDoughnutChart(data) {
                 if (data === null)
                     return;
 
-                var chart_canvas = document.getElementById("att_chart");
-                var chart = new Chart(chart_canvas, {
-                    type: "doughnut",
-                    data: {
-                        labels: [
-                            "Attended",
-                            "Absent"
-                        ],
-                        datasets: [
-                            {
-                                data: data,
-                                backgroundColor: [
-                                    "#36A2EB",
-                                    "#FF6384"
-                                ],
-                                hoverBackgroundColor: [
-                                    "#36A2EB",
-                                    "#FF6384"
-                                ]
-                            }]
-                    }
-                });
+                if (doughnutChart === null) {
+                    console.log("Chart object uninitialized");
+                    return;
+                }
+
+                doughnutChart.data.datasets[0].data = data;
+                doughnutChart.update();
             }
 
             function loadClasses() {
@@ -172,6 +198,7 @@
                                 sel_cls.innerHTML += row;
                             }
                             studentsInClassForPeriod();
+                            initBarChart();
                         });
             }
 
@@ -182,6 +209,10 @@
                 RESTurl += encodeURIComponent($("#from").val()) + "/";
                 RESTurl += encodeURIComponent($("#to").val());
 
+                // Chart vars
+                var chartLabels = [];
+                var chartData = [];
+
                 $.ajax({
                     url: RESTurl,
                     async: true
@@ -191,28 +222,52 @@
                             var tbl_data = document.getElementById("tbl_data");
                             tbl_data.innerHTML = '';
                             //Loop through each student
-                            for(var i=0; i < data.length; i++) {
+                            for (var i = 0; i < data.length; i++) {
+                                chartLabels.push(data[i].name + " (" + data[i].username + ")");
                                 var row = "<tr>";
                                 row += "<td>" + data[i].username + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
-                                
+
                                 //Get number of attended days
                                 var attDetails = data[i].attendance;
                                 var nAttDays = 0;
                                 //Loop throught each date
-                                for(var j=0; j < attDetails.length; j++) {
-                                    if(attDetails[j].attended) {
+                                for (var j = 0; j < attDetails.length; j++) {
+                                    if (attDetails[j].attended) {
                                         nAttDays++;
                                     }
                                 }
+                                chartData.push(nAttDays);
                                 //Get attendance as percentage for given time period
                                 var perc = (nAttDays / attDetails.length) * 100;
                                 row += "<td>" + perc + " % (" + nAttDays + "/" + attDetails.length + " days)</td>";
                                 row += "</tr>";
-                                
+
                                 tbl_data.innerHTML += row;
                             }
+
+                            //Construct chart data
+                            var data = {
+                                labels: chartLabels,
+                                datasets: [
+                                    {
+                                        label: $('#class').val(),
+                                        data: chartData,
+                                    }
+                                ]
+                            };
+                            updateBarChart(data);
                         });
+            }
+
+            function updateBarChart(data) {
+                if (data === null)
+                    return;
+
+                if (barChart !== null) {
+                    barChart.destroy();
+                }
+                initBarChart(data);
             }
         </script>
 
@@ -280,7 +335,11 @@
                                             <div class="form-inline" style="margin-top:10px;">
                                                 <div class="form-group">
                                                     <label for="from">From:</label>
-                                                    <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="<% if (user.getLevel() < 3) { out.print("studentsInClassForPeriod()"); } else { out.print("loadAttendance()"); } %>">
+                                                    <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="<% if (user.getLevel() < 3) {
+                                                            out.print("studentsInClassForPeriod()");
+                                                        } else {
+                                                            out.print("loadAttendance()");
+                                                        } %>">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="from">To:</label>
@@ -293,7 +352,8 @@
 
                                     <!--Chart-->
                                     <canvas id="att_chart" height="100"></canvas>
-                                        <% if(user.getLevel() >= 3) { %>
+
+                                    <% if (user.getLevel() >= 3) { %>
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
@@ -317,7 +377,7 @@
                                         <tbody id="tbl_data">
                                         </tbody>
                                     </table>
-                                    <% } %>
+                                    <% }%>
 
                                 </div>
 
