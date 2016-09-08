@@ -261,13 +261,11 @@
             }
 
             function updateBarChart(data) {
-                if (data === null)
-                    return;
-
-                if (barChart !== null) {
+                if (barChart !== null) 
                     barChart.destroy();
-                }
-                initBarChart(data);
+                
+                if (data !== null)
+                    initBarChart(data);
             }
         </script>
 
