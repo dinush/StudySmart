@@ -240,7 +240,11 @@
                                 chartData.push(nAttDays);
                                 //Get attendance as percentage for given time period
                                 var perc = (nAttDays / attDetails.length) * 100;
-                                row += "<td>" + perc + " % (" + nAttDays + "/" + attDetails.length + " days)</td>";
+                                if (!isNaN(perc)) {
+                                    row += "<td>" + perc + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
+                                } else {
+                                    row += "<td>N/A</td>"
+                                }
                                 row += "</tr>";
 
                                 tbl_data.innerHTML += row;
@@ -251,7 +255,7 @@
                                 labels: chartLabels,
                                 datasets: [
                                     {
-                                        label: $('#class').val(),
+                                        label: $('#from').val() + " - " + $('#to').val(),
                                         data: chartData,
                                     }
                                 ]
