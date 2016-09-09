@@ -64,7 +64,7 @@
                 initDoughnutChart();
             <% } else { %>
                 loadClasses();
-                
+
             <% } %>
             });
 
@@ -82,7 +82,7 @@
                                 student_view.innerHTML += row;
                             }
                             loadAttendance();
-                        })
+                        });
             }
 
             function initDoughnutChart() {
@@ -223,7 +223,8 @@
                             tbl_data.innerHTML = '';
                             //Loop through each student
                             for (var i = 0; i < data.length; i++) {
-                                chartLabels.push(data[i].name + " (" + data[i].username + ")");
+
+                                var url = "StudentManager?action=SingleStudentAttendance&user=" + data[i].username + "&from=" + encodeURIComponent($('#from').val()) + "&to=" + encodeURIComponent($('#to').val());
                                 var row = "<tr>";
                                 row += "<td>" + data[i].username + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
@@ -237,16 +238,19 @@
                                         nAttDays++;
                                     }
                                 }
-                                chartData.push(nAttDays);
+
                                 //Get attendance as percentage for given time period
                                 var perc = (nAttDays / attDetails.length) * 100;
                                 if (!isNaN(perc)) {
                                     row += "<td>" + perc + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
+                                    chartData.push(nAttDays);
+                                    chartLabels.push(data[i].name + " (" + data[i].username + ")");
                                 } else {
-                                    row += "<td>N/A</td>"
+                                    row += "<td>N/A</td>";
                                 }
+                                row += "<td><a href='" + url + "' target='_blank'>view info</a></td>";
                                 row += "</tr>";
-
+                                console.log(row);
                                 tbl_data.innerHTML += row;
                             }
 
@@ -256,7 +260,7 @@
                                 datasets: [
                                     {
                                         label: $('#from').val() + " - " + $('#to').val(),
-                                        data: chartData,
+                                        data: chartData
                                     }
                                 ]
                             };
@@ -265,9 +269,9 @@
             }
 
             function updateBarChart(data) {
-                if (barChart !== null) 
+                if (barChart !== null)
                     barChart.destroy();
-                
+
                 if (data !== null)
                     initBarChart(data);
             }
@@ -374,6 +378,7 @@
                                                 <th>Student ID</th>
                                                 <th>Student Name</th>
                                                 <th>Attendance %</th>
+                                                <th>Detailed Info</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbl_data">

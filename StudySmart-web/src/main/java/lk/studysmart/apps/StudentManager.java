@@ -7,6 +7,7 @@ package lk.studysmart.apps;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -92,35 +93,36 @@ public class StudentManager extends HttpServlet {
             return;
         }
 
-        // Show input attendance form
-        switch (request.getParameter("action")) {
+        String action = request.getParameter("action");
+        switch (action) {
             case "attendancemarked": {
+                // Show input attendance form
                 // Send attendance details to the database.
                 JSONObject data = new JSONObject(getRequestData(request));
                 JSONObject meta = data.getJSONObject("meta");
-                
+
                 // set or update attendance marked status for the class
                 Class2 class2 = em.find(Class2.class, meta.getInt("classid"));
                 AttendanceClassPK acpk = new AttendanceClassPK(class2.getId(), Utils.getFormattedDate());
                 AttendanceClass ac = new AttendanceClass(acpk);
-                ac.setMarkedby(user);                 
-                    try {
-                        utx.begin();
-                        em.merge(ac);
-                        utx.commit();
-                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
+                ac.setMarkedby(user);
+                try {
+                    utx.begin();
+                    em.merge(ac);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 // Send individual attendance records to the database
                 JSONArray values = data.getJSONArray("values");
-                for(int i=0; i < values.length(); i++) {
+                for (int i = 0; i < values.length(); i++) {
                     JSONObject value = values.getJSONObject(i);
                     AttendancePK att_pk = new AttendancePK(value.getString("studentid"), Utils.getFormattedDate());
                     Attendance att = new Attendance(att_pk);
                     att.setMarkedBy(user);
                     att.setAttended((value.getInt("attended") == 1 ? Boolean.TRUE : Boolean.FALSE));
-                    
+
                     try {
                         utx.begin();
                         em.merge(att);
@@ -129,9 +131,9 @@ public class StudentManager extends HttpServlet {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
             }
-                break;
+            break;
             case "termtestmarkssave": {
                 // Send term test marks data to database
                 JSONObject jobj = new JSONObject(getRequestData(request));
@@ -193,8 +195,8 @@ public class StudentManager extends HttpServlet {
             }
             case "assignmentMarksSave": {
                 /**
-                 * Save assignment marks to the database.
-                 * Make sure inputs are validated.
+                 * Save assignment marks to the database. Make sure inputs are
+                 * validated.
                  */
 
                 // check if assignment name exists.
@@ -258,9 +260,43 @@ public class StudentManager extends HttpServlet {
                 }
 
                 response.sendRedirect("index.jsp");
-                break;
             }
+            break;            
+            case "SingleStudentAttendance": {
+                /**
+                 * Show attendance for a student in a static way.
+                 */
+
+                // Get request parameters
+                String username = request.getParameter("user");
+                String from = request.getParameter("from");
+                String to = request.getParameter("to");
+                
+                User student = em.find(User.class, username);
+                request.setAttribute("student", student);
+                // Get attendance details
+                try {
+                    List<Attendance> lstAtt = em.createNamedQuery("Attendance.findByUserAndDateRange")
+                            .setParameter("username", username)
+                            .setParameter("from", Utils.getFormattedDate(from))
+                            .setParameter("to", Utils.getFormattedDate(to))
+                            .getResultList();
+                    
+                    request.setAttribute("lstAtt", lstAtt);
+                    request.setAttribute("student-username", username);
+                    request.setAttribute("student-name", student.getName());
+                    request.setAttribute("student-class", "Grade " + student.getClass1().getGrade() + " " + student.getClass1().getSubclass());
+                    request.setAttribute("from", from);
+                    request.setAttribute("to", to);
+                    
+                    request.getRequestDispatcher("/AttendanceSingle.jsp").forward(request, response);
+                } catch (ParseException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
             default:
+                System.out.println("Unhandled route");
                 break;
         }
     }

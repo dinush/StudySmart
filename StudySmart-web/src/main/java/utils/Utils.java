@@ -52,6 +52,11 @@ public class Utils {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         return format.format(d);
     }
+    
+    public static Date stringToDate(String sdate) throws ParseException {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        return format.parse(sdate);
+    }
 
     public static boolean entityValidator(Object entity) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
