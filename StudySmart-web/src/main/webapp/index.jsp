@@ -27,11 +27,6 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-        <script type = "text/javascript" >
-            $(document).ready(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-            });
-        </script>
 
 
     </script>

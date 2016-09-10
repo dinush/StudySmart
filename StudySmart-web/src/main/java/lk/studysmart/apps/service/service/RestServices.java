@@ -519,7 +519,6 @@ public class RestServices {
      * Get all the messages related to the user.
      *
      * @param request
-     * @param studentid
      * @return
      */
     @GET
@@ -553,12 +552,15 @@ public class RestServices {
             jobj.put("seen", msg.getSeen());
             jobj.put("title", msg.getTitle());
             jobj.put("content", msg.getContent());
-            jobj.put("target-date", Utils.getFormattedDateString(msg.getTargetdate()));
-            jobj.put("target-time", msg.getTargettime());
-            jobj.put("added-user-id", msg.getAddeduser().getUsername());
-            jobj.put("added-user-name", msg.getAddeduser().getName());
-            jobj.put("added-date", Utils.getFormattedDateString(msg.getAddeddate()));
-            jobj.put("added-time", msg.getAddedtime());
+            jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
+            jobj.put("target_time", msg.getTargettime());
+            jobj.put("added_user_id", msg.getAddeduser().getUsername());
+            jobj.put("added_user_name", msg.getAddeduser().getName());
+            jobj.put("added_date", Utils.getFormattedDateString(msg.getAddeddate()));
+            jobj.put("added_time", msg.getAddedtime());
+            if (msg.getUrl() != null) {
+                jobj.put("url", msg.getUrl());
+            }
             jobj.put("type", msg.getType());
 
             jarr.put(jobj);

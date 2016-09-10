@@ -140,34 +140,13 @@
                                             <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
                                         </div>
                                     </div>
-                                    <div class="bootstrap-iso">
-
-                                        <div class="form-group row">
-                                            <label for="example-date-input" class="col-xs-2 col-form-label">Teaching since </label>
-                                            <div class="col-xs-10">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar-check-o">
-                                                        </i>
-                                                    </div>
-                                                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Qualifications </label>
                                         <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
                                     </div>
-
-
-
                                     <br>
-
-
-                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Register</h4> </button>
                                     <!-- finishing student registration-->
                                 </form>
                             </div>
