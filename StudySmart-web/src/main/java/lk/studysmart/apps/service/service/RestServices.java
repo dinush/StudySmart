@@ -531,12 +531,12 @@ public class RestServices {
 
         User user = (User) request.getSession().getAttribute("user");
         Class2 class2 = user.getClass1();
+        // Prevent user from getting unwanted messages.
         if (class2 == null) {
             // build an impossible class ;)
             class2 = new Class2();
             class2.setGrade(-1);
             class2.setSubclass("zz");
-
         }
 
         List<Message> msgs = em.createNamedQuery("Message.findByFourOrs")

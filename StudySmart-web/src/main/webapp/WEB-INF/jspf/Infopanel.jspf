@@ -67,7 +67,12 @@
         html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
         html += "<p class='list-group-item-text'>" + msg.content + "</p>";
         html += "<div style='margin-top:5px;font-size:12px;'>";
-        html += "By " + msg.added_user_name +" on "+ msg.added_date + " at " + msg.added_time;
+        html += "Date: " + msg.target_date;
+        if(msg.target_time !== undefined)
+            html += " Time: " + msg.target_time;
+        html += "</div>";
+        html += "<div style='margin-top:5px;font-size:12px;'>";
+        html += "<i>" + msg.added_user_name +" on "+ msg.added_date + " at " + msg.added_time + "</i>";
         html += "</div>";
         html += "</a>";
         
