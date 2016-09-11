@@ -552,7 +552,8 @@ public class RestServices {
             jobj.put("seen", msg.getSeen());
             jobj.put("title", msg.getTitle());
             jobj.put("content", msg.getContent());
-            jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
+            if(msg.getTargetdate() != null)
+                jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
             jobj.put("target_time", msg.getTargettime());
             jobj.put("added_user_id", msg.getAddeduser().getUsername());
             jobj.put("added_user_name", msg.getAddeduser().getName());

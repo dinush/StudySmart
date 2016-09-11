@@ -36,6 +36,7 @@ import lk.studysmart.apps.models.AttendanceClass;
 import lk.studysmart.apps.models.AttendanceClassPK;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
@@ -71,6 +72,25 @@ public class StudentManager extends HttpServlet {
         }
 
         return buf.toString();
+    }
+    
+    protected void sendPersonalMsg(String title, String content, User toUsr, User fromUsr) {
+        Message msg = new Message();
+        msg.setAddeddate(Utils.getFormattedDate());
+        msg.setAddedtime(Utils.getFormattedTime());
+        msg.setAddeduser(fromUsr);
+        msg.setContent(content);
+        msg.setTargetuser(toUsr);
+        msg.setTitle(title);
+        msg.setType(1);
+        
+        try {
+            utx.begin();
+            em.persist(msg);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -144,7 +164,6 @@ public class StudentManager extends HttpServlet {
 
                 JSONArray values = jobj.getJSONArray("values");
                 try {
-                    utx.begin();
                     for (int i = 0; i < values.length(); i++) {
                         JSONObject item = values.getJSONObject(i);
                         User student = em.find(User.class, item.getString("studentid"));
@@ -173,9 +192,14 @@ public class StudentManager extends HttpServlet {
                         mrk.setTerm(term);
                         mrk.setValue(marks);
 
+                        utx.begin();
                         em.merge(mrk);
+                        utx.commit();
+                        
+                        // Send message to student and parent stating that the term test marks are added.
+                        sendPersonalMsg("Term " + term + " marks added", "Term " + term + " marks added for " + subject.getName(), student, user);
                     }
-                    utx.commit();
+                    
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                     Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
