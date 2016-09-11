@@ -37,6 +37,7 @@ import lk.studysmart.apps.models.AttendanceClassPK;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.Message;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
 import lk.studysmart.apps.models.User;
@@ -196,8 +197,18 @@ public class StudentManager extends HttpServlet {
                         em.merge(mrk);
                         utx.commit();
                         
-                        // Send message to student and parent stating that the term test marks are added.
-                        sendPersonalMsg("Term " + term + " marks added", "Term " + term + " marks added for " + subject.getName(), student, user);
+                        // Send message to student stating that the term test marks are added.
+                        String title = "Term " + term + " marks";
+                        String content = "Term " + term + " marks added for " + subject.getName();
+                        sendPersonalMsg(title, content, student, user);
+                        // Send message to Parent stating that the term test marks are added.
+                        List<StudentParent> stu_par = em.createNamedQuery("StudentParent.findByStudentId")
+                                .setParameter("student", student)
+                                .getResultList();
+                        if(stu_par.size() > 0) {
+                            content += " (student: " + student.getName() + " [" + student.getUsername() + "])"; // add student info
+                            sendPersonalMsg(title, content, stu_par.get(0).getParentid(), user);
+                        }       
                     }
                     
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
