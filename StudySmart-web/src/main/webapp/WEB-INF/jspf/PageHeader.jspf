@@ -1,0 +1,21 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="page-header">
+    <div id="page-title">
+        <h1>Study Smart</h1>
+    </div>                
+    <div class="user-details">
+        Signed in as:
+        <span id="user-name">
+            <%
+                out.print(user.getName());
+            %>
+        </span>
+        <a href="logout">
+            (logout)
+        </a>                 
+        <br>
+
+        <a href="#">Inbox <span class="badge" id="no_of_msgs"></span></a>
+    </div>
+</div>
