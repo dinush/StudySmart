@@ -19,15 +19,18 @@
     }
 
     function msgRouter(data) {
-        console.log(data.length);
         // Loop throught messages
+        var nPersonalMsgs = 0;
         for (var i = 0; i < data.length; i++) {
-            var msg = data[i];
-            console.log(msg);
-            switch (msg.type) {
+            var msg = data[i];            
+            switch (msg.type) { 
                 case 1:
                     {
-                        // TO-DO  
+                        
+                        if(!msg.seen) {
+                            nPersonalMsgs += 1;
+                        }
+                        formatPrivateMsg(msg);
                     }
                     break;
                 case  2:
@@ -54,6 +57,9 @@
                 }
             }
         }
+        
+        // Set msg counter
+        $('#no_of_msgs').html(nPersonalMsgs);
     }
     
     function formatMsg(msg) {
@@ -77,6 +83,30 @@
         html += "</a>";
         
         news_feed_ul.innerHTML += html;
+    }
+    
+    function formatPrivateMsg(msg) {
+        var msg_popout = document.getElementById("msg_popout");
+        
+        var url = msg.url;
+        if(url === undefined)
+            url = "#";
+        
+        var html = "<a id='" + msg.id + "' href='"+url+"' class='list-group-item'>";
+        html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
+        html += "<p class='list-group-item-text'>" + msg.content + "</p>";
+        html += "<div style='margin-top:5px;font-size:12px;'>";
+        if(msg.target_date !== undefined)
+            html += "Date: " + msg.target_date;
+        if(msg.target_time !== undefined)
+            html += " Time: " + msg.target_time;
+        html += "</div>";
+        html += "<div style='margin-top:5px;font-size:12px;'>";
+        html += "<i>" + msg.added_user_name +" on "+ msg.added_date + " at " + msg.added_time + "</i>";
+        html += "</div>";
+        html += "</a>";
+        
+        msg_popout.innerHTML += html;
     }
     
     function formatEvent(msg) {

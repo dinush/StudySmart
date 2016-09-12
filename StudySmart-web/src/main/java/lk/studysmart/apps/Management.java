@@ -31,6 +31,7 @@ import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.Utils;
 
@@ -74,20 +75,12 @@ public class Management extends HttpServlet {
         switch (request.getParameter("action")) {
             case "class-msg-add": { // Add class level msg
                 // Read data from the POST
-                StringBuilder buf = new StringBuilder();
-                String line;
-                try {
-                    BufferedReader reader = request.getReader();
-                    while ((line = reader.readLine()) != null) {
-                        buf.append(line);
-                    }
-                } catch (Exception e) {
-                    // error
+                String data = bufferedToString(request.getReader());
+                if(data == null)
                     return;
-                }
 
                 // Get required attributes
-                JSONObject jobj = new JSONObject(buf.toString());
+                JSONObject jobj = new JSONObject(data);
                 String title = jobj.getString("title");
                 String content = jobj.getString("content");
                 String date = jobj.getString("date");
@@ -118,7 +111,45 @@ public class Management extends HttpServlet {
                 }
             }
             break;
+            case "seen": {
+                // mark message as seen
+                // example input data, [{id:4},...]
+                String data = bufferedToString(request.getReader());
+                if(data == null)    // Exception in reading function
+                    return;
+                
+                JSONArray jarr = new JSONArray(data);
+                for(int i=0; i < jarr.length(); i++) {  // Process seens
+                    JSONObject jobj = jarr.getJSONObject(i);
+                    int id = jobj.getInt("id");
+                    
+                    Message msg = em.find(Message.class, id);
+                    msg.setSeen(true);
+                    
+                    try {
+                        utx.begin();
+                        em.merge(msg);
+                        utx.commit();
+                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                        Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         }
+    }
+
+    private String bufferedToString(BufferedReader buffered) {
+        StringBuilder buf = new StringBuilder();
+        String line;
+        try {
+            while ((line = buffered.readLine()) != null) {
+                buf.append(line);
+            }
+        } catch (Exception e) {
+            // error
+            return null;
+        }
+        return buf.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

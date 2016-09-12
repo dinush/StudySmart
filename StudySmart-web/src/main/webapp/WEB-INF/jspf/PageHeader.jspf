@@ -1,5 +1,27 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
+<script>
+    function markAsSeen() {
+        var items = document.getElementById("msg_popout");
+        console.log( items.children.length);
+        var ids = [];
+        for(var i=0; i < items.children.length; i++) {
+            console.log(items.children[i].id);
+            ids.push({
+                id: items.children[i].id
+            });
+        }
+        console.log(ids);
+        $.ajax({
+            url: "management?action=seen",
+            async: true,
+            method: "POST",
+            data: JSON.stringify(ids),
+            contentType: "text/plain"
+        }).done(function(data){});
+        
+    }
+</script>
 <div class="page-header">
     <div id="page-title">
         <h1>Study Smart</h1>
@@ -16,6 +38,9 @@
         </a>                 
         <br>
 
-        <a href="#">Inbox <span class="badge" id="no_of_msgs"></span></a>
+        <span onclick="$('#msg_popout').toggle();markAsSeen();">Inbox <span class="badge" id="no_of_msgs"></span></span>
+        <div class="list-group" id="msg_popout" hidden="true" style="position: absolute; z-index: 1000; width: 300px; height: auto; max-height: 500px; background-color: white">
+            
+        </div>
     </div>
 </div>

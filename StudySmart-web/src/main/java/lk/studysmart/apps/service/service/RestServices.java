@@ -5,7 +5,9 @@
  */
 package lk.studysmart.apps.service.service;
 
+import com.sun.istack.internal.Nullable;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -546,9 +548,54 @@ public class RestServices {
                 .setParameter("grade", class2.getGrade())
                 .getResultList();
 
-        JSONArray jarr = new JSONArray();
+        JSONArray jarr = msgsToJsonArray(msgs, null);
+        
+        // For teachers, Messages for the classes they teach are also added.
+        if(user.getLevel() == 2) {
+            List<TeacherTeaches> teachings = em.createNamedQuery("TeacherTeaches.findByUser")
+                    .setParameter("user", user)
+                    .getResultList();
+
+            List<Integer> teachingGrades = new ArrayList<>();
+            List<Class2> teachingClasses = new ArrayList<>();
+            for(TeacherTeaches teaching : teachings) {
+                Class2 clz = teaching.getClass1();
+                if(teachingClasses.contains(clz))
+                    continue;
+                teachingClasses.add(clz);
+
+                if(teachingGrades.contains(clz.getGrade()))
+                    continue;            
+                teachingGrades.add(clz.getGrade());
+            }
+            
+            for(Integer teachingGrade : teachingGrades) {
+                List<Message> msgs2 = em.createNamedQuery("Message.findByGrade")
+                    .setParameter("grade", teachingGrade)
+                    .getResultList();
+                
+                jarr = msgsToJsonArray(msgs2, jarr);
+            }
+            
+            for(Class2 teachingClass : teachingClasses) {
+                List<Message> msgs3 = em.createNamedQuery("Message.findByClass")
+                        .setParameter("class2", teachingClass)
+                        .getResultList();
+                
+                jarr = msgsToJsonArray(msgs3, jarr);
+            }
+            
+        }
+
+        return jarr.toString();
+    }
+        
+    protected JSONArray msgsToJsonArray(List<Message> msgs, @Nullable JSONArray jarr) {
+        if(jarr == null)
+            jarr = new JSONArray();
         for (Message msg : msgs) {
             JSONObject jobj = new JSONObject();
+            jobj.put("id", msg.getId());
             jobj.put("seen", msg.getSeen());
             jobj.put("title", msg.getTitle());
             jobj.put("content", msg.getContent());
@@ -566,7 +613,6 @@ public class RestServices {
 
             jarr.put(jobj);
         }
-
-        return jarr.toString();
+        return jarr;
     }
 }
