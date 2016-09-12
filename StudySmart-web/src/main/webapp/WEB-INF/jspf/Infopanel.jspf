@@ -92,7 +92,11 @@
         if(url === undefined)
             url = "#";
         
-        var html = "<a id='" + msg.id + "' href='"+url+"' class='list-group-item'>";
+        var html = "<a id='" + msg.id + "' href='"+url+"' class='list-group-item ";
+        if(!msg.seen) {
+            html += "active";
+        }
+        html += "'>";
         html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
         html += "<p class='list-group-item-text'>" + msg.content + "</p>";
         html += "<div style='margin-top:5px;font-size:12px;'>";
