@@ -548,7 +548,7 @@ public class RestServices {
                 .setParameter("grade", class2.getGrade())
                 .getResultList();
 
-        JSONArray jarr = msgsToJsonArray(msgs, null);
+        JSONArray jarr = Utils.msgsToJsonArray(msgs, null);
         
         // For teachers, Messages for the classes they teach are also added.
         if(user.getLevel() == 2) {
@@ -574,7 +574,7 @@ public class RestServices {
                     .setParameter("grade", teachingGrade)
                     .getResultList();
                 
-                jarr = msgsToJsonArray(msgs2, jarr);
+                jarr = Utils.msgsToJsonArray(msgs2, jarr);
             }
             
             for(Class2 teachingClass : teachingClasses) {
@@ -582,7 +582,7 @@ public class RestServices {
                         .setParameter("class2", teachingClass)
                         .getResultList();
                 
-                jarr = msgsToJsonArray(msgs3, jarr);
+                jarr = Utils.msgsToJsonArray(msgs3, jarr);
             }
             
         }
@@ -598,32 +598,32 @@ public class RestServices {
                 .setParameter("type", 5)
                 .getResultList();
         
-        return msgsToJsonArray(publicMsgs, null).toString();
+        return Utils.msgsToJsonArray(publicMsgs, null).toString();
     }
         
-    protected JSONArray msgsToJsonArray(List<Message> msgs, @Nullable JSONArray jarr) {
-        if(jarr == null)
-            jarr = new JSONArray();
-        for (Message msg : msgs) {
+    /**
+     * Get all subjects
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("subjects/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllSubjects(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        List<Subject> subjects = em.createNamedQuery("Subject.findAll").getResultList();
+        JSONArray jarr = new JSONArray();
+        for(Subject subject:subjects) {
             JSONObject jobj = new JSONObject();
-            jobj.put("id", msg.getId());
-            jobj.put("seen", msg.getSeen());
-            jobj.put("title", msg.getTitle());
-            jobj.put("content", msg.getContent());
-            if(msg.getTargetdate() != null)
-                jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
-            jobj.put("target_time", msg.getTargettime());
-            jobj.put("added_user_id", msg.getAddeduser().getUsername());
-            jobj.put("added_user_name", msg.getAddeduser().getName());
-            jobj.put("added_date", Utils.getFormattedDateString(msg.getAddeddate()));
-            jobj.put("added_time", msg.getAddedtime());
-            if (msg.getUrl() != null) {
-                jobj.put("url", msg.getUrl());
-            }
-            jobj.put("type", msg.getType());
-
+            jobj.put("id", subject.getIdSubject());
+            jobj.put("name", subject.getName());
+            jobj.put("grade", subject.getGrade());
             jarr.put(jobj);
         }
-        return jarr;
+        
+        return jarr.toString();
     }
 }

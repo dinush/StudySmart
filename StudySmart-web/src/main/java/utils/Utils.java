@@ -5,12 +5,14 @@
  */
 package utils;
 
+import com.sun.istack.internal.Nullable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import lk.studysmart.apps.StudentManager;
+import lk.studysmart.apps.models.Message;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -73,5 +78,37 @@ public class Utils {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Convert <Message> to <JSONArray>
+     * @param msgs
+     * @param jarr
+     * @return 
+     */
+    public static JSONArray msgsToJsonArray(List<Message> msgs, @Nullable JSONArray jarr) {
+        if(jarr == null)
+            jarr = new JSONArray();
+        for (Message msg : msgs) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", msg.getId());
+            jobj.put("seen", msg.getSeen());
+            jobj.put("title", msg.getTitle());
+            jobj.put("content", msg.getContent());
+            if(msg.getTargetdate() != null)
+                jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
+            jobj.put("target_time", msg.getTargettime());
+            jobj.put("added_user_id", msg.getAddeduser().getUsername());
+            jobj.put("added_user_name", msg.getAddeduser().getName());
+            jobj.put("added_date", Utils.getFormattedDateString(msg.getAddeddate()));
+            jobj.put("added_time", msg.getAddedtime());
+            if (msg.getUrl() != null) {
+                jobj.put("url", msg.getUrl());
+            }
+            jobj.put("type", msg.getType());
+
+            jarr.put(jobj);
+        }
+        return jarr;
     }
 }
