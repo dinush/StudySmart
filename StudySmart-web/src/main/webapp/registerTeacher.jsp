@@ -41,27 +41,49 @@
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 getSubjects();
             });
-            
+
             function getSubjects() {
                 $.ajax({
                     url: "ws/rest/subjects/all",
                     async: true
                 })
-                        .done(function(data) {
+                        .done(function (data) {   // TODO get classes
                             var subjects = document.getElementById("subjects");
                             subjects.innerHTML = '';
-                            for(var i=0; i < data.length; i++) {
-                                var row = "<div class='checkbox'>";
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<div class='checkbox' style='float:left; width:46%; margin:10px;'>";
                                 row += "<label>";
                                 row += "<input type='checkbox' name='subjects' value='";
                                 row += data[i].id;
-                                row += "'>";
-                                row += data[i].name + " (Grade " + data[i].grade + ")";
+                                row += "' onchange='selActivator(this)'>";
+                                row += data[i].name + " (id: " + data[i].id + ")";
                                 row += "</label>";
+                                // Get classes of this grade
+                                $.ajax({
+                                    url: "ws/rest/classes/" + data[i].grade,
+                                    async: false
+                                })
+                                        .done(function (classData) {
+                                            row += "<div>";
+                                            row += "<select multiple disabled class='form-control' name='" + data[i].id + "_class' id='" + data[i].id + "_class' style='height:70px;'>";
+                                            for(var j=0; j<classData.length; j++) {
+                                                row += "<option value='" + classData[j].id + "'>Grade " + classData[j].grade + " " + classData[j].subclass + "</option>";
+                                            }
+                                            row += "</select>";
+                                            row += "</div>";
+                                        });
                                 row += "</div>";
                                 subjects.innerHTML += row;
                             }
                         });
+            }
+            
+            function selActivator(elem) {
+                if (elem.checked) {
+                    document.getElementById(elem.value + "_class").disabled = false;
+                } else {
+                    document.getElementById(elem.value + "_class").disabled = true;
+                }
             }
         </script>
 
@@ -103,15 +125,21 @@
                                 <br>
                                 <form name="myform" method="post" action="#" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Name <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="id" class="col-xs-2 col-form-label">Unique ID </label>
                                         <div class="col-xs-10">
-
-                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
+                                            <input required class="form-control" type="text" placeholder="Unique ID" name="username" id="username">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Name </label>
+                                        <div class="col-xs-10">
+                                            <input required class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Gender </b><span style="color:#cc0000;"><b> *</b></span></div>
+                                        <div class="col-lg-2"><b>Gender </b></div>
                                         <div class="col-lg-4">
                                             <select name="gender" class="form-control">
                                                 <option value="1">Male</option>
@@ -122,47 +150,46 @@
                                     <br>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC </label>
                                         <div class="col-xs-10">
-
-                                            <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
+                                            <input required class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"> *</span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                            <input required class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone<span style="color:#cc0000;"><b>*</b></span></label>
+                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
+                                            <input required class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                            <input required class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="qualifications" class="col-xs-2 col-form-label">Qualifications </label>
                                         <div class="col-xs-10">
-                                            <input type="Description" class="form-control" id="qualifications">
+                                            <input required type="Description" class="form-control" id="qualifications">
                                         </div>
                                     </div>
-                                    
+                                    <hr>
                                     <!--Show all subjects-->
-                                    <h4>Teaching subjects</h4>
+                                    <h4>Teaching subjects and classes</h4>                                    
                                     <div id="subjects" class="form-group row">
-                                        
+
                                     </div>
-                                    
+
                                     <button type="submit" class="btn btn-primary" style="float:right;"><h4> Register</h4> </button>
                                     <!-- finishing student registration-->
                                 </form>
@@ -172,29 +199,6 @@
                             <!--validation-->
 
                             <script>
-                                function validateEmail()
-                                {
-                                    var x = document.myform.email.value;
-                                    var atposition = x.indexOf("@");
-                                    var dotposition = x.lastIndexOf(".");
-                                    if (x !== "") {
-                                        if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
-                                            alert("Please enter a valid e-mail address!");
-                                            return false;
-                                        }
-                                    }
-                                    return true;
-                                }
-
-//                                function validateEmail() {
-//                                var email = document.myform.email.value;
-//                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
-//                                if (re.test(email)===false){
-//                                alert("Wrong email format!");
-//                                return false;
-//                                }
-//
-//                                }
                                 function validateTP() {
                                     var tp = document.myform.tp.value;
                                     console.log("DEBUG tp -> " + tp);
@@ -206,31 +210,8 @@
                                     return true;
                                 }
 
-
-
-
-                                function validateName() {
-
-                                    var nm = document.myform.nm.value;
-                                    var gender = document.myform.gender.value;
-                                    var nic = document.myform.nic.value;
-                                    var add = document.myform.add.value;
-                                    var tp = document.myform.tp.value;
-                                    console.log("DEBUG vname ->");
-                                    if (nm === "" || gender === "" || nic === "" || add === "" || tp === "") {
-                                        alert("Please make sure you have filled the compulsory fields");
-                                        return false;
-                                    }
-                                    return true;
-                                }
-
                                 function validateForm() {
-
-                                    var validation = true;
-                                    if ((validateName() && validateTP() && validateEmail()) === true) {
-                                        return validation;
-                                    }
-                                    return false;
+                                    return validateTP();
                                 }
 
 

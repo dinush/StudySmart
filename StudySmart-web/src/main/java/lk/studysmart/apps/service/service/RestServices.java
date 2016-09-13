@@ -334,6 +334,32 @@ public class RestServices {
 
         return jarray.toString();
     }
+    
+    /**
+     * Get classes by grade.
+     * @param grade
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("classes/{grade}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getClassesByGrade(@PathParam("grade") Integer grade, @Context HttpServletRequest request) {
+        List<Class2> classes = em.createNamedQuery("Class.findByGrade")
+                .setParameter("grade", grade)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for(Class2 class2:classes) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", class2.getId());
+            jobj.put("grade", class2.getGrade());
+            jobj.put("subclass", class2.getSubclass());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
 
     /**
      * Get all the students
