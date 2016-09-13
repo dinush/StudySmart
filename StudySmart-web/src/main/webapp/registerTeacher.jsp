@@ -37,9 +37,32 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+                getSubjects();
             });
+            
+            function getSubjects() {
+                $.ajax({
+                    url: "ws/rest/subjects/all",
+                    async: true
+                })
+                        .done(function(data) {
+                            var subjects = document.getElementById("subjects");
+                            subjects.innerHTML = '';
+                            for(var i=0; i < data.length; i++) {
+                                var row = "<div class='checkbox'>";
+                                row += "<label>";
+                                row += "<input type='checkbox' name='subjects' value='";
+                                row += data[i].id;
+                                row += "'>";
+                                row += data[i].name + " (Grade " + data[i].grade + ")";
+                                row += "</label>";
+                                row += "</div>";
+                                subjects.innerHTML += row;
+                            }
+                        });
+            }
         </script>
 
 
@@ -127,11 +150,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Qualifications </label>
-                                        <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
+                                    <div class="form-group row">
+                                        <label for="qualifications" class="col-xs-2 col-form-label">Qualifications </label>
+                                        <div class="col-xs-10">
+                                            <input type="Description" class="form-control" id="qualifications">
+                                        </div>
                                     </div>
-                                    <br>
+                                    
+                                    <!--Show all subjects-->
+                                    <h4>Teaching subjects</h4>
+                                    <div id="subjects" class="form-group row">
+                                        
+                                    </div>
+                                    
                                     <button type="submit" class="btn btn-primary" style="float:right;"><h4> Register</h4> </button>
                                     <!-- finishing student registration-->
                                 </form>
