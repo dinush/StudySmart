@@ -1,10 +1,39 @@
 <%-- any content can be specified here e.g.: --%>
+<script>
+    function getPublicNews() {
+        $.ajax({
+            url: "ws/rest/messages/public",
+            async: true
+        })
+                .done(function(data){
+                    var feed = document.getElementById("feed");
+                    feed.innerHTML = '';
+                    
+                    for(var i=0; i < data.length; i++) {
+                        var html = "<div class='panel  panel-info'>";
+                        html += "<div class='panel=heading'>";
+                        html += "<h3 class='panel-title'>" + data.title + "</h3>";
+                        html += "</div>";
+                        html += "<div class='panel-body'>";
+                        html += data.content;
+                        html += "</div>";
+                        html += "</div>";
+                        feed.innerHTML += html; 
+                    }
+                });
+    }
+    
+    $(function() {
+        getPublicNews();
+    });
+</script>
 <%@ page pageEncoding="UTF-8" %>
 <div class="panel panel-primary" style="margin-top:-12px;">
     <div class="panel-heading">
         <h1 class="panel-title"><i><b>General News Feed</b></i></h1>
     </div>
 </div>
+<div id="feed">
 <div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title">8/25/2016</h3>
@@ -34,6 +63,5 @@
     </div>
     <div class="panel-footer">Author: Anupama Arukgoda </div>
 </div>
-
-<a href="#"> <i>See older topics..</i>
+</div>
 

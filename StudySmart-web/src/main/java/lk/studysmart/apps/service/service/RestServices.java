@@ -589,6 +589,17 @@ public class RestServices {
 
         return jarr.toString();
     }
+    
+    @GET
+    @Path("messages/public")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPublicMessages(@Context HttpServletRequest request) {
+        List<Message> publicMsgs = em.createNamedQuery("Message.findByType")
+                .setParameter("type", 5)
+                .getResultList();
+        
+        return msgsToJsonArray(publicMsgs, null).toString();
+    }
         
     protected JSONArray msgsToJsonArray(List<Message> msgs, @Nullable JSONArray jarr) {
         if(jarr == null)

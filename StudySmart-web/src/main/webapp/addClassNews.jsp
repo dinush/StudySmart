@@ -87,21 +87,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -146,7 +132,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="urls">Urls:</label>
-                                                <input type="text" name="urls" id="urls" class="form-control" placeholder="Multiple urls seperate by commas"/>
+                                                <input type="text" name="urls" id="urls" class="form-control" placeholder="Optional"/>
                                             </div>
                                             <button type="submit" class="btn btn-primary" style="float: right"><h4> Submit</h4> </button>
                                         </div>
