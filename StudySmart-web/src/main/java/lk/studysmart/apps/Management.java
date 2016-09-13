@@ -75,7 +75,7 @@ public class Management extends HttpServlet {
         switch (request.getParameter("action")) {
             case "class-msg-add": { // Add class level msg
                 // Read data from the POST
-                String data = bufferedToString(request.getReader());
+                String data = Utils.bufferedToString(request.getReader());
                 if(data == null)
                     return;
 
@@ -114,7 +114,7 @@ public class Management extends HttpServlet {
             case "seen": {
                 // mark message as seen
                 // example input data, [{id:4},...]
-                String data = bufferedToString(request.getReader());
+                String data = Utils.bufferedToString(request.getReader());
                 if(data == null)    // Exception in reading function
                     return;
                 
@@ -136,20 +136,6 @@ public class Management extends HttpServlet {
                 }
             }
         }
-    }
-
-    private String bufferedToString(BufferedReader buffered) {
-        StringBuilder buf = new StringBuilder();
-        String line;
-        try {
-            while ((line = buffered.readLine()) != null) {
-                buf.append(line);
-            }
-        } catch (Exception e) {
-            // error
-            return null;
-        }
-        return buf.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

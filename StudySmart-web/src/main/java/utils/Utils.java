@@ -6,6 +6,7 @@
 package utils;
 
 import com.sun.istack.internal.Nullable;
+import java.io.BufferedReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -110,5 +111,19 @@ public class Utils {
             jarr.put(jobj);
         }
         return jarr;
+    }
+    
+    public static String bufferedToString(BufferedReader buffered) {
+        StringBuilder buf = new StringBuilder();
+        String line;
+        try {
+            while ((line = buffered.readLine()) != null) {
+                buf.append(line);
+            }
+        } catch (Exception e) {
+            // error
+            return null;
+        }
+        return buf.toString();
     }
 }
