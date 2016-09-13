@@ -53,7 +53,7 @@
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<div class='checkbox' style='float:left; width:46%; margin:10px;'>";
                                 row += "<label>";
-                                row += "<input type='checkbox' name='subjects' value='";
+                                row += "<input class='subj' type='checkbox' name='subjects' value='";
                                 row += data[i].id;
                                 row += "' onchange='selActivator(this)'>";
                                 row += data[i].name + " (id: " + data[i].id + ")";
@@ -66,7 +66,7 @@
                                         .done(function (classData) {
                                             row += "<div>";
                                             row += "<select multiple disabled class='form-control' name='" + data[i].id + "_class' id='" + data[i].id + "_class' style='height:70px;'>";
-                                            for(var j=0; j<classData.length; j++) {
+                                            for (var j = 0; j < classData.length; j++) {
                                                 row += "<option value='" + classData[j].id + "'>Grade " + classData[j].grade + " " + classData[j].subclass + "</option>";
                                             }
                                             row += "</select>";
@@ -77,13 +77,42 @@
                             }
                         });
             }
-            
+
             function selActivator(elem) {
                 if (elem.checked) {
                     document.getElementById(elem.value + "_class").disabled = false;
                 } else {
                     document.getElementById(elem.value + "_class").disabled = true;
                 }
+            }
+
+            function validateAndSend() {
+                var subjs = document.getElementsByClassName("subj");
+                for (var i = 0; i < subjs.length; i++) {
+                    if (subjs[i].checked) {
+                        var vals = getSelectValues(document.getElementById(subjs[i].value + "_class"));
+                        if (vals.length === 0) {
+                            alert("Invalid subject assigning detected. Please check again.");
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Return an array of the selected option values
+            function getSelectValues(select) {
+                var result = [];
+                var options = select && select.options;
+                var opt;
+
+                for (var i = 0, iLen = options.length; i < iLen; i++) {
+                    opt = options[i];
+
+                    if (opt.selected) {
+                        result.push(opt.value || opt.text);
+                    }
+                }
+                return result;
             }
         </script>
 
@@ -130,7 +159,7 @@
                                             <input required class="form-control" type="text" placeholder="Unique ID" name="username" id="username">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Name </label>
                                         <div class="col-xs-10">
@@ -190,7 +219,7 @@
 
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Register</h4> </button>
+                                    <button type="button" onclick="validateAndSend()" class="btn btn-primary" style="float:right;">Register</button>
                                     <!-- finishing student registration-->
                                 </form>
                             </div>
