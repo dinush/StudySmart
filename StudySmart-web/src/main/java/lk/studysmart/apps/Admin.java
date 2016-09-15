@@ -31,6 +31,7 @@ import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
+import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.User;
 
 /**
@@ -196,14 +197,57 @@ public class Admin extends HttpServlet {
         String tel = request.getParameter("tp");
         String email = request.getParameter("email");
         String qualifications = request.getParameter("qualifications");
-        
+        // Construct <User>
+        User teacher = new User();
+        teacher.setUsername(username);
+        teacher.setName(name);
+        teacher.setGender(gender);
+        teacher.setNic(nic);
+        teacher.setAddress(address);
+        teacher.setPhone(tel);
+        teacher.setEmail(email);
+        teacher.setQualifications(qualifications);
+        teacher.setPassword("123"); // Default
+        teacher.setLevel(3);
+        // Persist
+        try {
+            utx.begin();
+            em.persist(teacher);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // Store subjects and classes
         String[] subjects = request.getParameterValues("subjects");
-        for(String subject : subjects) {
-            String[] classes = request.getParameterValues(subject+"_class");
-            System.out.println("classes" + classes.length);
+        for (String subjectid : subjects) {
+            String[] classes = request.getParameterValues(subjectid + "_class");
+            Subject subject = em.find(Subject.class, subjectid);
+            for (String classid : classes) {
+                Class2 class2 = em.find(Class2.class, Integer.parseInt(classid));
+                // Construct model
+                TeacherTeaches ttes = new TeacherTeaches();
+                ttes.setUserId(teacher);
+                ttes.setClass1(class2);
+                ttes.setSubjectId(subject);
+                try {
+                    // Persist
+                    utx.begin();
+                    em.persist(ttes);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+        try {
+            response.sendRedirect("index.jsp");
+        } catch (IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
