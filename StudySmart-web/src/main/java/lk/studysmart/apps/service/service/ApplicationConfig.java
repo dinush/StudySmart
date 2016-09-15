@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(lk.studysmart.apps.service.service.AssignmentMarksFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.Class2FacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.RestServices.class);
+        resources.add(lk.studysmart.apps.service.service.Search.class);
         resources.add(lk.studysmart.apps.service.service.StudentParentFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.StudentSubjectFacadeREST.class);
         resources.add(lk.studysmart.apps.service.service.SubjectFacadeREST.class);

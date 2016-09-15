@@ -42,6 +42,24 @@
                 getSubjects();
             });
 
+            function checkUsername(elem) {
+                var username = $(elem).val();
+                $.ajax({
+                    url: "ws/search/user/exact/" + username,
+                    async: true
+                })
+                        .done(function (data) {
+                            var err_div = document.getElementById("username-error");
+                            if (data.length > 0) {
+                                err_div.innerHTML = $(elem).val() + " already exists!";
+                                $(elem).val('');
+                                $(err_div).show();
+                            } else {
+                                $(err_div).hide();
+                            }
+                        });
+            }
+
             function getSubjects() {
                 $.ajax({
                     url: "ws/rest/subjects/all",
@@ -155,10 +173,11 @@
                                 <br>
                                 <form name="myform" method="post" action="Admin?action=register/teacher" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="id" class="col-xs-2 col-form-label">Unique ID </label>
+                                        <label for="id" class="col-xs-2 col-form-label">Username </label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="text" placeholder="Unique ID" name="username" id="username">
+                                            <input required class="form-control" type="text" placeholder="Username" name="username" id="username" onchange="checkUsername(this)">
                                         </div>
+                                        <div class="col-xs-10" id="username-error" hidden style="color:red; float:right;"></div>
                                     </div>
 
                                     <div class="form-group row">
