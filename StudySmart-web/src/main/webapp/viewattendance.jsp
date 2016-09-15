@@ -218,7 +218,7 @@
                     async: true
                 })
                         .done(function (data) {
-                            data = JSON.parse(data);
+//                            data = JSON.parse(data);
                             var tbl_data = document.getElementById("tbl_data");
                             tbl_data.innerHTML = '';
                             //Loop through each student

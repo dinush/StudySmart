@@ -5,7 +5,6 @@
  */
 package lk.studysmart.apps.service.service;
 
-import com.sun.istack.internal.Nullable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,7 +114,7 @@ public class RestServices {
      */
     @GET
     @Path("student/attendance/{classid}/{from}/{to}")
-    @Produces
+    @Produces(MediaType.APPLICATION_JSON)
     public String getClassStudentsAttendanceInAPeriod(@PathParam("classid") Integer classid, @PathParam("from") String from, @PathParam("to") String to, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
@@ -620,6 +619,9 @@ public class RestServices {
     @Path("messages/public")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPublicMessages(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
         List<Message> publicMsgs = em.createNamedQuery("Message.findByType")
                 .setParameter("type", 5)
                 .getResultList();

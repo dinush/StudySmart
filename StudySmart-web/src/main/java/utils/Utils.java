@@ -5,7 +5,6 @@
  */
 package utils;
 
-import com.sun.istack.internal.Nullable;
 import java.io.BufferedReader;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -87,7 +86,7 @@ public class Utils {
      * @param jarr
      * @return 
      */
-    public static JSONArray msgsToJsonArray(List<Message> msgs, @Nullable JSONArray jarr) {
+    public static JSONArray msgsToJsonArray(List<Message> msgs, JSONArray jarr) {
         if(jarr == null)
             jarr = new JSONArray();
         for (Message msg : msgs) {

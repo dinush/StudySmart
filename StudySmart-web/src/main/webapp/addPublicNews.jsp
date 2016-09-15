@@ -41,6 +41,11 @@
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+        <% 
+            if(acc_level > 2) {
+                response.sendRedirect("index.jsp");
+            }
+        %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
