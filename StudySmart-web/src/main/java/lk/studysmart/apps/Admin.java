@@ -188,7 +188,20 @@ public class Admin extends HttpServlet {
     }
 
     private void registerTeacher(HttpServletRequest request, HttpServletResponse response) {
-    
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String gender = request.getParameter("gender");
+        String nic = request.getParameter("nic");
+        String address = request.getParameter("address");
+        String tel = request.getParameter("tp");
+        String email = request.getParameter("email");
+        String qualifications = request.getParameter("qualifications");
+        
+        String[] subjects = request.getParameterValues("subjects");
+        for(String subject : subjects) {
+            String[] classes = request.getParameterValues(subject+"_class");
+            System.out.println("classes" + classes.length);
+        }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

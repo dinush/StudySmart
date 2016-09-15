@@ -93,10 +93,11 @@
                         var vals = getSelectValues(document.getElementById(subjs[i].value + "_class"));
                         if (vals.length === 0) {
                             alert("Invalid subject assigning detected. Please check again.");
-                            return;
+                            return false;
                         }
                     }
                 }
+                return true;
             }
 
             // Return an array of the selected option values
@@ -152,7 +153,7 @@
                                 <!--adding teacher registration-->
 
                                 <br>
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
+                                <form name="myform" method="post" action="Admin?action=register/teacher" onsubmit="return validateForm();">
                                     <div class="form-group row">
                                         <label for="id" class="col-xs-2 col-form-label">Unique ID </label>
                                         <div class="col-xs-10">
@@ -161,9 +162,9 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Name </label>
+                                        <label for="name" class="col-xs-2 col-form-label">Name </label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
+                                            <input required class="form-control" type="text" placeholder="Name with initials" name="name" id="name">
                                         </div>
                                     </div>
 
@@ -188,7 +189,7 @@
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Address</label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                            <input required class="form-control" type="text" placeholder="Address" name="address" id="add">
                                         </div>
                                     </div>
 
@@ -200,16 +201,16 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
+                                        <label for="email" class="col-xs-2 col-form-label">Email</label>
                                         <div class="col-xs-10">
-                                            <input required class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                            <input required class="form-control" type="email" name="email" placeholder="example@example.com" id="email">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="qualifications" class="col-xs-2 col-form-label">Qualifications </label>
                                         <div class="col-xs-10">
-                                            <input required type="Description" class="form-control" id="qualifications">
+                                            <input required type="Description" name="qualifications" class="form-control" id="qualifications">
                                         </div>
                                     </div>
                                     <hr>
@@ -219,7 +220,7 @@
 
                                     </div>
 
-                                    <button type="button" onclick="validateAndSend()" class="btn btn-primary" style="float:right;">Register</button>
+                                    <button type="submit" onclick="validateAndSend()" class="btn btn-primary" style="float:right;">Register</button>
                                     <!-- finishing student registration-->
                                 </form>
                             </div>
