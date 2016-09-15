@@ -26,24 +26,24 @@
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-        <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
+        <!--<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />--> 
 
         <!--Font Awesome (added because you use icons in your prepend/append)-->
-        <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <!--<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />-->
 
         <!-- Inline CSS based on choices in "Settings" tab -->
-        <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+        <!--<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>-->
         <script src="js/jqwidgets/jqxcore.js"></script>
-        <!--<script src="js/jqwidgets/jqxdatetimeinput.js"></script>-->
+        <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-//                $('#bday-container input').datepicker({
-//                    endDate: new Date()
-//                });
+                $('#bday-container input').datepicker({
+                    endDate: new Date()
+                });
 
                 $.ajax({
                     url: "ws/rest/classes",
