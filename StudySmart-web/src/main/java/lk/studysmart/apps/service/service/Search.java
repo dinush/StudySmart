@@ -48,6 +48,16 @@ public class Search {
             jobj.put("username", user.getUsername());
             jobj.put("name", user.getName());
             jobj.put("level", user.getLevel());
+            jobj.put("email", user.getEmail());
+            jobj.put("class", user.getClass1().getGrade());
+            jobj.put("subclass", user.getClass1().getSubclass());
+            jobj.put("gender", user.getGender());
+            jobj.put("birthdate", user.getBirthdate());
+            jobj.put("nic", user.getNic());
+            jobj.put("address", user.getAddress());
+            jobj.put("occupation", user.getOccupation());
+            jobj.put("tp", user.getPhone());
+            jobj.put("qualifications", user.getQualifications());
             jarr.put(jobj);
         }
         

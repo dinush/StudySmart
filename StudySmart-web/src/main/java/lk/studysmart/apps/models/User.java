@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByLevel", query = "SELECT u FROM User u WHERE u.level = :level"),
-    @NamedQuery(name = "User.findBySubject", query = "SELECT u FROM User u WHERE u.subject = :subject"),
     @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender"),
     @NamedQuery(name = "User.findByBirthdate", query = "SELECT u FROM User u WHERE u.birthdate = :birthdate"),
     @NamedQuery(name = "User.findByNic", query = "SELECT u FROM User u WHERE u.nic = :nic"),
@@ -85,9 +84,6 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "level")
     private int level;
-    @Size(max = 25)
-    @Column(name = "subject")
-    private String subject;
     @Size(max = 10)
     @Column(name = "gender")
     private String gender;
@@ -167,14 +163,6 @@ public class User implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getGender() {

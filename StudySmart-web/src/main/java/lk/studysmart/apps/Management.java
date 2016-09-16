@@ -72,68 +72,169 @@ public class Management extends HttpServlet {
 
         switch (request.getParameter("action")) {
             case "class-msg-add": { // Add class level msg
-                // Read data from the POST
-                String data = Utils.bufferedToString(request.getReader());
-                if(data == null)
-                    return;
-
-                // Get required attributes
-                JSONObject jobj = new JSONObject(data);
-                String title = jobj.getString("title");
-                String content = jobj.getString("content");
-                String date = jobj.getString("date");
-                String urls = jobj.getString("urls");
-                Class2 class2 = em.find(Class2.class, Integer.parseInt(jobj.getString("classid")));
-
-                Message message = new Message();
-                message.setType(4); // Class level msg
-                message.setTitle(title);
-                message.setContent(content);
-                message.setUrl(urls);
-                try {   // Get current time.
-                    message.setTargetdate(Utils.getFormattedDate(date));
-                } catch (ParseException ex) {
-                    Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                message.setAddeduser(user);
-                message.setAddeddate(Utils.getFormattedDate());
-                message.setAddedtime(Utils.getFormattedTime());
-                message.setClass1(class2);
-
-                try {
-                    utx.begin();
-                    em.persist(message);
-                    utx.commit();
-                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                addClassMsg(request);
             }
             break;
             case "seen": {
                 // mark message as seen
                 // example input data, [{id:4},...]
-                String data = Utils.bufferedToString(request.getReader());
-                if(data == null)    // Exception in reading function
-                    return;
-                
-                JSONArray jarr = new JSONArray(data);
-                for(int i=0; i < jarr.length(); i++) {  // Process seens
-                    JSONObject jobj = jarr.getJSONObject(i);
-                    int id = jobj.getInt("id");
-                    
-                    Message msg = em.find(Message.class, id);
-                    msg.setSeen(true);
-                    
-                    try {
-                        utx.begin();
-                        em.merge(msg);
-                        utx.commit();
-                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                        Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                markMsgAsSeen(request);
+            }
+            break;
+            case "profile": {
+                getUserProfile(request);
+                request.getRequestDispatcher("/profile.jsp").forward(request, response);
+            }
+            break;
+            case "changeProfile": {
+                try {
+                    changeUserProfile(request);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }
+    }
+
+    /**
+     * Marks a msg as seen
+     *
+     * @param request
+     * @throws IOException
+     */
+    private void markMsgAsSeen(HttpServletRequest request) throws IOException {
+        String data = Utils.bufferedToString(request.getReader());
+        if (data == null) // Exception in reading function
+        {
+            return;
+        }
+
+        JSONArray jarr = new JSONArray(data);
+        for (int i = 0; i < jarr.length(); i++) {  // Process seens
+            JSONObject jobj = jarr.getJSONObject(i);
+            int id = jobj.getInt("id");
+
+            Message msg = em.find(Message.class, id);
+            msg.setSeen(true);
+
+            try {
+                utx.begin();
+                em.merge(msg);
+                utx.commit();
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void addClassMsg(HttpServletRequest request) throws IOException {
+        // Read data from the POST
+        String data = Utils.bufferedToString(request.getReader());
+        if (data == null) {
+            return;
+        }
+
+        // Get required attributes
+        JSONObject jobj = new JSONObject(data);
+        String title = jobj.getString("title");
+        String content = jobj.getString("content");
+        String date = jobj.getString("date");
+        String urls = jobj.getString("urls");
+        Class2 class2 = em.find(Class2.class, Integer.parseInt(jobj.getString("classid")));
+
+        Message message = new Message();
+        message.setType(4); // Class level msg
+        message.setTitle(title);
+        message.setContent(content);
+        message.setUrl(urls);
+        try {   // Get current time.
+            message.setTargetdate(Utils.getFormattedDate(date));
+        } catch (ParseException ex) {
+            Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        message.setAddeduser(user);
+        message.setAddeddate(Utils.getFormattedDate());
+        message.setAddedtime(Utils.getFormattedTime());
+        message.setClass1(class2);
+
+        try {
+            utx.begin();
+            em.persist(message);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void getUserProfile(HttpServletRequest request) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        if (username == null) {
+            return;
+        }
+
+        User user2 = em.find(User.class, username);
+
+        request.setAttribute("username", user2.getUsername());
+        request.setAttribute("name", user2.getName());
+        request.setAttribute("email", user2.getEmail());
+        request.setAttribute("gender", user2.getGender());
+        // Optional values and user level specifics
+        if (user2.getClass1() != null) {
+            request.setAttribute("class", "Grade " + user2.getClass1().getGrade() + " " + user2.getClass1().getSubclass());
+        }
+        if (user2.getBirthdate() != null) {
+            request.setAttribute("birthdate", Utils.getFormattedDateString(user2.getBirthdate()));
+        }
+        if (user2.getAddress() != null) {
+            request.setAttribute("address", user2.getAddress());
+        }
+        if (user2.getNic() != null) {
+            request.setAttribute("nic", user2.getNic());
+        }
+        if (user2.getOccupation() != null) {
+            request.setAttribute("occupation", user2.getOccupation());
+        }
+        if (user2.getPhone() != null) {
+            request.setAttribute("tp", user2.getPhone());
+        }
+        if (user2.getQualifications() != null) {
+            request.setAttribute("qualifications", user2.getQualifications());
+        }
+
+    }
+
+    private void changeUserProfile(HttpServletRequest request) throws ParseException {
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String name = request.getParameter("name");
+        String gender = request.getParameter("gender");
+        String birthdate = request.getParameter("birthdate");
+        String nic = request.getParameter("nic");
+        String address = request.getParameter("address");
+        String occupation = request.getParameter("occupation");
+        String tp = request.getParameter("tp");
+        String qualifications = request.getParameter("qualifications");
+
+        User user2 = em.find(User.class, username);
+        user2.setEmail(email);
+        user2.setName(name);
+        user2.setGender(gender);
+        user2.setBirthdate(Utils.getFormattedDate(birthdate));
+        user2.setNic(nic);
+        user2.setAddress(address);
+        user2.setOccupation(occupation);
+        user2.setPhone(tp);
+        user2.setQualifications(qualifications);
+
+        try {
+            utx.begin();
+            em.merge(user2);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
