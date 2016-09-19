@@ -28,11 +28,13 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.User;
+import utils.Utils;
 
 /**
  *
@@ -85,6 +87,11 @@ public class Admin extends HttpServlet {
             break;
             case "register/teacher": {
                 registerTeacher(request, response);
+            }
+            break;
+            case "news/general": {
+                addGeneralNews(request);
+                response.sendRedirect("index.jsp?msg=News Added Successfully");
             }
             break;
             default: {
@@ -246,6 +253,26 @@ public class Admin extends HttpServlet {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void addGeneralNews(HttpServletRequest request) {
+        String str_msg = request.getParameter("msg");
+        
+        Message msg = new Message();
+        msg.setContent(str_msg);
+        msg.setAddeduser(user);
+        msg.setAddeddate(Utils.getFormattedDate());
+        msg.setAddedtime(Utils.getFormattedTime());
+        msg.setType(5);
+        
+        try {
+            utx.begin();
+            em.persist(msg);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**

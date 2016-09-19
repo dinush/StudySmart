@@ -5,25 +5,29 @@
             url: "ws/rest/messages/public",
             async: true
         })
-                .done(function(data){
+                .done(function (data) {
                     var feed = document.getElementById("feed");
                     feed.innerHTML = '';
-                    
-                    for(var i=0; i < data.length; i++) {
+
+                    for (var i = 0; i < data.length; i++) {
                         var html = "<div class='panel  panel-info'>";
-                        html += "<div class='panel=heading'>";
-                        html += "<h3 class='panel-title'>" + data.title + "</h3>";
+                        html += "<div class='panel-heading'>";
+                        html += data[i].added_user_name + " @ ";
+                        html += data[i].added_time + " , " + data[i].added_date;
+                        if (data[i].title !== undefined) {
+                            html += "<h3 class='panel-title'>" + data[i].title + "</h3>";
+                        }
                         html += "</div>";
                         html += "<div class='panel-body'>";
-                        html += data.content;
+                        html += data[i].content;
                         html += "</div>";
                         html += "</div>";
-                        feed.innerHTML += html; 
+                        feed.innerHTML += html;
                     }
                 });
     }
-    
-    $(function() {
+
+    $(function () {
         getPublicNews();
     });
 </script>
@@ -34,34 +38,34 @@
     </div>
 </div>
 <div id="feed">
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">8/25/2016</h3>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">8/25/2016</h3>
+        </div>
+        <div class="panel-body">
+            The annual school assembly will be held on 8th September 2016. All students are required to be present st the school grounds at 8.00 am. 
+        </div>
+        <div class="panel-footer">Author: Sisinda Dinush</div>
     </div>
-    <div class="panel-body">
-        The annual school assembly will be held on 8th September 2016. All students are required to be present st the school grounds at 8.00 am. 
-    </div>
-    <div class="panel-footer">Author: Sisinda Dinush</div>
-</div>
 
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">02/02/2016</h3>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">02/02/2016</h3>
+        </div>
+        <div class="panel-body">
+            The school Sports Day is scheduled to be held on the 02/28/2016 at the Sugathadasa Stadium.
+        </div>
+        <div class="panel-footer">Author: Ayesh Dinusha</div>
     </div>
-    <div class="panel-body">
-        The school Sports Day is scheduled to be held on the 02/28/2016 at the Sugathadasa Stadium.
-    </div>
-    <div class="panel-footer">Author: Ayesh Dinusha</div>
-</div>
 
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">01/30/2016</h3>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">01/30/2016</h3>
+        </div>
+        <div class="panel-body">
+            The school calender for the year 2016 has been uploaded. Please check the attachment below. 
+        </div>
+        <div class="panel-footer">Author: Anupama Arukgoda </div>
     </div>
-    <div class="panel-body">
-        The school calender for the year 2016 has been uploaded. Please check the attachment below. 
-    </div>
-    <div class="panel-footer">Author: Anupama Arukgoda </div>
-</div>
 </div>
 

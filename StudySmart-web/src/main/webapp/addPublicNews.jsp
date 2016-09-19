@@ -41,8 +41,7 @@
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <% 
-            if(acc_level > 2) {
+        <%            if (acc_level > 2) {
                 response.sendRedirect("index.jsp");
             }
         %>
@@ -59,37 +58,33 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                
+
                                 <!--editing starts here-->
                                 <h3><b><i><u> Add General News </u></i></b></h3>
                                 <br>
-                                <form class="form-inline">
-                                <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">
-                                        <div class="form-group">
-                                        <label for="exampleInputName2" >Date: </label>
-                                        <input type="text" class="form-control" id="exampleInputName2" style="margin-left:20px;" placeholder="8/28/2016">
-                                      </div>
-                                    </h3>
-                                </div>
-                                <div class="panel-body">
-                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">News: </label>
-                                      <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:66px; width:510px; " placeholder="New Announcement"></textarea>
+                                <form class="form-inline" action="Admin?action=news/general" method="POST">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">
+                                                <div class="form-group">
+                                                    <label for="date" >Date: </label>
+                                                    <input name="date" type="date" class="form-control" id="exampleInputName2" style="margin-left:20px;" placeholder="8/28/2016">
+                                                </div>
+                                            </h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label for="msg">News: </label>
+                                                <textarea type="Description" name="msg" class="form-control" id="InputDescription" style="margin-left:66px; width:510px; " placeholder="New Announcement"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="panel-footer">
-                                    <div class="form-group">
-                                        <label for="exampleInputName2" >Author: </label>
-                                        <input type="text" class="form-control" id="exampleInputName2" style="margin-left:10px;" placeholder="Jane Doe">
-                                    </div>
-                                </div>
-                            </div>
-                                    
+
+
                                     <br>
-                                    <button type="button" class="btn btn-primary" style="margin-left:520px;"><h4> Submit</h4> </button>
-                                    <!--ends here-->
+                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Submit</h4> </button>
+                                </form>
+                                <!--ends here-->
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
