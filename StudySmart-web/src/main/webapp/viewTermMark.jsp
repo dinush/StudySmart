@@ -41,7 +41,7 @@
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             var barChart = null;
-            
+
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 getSubjects();
@@ -67,16 +67,16 @@
             function getMarks() {
                 var chartLabels = [];
                 var chartValues = [];
-                
+
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
-                
+
                 $.ajax({
                     url: "ws/acadamic/marks/terms/<%out.print(user.getUsername());%>/" + $('#subject').val(),
                     async: true
                 })
                         .done(function (data) {
-                            for(var i=0; i<data.length; i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 chartLabels.push("Term " + data[i].term);
                                 chartValues.push(data[i].value);
                                 var row = "<tr>";
@@ -91,48 +91,42 @@
                                 datasets: [
                                     {
                                         label: "Marks",
-                                        fill: false,
-                                        backgroundColor: "rgba(75,192,192,0.4)",
-                                        borderColor: "rgba(75,192,192,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)'
+                                        ],
+                                        borderWidth: 1,
                                         data: chartValues
                                     }
-                                ]                                
+                                ]
                             };
                             updateChart(data);
                         });
             }
 
             function updateChart(data) {
-                if(barChart !== null) {
+                if (barChart !== null) {
                     barChart.destroy();
                 }
-                
+
                 var canvas = document.getElementById("chart");
                 barChart = new Chart(canvas, {
-                    type: "line",
+                    type: "bar",
                     options: {
                         scales: {
                             yAxes: [{
-                                ticks: {
-                                    min: 0,
-                                    beginAtZero: true,
-                                    suggestedMax: 100
-                                }
-                            }]
+                                    ticks: {
+                                        min: 0,
+                                        beginAtZero: true,
+                                        suggestedMax: 100
+                                    }
+                                }]
                         }
                     },
                     data: data
@@ -183,7 +177,7 @@
                                         <th>Marked By</th>
                                         </thead>
                                         <tbody id="tbl_data">
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>

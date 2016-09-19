@@ -114,7 +114,22 @@
             function initBarChart(data) {
                 var canvas = document.getElementById("att_chart");
                 barChart = new Chart(canvas, {
-                    type: "bar",
+                    type: "line",
+                    options:
+                            {
+                                scales:
+                                        {
+                                            xAxes: [{
+                                                    display: false
+                                                }],
+                                            yAxes: [{
+                                                    ticks: {
+                                                        min: 0,
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                        }
+                            },
                     data: data
                 });
             }
@@ -126,7 +141,7 @@
                 studentid = '<% out.print(user.getUsername()); %>' // Get the studentid according to user level
             <% } else if (user.getLevel() == 4) { %>
                 studentid = $("#student").val();
-            <% } %>
+            <% }%>
 
                 if ($('#from').val() > $('#to').val()) {
                     alert('Invalid date period');
@@ -243,7 +258,7 @@
                                 var perc = (nAttDays / attDetails.length) * 100;
                                 if (!isNaN(perc)) {
                                     row += "<td>" + perc + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
-                                    chartData.push(nAttDays);
+                                    chartData.push(perc);
                                     chartLabels.push(data[i].name + " (" + data[i].username + ")");
                                 } else {
                                     row += "<td>N/A</td>";
@@ -260,6 +275,14 @@
                                 datasets: [
                                     {
                                         label: $('#from').val() + " - " + $('#to').val(),
+                                        fill: true,
+                                        backgroundColor: "rgba(75,192,192,0.4)",
+                                        lineTension: 0.1,
+                                        spanGaps: false,
+                                        pointBorderColor: "rgba(75,192,192,1)",
+                                        pointBackgroundColor: "#fff",
+                                        pointBorderWidth: 1,
+                                        pointHoverRadius: 5,
                                         data: chartData
                                     }
                                 ]
