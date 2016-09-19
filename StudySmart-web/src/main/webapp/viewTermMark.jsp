@@ -22,8 +22,7 @@
 
 
 
-<% 
-    Date date = new Date();
+<%    Date date = new Date();
     DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 %>
 <!DOCTYPE html>
@@ -40,9 +39,38 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+                getSubjects();
+                
             });
+
+            function getSubjects() {
+                $.ajax({
+                    url: "ws/acadamic/subjects/<%out.print(user.getUsername());%>",
+                    async: true
+                })
+                        .done(function (data) {
+                            var sel_sbj = document.getElementById("subject");
+                            sel_sbj.innerHTML = '';
+                            for(var i=0;i < data.length; i++) {
+                                var row = "<option value='" + data[i].sbj_id + "'>" + data[i].sbj_name + "</option>";
+                                sel_sbj.innerHTML += row;
+                            }
+                            getMarks();
+                        });
+            }
+
+            function getMarks() {
+                $('#marks').html("Not Marked");
+                $.ajax({
+                    url: "ws/acadamic/marks/term/<%out.print(user.getUsername());%>/" + $('#term').val() + "/" + $('#subject').val(),
+                    async: true
+                })
+                        .done(function(data) {
+                            $('#marks').html(data.value + "/100");
+                        });
+            }
         </script>
 
 
@@ -55,7 +83,7 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li>View Assignments Marks</li>
+            <li>View Term Test Marks</li>
         </ol>
         <table border="0">
             <tr>
@@ -67,33 +95,32 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
-                                    
-                                    <div class="col-lg-3">
-                                        <select name="grade" class="form-control">
-                                            <option value="1">Term 1</option>
-                                            <option value="2">Term 2</option>
-                                            <option value="2">Term 3</option>
-                                        </select>
-                                    </div>
-                                    
 
                                     <div class="col-lg-3">
-                                        <select name="class" class="form-control">
+                                        <select id="term" name="term" class="form-control" onchange="getMarks()">
+                                            <option value="1">Term 1</option>
+                                            <option value="2">Term 2</option>
+                                            <option value="3">Term 3</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-lg-3">
+                                        <select id="subject" name="subject" class="form-control" onchange="getMarks()">
                                             <option value="1">Science</option>
                                             <option value="2">English</option>
                                         </select>
                                     </div>
-                                    
-                                    <div class="col-lg-2">
-                                        <button type="button" class="btn btn-primary">Load Marks</button>
-                                    </div>
-                                    
+
+                                </div>
+                                <div class="row">
+                                    <h3 id="marks">Marks</h3>
                                 </div>
                                 <br>
-                                
-                                
-                                
-                                
+
+
+
+
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
