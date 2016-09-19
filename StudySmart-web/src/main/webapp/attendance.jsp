@@ -77,6 +77,8 @@
                             var prev_marker = document.getElementById("marked-user-name");
                             if(data[0].marked_name !== "n/a") {
                                 prev_marker.innerHTML = "Previously marked by: " + data[0].marked_name;
+                            } else {
+                                prev_marker.innerHTML = '';
                             }
                             
                             var tbl_data = document.getElementById("tbl_data");
