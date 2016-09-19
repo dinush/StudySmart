@@ -60,29 +60,18 @@
                             <div id="main-content" class="col-md-8">
 
                                 <!--editing starts here-->
-                                <h3><b><i><u> Add General News </u></i></b></h3>
+                                <h3><b><i><u> Add Public News </u></i></b></h3>
                                 <br>
                                 <form class="form-inline" action="Admin?action=news/general" method="POST">
                                     <div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">
-                                                <div class="form-group">
-                                                    <label for="date" >Date: </label>
-                                                    <input name="date" type="date" class="form-control" id="exampleInputName2" style="margin-left:20px;" placeholder="8/28/2016">
-                                                </div>
-                                            </h3>
-                                        </div>
                                         <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="msg">News: </label>
-                                                <textarea type="Description" name="msg" class="form-control" id="InputDescription" style="margin-left:66px; width:510px; " placeholder="New Announcement"></textarea>
+                                                <textarea type="Description" name="msg" class="form-control" id="InputDescription" placeholder="New Announcement"></textarea>
                                             </div>
                                         </div>
                                     </div>
-
-
-                                    <br>
-                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Submit</h4> </button>
+                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
                                 </form>
                                 <!--ends here-->
                             </div>
