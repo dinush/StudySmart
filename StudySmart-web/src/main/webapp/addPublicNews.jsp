@@ -41,7 +41,7 @@
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <%            if (acc_level > 2) {
+        <% if (acc_level > 2) {
                 response.sendRedirect("index.jsp");
             }
         %>

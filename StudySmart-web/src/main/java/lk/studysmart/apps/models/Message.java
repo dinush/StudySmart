@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Message.findByGrade", query = "SELECT m FROM Message m WHERE m.grade = :grade"),
     @NamedQuery(name = "Message.findByClass", query = "SELECT m FROM Message m WHERE m.class1 = :class2"),
     @NamedQuery(name = "Message.findByAddedUser", query = "SELECT m FROM Message m WHERE m.addeduser = :user"),
-    @NamedQuery(name = "Message.findByFourOrs", query = "SELECT m FROM Message m WHERE (m.targetuser = :user OR m.userlevel = :userlevel OR m.class1 = :class2 OR m.grade = :grade) AND (m.type <> 5) ORDER BY m.addeddate DESC")})
+    @NamedQuery(name = "Message.findByFourOrs", query = "SELECT m FROM Message m WHERE (m.targetuser = :user OR m.userlevel = :userlevel OR m.class1 = :class2 OR m.grade = :grade) AND (m.type <> 5) ORDER BY m.addeddate DESC, m.addedtime DESC")})
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -34,7 +34,7 @@ public class Acadamic {
     private EntityManager em;
     
     @GET
-    @Path("marks/term/{username}/{term}/{subject}/")
+    @Path("marks/terms/{username}/{subject}/")
     @Produces(MediaType.APPLICATION_JSON)
     public String getTermMarks(@PathParam("username") String username, @PathParam("term") Integer term, @PathParam("subject") String subjectid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
@@ -44,21 +44,21 @@ public class Acadamic {
         User student = em.find(User.class, username);
         Subject subject = em.find(Subject.class, subjectid);
         
-        List<TermMarks> lst_mrks = em.createNamedQuery("TermMarks.findByTermUserSubject")
-                .setParameter("term", term)
+        List<TermMarks> lst_mrks = em.createNamedQuery("TermMarks.findByUserSubject")
                 .setParameter("username", student)
                 .setParameter("subject", subject)
                 .getResultList();
         
-        JSONObject jobj_mrks = new JSONObject();
-        if(lst_mrks.isEmpty()) 
-            return null;
-        
-        jobj_mrks.put("value", lst_mrks.get(0).getValue());
-        jobj_mrks.put("marker_uname", lst_mrks.get(0).getMarkedby().getUsername());
-        jobj_mrks.put("marker_name", lst_mrks.get(0).getMarkedby().getName());
-        
-        return jobj_mrks.toString();
+        JSONArray jarr_mrks = new JSONArray();
+        for(TermMarks mrks:lst_mrks) {
+            JSONObject jobj_mrks = new JSONObject();
+            jobj_mrks.put("term", mrks.getTerm());
+            jobj_mrks.put("value", mrks.getValue());
+            jobj_mrks.put("marker_uname", mrks.getMarkedby().getUsername());
+            jobj_mrks.put("marker_name", mrks.getMarkedby().getName());
+            jarr_mrks.put(jobj_mrks);
+        }
+        return jarr_mrks.toString();
     }
     
     @GET
