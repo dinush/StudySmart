@@ -142,7 +142,7 @@ public class Admin extends HttpServlet {
             }
 
         }
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index.jsp?msg=User registration successfull");
     }
 
     private void registerParent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -157,7 +157,7 @@ public class Admin extends HttpServlet {
         parent.setOccupation(request.getParameter("occupation"));
         parent.setPhone(request.getParameter("phone"));
         parent.setEmail(request.getParameter("email"));
-
+        
         try {
             utx.begin();
             em.persist(parent);
@@ -185,7 +185,7 @@ public class Admin extends HttpServlet {
                 return;
             }
         }
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index.jsp?msg=User registration successfull");
     }
 
     private void registerTeacher(HttpServletRequest request, HttpServletResponse response) {
@@ -208,7 +208,7 @@ public class Admin extends HttpServlet {
         teacher.setEmail(email);
         teacher.setQualifications(qualifications);
         teacher.setPassword("123"); // Default
-        teacher.setLevel(3);
+        teacher.setLevel(2);
         // Persist
         try {
             utx.begin();
@@ -241,7 +241,7 @@ public class Admin extends HttpServlet {
             }
         }
         try {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?msg=User registration successfull");
         } catch (IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -48,6 +48,11 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <% if(request.getParameter("msg") != null) { %>
+                                <script>
+                                    alert("<% out.print(request.getParameter("msg"));%>");
+                                </script>
+                                <% } %>
                                  <%@ include file="WEB-INF/jspf/newsFeed.jspf" %>
                             </div>
                             <div class="col-md-4">
