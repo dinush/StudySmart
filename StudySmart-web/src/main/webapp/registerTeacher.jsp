@@ -260,6 +260,14 @@
                                 }
 
                                 function validateForm() {
+                                    //Username max 8 characters
+                                    var un = document.myform.username.value;
+                                    console.log(un);
+                                    if(un.length > 8) {
+                                        alert("Username can have 8 characters max");
+                                        return false;
+                                    }
+                                    
                                     return validateTP();
                                 }
 

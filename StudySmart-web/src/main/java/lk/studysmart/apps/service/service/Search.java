@@ -49,8 +49,10 @@ public class Search {
             jobj.put("name", user.getName());
             jobj.put("level", user.getLevel());
             jobj.put("email", user.getEmail());
-            jobj.put("class", user.getClass1().getGrade());
-            jobj.put("subclass", user.getClass1().getSubclass());
+            if(user.getClass1() != null) {
+                jobj.put("class", user.getClass1().getGrade());
+                jobj.put("subclass", user.getClass1().getSubclass());
+            }
             jobj.put("gender", user.getGender());
             jobj.put("birthdate", user.getBirthdate());
             jobj.put("nic", user.getNic());

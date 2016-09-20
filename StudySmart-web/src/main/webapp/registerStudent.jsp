@@ -203,6 +203,14 @@
                             <script>
                                 function validateEmail()
                                 {
+                                    //Username max 8 characters
+                                    var un = document.myform.username.value;
+                                    console.log(un);
+                                    if(un.length > 8) {
+                                        alert("Username can have 8 characters max");
+                                        return false;
+                                    }
+                                    
                                     var x = document.myform.email.value;
                                     var atposition = x.indexOf("@");
                                     var dotposition = x.lastIndexOf(".");
