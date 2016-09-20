@@ -59,6 +59,24 @@
                             loadSubjects(document.getElementById('class'));
                         });
             });
+            
+            function checkUsername(elem) {
+                var username = $(elem).val();
+                $.ajax({
+                    url: "ws/search/user/exact/" + username,
+                    async: true
+                })
+                        .done(function (data) {
+                            var err_div = document.getElementById("username-error");
+                            if (data.length > 0) {
+                                err_div.innerHTML = $(elem).val() + " already exists!";
+                                $(elem).val('');
+                                $(err_div).show();
+                            } else {
+                                $(err_div).hide();
+                            }
+                        });
+            }
 
             function loadSubjects(sel) {
                 $.ajax({
@@ -123,8 +141,9 @@
                                     <div class="form-group row">
                                         <label for="username" class="col-xs-2 col-form-label">Student ID (Username)</label>
                                         <div class="col-xs-10">
-                                            <input name="username" required type="text" class="form-control" id="username" placeholder="Username">
+                                            <input name="username" required type="text" class="form-control" id="username" placeholder="Username" onchange="checkUsername(this)">
                                         </div>
+                                        <div class="col-xs-10" id="username-error" hidden style="color:red; float:right;"></div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Student Name </label>
