@@ -98,7 +98,7 @@
                                                     <b>Birth Date </b>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <span style="color:#428bca"><i><b><% out.print(user.getBirthdate()); %></b></i></span>
+                                                    <span style="color:#428bca"><i><b><% out.print(utils.Utils.getFormattedDateString(user.getBirthdate())); %></b></i></span>
                                                 </div>
                                                 </div>
                                             </li>
@@ -138,21 +138,21 @@
                                                         
                                              
                                                         
-                                            <% if(request.getAttribute("class") != null) { %>
+                                            <% if (user.getClass() != null) { %>
                                             <li class="list-group-item">
                                                 <div class="row">
                                                 <div class="col-md-4">
                                                     <b>Class</b>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <span style="color:#428bca"><i><b><% out.print(user.getClass()); %></b></i></span>
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getClass1().getGrade()); out.print(user.getClass1().getSubclass());  %></b></i></span>
                                                 </div>
                                                 </div>
                                             </li>
                                              
-                                            <% } %>
+                                            <% }
                                             
-                                            <% if (request.getAttribute("nic") != null) { %>
+                                            if (user.getNic() != null) { %>
                                             <li class="list-group-item">
                                                 <div class="row">
                                                 <div class="col-md-4">
@@ -180,21 +180,8 @@
                                              
                                             <% } %>
                                             
-                                             <% if(request.getAttribute("occupation") != null) { %>
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                <div class="col-md-4">
-                                                    <b>Occupation</b>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <span style="color:#428bca"><i><b><% out.print(user.getOccupation()); %></b></i></span>
-                                                </div>
-                                                </div>
-                                            </li>
-                                             
-                                            <% } %>
                                             
-                                             <% if(request.getAttribute("tp") != null) { %>
+                                             <% if(user.getPhone() != null) { %>
                                             <li class="list-group-item">
                                                 <div class="row">
                                                 <div class="col-md-4">
@@ -208,21 +195,21 @@
                                              
                                             <% } %>
                                             
-                                             <% if(request.getAttribute("nic") != null) { %>
-                                             <li class="list-group-item"><b>NIC: <b><% out.print(user.getNic()); %></li>  
+                                             <% if(user.getOccupation()!= null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Occupation</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getOccupation()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
                                             <% } %>
                                             
-                                             <% if(request.getAttribute("occupation") != null) { %>
-                                             <li class="list-group-item"><b>Occupation: <b><% out.print(user.getOccupation()); %></li>  
-                                            <% } %>
-                                            
-                                             <% if(request.getAttribute("tp") != null) { %>
-                                             <li class="list-group-item"><b>NIC: <b><% out.print(user.getPhone()); %></li>  
-                                            <% } %>
-                                            
-                                             <% if(request.getAttribute("qualifications") != null) { %>
-                                             <li class="list-group-item"><b>NIC: <b><% out.print(user.getQualifications()); %></li>  
-                                            <% } %>
+                                             
                                             
                                             <br>
                                             <li class="list-group-item">
