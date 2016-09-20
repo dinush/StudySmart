@@ -619,9 +619,6 @@ public class RestServices {
     @Path("messages/public")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPublicMessages(@Context HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
-            return "Not authorized";
-        }
         List<Message> publicMsgs = em.createNamedQuery("Message.findByType")
                 .setParameter("type", 5)
                 .getResultList();
