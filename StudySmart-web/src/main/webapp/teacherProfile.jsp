@@ -75,8 +75,8 @@
                                     <!-- List group -->
                                     <div class="panel-body"
                                         <ul class="list-group" style="font-size:16px;">
-                                          <li class="list-group-item"><b>Teacher's Name     : <b></li>
-                                          <li class="list-group-item">Gender:</li>
+                                            <li class="list-group-item"><b>Teacher's Name     : <b><i><% out.print(user.getName()); %></i></b></li>
+                                          <li class="list-group-item">Gender: <% out.print(user.getGender()); %></li>
                                           <li class="list-group-item">NIC: </li>
                                           <li class="list-group-item">Address: </li>
                                           <li class="list-group-item">Telephone: </li>

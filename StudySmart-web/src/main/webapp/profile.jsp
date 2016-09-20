@@ -55,74 +55,195 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                
+                                <% if (acc_level == 3) { %>
+                                <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:#428bca"></span>
+                                    <u><i>Student's Information</u></i></h1>
+                                <br>
+                                <% } %>
+                                
+                                <% if (acc_level == 2) { %>
+                                <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:#428bca"></span>
+                                    <u><i>Teacher's Information</u></i></h1>
+                                <br>
+                                <% } %>
+                                
+                                 <% if (acc_level == 4) { %>
+                                <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:#428bca"></span>
+                                    <u><i>Parent's Information</u></i></h1>
+                                <br>
+                                <% } %>
+                                
                                 <form action="management?action=changeProfile" method="POST">
-                                    <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input required type="text" class="form-control" id="username" name="username" readonly value="<% out.print(request.getAttribute("username"));%>"/>
+                                    <div class="panel panel-info" style="font-size:16px;">
+                                    <!-- List group -->
+                                        <div class="panel-body">
+                                            
+
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Name </b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"> <b><i><% out.print(user.getName()); %></i></b></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                                
+                                                            
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Birth Date </b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(utils.Utils.getFormattedDateString(user.getBirthdate())); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                                                    
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Gender</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getGender()); %></b</i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Address</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getAddress()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                                        
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Email</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getEmail()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                                        
+                                             
+                                                        
+                                            <% if (user.getClass() != null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Class</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getClass1().getGrade()); out.print(user.getClass1().getSubclass());  %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
+                                            <% }
+                                            
+                                            if (user.getNic() != null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>NIC</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getNic()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
+                                            <% } %>
+                                            
+                                             <% if(request.getAttribute("qualifications") != null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Qualifications</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getQualifications()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
+                                            <% } %>
+                                            
+                                            
+                                             <% if(user.getPhone() != null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Telephone Number</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getPhone()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
+                                            <% } %>
+                                            
+                                             <% if(user.getOccupation()!= null) { %>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b>Occupation</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span style="color:#428bca"><i><b><% out.print(user.getOccupation()); %></b></i></span>
+                                                </div>
+                                                </div>
+                                            </li>
+                                             
+                                            <% } %>
+                                            
+                                             
+                                            
+                                            <br>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                <div class="col-md-4">
+                                                    <b></b> Password</b>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-danger"><i>Change Password</i></button>
+                                                </div>
+                                            </div>
+                                            </li>
+                                            
+                                           
+                                            
+                                           
+                                            
+                                            
+                                            
+                                          
+                                            
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input required type="text" class="form-control" id="name" name="name" value="<% out.print(request.getAttribute("name"));%>"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <button class="btn btn-default">change</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input required type="email" class="form-control" id="email" name="email" value="<% out.print(request.getAttribute("email"));%>"/>
-                                    </div>
-                                    <% if(request.getAttribute("class") != null) { %>
-                                    <div class="form-group">
-                                        <label for="class">Class</label>
-                                        <input required type="text" class="form-control" name="class" id="class" readonly value="<% out.print(request.getAttribute("class"));%>"/>
-                                    </div>
-                                    <% } %>
-                                    <div class="form-group">
-                                        <label for="gender">Gender</label>
-                                        <select id="gender" name="gender">
-                                            <option value="male" <% if(request.getAttribute("gender") == "male") { %>selected<% } %>>Male</option>
-                                            <option value="female" <% if(request.getAttribute("gender") == "female") { %>selected<% } %>>Female</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="birthdate">Birth Date</label>
-                                        <input required type="date" class="form-control" name="birthdate" id="birthdate" value="<% out.print(request.getAttribute("birthdate") != null ? request.getAttribute("birthdate") : ""); %>" />
-                                    </div>
-                                    <% if (request.getAttribute("nic") != null) {%>
-                                    <div class="form-group">
-                                        <label for="nic">NIC</label>
-                                        <input required type="text" class="form-control" name="nic" id="nic" value="<% out.print(request.getAttribute("nic")); %>" />
-                                    </div>
-                                    <% } %>
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <input required type="text" class="form-control" name="address" id="address" value="<% out.print(request.getAttribute("address") != null ? request.getAttribute("address") : ""); %>"/>
-                                    </div>
-                                    <% if (request.getAttribute("occupation") != null) { %>
-                                    <div class="form-group">
-                                        <label for="occupation">Occupation</label>
-                                        <input required type="text" class="form-control" name="occupation" id="occupation" value="<% out.print(request.getAttribute("occupation")); %>"/>
-                                    </div>
-                                    <% } %>
-                                    <% if (request.getAttribute("tp") != null) { %>
-                                    <div class="form-group">
-                                        <label for="phone">TP</label>
-                                        <input required type="tel" class="form-control" name="tp" id="tp" value="<% out.print(request.getAttribute("tp")); %>"/>
-                                    </div>
-                                    <% } %>
-                                    <% if (request.getAttribute("qualifications") != null) { %>
-                                    <div class="form-group">
-                                        <label for="qualifications">Qualifications</label>
-                                        <input required type="text" class="form-control" name="qualifications" id="qualifications" value="<% out.print(request.getAttribute("qualifications")); %>"/>
-                                    </div>
-                                    <% } %>
-                                    <input type="submit" value="Change" class="btn btn-default"/>
+                                            
+                                            
                                 </form>
-                            </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
-                            </div>
+                                            
+                                            
+                                    </div>
+                                    <div class="col-md-4">
+                                        <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                    </div>
+                                    
+                                    
                         </div>
                     </div>
                 </td>

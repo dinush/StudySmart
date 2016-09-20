@@ -127,8 +127,8 @@
                                     <li role="presentation"><a href="registerSystemAdmin.jsp">System Admin</a></li>
                                 </ul> 
                                 <br>
-                                <h1><span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:#428bca"></span><i><u>Add New Student</u></i></h1>
-
+                                <h1><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span><i><u>Add New Student</u></i></h1>
+style="color:#428bca"
                                 <h5><span style="color:#cc0000;">* Please fill all the fields before submitting </span></h5>
                                 
                                 <br>
