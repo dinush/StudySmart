@@ -154,7 +154,7 @@
                                     <select name="class" class="form-control" id="class" onchange="getSubjects()"></select>
                                 </div>
                                 <div style="float: left;">
-                                    <select name="subject" class="form-control" id="subject"></select>
+                                    <select name="subject" class="form-control" id="subject" onchange="getStudents()"></select>
                                 </div>
                                 <div style="float: left">
                                     <select id="term" name="term" class="form-control" onchange="getStudents()">
