@@ -44,13 +44,14 @@
 
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                getSubjects();
-
+                <% if (acc_level == 3) { %>
+                    getSubjects("<%out.print(user.getUsername());%>");
+                <% } %>
             });
 
-            function getSubjects() {
+            function getSubjects(username) {
                 $.ajax({
-                    url: "ws/acadamic/subjects/<%out.print(user.getUsername());%>",
+                    url: "ws/acadamic/subjects/" + username,
                     async: true
                 })
                         .done(function (data) {
