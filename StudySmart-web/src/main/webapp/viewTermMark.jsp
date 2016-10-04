@@ -161,12 +161,24 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
-
-                                    <div class="col-lg-3">
-                                        <select id="subject" name="subject" class="form-control" onchange="getMarks()">
-                                            <option value="1">Science</option>
-                                            <option value="2">English</option>
+                                    
+                                    <% if (acc_level < 3) { %>
+                                    <div class="col-md-3">
+                                        <select id="class2" name="class2" class="form-control">
+                                            
                                         </select>
+                                    </div>
+                                    <% } %>
+
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            Subject
+                                        </div>
+                                        <div class="flat-panel-body">
+                                            <select id="subject" name="subject" class="form-control" onchange="getMarks()">
+
+                                            </select>
+                                        </div>
                                     </div>
 
                                 </div>

@@ -37,3 +37,17 @@
     width: 400px;
     float: right;
 }
+
+.flat-panel {
+    border: 1px solid #336699;
+}
+
+.flat-panel-head {
+    padding: 6px;
+    background-color: #336699;
+    color: white;
+}
+
+.flat-panel-body {
+    padding: 10px;
+}
