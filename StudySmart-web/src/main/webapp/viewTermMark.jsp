@@ -140,9 +140,6 @@
                     data: data
                 });
             }
-        </script>
-
-
     </script>
     <title>StudySmart</title>
 </head>
