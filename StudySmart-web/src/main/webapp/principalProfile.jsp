@@ -1,7 +1,7 @@
 <%-- 
-    Document   : index
-    Created on : Jun 29, 2016, 8:10:42 PM
-    Author     : dinush
+    Document   : principalProfile
+    Created on : Oct 9, 2016, 7:10:02 PM
+    Author     : Muhammad
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 --%>
@@ -13,8 +13,8 @@
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,20 +61,22 @@
                                 </ul>
                                 <br>
                                 <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                <span class="label label-primary">Teacher's Information</span></h1>
+                                <span class="label label-primary">Principal's Information</span></h1>
                                 <br>
                                 
-                                                      
                                 
                                 
                                 
-                                                             
+                                
+                                
+                                
+                                
                                 <div class="panel panel-info"
                                     <!-- List group -->
                                     <div class="panel-body"
                                         <ul class="list-group" style="font-size:16px;">
-                                            <li class="list-group-item"><b>Teacher's Name     : <b><i><% out.print(user.getName()); %></i></b></li>
-                                          <li class="list-group-item">Gender: <% out.print(user.getGender()); %></li>
+                                          <li class="list-group-item"><b>Principal's Name     : <b></li>
+                                          <li class="list-group-item">Gender:</li>
                                           <li class="list-group-item">NIC: </li>
                                           <li class="list-group-item">Address: </li>
                                           <li class="list-group-item">Telephone: </li>
