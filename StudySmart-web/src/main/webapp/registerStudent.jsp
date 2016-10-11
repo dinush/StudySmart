@@ -41,9 +41,9 @@
         <script type = "text/javascript" >
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                $('#bday-container input').datepicker({
-                    endDate: new Date()
-                });
+//                $('#bday-container input').datepicker({
+//                    endDate: new Date()
+//                });
 
                 $.ajax({
                     url: "ws/rest/classes",

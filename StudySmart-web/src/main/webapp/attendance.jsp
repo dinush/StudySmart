@@ -154,10 +154,6 @@
                                         <select name="class" class="form-control" id="class" onchange="getAttendance()">
                                         </select>
                                     </div>
-                                    
-                                    <div class="col-lg-2">
-                                        <button type="submit" class="btn btn-primary">Load Students</button>
-                                    </div>
                                     </form>
                                 </div>
                                 <br>
