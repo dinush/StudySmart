@@ -1,8 +1,8 @@
--- MySQL dump 10.15  Distrib 10.0.26-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.15  Distrib 10.0.25-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: StudySmart
 -- ------------------------------------------------------
--- Server version	10.0.26-MariaDB
+-- Server version	10.0.25-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -226,7 +226,7 @@ CREATE TABLE `Message` (
   CONSTRAINT `fk_addeduser_message` FOREIGN KEY (`addeduser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_class_message` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_targetuser_message` FOREIGN KEY (`targetuser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +235,7 @@ CREATE TABLE `Message` (
 
 LOCK TABLES `Message` WRITE;
 /*!40000 ALTER TABLE `Message` DISABLE KEYS */;
-INSERT INTO `Message` VALUES (1,0,'title test','sample message',NULL,'2016-09-28',NULL,'teacher','2016-09-04','17:14:32',4,NULL,NULL,5,NULL),(2,1,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:37',1,'st1',NULL,NULL,NULL),(3,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st3',NULL,NULL,NULL),(4,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st6',NULL,NULL,NULL),(5,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st8',NULL,NULL,NULL),(6,1,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:27',1,'st1',NULL,NULL,NULL),(7,0,'Term 1 marks','Term 1 marks added for Maths (student: Student 1 [st1])',NULL,NULL,NULL,'teacher','2016-09-11','11:27:27',1,'parent',NULL,NULL,NULL),(8,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:27',1,'st3',NULL,NULL,NULL),(9,0,'Term 1 marks','Term 1 marks added for Maths (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'par1',NULL,NULL,NULL),(10,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'st6',NULL,NULL,NULL),(11,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'st8',NULL,NULL,NULL);
+INSERT INTO `Message` VALUES (1,0,'title test','sample message',NULL,'2016-09-28',NULL,'teacher','2016-09-04','17:14:32',4,NULL,NULL,5,NULL);
 /*!40000 ALTER TABLE `Message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +339,7 @@ CREATE TABLE `StudentSubject` (
   KEY `subjectid_index` (`subjectId`),
   CONSTRAINT `fk_subject_id` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +348,7 @@ CREATE TABLE `StudentSubject` (
 
 LOCK TABLES `StudentSubject` WRITE;
 /*!40000 ALTER TABLE `StudentSubject` DISABLE KEYS */;
-INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004'),(6,'st3','001'),(7,'st3','002'),(8,'st3','004'),(9,'st5','001'),(10,'st5','003'),(11,'st6','001'),(12,'st6','002'),(13,'st8','001'),(14,'st8','002'),(15,'st8','003'),(16,'st8','004');
+INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004'),(6,'st3','001'),(7,'st3','002'),(8,'st3','004');
 /*!40000 ALTER TABLE `StudentSubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +368,7 @@ CREATE TABLE `Student_Parent` (
   KEY `fk_student_parent_2` (`studentid`),
   CONSTRAINT `fk_student_parent_1` FOREIGN KEY (`parentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `fk_student_parent_2` FOREIGN KEY (`studentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +377,7 @@ CREATE TABLE `Student_Parent` (
 
 LOCK TABLES `Student_Parent` WRITE;
 /*!40000 ALTER TABLE `Student_Parent` DISABLE KEYS */;
-INSERT INTO `Student_Parent` VALUES (4,'kdfh','st3'),(2,'par1','st2'),(3,'par1','st3'),(1,'parent','st1');
+INSERT INTO `Student_Parent` VALUES (2,'par1','st2'),(3,'par1','st3'),(1,'parent','st1');
 /*!40000 ALTER TABLE `Student_Parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,7 +449,7 @@ CREATE TABLE `TeacherTeaches` (
   CONSTRAINT `TeacherTeaches_ibfk_1` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_subject` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -458,7 +458,7 @@ CREATE TABLE `TeacherTeaches` (
 
 LOCK TABLES `TeacherTeaches` WRITE;
 /*!40000 ALTER TABLE `TeacherTeaches` DISABLE KEYS */;
-INSERT INTO `TeacherTeaches` VALUES (1,'teacher','001',5),(2,'teacher','002',6),(8,'tch001','003',5),(9,'tch001','003',6),(10,'tch001','004',5);
+INSERT INTO `TeacherTeaches` VALUES (1,'teacher','001',5),(2,'teacher','002',6);
 /*!40000 ALTER TABLE `TeacherTeaches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +486,7 @@ CREATE TABLE `TermMarks` (
   CONSTRAINT `fk_markedby_tm` FOREIGN KEY (`markedby`) REFERENCES `User` (`username`),
   CONSTRAINT `fk_student_tm` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_subject_tm` FOREIGN KEY (`subject`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,7 +495,7 @@ CREATE TABLE `TermMarks` (
 
 LOCK TABLES `TermMarks` WRITE;
 /*!40000 ALTER TABLE `TermMarks` DISABLE KEYS */;
-INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,13,'teacher'),(5,'st3','001',5,1,66,'teacher'),(12,'st2','002',6,1,55,'teacher'),(13,'st6','001',5,1,88,'teacher'),(14,'st8','001',5,1,78,'teacher');
+INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,14,'teacher'),(5,'st3','001',5,1,66,'teacher'),(12,'st2','002',6,1,55,'teacher');
 /*!40000 ALTER TABLE `TermMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,6 +512,7 @@ CREATE TABLE `User` (
   `email` varchar(40) DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `level` int(11) NOT NULL,
+  `subject` varchar(25) DEFAULT NULL,
   `class` int(11) DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
@@ -532,7 +533,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('kdfh','123','sdfwf@gm.co','sdfhj',4,NULL,'Male',NULL,'dfdfwe','dsgsdg','fgdfg','234234',NULL),('par1','123','wer@g.com','Smpl Parent 1',4,NULL,'Male',NULL,'0123456','afaff','werwef','0123456789',NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st1','123','st@studysmart','Student 1',3,5,'male','2000-02-08',NULL,'123, xyz, abc',NULL,NULL,NULL),('st2','123','st@studysmart','Student 2',3,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st3','123','jas@aa.com','Smpl Student 3',3,5,'Male','2016-08-31',NULL,NULL,NULL,NULL,NULL),('st5','123','a@a.co','student 5',3,6,'Male','2004-06-08',NULL,NULL,NULL,NULL,NULL),('st6','123','kljfd@lgds.com','Smpl Student 6',3,5,'Male','2016-07-13',NULL,NULL,NULL,NULL,NULL),('st8','123','k@gk.lk','sama',3,5,'Male','2016-09-05',NULL,NULL,NULL,NULL,NULL),('tch001','123','jj@gmail.com','A.B.JJ',3,NULL,'1',NULL,'900121212V','48, NN, Frew',NULL,'0771234567','BSC'),('teacher','123','teacher@studysmart','Teacher',2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('user','123','user@email.com','Sample User',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('par1','123','wer@g.com','Smpl Parent 1',4,NULL,NULL,'Male',NULL,'0123456','afaff','werwef','0123456789',NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st2','123','st@studysmart','Student 2',3,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st3','123','jas@aa.com','Smpl Student 3',3,NULL,5,'Male','2016-08-31',NULL,NULL,NULL,NULL,NULL),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('user','123','user@email.com','Sample User',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -641,4 +642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-16 16:02:15
+-- Dump completed on 2016-09-05 10:30:08
