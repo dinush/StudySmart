@@ -53,7 +53,16 @@
                                     alert("<% out.print(request.getParameter("msg"));%>");
                                 </script>
                                 <% } %>
-                                 <%@ include file="WEB-INF/jspf/newsFeed.jspf" %>
+                                 
+                                <!-- Discussion FOrum starts here-->
+                                
+                                <span style="display:none;">***</span>
+<script type="text/javascript" language="javascript" id="pnyxeForumItJs" src="https://www.pnyxe.shadow.com/PnyxeForumItJs.jsp"></script>
+<script type="text/javascript" language="javascript" id="pnyxeForumItInitJs195291">try { var zpbw_webWidgetClientKey = "Xeqc3pxqs9cXRvoB4_7H2A"; var pnyxeForumIt = new PnyxeForumIt(); pnyxeForumIt.init("195291"); } catch (e) {}</script>
+<noscript><a href="https://www.pnyxe.shadow.com/DiscussIt-comment-system?utm_source=wwcCodeSpanPromotion1" rel="nofollow">Comment System</a></noscript>
+                                
+                                
+                                
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
