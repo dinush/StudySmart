@@ -44,28 +44,42 @@
 
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                <% if (acc_level == 3) { %>
-                    getSubjects("<%out.print(user.getUsername());%>");
-                <% } %>
+                getClasses();
             });
-
-            function getSubjects(username) {
+            
+            function getClasses() {
                 $.ajax({
-                    url: "ws/acadamic/subjects/" + username,
+                    url: "ws/rest/classes",
+                    async: true
+                })
+                        .done(function (data) {
+                            var sel_clz = document.getElementById("class2");
+                            sel_clz.innerHTML = '';
+                            for (var i=0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>Class " + data[i].name + "</option>";
+                                sel_clz.innerHTML += row;
+                            }
+                            getSubjects(data[0].id);
+                        });
+            }
+
+            function getSubjects(clz) {
+                $.ajax({
+                    url: "ws/rest/subjects/" + clz,
                     async: true
                 })
                         .done(function (data) {
                             var sel_sbj = document.getElementById("subject");
                             sel_sbj.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
-                                var row = "<option value='" + data[i].sbj_id + "'>" + data[i].sbj_name + "</option>";
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
                                 sel_sbj.innerHTML += row;
                             }
-                            getMarks();
+                            getStudents();
                         });
             }
 
-            function getMarks() {
+            function getStudents() {
                 var chartLabels = [];
                 var chartValues = [];
 
@@ -73,17 +87,18 @@
                 tbl.innerHTML = '';
 
                 $.ajax({
-                    url: "ws/acadamic/marks/terms/<%out.print(user.getUsername());%>/" + $('#subject').val(),
+                    url: "ws/rest/student/" + $("#class2").val() + "/" + $("#subject").val() ,
                     async: true
                 })
                         .done(function (data) {
                             for (var i = 0; i < data.length; i++) {
-                                chartLabels.push("Term " + data[i].term);
-                                chartValues.push(data[i].value);
                                 var row = "<tr>";
-                                row += "<td>" + data[i].term + "</td>";
-                                row += "<td>" + data[i].value + "</td>";
-                                row += "<td>" + data[i].marker_name + "</td>";
+                                row += "<td>" + data[i].username + "</td>";
+                                row += "<td>" + data[i].name + "</td>";
+                                // Loop through avalible terms. 3 max
+                                for (var j = 0; j < data[i].term_marks.length; j++) {
+                                    row += "<td>" + data[i].term_marks[j].marks + "</td>";
+                                }
                                 row += "</tr>";
                                 tbl.innerHTML += row;
                             }
@@ -161,21 +176,23 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
-                                    
-                                    <% if (acc_level < 3) { %>
-                                    <div class="col-md-3">
-                                        <select id="class2" name="class2" class="form-control">
-                                            
-                                        </select>
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            Class
+                                        </div>
+                                        <div class="flat-panel-body">
+                                            <select id="class2" name="class2" class="form-control" onchange="getSubjects(this.value)">
+
+                                            </select>
+                                        </div>
                                     </div>
-                                    <% } %>
 
                                     <div class="flat-panel">
                                         <div class="flat-panel-head">
                                             Subject
                                         </div>
                                         <div class="flat-panel-body">
-                                            <select id="subject" name="subject" class="form-control" onchange="getMarks()">
+                                            <select id="subject" name="subject" class="form-control" onchange="getStudents()">
 
                                             </select>
                                         </div>
@@ -189,9 +206,11 @@
                                 <div class="row">
                                     <table class="table table-striped">
                                         <thead>
-                                        <th>Term</th>
-                                        <th>Marks</th>
-                                        <th>Marked By</th>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Term 1</th>
+                                        <th>Term 2</th>
+                                        <th>Term 3</th>
                                         </thead>
                                         <tbody id="tbl_data">
 

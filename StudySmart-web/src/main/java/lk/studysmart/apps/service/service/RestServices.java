@@ -180,7 +180,7 @@ public class RestServices {
     @GET
     @Path("student/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getStudents(@PathParam("classid") Integer classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
+    public String getStudentsByClassAndSubject(@PathParam("classid") Integer classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -203,6 +203,32 @@ public class RestServices {
             JSONObject jobj = new JSONObject();
             jobj.put("username", ss.getUserId().getUsername());
             jobj.put("name", ss.getUserId().getName());
+            jobj.put("subject", ss.getSubjectId().getIdSubject());
+            
+            /** 
+             * Get extra student details 
+             * *** EXPERIMENTAL ***
+             */
+            // Get term test marks (for all 3 terms)
+            List<TermMarks> termMarks = em.createNamedQuery("TermMarks.findByUserSubject")
+                    .setParameter("username", ss.getUserId())
+                    .setParameter("subject", subject)
+                .getResultList();
+            JSONArray jarrTerms = new JSONArray();
+            for (TermMarks tm : termMarks) {
+                JSONObject jobjTerm = new JSONObject();
+                jobjTerm.put("term", tm.getTerm());
+                jobjTerm.put("marks", tm.getValue());
+                jobjTerm.put("marker_username", tm.getMarkedby().getUsername());
+                jobjTerm.put("marker_name", tm.getMarkedby().getName());
+                jarrTerms.put(jobjTerm);
+            }
+            jobj.put("term_marks", jarrTerms);
+            
+            /**
+             * End of extra student details
+             */
+            
             jarray.put(jobj);
         }
 
