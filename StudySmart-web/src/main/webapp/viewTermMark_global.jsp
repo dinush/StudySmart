@@ -81,7 +81,7 @@
 
             function getStudents() {
                 var chartLabels = [];
-                var chartValues = [];
+                var chartValues = [[], [], []];
 
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
@@ -95,9 +95,12 @@
                                 var row = "<tr>";
                                 row += "<td>" + data[i].username + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
+                                chartLabels.push(data[i].name);
                                 // Loop through avalible terms. 3 max
                                 for (var j = 0; j < data[i].term_marks.length; j++) {
-                                    row += "<td>" + data[i].term_marks[j].marks + "</td>";
+                                    var marks = data[i].term_marks[j].marks;
+                                    row += "<td>" + marks + "</td>";
+                                    chartValues[j].push(marks)
                                 }
                                 row += "</tr>";
                                 tbl.innerHTML += row;
@@ -105,9 +108,53 @@
                             var data = {
                                 labels: chartLabels,
                                 datasets: [
-                                    {
-                                        label: "Marks",
-                                        data: chartValues,
+                                    {   // Term 1 marks
+                                        label: "Term 1",
+                                        data: chartValues[0],
+                                        fill: false,
+                                        lineTension: 0.1,
+                                        backgroundColor: "rgba(75,192,192,0.4)",
+                                        borderColor: "rgba(75,192,192,1)",
+                                        borderCapStyle: 'butt',
+                                        borderDash: [],
+                                        borderDashOffset: 0.0,
+                                        borderJoinStyle: 'miter',
+                                        pointBorderColor: "rgba(75,192,192,1)",
+                                        pointBackgroundColor: "#fff",
+                                        pointBorderWidth: 1,
+                                        pointHoverRadius: 5,
+                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                                        pointHoverBorderWidth: 2,
+                                        pointRadius: 1,
+                                        pointHitRadius: 10,
+                                        spanGaps: false,
+                                    },
+                                    {   // Term 2 marks
+                                        label: "Term 2",
+                                        data: chartValues[1],
+                                        fill: false,
+                                        lineTension: 0.1,
+                                        backgroundColor: "rgba(75,192,192,0.4)",
+                                        borderColor: "rgba(75,192,192,1)",
+                                        borderCapStyle: 'butt',
+                                        borderDash: [],
+                                        borderDashOffset: 0.0,
+                                        borderJoinStyle: 'miter',
+                                        pointBorderColor: "rgba(75,192,192,1)",
+                                        pointBackgroundColor: "#fff",
+                                        pointBorderWidth: 1,
+                                        pointHoverRadius: 5,
+                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                                        pointHoverBorderWidth: 2,
+                                        pointRadius: 1,
+                                        pointHitRadius: 10,
+                                        spanGaps: false,
+                                    },
+                                    {   // Term 3 marks
+                                        label: "Term 3",
+                                        data: chartValues[2],
                                         fill: false,
                                         lineTension: 0.1,
                                         backgroundColor: "rgba(75,192,192,0.4)",
