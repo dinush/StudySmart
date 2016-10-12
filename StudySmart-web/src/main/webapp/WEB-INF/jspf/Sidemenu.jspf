@@ -45,6 +45,8 @@
             </a>
             <ul class="dropdown-menu">
                 <li role="presentation"><a href="viewAssignmentMark.jsp">View Assignment Marks</a></li>
+                
+                <li role="presentation"><a href="try.jsp">Try</a></li>
 
                 <li role="presentation"><a href="viewTermMark.jsp">View Term Test Marks</a></li>              
 
