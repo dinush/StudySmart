@@ -125,19 +125,19 @@
                                     {   // Term 1 marks
                                         label: "Term 1",
                                         data: chartValues[0],
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
                                         borderColor: 'rgba(54, 162, 235, 1)'
                                     },
                                     {   // Term 2 marks
                                         label: "Term 2",
                                         data: chartValues[1],
-                                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
                                         borderColor: 'rgba(255, 206, 86, 1)'
                                     },
                                     {   // Term 3 marks
                                         label: "Term 3",
                                         data: chartValues[2],
-                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
                                         borderColor: 'rgba(255, 99, 132, 1)'
                                     }
                                 ]
