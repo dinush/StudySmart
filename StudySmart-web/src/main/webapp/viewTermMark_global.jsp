@@ -91,6 +91,7 @@
                     async: true
                 })
                         .done(function (data) {
+                            data = data.raw;
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td>" + data[i].username + "</td>";
