@@ -214,7 +214,7 @@
                                 </div>
                                 
                                 <!--Statistics-->
-                                <div class="well" style="margin-top: 10px; height: 280px;">
+                                <div class="well" style="margin-top: 10px; height: 240px;">
                                     <h3>Statistics</h3>
                                     <hr>
                                     <div id="elem_stat">

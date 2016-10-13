@@ -55,6 +55,5 @@
 .white-block {
     background-color: white;
     margin: 2px;
-    border: 1px solid gray;
-    border-radius: 5px;
+    border: 1px solid #DDD;
 }
