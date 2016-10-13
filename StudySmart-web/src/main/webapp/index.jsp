@@ -64,5 +64,6 @@
             </tr>
         </table>
     </div>
+                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>

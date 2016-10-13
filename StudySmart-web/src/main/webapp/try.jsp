@@ -48,21 +48,69 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <% if(request.getParameter("msg") != null) { %>
+                                <% if (request.getParameter("msg") != null) { %>
                                 <script>
                                     alert("<% out.print(request.getParameter("msg"));%>");
                                 </script>
-                                <% } %>
-                                 
+                                <% }%>
+
+                                <!-- DIscussion forum rules-->
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                    Forum Rules
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                ...
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <!-- rules end here -->
+
+
                                 <!-- Discussion FOrum starts here-->
-                                
-                                <span style="display:none;">***</span>
-<script type="text/javascript" language="javascript" id="pnyxeForumItJs" src="https://www.pnyxe.shadow.com/PnyxeForumItJs.jsp"></script>
-<script type="text/javascript" language="javascript" id="pnyxeForumItInitJs195291">try { var zpbw_webWidgetClientKey = "Xeqc3pxqs9cXRvoB4_7H2A"; var pnyxeForumIt = new PnyxeForumIt(); pnyxeForumIt.init("195291"); } catch (e) {}</script>
-<noscript><a href="https://www.pnyxe.shadow.com/DiscussIt-comment-system?utm_source=wwcCodeSpanPromotion1" rel="nofollow">Comment System</a></noscript>
-                                
-                                
-                                
+
+                                <div id="disqus_thread"></div>
+                                <script>
+
+                                    /**
+                                     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                                     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                                    /*
+                                     var disqus_config = function () {
+                                     this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                                     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                                     };
+                                     */
+                                    (function () { // DON'T EDIT BELOW THIS LINE
+                                        var d = document, s = d.createElement('script');
+                                        s.src = '//studysmart-1.disqus.com/embed.js';
+                                        s.setAttribute('data-timestamp', +new Date());
+                                        (d.head || d.body).appendChild(s);
+                                    })();
+                                </script>
+                                <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
@@ -73,5 +121,6 @@
             </tr>
         </table>
     </div>
+    
 </body>
 </html>
