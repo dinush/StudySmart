@@ -16,6 +16,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import lk.studysmart.apps.models.Assignment;
+import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
@@ -100,5 +102,38 @@ public class Acadamic {
         return jarr_subs.toString();
     }
     
-    
+    /**
+     * Get list of assignments for the given class
+     * @param classid
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("assignments/{classid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAssignmentsForClass(@PathParam("classid") String classid, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        Class2 class2 = em.find(Class2.class, classid);
+        
+        // Get the list of assignment
+        List<Assignment> assignments = em.createNamedQuery("Assignment.findByClass2")
+                .setParameter("class2", class2)
+                .getResultList();
+        
+        // Put into JSON
+        JSONArray jarr = new JSONArray();
+        for (Assignment assignment : assignments) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("name", assignment.getName());
+            jobj.put("subjectid", assignment.getSubject().getIdSubject());
+            jobj.put("subjectname", assignment.getSubject().getName());
+            jobj.put("max", assignment.getMax());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
 }
