@@ -33,6 +33,14 @@ public class Acadamic {
     @PersistenceContext(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
     
+    /**
+     * Get term test marks for user and given subject
+     * @param username
+     * @param term
+     * @param subjectid
+     * @param request
+     * @return 
+     */
     @GET
     @Path("marks/terms/{username}/{subject}/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -61,10 +69,16 @@ public class Acadamic {
         return jarr_mrks.toString();
     }
     
+    /**
+     * Get subjects enrolled by the given student
+     * @param uname
+     * @param request
+     * @return 
+     */
     @GET
     @Path("subjects/{uname}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTermMarks(@PathParam("uname") String uname, @Context HttpServletRequest request) {
+    public String getEnrolledSubjectsOfStudent(@PathParam("uname") String uname, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -85,4 +99,6 @@ public class Acadamic {
         
         return jarr_subs.toString();
     }
+    
+    
 }
