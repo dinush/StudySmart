@@ -105,22 +105,25 @@ public class Acadamic {
     /**
      * Get list of assignments for the given class
      * @param classid
+     * @param subjectid
      * @param request
      * @return 
      */
     @GET
-    @Path("assignments/{classid}")
+    @Path("assignments/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAssignmentsForClass(@PathParam("classid") String classid, @Context HttpServletRequest request) {
+    public String getAssignmentsForClass(@PathParam("classid") String classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
         
         Class2 class2 = em.find(Class2.class, classid);
+        Subject subject = em.find(Subject.class, subjectid);
         
         // Get the list of assignment
         List<Assignment> assignments = em.createNamedQuery("Assignment.findByClass2")
                 .setParameter("class2", class2)
+                .setParameter("subject", subject)
                 .getResultList();
         
         // Put into JSON
@@ -129,7 +132,7 @@ public class Acadamic {
             JSONObject jobj = new JSONObject();
             jobj.put("name", assignment.getName());
             jobj.put("subjectid", assignment.getSubject().getIdSubject());
-            jobj.put("subjectname", assignment.getSubject().getName());
+            jobj.put("classid", class2.getId());
             jobj.put("max", assignment.getMax());
             jarr.put(jobj);
         }
