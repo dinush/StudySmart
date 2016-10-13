@@ -51,3 +51,10 @@
 .flat-panel-body {
     padding: 10px;
 }
+
+.white-block {
+    background-color: white;
+    margin: 2px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}

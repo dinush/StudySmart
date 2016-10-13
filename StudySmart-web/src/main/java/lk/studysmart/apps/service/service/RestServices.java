@@ -5,6 +5,7 @@
  */
 package lk.studysmart.apps.service.service;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -196,7 +197,8 @@ public class RestServices {
                 .setParameter("subject", subject)
                 .getResultList();
 
-        List[] stat_marks = {new ArrayList(), new ArrayList(), new ArrayList()}; // To calculate mean
+        DecimalFormat numberFormat = new DecimalFormat("#.0000");   // Format to limit to 4 floating point values
+        List[] stat_marks = {new ArrayList(), new ArrayList(), new ArrayList()}; // To calculate mean and standard deviation
         int[] stat_total = {0, 0, 0};
         for (StudentSubject ss : studentSubjects) {
             User user = ss.getUserId();
@@ -257,8 +259,8 @@ public class RestServices {
             // JSON structure
             JSONObject jobjStat = new JSONObject();
             jobjStat.put("term", j + 1);
-            jobjStat.put("mean", mean);
-            jobjStat.put("standard_deviation", std_dev);
+            jobjStat.put("mean", numberFormat.format(mean));
+            jobjStat.put("standard_deviation", numberFormat.format(std_dev));
             jarrStat.put(jobjStat);
         }
         jobjRoot.put("stats", jarrStat);

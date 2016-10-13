@@ -91,20 +91,33 @@
                     async: true
                 })
                         .done(function (data) {
-                            data = data.raw;
-                            for (var i = 0; i < data.length; i++) {
+                            stats = data.stats;
+                            raw = data.raw;                            
+                            // Processing raw data
+                            for (var i = 0; i < raw.length; i++) {
                                 var row = "<tr>";
-                                row += "<td>" + data[i].username + "</td>";
-                                row += "<td>" + data[i].name + "</td>";
-                                chartLabels.push(data[i].name);
+                                row += "<td>" + raw[i].username + "</td>";
+                                row += "<td>" + raw[i].name + "</td>";
+                                chartLabels.push(raw[i].name);
                                 // Loop through avalible terms. 3 max
-                                for (var j = 0; j < data[i].term_marks.length; j++) {
-                                    var marks = data[i].term_marks[j].marks;
+                                for (var j = 0; j < raw[i].term_marks.length; j++) {
+                                    var marks = raw[i].term_marks[j].marks;
                                     row += "<td>" + marks + "</td>";
                                     chartValues[j].push(marks)
                                 }
                                 row += "</tr>";
                                 tbl.innerHTML += row;
+                            }
+                            // Processing statistics
+                            var elem_stat = document.getElementById("elem_stat");
+                            elem_stat.innerHTML = '';
+                            for( var i=0 ; i<stats.length ; i++ ) {
+                                var elem = "<div class='col-md-4 white-block'>";
+                                elem += "<h4>Term " + stats[i].term + "</h4>";
+                                elem += "Mean: <b>" + stats[i].mean + "</b><br />";
+                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b>";
+                                elem += "</div>";
+                                elem_stat.innerHTML += elem;
                             }
                             var data = {
                                 labels: chartLabels,
@@ -247,6 +260,16 @@
                                     </div>
 
                                 </div>
+                                
+                                <!--Statistics-->
+                                <div class="well" style="margin-top: 10px; height: 280px;">
+                                    <h3>Statistics</h3>
+                                    <hr>
+                                    <div id="elem_stat">
+                                    <!--Filled by JS-->
+                                    </div>
+                                </div>
+                                
                                 <div class="row">
                                     <!--Chart-->
                                     <canvas id="chart" height="100"></canvas>
