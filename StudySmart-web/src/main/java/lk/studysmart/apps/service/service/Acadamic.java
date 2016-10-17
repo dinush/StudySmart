@@ -112,7 +112,7 @@ public class Acadamic {
     @GET
     @Path("assignments/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAssignmentsForClass(@PathParam("classid") String classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
+    public String getAssignmentsForClass(@PathParam("classid") Integer classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -121,7 +121,7 @@ public class Acadamic {
         Subject subject = em.find(Subject.class, subjectid);
         
         // Get the list of assignment
-        List<Assignment> assignments = em.createNamedQuery("Assignment.findByClass2")
+        List<Assignment> assignments = em.createNamedQuery("Assignment.findByClass2AndSubject")
                 .setParameter("class2", class2)
                 .setParameter("subject", subject)
                 .getResultList();

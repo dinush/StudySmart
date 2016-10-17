@@ -54,7 +54,7 @@ public class Utils {
     }
     
     public static String getFormattedDateString(Date d) {
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat format = new SimpleDateFormat("MMMM dd, yyyy");
         return format.format(d);
     }
     
