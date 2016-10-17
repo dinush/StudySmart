@@ -173,6 +173,7 @@ public class RestServices {
 
     /**
      * Get students in a specific classroom AND enrolled for the given subject.
+     * (Also returns marks for the term tests)
      *
      * @param classid
      * @param subjectid
@@ -200,6 +201,8 @@ public class RestServices {
         DecimalFormat numberFormat = new DecimalFormat("#.0000");   // Format to limit to 4 floating point values
         List[] stat_marks = {new ArrayList(), new ArrayList(), new ArrayList()}; // To calculate mean and standard deviation
         int[] stat_total = {0, 0, 0};
+        int[] max = {0, 0, 0};
+        int[] min = {100, 100, 100};
         for (StudentSubject ss : studentSubjects) {
             User user = ss.getUserId();
             if (user.getClass1() != null && !user.getClass1().equals(class2)) {
@@ -252,7 +255,12 @@ public class RestServices {
             // Calculating standard deviation
             double deviation = 0;
             for (int k = 0; k < n; k++) {
-                deviation += Math.pow((int) stat_marks[j].get(k) - mean, 2);
+                int stat_mark = (int) stat_marks[j].get(k);
+                deviation += Math.pow(stat_mark - mean, 2);
+                if (max[j] < stat_mark) // In search of maximum marks for this term
+                    max[j] = stat_mark;
+                if (min[j] > stat_mark) // In search of minimum marks for this term
+                    min[j] = stat_mark;
             }
             double std_dev = Math.sqrt(deviation / n);
 
@@ -261,6 +269,8 @@ public class RestServices {
             jobjStat.put("term", j + 1);
             jobjStat.put("mean", numberFormat.format(mean));
             jobjStat.put("standard_deviation", numberFormat.format(std_dev));
+            jobjStat.put("max", max[j]);
+            jobjStat.put("min", min[j]);
             jarrStat.put(jobjStat);
         }
         jobjRoot.put("stats", jarrStat);

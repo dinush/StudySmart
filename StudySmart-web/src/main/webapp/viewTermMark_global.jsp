@@ -115,7 +115,9 @@
                                 var elem = "<div class='col-md-4 white-block'>";
                                 elem += "<h4>Term " + stats[i].term + "</h4>";
                                 elem += "Mean: <b>" + stats[i].mean + "</b><br />";
-                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b>";
+                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b><br>";
+                                elem += "Maximum: <b>" + stats[i].max + "</b><br>";
+                                elem += "Minimum: <b>" + stats[i].min + "</b><br>";
                                 elem += "</div>";
                                 elem_stat.innerHTML += elem;
                             }
@@ -214,7 +216,7 @@
                                 </div>
                                 
                                 <!--Statistics-->
-                                <div class="well" style="margin-top: 10px; height: 240px;">
+                                <div class="well" style="margin-top: 10px; height: 275px;">
                                     <h3>Statistics</h3>
                                     <hr>
                                     <div id="elem_stat">
