@@ -196,7 +196,7 @@ public class RestServices {
 
         for (StudentSubject ss : studentSubjects) {
             User user = ss.getUserId();
-            if (!user.getClass1().equals(class2)) {
+            if (user.getClass1() != null && !user.getClass1().equals(class2)) {
                 continue;
             }
 

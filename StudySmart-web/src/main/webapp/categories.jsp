@@ -9,7 +9,6 @@
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
 
@@ -28,11 +27,6 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-        <script type = "text/javascript" >
-            $(document).ready(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-            });
-        </script>
 
 
     </script>
@@ -54,39 +48,30 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <!--teachers personal information-->
                                 
-                                <ul class="nav nav-tabs">
-                                    <li role="presentation" class="active"><a href="#">Personal Details</a></li>
-                                </ul>
+                                <!--editing starts here-->
+                                <h3><b><i><u> Create New Category </u></i></b></h3>
                                 <br>
-                                <h1><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                <span class="label label-primary">Teacher's Information</span></h1>
-                                <br>
-                                
-                                                      
-                                
-                                
-                                
-                                                             
-                                <div class="panel panel-info"
-                                    <!-- List group -->
-                                    <div class="panel-body"
-                                        <ul class="list-group" style="font-size:16px;">
-                                            <li class="list-group-item"><b>Teacher's Name     : <b><i><% out.print(user.getName()); %></i></b></li>
-                                          <li class="list-group-item">Gender: <% out.print(user.getGender()); %></li>
-                                          <li class="list-group-item">NIC: </li>
-                                          <li class="list-group-item">Address: </li>
-                                          <li class="list-group-item">Telephone: </li>
-                                          <li class="list-group-item">Email: </li>
-                                          <li class="list-group-item">Teaching since: </li>
-                                          <li class="list-group-item" style="height:100px;">Qualifications: </li>
-                                          </ul>
+                                <form class="form-inline" action="" method="POST">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <div class="form-group">
+                                                
+                                                <input type="text" name="cat_name" class="form-control" id="cat_name" placeholder="New Category Name">
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                             
+                                            <div class="form-group">
+                                                
+                                                <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                          
+                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
+                                </form>
                                 
-                                <!--teachers personal information ends here-->
+                                <!--ends here-->
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
@@ -97,5 +82,6 @@
             </tr>
         </table>
     </div>
+                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>
