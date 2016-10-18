@@ -86,6 +86,7 @@
                                 row += "<td>" + marks.student_username + "</td>";
                                 row += "<td>" + marks.student_name + "</td>";
                                 row += "<td>" + marks.marks + "</td>";
+                                row += "<td>" + ((marks.marks / data.max) * 100).toFixed(2) + "</td>";
                                 row += "<td>" + marks.comment + "</td>";
                                 row += "<td>" + marks.author_name + "</td>";
                                 tbl.innerHTML += row;
@@ -176,6 +177,7 @@
                                             <th>Student Username</th>
                                             <th>Student Name</th>
                                             <th>Marks</th>
+                                            <th>Marks (%)</th>
                                             <th>Comment</th>
                                             <th>Marked By</th>
                                             </thead>

@@ -135,7 +135,7 @@ public class Acadamic {
             jobj.put("subjectid", assignment.getSubject().getIdSubject());
             jobj.put("classid", class2.getId());
             jobj.put("max", assignment.getMax());
-//            jobj.put("date", assignments)     TO-DO
+            jobj.put("date", utils.Utils.getFormattedDateString(assignment.getDate()));
             jarr.put(jobj);
         }
         

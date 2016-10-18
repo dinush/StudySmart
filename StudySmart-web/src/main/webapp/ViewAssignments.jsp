@@ -94,8 +94,8 @@
                             var tbl = document.getElementById("tbl_data");
                             tbl.innerHTML = '';
                             for (var i=0; i < data.length; i++) {
-                                var row = "<tr class='hover'>";
-                                row += "<td>" + data[i].name + "</td>";
+                                var row = "<tr>";
+                                row += "<td><a href='ViewAssignmentMarks.jsp?assignment="+data[i].name+"'>" + data[i].name + "</a></td>";
                                 row += "<td>" + data[i].date + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
@@ -152,6 +152,7 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <th>Assignment Name</th>
+                                        <th>Held Date</th>
                                         </thead>
                                         <tbody id="tbl_data">
 
