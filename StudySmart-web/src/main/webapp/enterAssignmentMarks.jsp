@@ -60,6 +60,7 @@
                     async: true
                 })
                         .done(function (data) {
+                            data = data.raw;
                             var tbl = document.getElementById("table-body");
                             tbl.innerHTML = "";
                             for (var i = 0; i < data.length; i++) {
