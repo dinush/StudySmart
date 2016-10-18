@@ -8,6 +8,7 @@ package lk.studysmart.apps;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -251,6 +252,7 @@ public class StudentManager extends HttpServlet {
                 assignment.setMax(Integer.parseInt(request.getParameter("max")));
                 assignment.setClass1(class2);
                 assignment.setSubject(subject);
+                assignment.setDate(new Date());
 
                 try {
                     utx.begin();
