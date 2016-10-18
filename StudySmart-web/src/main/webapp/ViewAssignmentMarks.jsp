@@ -20,11 +20,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-
-<%    Date date = new Date();
-    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+<%
+    if (request.getParameter("assignment") == null) {
+        return;
+    }
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -40,115 +41,76 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
+            var assignment = '<% out.print(request.getParameter("assignment")); %>';
             var barChart = null;
 
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                getClasses();
+                getStudents();
             });
-            
-            function getClasses() {
-                $.ajax({
-                    url: "ws/rest/classes",
-                    async: true
-                })
-                        .done(function (data) {
-                            var sel_clz = document.getElementById("class2");
-                            sel_clz.innerHTML = '';
-                            for (var i=0; i < data.length; i++) {
-                                var row = "<option value='" + data[i].id + "'>Class " + data[i].name + "</option>";
-                                sel_clz.innerHTML += row;
-                            }
-                            getSubjects(data[0].id);
-                        });
-            }
-
-            function getSubjects(clz) {
-                $.ajax({
-                    url: "ws/rest/subjects/" + clz,
-                    async: true
-                })
-                        .done(function (data) {
-                            var sel_sbj = document.getElementById("subject");
-                            sel_sbj.innerHTML = '';
-                            for (var i = 0; i < data.length; i++) {
-                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
-                                sel_sbj.innerHTML += row;
-                            }
-                            getStudents();
-                        });
-            }
 
             function getStudents() {
                 var chartLabels = [];
-                var chartValues = [[], [], []];
+                var chartValues = [];
 
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
 
                 $.ajax({
-                    url: "ws/rest/student/" + $("#class2").val() + "/" + $("#subject").val() ,
+                    url: "ws/acadamic/assignment/marks/" + assignment,
                     async: true
                 })
                         .done(function (data) {
-                            stats = data.stats;
-                            raw = data.raw;                            
-                            // Processing raw data
-                            for (var i = 0; i < raw.length; i++) {
+                            // Set breadcrumb element
+                            document.getElementById("path_name").innerHTML = assignment;
+                            
+                            var stats = document.getElementById("elem_stat");
+                            var tbl = document.getElementById("tbl_data");
+                            stats.innerHTML = '';
+                            tbl.innerHTML = '';
+                            
+                            document.getElementById("heading").innerHTML = "Assignment: " + assignment;
+                            
+                            // Stats
+                            var stat_html = "<p>Maximum marks for this assignment: <b>" + data.max + "</b></p>";
+                            stat_html += "<p>Highest marks: <b>" + data.highest + "</b></p>";
+                            stat_html += "<p>Lowest marks: <b>" + data.lowest + "</b></p>";
+                            stat_html += "<p>Mean: <b>" + data.mean + "</b></p>";
+                            stat_html += "<p>Standard Deviation: <b>" + data.standard_deviation + "</b></p>";
+                            stats.innerHTML = stat_html;
+                            
+                            // Individual marks
+                            for( var i=0 ; i<data.marks.length ; i++ ) {
+                                var marks = data.marks[i];
                                 var row = "<tr>";
-                                row += "<td>" + raw[i].username + "</td>";
-                                row += "<td>" + raw[i].name + "</td>";
-                                chartLabels.push(raw[i].name);
-                                // Loop through avalible terms. 3 max
-                                for (var j = 0; j < raw[i].term_marks.length; j++) {
-                                    var marks = raw[i].term_marks[j].marks;
-                                    row += "<td>" + marks + "</td>";
-                                    chartValues[j].push(marks)
-                                }
-                                row += "</tr>";
+                                row += "<td>" + marks.student_username + "</td>";
+                                row += "<td>" + marks.student_name + "</td>";
+                                row += "<td>" + marks.marks + "</td>";
+                                row += "<td>" + marks.comment + "</td>";
+                                row += "<td>" + marks.author_name + "</td>";
                                 tbl.innerHTML += row;
+                                
+                                // Chart data
+                                chartLabels.push(marks.student_name);
+                                chartValues.push(marks.marks);
                             }
-                            // Processing statistics
-                            var elem_stat = document.getElementById("elem_stat");
-                            elem_stat.innerHTML = '';
-                            for( var i=0 ; i<stats.length ; i++ ) {
-                                var elem = "<div class='col-md-4 white-block'>";
-                                elem += "<h4>Term " + stats[i].term + "</h4>";
-                                elem += "Mean: <b>" + stats[i].mean + "</b><br />";
-                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b><br>";
-                                elem += "Maximum: <b>" + stats[i].max + "</b><br>";
-                                elem += "Minimum: <b>" + stats[i].min + "</b><br>";
-                                elem += "</div>";
-                                elem_stat.innerHTML += elem;
-                            }
-                            var data = {
+                            
+                            var data2 = {
                                 labels: chartLabels,
                                 datasets: [
-                                    {   // Term 1 marks
-                                        label: "Term 1",
-                                        data: chartValues[0],
+                                    {
+                                        label: assignment,
+                                        data: chartValues,
                                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
                                         borderColor: 'rgba(54, 162, 235, 1)'
-                                    },
-                                    {   // Term 2 marks
-                                        label: "Term 2",
-                                        data: chartValues[1],
-                                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
-                                        borderColor: 'rgba(255, 206, 86, 1)'
-                                    },
-                                    {   // Term 3 marks
-                                        label: "Term 3",
-                                        data: chartValues[2],
-                                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                                        borderColor: 'rgba(255, 99, 132, 1)'
                                     }
                                 ]
                             };
-                            updateChart(data);
+                            updateChart(data2, data.max);
                         });
             }
 
-            function updateChart(data) {
+            function updateChart(data2, max) {
                 if (barChart !== null) {
                     barChart.destroy();
                 }
@@ -162,96 +124,75 @@
                                     ticks: {
                                         min: 0,
                                         beginAtZero: true,
-                                        suggestedMax: 100
+                                        suggestedMax: max
                                     }
                                 }]
                         }
                     },
-                    data: data
+                    data: data2
                 });
             }
-    </script>
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li>View Term Test Marks</li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                <div class="row">
-                                    <div class="flat-panel">
-                                        <div class="flat-panel-head">
-                                            Class
-                                        </div>
-                                        <div class="flat-panel-body">
-                                            <select id="class2" name="class2" class="form-control" onchange="getSubjects(this.value)">
+        </script>
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="ViewAssignments.jsp">Assignment Marks</a></li>
+                <li id="path_name"></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-8">
+                                    
+                                    <h2 id="heading"></h2>
 
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="flat-panel">
-                                        <div class="flat-panel-head">
-                                            Subject
-                                        </div>
-                                        <div class="flat-panel-body">
-                                            <select id="subject" name="subject" class="form-control" onchange="getStudents()">
-
-                                            </select>
+                                    <!--Statistics-->
+                                    <div class="well" style="margin-top: 10px; height: 275px;">
+                                        <h3>Statistics</h3>
+                                        <hr>
+                                        <div id="elem_stat">
+                                            <!--Filled by JS-->
                                         </div>
                                     </div>
 
-                                </div>
-                                
-                                <!--Statistics-->
-                                <div class="well" style="margin-top: 10px; height: 275px;">
-                                    <h3>Statistics</h3>
-                                    <hr>
-                                    <div id="elem_stat">
-                                    <!--Filled by JS-->
+                                    <div class="row">
+                                        <h3>Individual Students' Marks View</h3>
+                                        <!--Chart-->
+                                        <canvas id="chart" height="200px"></canvas>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <th>Student Username</th>
+                                            <th>Student Name</th>
+                                            <th>Marks</th>
+                                            <th>Comment</th>
+                                            <th>Marked By</th>
+                                            </thead>
+                                            <tbody id="tbl_data">
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                
-                                <div class="row">
-                                    <h3>Individual Students' Marks View</h3>
-                                    <!--Chart-->
-                                    <canvas id="chart" height="200px"></canvas>
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                                 </div>
-                                <div class="row">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <th>Username</th>
-                                        <th>Name</th>
-                                        <th>Term 1</th>
-                                        <th>Term 2</th>
-                                        <th>Term 3</th>
-                                        </thead>
-                                        <tbody id="tbl_data">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
 </html>

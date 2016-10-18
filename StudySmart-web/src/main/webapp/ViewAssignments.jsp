@@ -96,135 +96,12 @@
                             for (var i=0; i < data.length; i++) {
                                 var row = "<tr class='hover'>";
                                 row += "<td>" + data[i].name + "</td>";
+                                row += "<td>" + data[i].date + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
                                 assignmentid = data[0].name;
                             }
                         });
-            }
-
-            function getStudents() {
-                var chartLabels = [];
-                var chartValues = [[], [], []];
-
-                var tbl = document.getElementById("tbl_data");
-                tbl.innerHTML = '';
-
-                $.ajax({
-                    url: "ws/rest/student/" + $("#class2").val() + "/" + $("#subject").val() ,
-                    async: true
-                })
-                        .done(function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                var row = "<tr>";
-                                row += "<td>" + data[i].username + "</td>";
-                                row += "<td>" + data[i].name + "</td>";
-                                chartLabels.push(data[i].name);
-                                // Loop through avalible terms. 3 max
-                                for (var j = 0; j < data[i].term_marks.length; j++) {
-                                    var marks = data[i].term_marks[j].marks;
-                                    row += "<td>" + marks + "</td>";
-                                    chartValues[j].push(marks)
-                                }
-                                row += "</tr>";
-                                tbl.innerHTML += row;
-                            }
-                            var data = {
-                                labels: chartLabels,
-                                datasets: [
-                                    {   // Term 1 marks
-                                        label: "Term 1",
-                                        data: chartValues[0],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(75,192,192,0.4)",
-                                        borderColor: "rgba(75,192,192,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
-                                    },
-                                    {   // Term 2 marks
-                                        label: "Term 2",
-                                        data: chartValues[1],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(102,255,51,0.4)",
-                                        borderColor: "rgba(102,255,51,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(102,255,51,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(102,255,51,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
-                                    },
-                                    {   // Term 3 marks
-                                        label: "Term 3",
-                                        data: chartValues[2],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(255,102,102,0.4)",
-                                        borderColor: "rgba(255,102,102,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(255,102,102,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(255,102,102,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
-                                    }
-                                ]
-                            };
-                            updateChart(data);
-                        });
-            }
-
-            function updateChart(data) {
-                if (barChart !== null) {
-                    barChart.destroy();
-                }
-
-                var canvas = document.getElementById("chart");
-                barChart = new Chart(canvas, {
-                    type: "line",
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                    ticks: {
-                                        min: 0,
-                                        beginAtZero: true,
-                                        suggestedMax: 100
-                                    }
-                                }]
-                        }
-                    },
-                    data: data
-                });
             }
     </script>
     <title>StudySmart</title>
@@ -235,7 +112,7 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li>View Assignment Marks</li>
+            <li>Assignments</li>
         </ol>
         <table border="0">
             <tr>
@@ -263,7 +140,7 @@
                                             Subject
                                         </div>
                                         <div class="flat-panel-body">
-                                            <select id="subject" name="subject" class="form-control" onchange="subjectid = this.value; getStudents()">
+                                            <select id="subject" name="subject" class="form-control" onchange="subjectid = this.value; getAssignments()">
 
                                             </select>
                                         </div>

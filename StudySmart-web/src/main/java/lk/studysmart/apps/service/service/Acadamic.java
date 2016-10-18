@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lk.studysmart.apps.models.Assignment;
+import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
@@ -134,9 +135,74 @@ public class Acadamic {
             jobj.put("subjectid", assignment.getSubject().getIdSubject());
             jobj.put("classid", class2.getId());
             jobj.put("max", assignment.getMax());
+//            jobj.put("date", assignments)     TO-DO
             jarr.put(jobj);
         }
         
         return jarr.toString();
+    }
+    
+    @GET
+    @Path("assignment/marks/{assignment}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAssignmentMarks(@PathParam("assignment") String assignment_id, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        Assignment assignment = em.find(Assignment.class, assignment_id);
+        
+        List<AssignmentMarks> marks = em.createNamedQuery("AssignmentMarks.findByAssignment")
+                .setParameter("assignment", assignment)
+                .getResultList();
+        
+        // For statical calculation
+        int highest = 0, lowest = assignment.getMax();
+        int[] raw_marks = new int[marks.size()];
+        int sum_of_marks = 0;
+        
+        JSONObject root = new JSONObject();
+        root.put("name", assignment.getName());
+        root.put("max", assignment.getMax());
+        JSONArray jarr = new JSONArray();
+        for( int i=0; i < marks.size(); i++ ) {
+            AssignmentMarks rec = marks.get(i);
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", rec.getId());
+            jobj.put("student_username", rec.getStudent().getUsername());
+            jobj.put("student_name", rec.getStudent().getName());
+            jobj.put("marks", rec.getMark());
+            jobj.put("comment", rec.getComment());
+            jobj.put("author_username", rec.getAddedby().getUsername());
+            jobj.put("author_name", rec.getAddedby().getName());
+            jarr.put(jobj);
+            raw_marks[i] = rec.getMark();
+            sum_of_marks += rec.getMark();
+            
+            // Find the highest and the lowest
+            if( raw_marks[i] < lowest )
+                lowest = raw_marks[i];
+            if( raw_marks[i] > highest )
+                highest = raw_marks[i];
+        }
+        
+        root.put("highest", highest);
+        root.put("lowest", lowest);
+        
+        // Mean
+        int mean = sum_of_marks / marks.size();
+        root.put("mean", mean);
+        
+        // Calculating standard deviation
+        int deviations = 0;
+        for( int i=0; i < marks.size(); i++ ) {
+            deviations += (raw_marks[i] - mean) ^ 2;
+        }
+        double standard_deviation = Math.sqrt(deviations / raw_marks.length);
+        
+        root.put("standard_deviation", standard_deviation);
+        root.put("marks", jarr);
+        
+        return root.toString();
     }
 }
