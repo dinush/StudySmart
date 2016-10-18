@@ -211,4 +211,42 @@ public class Acadamic {
         
         return root.toString();
     }
+    
+    /**
+     * Get assignments by username.
+     * @param username
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("assignments/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAssignmentsByUsername(@PathParam("username") String username,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        User student = em.find(User.class, username);
+        
+        List<AssignmentMarks> assignMarks = em.createNamedQuery("AssignmentMarks.findByStudent")
+                .setParameter("student", student)
+                .getResultList();
+        
+        JSONArray root = new JSONArray();
+        for( AssignmentMarks oneAssign : assignMarks ) {
+            JSONObject jAssign = new JSONObject();
+            jAssign.put("name", oneAssign.getAssignment().getName());
+            jAssign.put("subject", oneAssign.getAssignment().getSubject().getName());
+            jAssign.put("max", oneAssign.getAssignment().getMax());
+            jAssign.put("date", utils.Utils.getFormattedDateString(oneAssign.getAssignment().getDate()));
+            jAssign.put("marks", oneAssign.getMark());
+            jAssign.put("comment", oneAssign.getComment());
+            jAssign.put("auther_username", oneAssign.getAddedby().getUsername());
+            jAssign.put("author_name", oneAssign.getAddedby().getName());            
+            root.put(jAssign);
+        }
+        
+        return root.toString();
+    }
 }
