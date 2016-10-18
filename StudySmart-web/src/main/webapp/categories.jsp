@@ -29,59 +29,83 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
 
-    </script>
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                
-                                <!--editing starts here-->
-                                <h3><b><i><u> Create New Category </u></i></b></h3>
-                                <br>
-                                <form class="form-inline" action="" method="POST">
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <div class="form-group">
-                                                
-                                                <input type="text" name="cat_name" class="form-control" id="cat_name" placeholder="New Category Name">
+        <script>
+
+            function sendPacket() {
+                var packet = {};
+                packet['meta'] = {};
+                packet['meta']['cat_name'] = $('#cat_name').val();
+                packet['meta']['cat_description'] = $('#cat_description').val();
+
+
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: "Categories",
+                    data: JSON.stringify(packet),
+                    contentType: "text/plain"
+                })
+                        .done(function (data) {
+                            alert("successfully updated");
+                        });
+
+                return false;
+
+
+            }
+        </script>
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-8">
+
+                                    <!--editing starts here-->
+                                    <h3><b><i><u> Create New Category </u></i></b></h3>
+                                    <br>
+                                    <form class="form-inline" onsubmit="return sendPacket()">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <div class="form-group">
+
+                                                    <input type="text" name="cat_name" class="form-control" id="cat_name" placeholder="New Category Name">
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="form-group">
+
+                                                    <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body">
-                                             
-                                            <div class="form-group">
-                                                
-                                                <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
-                                </form>
-                                
-                                <!--ends here-->
-                            </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                        <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
+                                    </form>
+
+                                    <!--ends here-->
+                                </div>
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
 </html>
