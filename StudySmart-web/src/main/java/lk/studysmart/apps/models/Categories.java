@@ -33,6 +33,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Categories.findByCatDescription", query = "SELECT c FROM Categories c WHERE c.catDescription = :catDescription")})
 public class Categories implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = "cat_by")
+    private String catBy;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +116,14 @@ public class Categories implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.Categories[ catId=" + catId + " ]";
+    }
+
+    public String getCatBy() {
+        return catBy;
+    }
+
+    public void setCatBy(String catBy) {
+        this.catBy = catBy;
     }
     
 }

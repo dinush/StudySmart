@@ -60,6 +60,7 @@ public class Categories extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        user = (User) request.getSession().getAttribute("user");
         response.setContentType("text/html;charset=UTF-8");
         StringBuilder builder = new StringBuilder();
         String line = new String();
@@ -77,13 +78,12 @@ public class Categories extends HttpServlet {
         String catname = meta.getString("cat_name");
         String catdescription = meta.getString("cat_description");
         
-        user = (User) request.getSession().getAttribute("user");
-        String catby = user.getUsername();
+        
         
         lk.studysmart.apps.models.Categories categories = new lk.studysmart.apps.models.Categories();
         categories.setCatName(catname);
         categories.setCatDescription(catdescription);
-        categories.setCatBy(catby);
+        categories.setCatBy(user.getUsername());
         
         try {
             utx.begin();
