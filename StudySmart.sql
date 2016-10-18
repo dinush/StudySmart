@@ -1,8 +1,8 @@
--- MySQL dump 10.15  Distrib 10.0.25-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.15  Distrib 10.0.27-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: StudySmart
 -- ------------------------------------------------------
--- Server version	10.0.25-MariaDB
+-- Server version	10.0.27-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,6 +27,7 @@ CREATE TABLE `Assignment` (
   `class` int(11) NOT NULL,
   `subject` varchar(25) CHARACTER SET latin1 NOT NULL,
   `max` int(4) NOT NULL,
+  `date` date DEFAULT NULL,
   PRIMARY KEY (`name`),
   KEY `fk_class_assignment` (`class`),
   KEY `fk_subject_assignment` (`subject`),
@@ -41,7 +42,7 @@ CREATE TABLE `Assignment` (
 
 LOCK TABLES `Assignment` WRITE;
 /*!40000 ALTER TABLE `Assignment` DISABLE KEYS */;
-INSERT INTO `Assignment` VALUES ('ass1',5,'001',34),('assig1',5,'001',12);
+INSERT INTO `Assignment` VALUES ('2',6,'002',100,'2016-10-02'),('ass1',5,'001',34,'2016-09-14'),('assig1',5,'001',12,'2016-10-03'),('Geometry 1',5,'001',100,'2016-10-18');
 /*!40000 ALTER TABLE `Assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +58,7 @@ CREATE TABLE `AssignmentMarks` (
   `assignment` varchar(250) NOT NULL,
   `student` varchar(8) CHARACTER SET latin1 NOT NULL,
   `mark` int(4) NOT NULL,
-  `comment` varchar(1000) NOT NULL,
+  `comment` varchar(1000) DEFAULT NULL,
   `addedby` varchar(8) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_assignment_assignmentmarks` (`assignment`) USING BTREE,
@@ -66,7 +67,7 @@ CREATE TABLE `AssignmentMarks` (
   CONSTRAINT `fk_addedby2_assignmentmarks` FOREIGN KEY (`addedby`) REFERENCES `User` (`username`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_assignment2_assignmentmarks` FOREIGN KEY (`assignment`) REFERENCES `Assignment` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_student_assignmentmarks` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +76,7 @@ CREATE TABLE `AssignmentMarks` (
 
 LOCK TABLES `AssignmentMarks` WRITE;
 /*!40000 ALTER TABLE `AssignmentMarks` DISABLE KEYS */;
-INSERT INTO `AssignmentMarks` VALUES (6,'assig1','st1',12,'2','teacher'),(7,'ass1','st1',3,'fd','teacher');
+INSERT INTO `AssignmentMarks` VALUES (6,'assig1','st1',12,'2','teacher'),(7,'ass1','st1',3,'fd','teacher'),(8,'Geometry 1','st1',75,'','teacher'),(9,'Geometry 1','st3',63,'Try to improve','teacher'),(10,'Geometry 1','st6',78,'','teacher'),(11,'Geometry 1','st8',80,'','teacher'),(12,'Geometry 1','2014',92,'','teacher'),(13,'Geometry 1','38995',79,'','teacher'),(14,'Geometry 1','389955',88,'','teacher');
 /*!40000 ALTER TABLE `AssignmentMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +105,7 @@ CREATE TABLE `Attendance` (
 
 LOCK TABLES `Attendance` WRITE;
 /*!40000 ALTER TABLE `Attendance` DISABLE KEYS */;
-INSERT INTO `Attendance` VALUES ('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st1','2016-09-01',0,'teacher'),('st1','2016-09-04',0,'teacher'),('st2','2016-08-24',1,'teacher'),('st2','2016-09-01',1,'teacher'),('st2','2016-09-04',0,'teacher'),('st3','2016-09-04',0,'teacher');
+INSERT INTO `Attendance` VALUES ('2014','2016-09-19',1,'teacher'),('38995','2016-09-19',1,'teacher'),('389955','2016-09-19',1,'teacher'),('st1','2016-08-23',0,'teacher'),('st1','2016-08-24',1,'teacher'),('st1','2016-08-25',1,'teacher'),('st1','2016-09-01',0,'teacher'),('st1','2016-09-04',0,'teacher'),('st1','2016-09-19',1,'teacher'),('st2','2016-08-24',1,'teacher'),('st2','2016-09-01',1,'teacher'),('st2','2016-09-04',0,'teacher'),('st3','2016-09-04',0,'teacher'),('st3','2016-09-19',1,'teacher'),('st6','2016-09-19',1,'teacher'),('st8','2016-09-19',1,'teacher');
 /*!40000 ALTER TABLE `Attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,7 @@ CREATE TABLE `AttendanceClass` (
 
 LOCK TABLES `AttendanceClass` WRITE;
 /*!40000 ALTER TABLE `AttendanceClass` DISABLE KEYS */;
-INSERT INTO `AttendanceClass` VALUES (5,'2016-09-04','teacher'),(6,'2016-09-04','teacher');
+INSERT INTO `AttendanceClass` VALUES (5,'2016-09-04','teacher'),(5,'2016-09-19','teacher'),(6,'2016-09-04','teacher');
 /*!40000 ALTER TABLE `AttendanceClass` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +227,7 @@ CREATE TABLE `Message` (
   CONSTRAINT `fk_addeduser_message` FOREIGN KEY (`addeduser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_class_message` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_targetuser_message` FOREIGN KEY (`targetuser`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +236,7 @@ CREATE TABLE `Message` (
 
 LOCK TABLES `Message` WRITE;
 /*!40000 ALTER TABLE `Message` DISABLE KEYS */;
-INSERT INTO `Message` VALUES (1,0,'title test','sample message',NULL,'2016-09-28',NULL,'teacher','2016-09-04','17:14:32',4,NULL,NULL,5,NULL);
+INSERT INTO `Message` VALUES (1,0,'title test','sample message',NULL,'2016-09-28',NULL,'teacher','2016-09-04','17:14:32',4,NULL,NULL,5,NULL),(3,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st3',NULL,NULL,NULL),(4,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st6',NULL,NULL,NULL),(5,0,'Term 1 marks added','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:07:38',1,'st8',NULL,NULL,NULL),(7,0,'Term 1 marks','Term 1 marks added for Maths (student: Student 1 [st1])',NULL,NULL,NULL,'teacher','2016-09-11','11:27:27',1,'parent',NULL,NULL,NULL),(8,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:27',1,'st3',NULL,NULL,NULL),(9,0,'Term 1 marks','Term 1 marks added for Maths (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'par1',NULL,NULL,NULL),(10,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'st6',NULL,NULL,NULL),(11,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-11','11:27:28',1,'st8',NULL,NULL,NULL),(12,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:04',1,'2014',NULL,NULL,NULL),(13,1,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'38995',NULL,NULL,NULL),(14,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'389955',NULL,NULL,NULL),(15,0,'Term 1 marks','Term 1 marks added for Maths (student: kaveesh thamal [389955])',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'389955p',NULL,NULL,NULL),(17,0,'Term 1 marks','Term 1 marks added for Maths (student: Student 1 [st1])',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'parent',NULL,NULL,NULL),(18,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'st3',NULL,NULL,NULL),(19,0,'Term 1 marks','Term 1 marks added for Maths (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'par1',NULL,NULL,NULL),(20,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'st6',NULL,NULL,NULL),(21,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','16:34:05',1,'st8',NULL,NULL,NULL),(24,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'2014',NULL,NULL,NULL),(25,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'38995',NULL,NULL,NULL),(26,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'389955',NULL,NULL,NULL),(27,0,'Term 2 marks','Term 2 marks added for Maths (student: kaveesh thamal [389955])',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'389955p',NULL,NULL,NULL),(29,0,'Term 2 marks','Term 2 marks added for Maths (student: Student 1 [st1])',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'parent',NULL,NULL,NULL),(30,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:24',1,'st3',NULL,NULL,NULL),(31,0,'Term 2 marks','Term 2 marks added for Maths (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'teacher','2016-09-19','23:48:25',1,'par1',NULL,NULL,NULL),(32,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:25',1,'st6',NULL,NULL,NULL),(33,0,'Term 2 marks','Term 2 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-19','23:48:25',1,'st8',NULL,NULL,NULL),(34,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:35',1,'2014',NULL,NULL,NULL),(35,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'38995',NULL,NULL,NULL),(36,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'389955',NULL,NULL,NULL),(37,0,'Term 1 marks','Term 1 marks added for Maths (student: kaveesh thamal [389955])',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'389955p',NULL,NULL,NULL),(38,1,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'st1',NULL,NULL,NULL),(39,0,'Term 1 marks','Term 1 marks added for Maths (student: Student 1 [st1])',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'parent',NULL,NULL,NULL),(40,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'st3',NULL,NULL,NULL),(41,0,'Term 1 marks','Term 1 marks added for Maths (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'par1',NULL,NULL,NULL),(42,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'st6',NULL,NULL,NULL),(43,0,'Term 1 marks','Term 1 marks added for Maths',NULL,NULL,NULL,'teacher','2016-09-20','07:34:36',1,'st8',NULL,NULL,NULL),(44,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:51',1,'2014',NULL,NULL,NULL),(45,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'38995',NULL,NULL,NULL),(46,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'389955',NULL,NULL,NULL),(47,0,'Term 1 marks','Term 1 marks added for Science (student: kaveesh thamal [389955])',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'389955p',NULL,NULL,NULL),(49,0,'Term 1 marks','Term 1 marks added for Science (student: Student 1 [st1])',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'parent',NULL,NULL,NULL),(50,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'st3',NULL,NULL,NULL),(51,0,'Term 1 marks','Term 1 marks added for Science (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'par1',NULL,NULL,NULL),(52,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'st6',NULL,NULL,NULL),(53,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:44:52',1,'st8',NULL,NULL,NULL),(54,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:11',1,'2014',NULL,NULL,NULL),(55,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:11',1,'38995',NULL,NULL,NULL),(56,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'389955',NULL,NULL,NULL),(57,0,'Term 1 marks','Term 1 marks added for Science (student: kaveesh thamal [389955])',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'389955p',NULL,NULL,NULL),(58,1,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'st1',NULL,NULL,NULL),(59,0,'Term 1 marks','Term 1 marks added for Science (student: Student 1 [st1])',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'parent',NULL,NULL,NULL),(60,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'st3',NULL,NULL,NULL),(61,0,'Term 1 marks','Term 1 marks added for Science (student: Smpl Student 3 [st3])',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'par1',NULL,NULL,NULL),(62,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'st6',NULL,NULL,NULL),(63,0,'Term 1 marks','Term 1 marks added for Science',NULL,NULL,NULL,'tch002','2016-09-20','07:45:12',1,'st8',NULL,NULL,NULL),(64,0,NULL,'All students are required to be present at the School Auditorium by 8.30 am on 10.02.2016 for the School General Meeting.',NULL,NULL,NULL,'dinush','2016-09-20','10:03:53',5,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +340,7 @@ CREATE TABLE `StudentSubject` (
   KEY `subjectid_index` (`subjectId`),
   CONSTRAINT `fk_subject_id` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +349,7 @@ CREATE TABLE `StudentSubject` (
 
 LOCK TABLES `StudentSubject` WRITE;
 /*!40000 ALTER TABLE `StudentSubject` DISABLE KEYS */;
-INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004'),(6,'st3','001'),(7,'st3','002'),(8,'st3','004');
+INSERT INTO `StudentSubject` VALUES (1,'st1','001'),(2,'st1','002'),(3,'st1','003'),(4,'st2','002'),(5,'st2','004'),(6,'st3','001'),(7,'st3','002'),(8,'st3','004'),(9,'st5','001'),(10,'st5','003'),(11,'st6','001'),(12,'st6','002'),(13,'st8','001'),(14,'st8','002'),(15,'st8','003'),(16,'st8','004'),(17,'2014','001'),(18,'2014','002'),(19,'2014','003'),(20,'2014','004'),(21,'38995','001'),(22,'38995','002'),(23,'38995','003'),(24,'389955','001'),(25,'389955','002'),(26,'389955','003');
 /*!40000 ALTER TABLE `StudentSubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +369,7 @@ CREATE TABLE `Student_Parent` (
   KEY `fk_student_parent_2` (`studentid`),
   CONSTRAINT `fk_student_parent_1` FOREIGN KEY (`parentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `fk_student_parent_2` FOREIGN KEY (`studentid`) REFERENCES `User` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +378,7 @@ CREATE TABLE `Student_Parent` (
 
 LOCK TABLES `Student_Parent` WRITE;
 /*!40000 ALTER TABLE `Student_Parent` DISABLE KEYS */;
-INSERT INTO `Student_Parent` VALUES (2,'par1','st2'),(3,'par1','st3'),(1,'parent','st1');
+INSERT INTO `Student_Parent` VALUES (5,'389955p','389955'),(4,'kdfh','st3'),(2,'par1','st2'),(3,'par1','st3'),(1,'parent','st1');
 /*!40000 ALTER TABLE `Student_Parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,7 +450,7 @@ CREATE TABLE `TeacherTeaches` (
   CONSTRAINT `TeacherTeaches_ibfk_1` FOREIGN KEY (`class`) REFERENCES `Class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_subject` FOREIGN KEY (`subjectId`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user` FOREIGN KEY (`userId`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -458,7 +459,7 @@ CREATE TABLE `TeacherTeaches` (
 
 LOCK TABLES `TeacherTeaches` WRITE;
 /*!40000 ALTER TABLE `TeacherTeaches` DISABLE KEYS */;
-INSERT INTO `TeacherTeaches` VALUES (1,'teacher','001',5),(2,'teacher','002',6);
+INSERT INTO `TeacherTeaches` VALUES (1,'teacher','001',5),(2,'teacher','002',6),(8,'tch001','003',5),(9,'tch001','003',6),(10,'tch001','004',5),(11,'2016t','001',5),(12,'2016t','002',6),(13,'tch002','001',5),(14,'tch002','001',6),(15,'tch002','002',5),(16,'tch002','002',6);
 /*!40000 ALTER TABLE `TeacherTeaches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +487,7 @@ CREATE TABLE `TermMarks` (
   CONSTRAINT `fk_markedby_tm` FOREIGN KEY (`markedby`) REFERENCES `User` (`username`),
   CONSTRAINT `fk_student_tm` FOREIGN KEY (`student`) REFERENCES `User` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_subject_tm` FOREIGN KEY (`subject`) REFERENCES `Subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,7 +496,7 @@ CREATE TABLE `TermMarks` (
 
 LOCK TABLES `TermMarks` WRITE;
 /*!40000 ALTER TABLE `TermMarks` DISABLE KEYS */;
-INSERT INTO `TermMarks` VALUES (1,'st1','001',5,1,14,'teacher'),(5,'st3','001',5,1,66,'teacher'),(12,'st2','002',6,1,55,'teacher');
+INSERT INTO `TermMarks` VALUES (5,'st3','001',5,1,66,'teacher'),(12,'st2','002',6,1,55,'teacher'),(13,'st6','001',5,1,88,'teacher'),(14,'st8','001',5,1,78,'teacher'),(15,'2014','001',5,1,99,'teacher'),(16,'38995','001',5,1,55,'teacher'),(17,'389955','001',5,1,77,'teacher'),(18,'2014','001',5,2,78,'teacher'),(19,'38995','001',5,2,96,'teacher'),(20,'389955','001',5,2,77,'teacher'),(21,'st1','001',5,2,58,'teacher'),(22,'st3','001',5,2,58,'teacher'),(23,'st6','001',5,2,89,'teacher'),(24,'st8','001',5,2,78,'teacher'),(25,'st1','001',5,1,87,'teacher'),(26,'2014','002',5,1,88,'tch002'),(27,'38995','002',5,1,99,'tch002'),(28,'389955','002',5,1,77,'tch002'),(29,'st1','002',5,1,88,'tch002'),(30,'st3','002',5,1,94,'tch002'),(31,'st6','002',5,1,78,'tch002'),(32,'st8','002',5,1,85,'tch002');
 /*!40000 ALTER TABLE `TermMarks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,7 +513,6 @@ CREATE TABLE `User` (
   `email` varchar(40) DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `level` int(11) NOT NULL,
-  `subject` varchar(25) DEFAULT NULL,
   `class` int(11) DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
@@ -533,7 +533,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('par1','123','wer@g.com','Smpl Parent 1',4,NULL,NULL,'Male',NULL,'0123456','afaff','werwef','0123456789',NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st1','123','st@studysmart','Student 1',3,NULL,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st2','123','st@studysmart','Student 2',3,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st3','123','jas@aa.com','Smpl Student 3',3,NULL,5,'Male','2016-08-31',NULL,NULL,NULL,NULL,NULL),('teacher','123','teacher@studysmart','Teacher',2,'004',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('user','123','user@email.com','Sample User',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `User` VALUES ('2014','123','sa@kj.kj','kav',3,5,'Male','1997-06-11',NULL,NULL,NULL,NULL,NULL),('2016t','123','hg@gail.com','namal',2,NULL,'1',NULL,'0123456786','loku para',NULL,'2315646577','d'),('38995','123','sa@a.xvc','kaveesh',3,5,'Male','1992-09-08',NULL,NULL,NULL,NULL,NULL),('389955','123','asd@gmail.com','kaveesh thamal',3,5,'Male','2001-02-04',NULL,NULL,NULL,NULL,NULL),('389955p','123','sdf@gma.com','c baddage',4,NULL,'Male',NULL,'123456789v','maha para','MSc','012345697',NULL),('dinush','123','sisindaa@gmail.com','Sisinda Dinusha',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('kdfh','123','sdfwf@gm.co','sdfhj',4,NULL,'Male',NULL,'dfdfwe','dsgsdg','fgdfg','234234',NULL),('par1','123','wer@g.com','Smpl Parent 1',4,NULL,'Male',NULL,'0123456','afaff','werwef','0123456789',NULL),('parent','123','parent@StudySmart','Parent',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st1','123','st@studysmart','Student 1',3,5,'male','2000-02-08',NULL,'123, xyz, abc',NULL,NULL,NULL),('st2','123','st@studysmart','Student 2',3,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('st3','123','jas@aa.com','Smpl Student 3',3,5,'Male','2016-08-31',NULL,NULL,NULL,NULL,NULL),('st5','123','a@a.co','student 5',3,6,'Male','2004-06-08',NULL,NULL,NULL,NULL,NULL),('st6','123','kljfd@lgds.com','Smpl Student 6',3,5,'Male','2016-07-13',NULL,NULL,NULL,NULL,NULL),('st8','123','k@gk.lk','sama',3,5,'Male','2016-09-05',NULL,NULL,NULL,NULL,NULL),('tch001','123','jj@gmail.com','A.B.JJ',3,NULL,'1',NULL,'900121212V','48, NN, Frew',NULL,'0771234567','BSC'),('tch002','123','nanda@gmail.com','A.B.C.Prasad',2,NULL,'1',NULL,'0000000v','123, xyz, abc',NULL,'0761234567','bsc'),('teacher','123','teacher@studysmart','Teacher',2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),('user','123','user@email.com','Sample User',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -642,4 +642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 10:30:08
+-- Dump completed on 2016-10-18 18:20:40
