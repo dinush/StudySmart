@@ -252,7 +252,7 @@ public class StudentManager extends HttpServlet {
                 assignment.setMax(Integer.parseInt(request.getParameter("max")));
                 assignment.setClass1(class2);
                 assignment.setSubject(subject);
-                assignment.setDate(new Date());
+                assignment.setDate(utils.Utils.getFormattedDate());
 
                 try {
                     utx.begin();
@@ -286,7 +286,10 @@ public class StudentManager extends HttpServlet {
                     am.setMark(mark);
                     am.setComment(comment);
                     am.setAddedby(user);
-
+                    if( !utils.Utils.entityValidator(am) ) {
+                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, "Entity validator failed");
+                        return;
+                    }
                     try {
                         utx.begin();
                         em.persist(am);

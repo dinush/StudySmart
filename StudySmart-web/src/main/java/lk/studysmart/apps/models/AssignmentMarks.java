@@ -46,9 +46,6 @@ public class AssignmentMarks implements Serializable {
     @NotNull
     @Column(name = "mark")
     private int mark;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1000)
     @Column(name = "comment")
     private String comment;
     @JoinColumn(name = "addedby", referencedColumnName = "username")
