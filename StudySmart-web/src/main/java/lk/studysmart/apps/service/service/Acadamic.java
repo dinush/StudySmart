@@ -142,6 +142,12 @@ public class Acadamic {
         return jarr.toString();
     }
     
+    /**
+     * Get marks for given assignment.
+     * @param assignment_id
+     * @param request
+     * @return 
+     */
     @GET
     @Path("assignment/marks/{assignment}")
     @Produces(MediaType.APPLICATION_JSON)
