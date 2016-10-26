@@ -72,6 +72,8 @@
             }
             
             function getAssignments() {
+                var chartLabels = [];
+                var chartValues = [];
                 $.ajax({
                     url: "ws/acadamic/assignments/" + username + "/subject/" + subjectid,
                     async: true
@@ -80,6 +82,11 @@
                             var tbl = document.getElementById("tbl_data");
                             tbl.innerHTML = '';
                             for (var i=0; i < data.length; i++) {
+                                // Feeding chart data
+                                chartLabels.push(data[i].name);
+                                chartValues.push(((data[i].marks/data[i].max_marks)*100).toFixed(2));
+                                
+                                // Table data
                                 var row = "<tr>";
                                 row += "<td>" + data[i].name + "</td>";
                                 row += "<td>" + ((data[i].marks/data[i].max_marks)*100).toFixed(2) + "% <br>(" + data[i].marks + " out of " + data[i].max_marks + ")</td>";
@@ -90,7 +97,41 @@
                                 tbl.innerHTML += row;
                                 assignmentid = data[0].name;
                             }
+                            
+                            // Construct chart data object
+                            var data = {
+                                labels: chartLabels,
+                                datasets: [{
+                                        label: "Overall assignment marks percentages",
+                                        data: chartValues
+                                }]
+                            };
+                            updateChart(data);
                         });
+            }
+            
+            function updateChart(data) {
+                if (barChart !== null) {
+                    barChart.destroy();
+                }
+
+                var canvas = document.getElementById("chart");
+                barChart = new Chart(canvas, {
+                    type: "bar",
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        beginAtZero: true,
+                                        suggestedMax: 100
+                                    }
+                                }]
+                        }
+                    },
+                    data: data
+                });
+                console.log(data);
             }
     </script>
     <title>StudySmart</title>
@@ -140,6 +181,9 @@
 
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="row">
+                                    <canvas id="chart" height="200px"></canvas>
                                 </div>
                             </div>
                             <div class="col-md-4">
