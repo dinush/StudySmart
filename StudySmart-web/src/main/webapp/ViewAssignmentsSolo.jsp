@@ -44,42 +44,28 @@
 
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                getClasses();
+                getSubjects();
             });
             
-            var classid;
+            var username;
+            <% if( acc_level == 3 ) { %>    
+                username = '<% out.print(user.getUsername()); %>';
+            <% } %>
             var subjectid;
             var assignmentid;
-            
-            function getClasses() {
-                $.ajax({
-                    url: "ws/rest/classes",
-                    async: true
-                })
-                        .done(function (data) {
-                            var sel_clz = document.getElementById("class2");
-                            sel_clz.innerHTML = '';
-                            for (var i=0; i < data.length; i++) {
-                                var row = "<option value='" + data[i].id + "'>Class " + data[i].name + "</option>";
-                                sel_clz.innerHTML += row;
-                                classid = data[0].id;
-                            }
-                            getSubjects();
-                        });
-            }
 
             function getSubjects() {
                 $.ajax({
-                    url: "ws/rest/subjects/" + classid,
+                    url: "ws/acadamic/subjects/" + username,
                     async: true
                 })
                         .done(function (data) {
                             var sel_sbj = document.getElementById("subject");
                             sel_sbj.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
-                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                var row = "<option value='" + data[i].sbj_id + "'>" + data[i].sbj_name + "</option>";
                                 sel_sbj.innerHTML += row;
-                                subjectid = data[0].id;
+                                subjectid = data[0].sbj_id;
                             }
                             getAssignments();
                         });
@@ -87,7 +73,7 @@
             
             function getAssignments() {
                 $.ajax({
-                    url: "ws/acadamic/assignments/" + classid + "/" + subjectid,
+                    url: "ws/acadamic/assignments/" + username + "/subject/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
@@ -95,8 +81,11 @@
                             tbl.innerHTML = '';
                             for (var i=0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td><a href='ViewAssignmentMarks.jsp?assignment="+data[i].name+"'>" + data[i].name + "</a></td>";
+                                row += "<td>" + data[i].name + "</td>";
+                                row += "<td>" + ((data[i].marks/data[i].max_marks)*100).toFixed(2) + "% <br>(" + data[i].marks + " out of " + data[i].max_marks + ")</td>";
                                 row += "<td>" + data[i].date + "</td>";
+                                row += "<td>" + data[i].comment + "</td>";
+                                row += "<td>" + data[i].author_name + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
                                 assignmentid = data[0].name;
@@ -124,16 +113,6 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
-                                    <div class="flat-panel">
-                                        <div class="flat-panel-head">
-                                            Class
-                                        </div>
-                                        <div class="flat-panel-body">
-                                            <select id="class2" name="class2" class="form-control" onchange="classid = this.value; getSubjects()">
-
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <div class="flat-panel">
                                         <div class="flat-panel-head">
@@ -152,7 +131,10 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <th>Assignment Name</th>
+                                        <th>Marks</th>
                                         <th>Held Date</th>
+                                        <th>Comment by Teacher</th>
+                                        <th>Marked By</th>
                                         </thead>
                                         <tbody id="tbl_data">
 
