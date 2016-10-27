@@ -3,7 +3,7 @@
 <div class="nav-bar-vertical">
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation"><a href="index.jsp">Home</a></li>
-        <li role="presentation"><a href="profile.jsp">Profile</a></li>
+        
         <!--<li role="presentation"><a href="#">Profile</a></li>-->
         <% if (acc_level == 5) { %>
         <li role="presentation"><a href="principalProfile.jsp">Profile</a></li>
