@@ -686,6 +686,22 @@ public class RestServices {
 
         return jarr.toString();
     }
+    
+    @GET
+    @Path("messages/private")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getPrivateMsgs(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return null;
+        }
+        
+        List<Message> msgs = em.createNamedQuery("Message.findByTypeAndTargetUser")
+                .setParameter("type", 1)
+                .setParameter("user", request.getSession().getAttribute("user"))
+                .getResultList();
+        
+        return msgs;
+    }
 
     @GET
     @Path("messages/public")

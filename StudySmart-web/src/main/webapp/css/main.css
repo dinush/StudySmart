@@ -61,3 +61,8 @@
 .hover {
     cursor: pointer;
 }
+
+.panel-border-bottom {
+    padding-top: 15px;
+    border-bottom: 1px solid #e6e6e6;
+}
