@@ -3,9 +3,9 @@
 <div class="nav-bar-vertical">
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation"><a href="index.jsp">Home</a></li>
-        <li role="presentation"><a href="profile.jsp">Profile</a></li>
+        
         <!--<li role="presentation"><a href="#">Profile</a></li>-->
-        <% if (acc_level == 5) { %>
+        <% if (acc_level == 1) { %>
         <li role="presentation"><a href="principalProfile.jsp">Profile</a></li>
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
@@ -31,6 +31,7 @@
             </ul></li>
         <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
+        
             <% } %>
 
         <% if (acc_level == 4) { %>
@@ -41,6 +42,17 @@
         <% if (acc_level == 3) { %>
         <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
+                Try<span class="caret"></span>
+            </a>
+             <ul class="dropdown-menu">
+                 <li role="presentation"><a href="try.jsp">Discuss</a></li>
+                 <li role="presentation"><a href="categories.jsp">Category</a></li>
+             </ul>
+        
+   
+        </li>
             <% } %>
 
         <% if (acc_level == 2) { %>
