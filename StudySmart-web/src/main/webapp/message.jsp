@@ -52,7 +52,7 @@
             
             function getInbox() {
                 $.ajax({
-                    url: "ws/rest/messages/private",
+                    url: "ws/rest/messages",
                     async: true
                 })
                         .done(function (data) {
@@ -68,7 +68,7 @@
                                 msg += data[i].content;
                                 msg += "<br>";
                                 msg += "<small>";
-                                msg += "Sent by " + data[i].addeduser.name + " on " + data[i].addeddate;
+                                msg += "Sent by " + data[i].added_user_name + " on " + data[i].added_date;
                                 msg += "</small>";
                                 msg += "</div>";
                                 
