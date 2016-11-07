@@ -104,17 +104,19 @@
                                 <% } %>
                                 
                                 <h4>Write new message <span class="glyphicon glyphicon-chevron-down"></span></h4>
-                                Send message to: <br>
-                                <div class="col-xs-12">
-                                    <select required name="receivers" id="receivers"></select>
-                                </div>
-                                
-                                Message: <br>
-                                <div class="col-xs-12">
-                                    <textarea id="msg"></textarea>
-                                </div>
-                                
-                                <button>Send</button>
+                                <form action="management?action=sendpersonalmsg" method="POST">
+                                    Send message to: <br>
+                                    <div class="col-xs-12">
+                                        <select required name="receivers" id="receivers"></select>
+                                    </div>
+
+                                    Message: <br>
+                                    <div class="col-xs-12">
+                                        <textarea name="msg" id="msg"></textarea>
+                                    </div>
+
+                                    <input type="submit" value="Send" />
+                                </form>
                                 
                                 <hr class="col-xs-12">
                                 
