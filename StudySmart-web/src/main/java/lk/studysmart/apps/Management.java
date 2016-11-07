@@ -245,21 +245,23 @@ public class Management extends HttpServlet {
     
     protected void sendPersonalMsg(HttpServletRequest request) throws IOException {
         User from = user;
-        User to = em.find(User.class, request.getParameter("receivers"));
-        Message msg = new Message();
-        msg.setAddeddate(Utils.getFormattedDate());
-        msg.setAddedtime(Utils.getFormattedTime());
-        msg.setAddeduser(from);
-        msg.setContent(request.getParameter("msg"));
-        msg.setTargetuser(to);
-        msg.setType(1);
-        
-        try {
-            utx.begin();
-            em.persist(msg);
-            utx.commit();
-        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+        String[] receivers = request.getParameterValues("receivers");
+        for (String receiver : receivers) {
+            User to = em.find(User.class, receiver);
+            Message msg = new Message();
+            msg.setAddeddate(Utils.getFormattedDate());
+            msg.setAddedtime(Utils.getFormattedTime());
+            msg.setAddeduser(from);
+            msg.setContent(request.getParameter("msg"));
+            msg.setTargetuser(to);
+            msg.setType(1);
+            try {
+                utx.begin();
+                em.persist(msg);
+                utx.commit();
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

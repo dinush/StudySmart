@@ -60,8 +60,9 @@
                             msgs.innerHTML = "";
                             for (var i=0; i < data.length; i++) {
                                 var msg = "<div class='panel-border-bottom'>";
+                                msg += "<span class='glyphicon glyphicon-envelope' style='margin-right:5px'></span>";
                                 if (data[i].title !== undefined) {
-                                    msg += "<span class='text-primary'><font size=4>" + data[i].title + "</font></span>";
+                                    msg += "<span class='text-info'><font size=4>" + data[i].title + "</font></span>";
                                 }
                                 msg += "<br>";
                                 msg += data[i].content;
