@@ -80,8 +80,8 @@
             }
 
             function getStudents() {
-                var chartLabels = [];
-                var chartValues = [[], [], []];
+                var chartLabels = ['A', 'B', 'C', 'D', 'F'];
+                var chartValues = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
@@ -98,12 +98,20 @@
                                 var row = "<tr>";
                                 row += "<td>" + raw[i].username + "</td>";
                                 row += "<td>" + raw[i].name + "</td>";
-                                chartLabels.push(raw[i].name);
                                 // Loop through avalible terms. 3 max
                                 for (var j = 0; j < raw[i].term_marks.length; j++) {
                                     var marks = raw[i].term_marks[j].marks;
                                     row += "<td>" + marks + "</td>";
-                                    chartValues[j].push(marks)
+                                    if (marks >= 75)
+                                        chartValues[j][0]++;
+                                    else if (marks >= 65)
+                                        chartValues[j][1]++;
+                                    else if (marks >= 50)
+                                        chartValues[j][2]++;
+                                    else if (marks >= 35)
+                                        chartValues[j][3]++;
+                                    else
+                                        chartValues[j][4]++;
                                 }
                                 row += "</tr>";
                                 tbl.innerHTML += row;
@@ -144,11 +152,11 @@
                                     }
                                 ]
                             };
-                            updateChart(data);
+                            updateChart(data, raw.length);
                         });
             }
 
-            function updateChart(data) {
+            function updateChart(data, numberOfStudents) {
                 if (barChart !== null) {
                     barChart.destroy();
                 }
@@ -162,7 +170,7 @@
                                     ticks: {
                                         min: 0,
                                         beginAtZero: true,
-                                        suggestedMax: 100
+                                        suggestedMax: numberOfStudents
                                     }
                                 }]
                         }
@@ -225,11 +233,12 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <h3>Individual Students' Marks View</h3>
+                                    <h3>Classes count by Terms</h3>
                                     <!--Chart-->
                                     <canvas id="chart" height="200px"></canvas>
                                 </div>
                                 <div class="row">
+                                    <h3>Individual student's marks</h3>
                                     <table class="table table-striped">
                                         <thead>
                                         <th>Username</th>
