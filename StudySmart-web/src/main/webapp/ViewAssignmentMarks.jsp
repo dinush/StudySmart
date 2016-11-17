@@ -50,8 +50,8 @@
             });
 
             function getStudents() {
-                var chartLabels = [];
-                var chartValues = [];
+                var chartLabels = ['A', 'B', 'C', 'D', 'F'];
+                var chartValues = [0, 0, 0, 0, 0];
 
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
@@ -73,8 +73,8 @@
                             
                             // Stats
                             var stat_html = "<p>Maximum marks for this assignment: <b>" + data.max + "</b></p>";
-                            stat_html += "<p>Highest marks: <b>" + data.highest + "</b></p>";
-                            stat_html += "<p>Lowest marks: <b>" + data.lowest + "</b></p>";
+                            stat_html += "<p>Highest marks obtained: <b>" + data.highest + "</b></p>";
+                            stat_html += "<p>Lowest marks obtained: <b>" + data.lowest + "</b></p>";
                             stat_html += "<p>Mean: <b>" + data.mean + "</b></p>";
                             stat_html += "<p>Standard Deviation: <b>" + data.standard_deviation + "</b></p>";
                             stats.innerHTML = stat_html;
@@ -82,18 +82,29 @@
                             // Individual marks
                             for( var i=0 ; i<data.marks.length ; i++ ) {
                                 var marks = data.marks[i];
+                                var percentageMarks = ((marks.marks / data.max) * 100).toFixed(0);
+                                
                                 var row = "<tr>";
                                 row += "<td>" + marks.student_username + "</td>";
                                 row += "<td>" + marks.student_name + "</td>";
                                 row += "<td>" + marks.marks + "</td>";
-                                row += "<td>" + ((marks.marks / data.max) * 100).toFixed(2) + "</td>";
+                                row += "<td>" + percentageMarks + "%</td>";
                                 row += "<td>" + marks.comment + "</td>";
                                 row += "<td>" + marks.author_name + "</td>";
                                 tbl.innerHTML += row;
                                 
+                                
                                 // Chart data
-                                chartLabels.push(marks.student_name);
-                                chartValues.push(marks.marks);
+                                if (percentageMarks >= 75)
+                                    chartValues[0]++;
+                                else if (percentageMarks >= 65)
+                                    chartValues[1]++;
+                                else if (percentageMarks >= 50)
+                                    chartValues[2]++;
+                                else if (percentageMarks >= 35)
+                                    chartValues[3]++;
+                                else
+                                    chartValues[4]++;
                             }
                             
                             var data2 = {
@@ -107,7 +118,7 @@
                                     }
                                 ]
                             };
-                            updateChart(data2, data.max);
+                            updateChart(data2, data.marks.length);
                         });
             }
 
