@@ -13,9 +13,17 @@ body {
     border-radius: 0;
 }
 
+.well {
+    border-radius: 0;
+}
+
 .row {
     margin-left: 0;
     margin-right: 0;
+}
+
+.panel-heading {
+    border-radius: 0;
 }
 
 .nav-pills li a {
