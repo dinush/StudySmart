@@ -20,10 +20,9 @@
                 <li role="presentation"><a href="addMembershipDetails.jsp">Enter Membership Details</a></li>
             </ul>
         </li>
-        <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
         
-            <% } %>
+        <% } %>
 
         <% if (acc_level == 4) { %>
 

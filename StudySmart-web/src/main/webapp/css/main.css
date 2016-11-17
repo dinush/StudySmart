@@ -1,3 +1,21 @@
+body {
+    background-color: #fafafa;
+}
+
+.container {
+    padding: 0 30px;
+    box-shadow: 0 0 10px 1px #ccc;
+    background-color: white;
+}
+
+.panel {
+    border-radius: 0;
+}
+
+.breadcrumb {
+    border-radius: 0;
+}
+
 .page-header {
     height: 70px;
 }
