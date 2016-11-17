@@ -58,6 +58,11 @@ public class Utils {
         return format.format(d);
     }
     
+    public static String getFormattedDateStringNotFriendly(Date d) {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        return format.format(d);
+    }
+    
     public static Date stringToDate(String sdate) throws ParseException {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         return format.parse(sdate);

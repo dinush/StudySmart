@@ -226,6 +226,8 @@ public class StudentManager extends HttpServlet {
 
                     request.setAttribute("teaches", teachSubjects);
                     request.getRequestDispatcher("/enterAssignmentMarks.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("index.jsp");
                 }
                 break;
             }

@@ -89,7 +89,7 @@
                                 // Table data
                                 var row = "<tr>";
                                 row += "<td>" + data[i].name + "</td>";
-                                row += "<td>" + ((data[i].marks/data[i].max_marks)*100).toFixed(2) + "% <br>(" + data[i].marks + " out of " + data[i].max_marks + ")</td>";
+                                row += "<td>" + ((data[i].marks/data[i].max_marks)*100).toFixed(2) + "%</td>";
                                 row += "<td>" + data[i].date + "</td>";
                                 row += "<td>" + data[i].comment + "</td>";
                                 row += "<td>" + data[i].author_name + "</td>";

@@ -257,7 +257,7 @@
                                 //Get attendance as percentage for given time period
                                 var perc = (nAttDays / attDetails.length) * 100;
                                 if (!isNaN(perc)) {
-                                    row += "<td>" + perc + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
+                                    row += "<td>" + perc.toFixed(0) + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
                                     chartData.push(perc);
                                     chartLabels.push(data[i].name + " (" + data[i].username + ")");
                                 } else {
@@ -275,14 +275,17 @@
                                 datasets: [
                                     {
                                         label: $('#from').val() + " - " + $('#to').val(),
-                                        fill: true,
+                                        fill: false,
                                         backgroundColor: "rgba(75,192,192,0.4)",
                                         lineTension: 0.1,
-                                        spanGaps: false,
+                                        borderCapStyle: 'butt',
+                                        borderDashOffset: 0.0,
                                         pointBorderColor: "rgba(75,192,192,1)",
                                         pointBackgroundColor: "#fff",
                                         pointBorderWidth: 1,
                                         pointHoverRadius: 5,
+                                        pointHitRadius: 10,
+                                        snapGaps: false,
                                         data: chartData
                                     }
                                 ]
@@ -350,7 +353,7 @@
                                             <div class="form-inline" style="margin-top:10px;">
                                                 <div class="form-group">
                                                     <label for="from">From:</label>
-                                                    <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="<% if (user.getLevel() < 3) {
+                                                    <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateStringNotFriendly(new Date())); %>" onchange="<% if (user.getLevel() < 3) {
                                                             out.print("studentsInClassForPeriod()");
                                                         } else {
                                                             out.print("loadAttendance()");
@@ -358,7 +361,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="from">To:</label>
-                                                    <input class="form-control" type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date()));%>" onchange="loadAttendance()">
+                                                    <input class="form-control" type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateStringNotFriendly(new Date()));%>" onchange="loadAttendance()">
                                                 </div>
                                             </div>
 
