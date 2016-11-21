@@ -27,34 +27,12 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-        <script type = "text/javascript" >
-            $(document).ready(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-            });
-        </script>
-
-
     </script>
     <title>StudySmart</title>
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%
-                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -68,6 +46,11 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <% if(request.getParameter("msg") != null) { %>
+                                <script>
+                                    alert("<% out.print(request.getParameter("msg"));%>");
+                                </script>
+                                <% } %>
                                  <%@ include file="WEB-INF/jspf/newsFeed.jspf" %>
                             </div>
                             <div class="col-md-4">
@@ -79,5 +62,6 @@
             </tr>
         </table>
     </div>
+                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>

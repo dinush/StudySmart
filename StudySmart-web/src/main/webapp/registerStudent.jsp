@@ -26,13 +26,13 @@
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-        <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
+        <!--<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />--> 
 
         <!--Font Awesome (added because you use icons in your prepend/append)-->
-        <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <!--<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />-->
 
         <!-- Inline CSS based on choices in "Settings" tab -->
-        <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+        <!--<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>-->
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
@@ -41,9 +41,9 @@
         <script type = "text/javascript" >
             $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-                $('#bday-container input').datepicker({
-                    endDate: new Date()
-                });
+//                $('#bday-container input').datepicker({
+//                    endDate: new Date()
+//                });
 
                 $.ajax({
                     url: "ws/rest/classes",
@@ -59,6 +59,24 @@
                             loadSubjects(document.getElementById('class'));
                         });
             });
+            
+            function checkUsername(elem) {
+                var username = $(elem).val();
+                $.ajax({
+                    url: "ws/search/user/exact/" + username,
+                    async: true
+                })
+                        .done(function (data) {
+                            var err_div = document.getElementById("username-error");
+                            if (data.length > 0) {
+                                err_div.innerHTML = $(elem).val() + " already exists!";
+                                $(elem).val('');
+                                $(err_div).show();
+                            } else {
+                                $(err_div).hide();
+                            }
+                        });
+            }
 
             function loadSubjects(sel) {
                 $.ajax({
@@ -86,21 +104,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -137,8 +141,9 @@
                                     <div class="form-group row">
                                         <label for="username" class="col-xs-2 col-form-label">Student ID (Username)</label>
                                         <div class="col-xs-10">
-                                            <input name="username" required type="text" class="form-control" id="username" placeholder="Username">
+                                            <input name="username" required type="text" class="form-control" id="username" placeholder="Username" onchange="checkUsername(this)">
                                         </div>
+                                        <div class="col-xs-10" id="username-error" hidden style="color:red; float:right;"></div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Student Name </label>
@@ -217,6 +222,14 @@
                             <script>
                                 function validateEmail()
                                 {
+                                    //Username max 8 characters
+                                    var un = document.myform.username.value;
+                                    console.log(un);
+                                    if(un.length > 8) {
+                                        alert("Username can have 8 characters max");
+                                        return false;
+                                    }
+                                    
                                     var x = document.myform.email.value;
                                     var atposition = x.indexOf("@");
                                     var dotposition = x.lastIndexOf(".");

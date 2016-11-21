@@ -29,12 +29,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "TermMarks")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TermMarks.findAll", query = "SELECT t FROM TermMarks t"),
-    @NamedQuery(name = "TermMarks.findById", query = "SELECT t FROM TermMarks t WHERE t.id = :id"),
-    @NamedQuery(name = "TermMarks.findByTerm", query = "SELECT t FROM TermMarks t WHERE t.term = :term"),
-    @NamedQuery(name = "TermMarks.findByValue", query = "SELECT t FROM TermMarks t WHERE t.value = :value"),
-    @NamedQuery(name = "TermMarks.findByTermClassSubject", query = "SELECT t FROM TermMarks t WHERE t.term = :term AND t.class1 = :class2 AND t.subject = :subject"),
-    @NamedQuery(name = "TermMarks.findByAll", query = "SELECT t FROM TermMarks t WHERE t.student = :student AND t.class1 = :class2 AND t.subject = :subject AND t.term = :term")})
+    @NamedQuery(name = "TermMarks.findAll", query = "SELECT t FROM TermMarks t ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findById", query = "SELECT t FROM TermMarks t WHERE t.id = :id ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findByTerm", query = "SELECT t FROM TermMarks t WHERE t.term = :term ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findByValue", query = "SELECT t FROM TermMarks t WHERE t.value = :value ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findByTermClassSubject", query = "SELECT t FROM TermMarks t WHERE t.term = :term AND t.class1 = :class2 AND t.subject = :subject ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findByUserSubject", query = "SELECT t FROM TermMarks t WHERE t.student = :username AND t.subject = :subject ORDER BY t.term"),
+    @NamedQuery(name = "TermMarks.findByAll", query = "SELECT t FROM TermMarks t WHERE t.student = :student AND t.class1 = :class2 AND t.subject = :subject AND t.term = :term ORDER BY t.term")})
 public class TermMarks implements Serializable {
 
     private static final long serialVersionUID = 1L;

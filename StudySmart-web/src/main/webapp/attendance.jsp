@@ -77,6 +77,8 @@
                             var prev_marker = document.getElementById("marked-user-name");
                             if(data[0].marked_name !== "n/a") {
                                 prev_marker.innerHTML = "Previously marked by: " + data[0].marked_name;
+                            } else {
+                                prev_marker.innerHTML = '';
                             }
                             
                             var tbl_data = document.getElementById("tbl_data");
@@ -86,7 +88,7 @@
                                 row += "<td>" + data[i].id + "</td>";
                                 row += "<td>" + data[i].name + "</td>";
                                 row += "<td><input class='att_details' type=checkbox name='" + data[i].id + "' ";
-                                if (data[i].attended)
+                                if (data[i].attended || data[i].controlled)
                                     row += "checked";
                                 row += "/></td>";
                                 row += "</tr>";
@@ -132,22 +134,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%
-                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -166,10 +153,6 @@
                                     <div class="col-lg-3">
                                         <select name="class" class="form-control" id="class" onchange="getAttendance()">
                                         </select>
-                                    </div>
-                                    
-                                    <div class="col-lg-2">
-                                        <button type="submit" class="btn btn-primary">Load Students</button>
                                     </div>
                                     </form>
                                 </div>

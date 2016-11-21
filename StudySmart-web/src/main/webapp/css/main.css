@@ -1,3 +1,44 @@
+body {
+    background-color: #fafafa;
+    line-height: 1;
+}
+
+.container {
+    padding: 0 30px;
+    box-shadow: 0 0 10px 1px #ccc;
+    background-color: white;
+}
+
+.panel {
+    border-radius: 0;
+}
+
+.well {
+    border-radius: 0;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.panel-heading {
+    border-radius: 0;
+}
+
+.nav-pills li a {
+    border-radius: 0;
+}
+
+.breadcrumb {
+    border-radius: 0;
+}
+
+#main-content {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
 .page-header {
     height: 70px;
 }
@@ -16,7 +57,7 @@
 }
 
 .nav-bar-vertical {
-    width: 180px;
+    width: 160px;
     float: left;
 }
 
@@ -26,7 +67,7 @@
 }
 
 .table-col-fixed {
-    width: 180px;
+    width: 160px;
 }
 
 .content {
@@ -36,4 +77,33 @@
 .right-panels {
     width: 400px;
     float: right;
+}
+
+.flat-panel {
+    border: 1px solid #336699;
+}
+
+.flat-panel-head {
+    padding: 6px;
+    background-color: #336699;
+    color: white;
+}
+
+.flat-panel-body {
+    padding: 10px;
+}
+
+.white-block {
+    background-color: white;
+    margin: 2px;
+    border: 1px solid #DDD;
+}
+
+.hover {
+    cursor: pointer;
+}
+
+.panel-border-bottom {
+    padding-top: 15px;
+    border-bottom: 1px solid #1f004d;
 }

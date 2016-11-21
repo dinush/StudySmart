@@ -9,7 +9,6 @@
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@include file="utils/logincheck.jsp" %>
 <%@include file="utils/database.jsp" %>
 
@@ -28,11 +27,6 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-        <script type = "text/javascript" >
-            $(document).ready(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
-            });
-        </script>
 
 
     </script>
@@ -41,10 +35,6 @@
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <% if (acc_level > 2) {
-                response.sendRedirect("index.jsp");
-            }
-        %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -58,22 +48,48 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <% if (request.getParameter("msg") != null) { %>
+                                <script>
+                                    alert("<% out.print(request.getParameter("msg"));%>");
+                                </script>
+                                <% }%>
 
-                                <!--editing starts here-->
-                                <h3><b><i><u> Add Public News </u></i></b></h3>
-                                <br>
-                                <form class="form-inline" action="Admin?action=news/general" method="POST">
-                                    <div class="panel panel-info">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <label for="msg">News: </label>
-                                                <textarea type="Description" name="msg" class="form-control" id="InputDescription" placeholder="New Announcement"></textarea>
+                                <!-- DIscussion forum rules-->
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                    Rules to Follow
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel"><span style="color:#9370DB">Forum Etiquette</span></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <%@ include file="WEB-INF/jspf/ForumRules.jspf" %>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
-                                </form>
-                                <!--ends here-->
+                                </div>
+
+
+                                <br>
+                                <br>
+
+                                <!-- rules end here -->
+
+
+                               
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
@@ -84,5 +100,6 @@
             </tr>
         </table>
     </div>
+    
 </body>
 </html>

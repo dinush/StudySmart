@@ -60,6 +60,7 @@
                     async: true
                 })
                         .done(function (data) {
+                            data = data.raw;
                             var tbl = document.getElementById("table-body");
                             tbl.innerHTML = "";
                             for (var i = 0; i < data.length; i++) {
@@ -120,21 +121,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home </a></li> 

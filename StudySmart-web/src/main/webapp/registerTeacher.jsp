@@ -37,9 +37,102 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script type = "text/javascript" >
-            $(document).ready(function () {
+            $(function () {
                 $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
+                getSubjects();
             });
+
+            function checkUsername(elem) {
+                var username = $(elem).val();
+                $.ajax({
+                    url: "ws/search/user/exact/" + username,
+                    async: true
+                })
+                        .done(function (data) {
+                            var err_div = document.getElementById("username-error");
+                            if (data.length > 0) {
+                                err_div.innerHTML = $(elem).val() + " already exists!";
+                                $(elem).val('');
+                                $(err_div).show();
+                            } else {
+                                $(err_div).hide();
+                            }
+                        });
+            }
+
+            function getSubjects() {
+                $.ajax({
+                    url: "ws/rest/subjects/all",
+                    async: true
+                })
+                        .done(function (data) {   // TODO get classes
+                            var subjects = document.getElementById("subjects");
+                            subjects.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<div class='checkbox' style='float:left; width:46%; margin:10px;'>";
+                                row += "<label>";
+                                row += "<input class='subj' type='checkbox' name='subjects' value='";
+                                row += data[i].id;
+                                row += "' onchange='selActivator(this)'>";
+                                row += data[i].name + " (id: " + data[i].id + ")";
+                                row += "</label>";
+                                // Get classes of this grade
+                                $.ajax({
+                                    url: "ws/rest/classes/" + data[i].grade,
+                                    async: false
+                                })
+                                        .done(function (classData) {
+                                            row += "<div>";
+                                            row += "<select multiple disabled class='form-control' name='" + data[i].id + "_class' id='" + data[i].id + "_class' style='height:70px;'>";
+                                            for (var j = 0; j < classData.length; j++) {
+                                                row += "<option value='" + classData[j].id + "'>Grade " + classData[j].grade + " " + classData[j].subclass + "</option>";
+                                            }
+                                            row += "</select>";
+                                            row += "</div>";
+                                        });
+                                row += "</div>";
+                                subjects.innerHTML += row;
+                            }
+                        });
+            }
+
+            function selActivator(elem) {
+                if (elem.checked) {
+                    document.getElementById(elem.value + "_class").disabled = false;
+                } else {
+                    document.getElementById(elem.value + "_class").disabled = true;
+                }
+            }
+
+            function validateAndSend() {
+                var subjs = document.getElementsByClassName("subj");
+                for (var i = 0; i < subjs.length; i++) {
+                    if (subjs[i].checked) {
+                        var vals = getSelectValues(document.getElementById(subjs[i].value + "_class"));
+                        if (vals.length === 0) {
+                            alert("Invalid subject assigning detected. Please check again.");
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            // Return an array of the selected option values
+            function getSelectValues(select) {
+                var result = [];
+                var options = select && select.options;
+                var opt;
+
+                for (var i = 0, iLen = options.length; i < iLen; i++) {
+                    opt = options[i];
+
+                    if (opt.selected) {
+                        result.push(opt.value || opt.text);
+                    }
+                }
+                return result;
+            }
         </script>
 
 
@@ -48,21 +141,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -92,17 +171,24 @@
                                 <!--adding teacher registration-->
 
                                 <br>
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
+                                <form name="myform" method="post" action="Admin?action=register/teacher" onsubmit="return validateForm();">
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Name <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="id" class="col-xs-2 col-form-label">Username </label>
                                         <div class="col-xs-10">
+                                            <input required class="form-control" type="text" placeholder="Username" name="username" id="username" onchange="checkUsername(this)">
+                                        </div>
+                                        <div class="col-xs-10" id="username-error" hidden style="color:red; float:right;"></div>
+                                    </div>
 
-                                            <input class="form-control" type="text" placeholder="Artisanal kale" name="nm" id="nm">
+                                    <div class="form-group row">
+                                        <label for="name" class="col-xs-2 col-form-label">Name </label>
+                                        <div class="col-xs-10">
+                                            <input required class="form-control" type="text" placeholder="Name with initials" name="name" id="name">
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-2"><b>Gender </b><span style="color:#cc0000;"><b> *</b></span></div>
+                                        <div class="col-lg-2"><b>Gender </b></div>
                                         <div class="col-lg-4">
                                             <select name="gender" class="form-control">
                                                 <option value="1">Male</option>
@@ -113,61 +199,47 @@
                                     <br>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC </label>
                                         <div class="col-xs-10">
-
-                                            <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
+                                            <input required class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"> *</span></label>
+                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                            <input required class="form-control" type="text" placeholder="Address" name="address" id="add">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone<span style="color:#cc0000;"><b>*</b></span></label>
+                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
+                                            <input required class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
+                                        <label for="email" class="col-xs-2 col-form-label">Email</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                            <input required class="form-control" type="email" name="email" placeholder="example@example.com" id="email">
                                         </div>
                                     </div>
-                                    <div class="bootstrap-iso">
 
-                                        <div class="form-group row">
-                                            <label for="example-date-input" class="col-xs-2 col-form-label">Teaching since </label>
-                                            <div class="col-xs-10">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar-check-o">
-                                                        </i>
-                                                    </div>
-                                                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-                                                </div>
-                                            </div>
+                                    <div class="form-group row">
+                                        <label for="qualifications" class="col-xs-2 col-form-label">Qualifications </label>
+                                        <div class="col-xs-10">
+                                            <input required type="Description" name="qualifications" class="form-control" id="qualifications">
                                         </div>
+                                    </div>
+                                    <hr>
+                                    <!--Show all subjects-->
+                                    <h4>Teaching subjects and classes</h4>                                    
+                                    <div id="subjects" class="form-group row">
 
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Qualifications </label>
-                                        <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
-                                    </div>
-
-
-
-                                    <br>
-
-
-                                    <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
+                                    <button type="submit" onclick="validateAndSend()" class="btn btn-primary" style="float:right;">Register</button>
                                     <!-- finishing student registration-->
                                 </form>
                             </div>
@@ -176,29 +248,6 @@
                             <!--validation-->
 
                             <script>
-                                function validateEmail()
-                                {
-                                    var x = document.myform.email.value;
-                                    var atposition = x.indexOf("@");
-                                    var dotposition = x.lastIndexOf(".");
-                                    if (x !== "") {
-                                        if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
-                                            alert("Please enter a valid e-mail address!");
-                                            return false;
-                                        }
-                                    }
-                                    return true;
-                                }
-
-//                                function validateEmail() {
-//                                var email = document.myform.email.value;
-//                                var re = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
-//                                if (re.test(email)===false){
-//                                alert("Wrong email format!");
-//                                return false;
-//                                }
-//
-//                                }
                                 function validateTP() {
                                     var tp = document.myform.tp.value;
                                     console.log("DEBUG tp -> " + tp);
@@ -210,31 +259,16 @@
                                     return true;
                                 }
 
-
-
-
-                                function validateName() {
-
-                                    var nm = document.myform.nm.value;
-                                    var gender = document.myform.gender.value;
-                                    var nic = document.myform.nic.value;
-                                    var add = document.myform.add.value;
-                                    var tp = document.myform.tp.value;
-                                    console.log("DEBUG vname ->");
-                                    if (nm === "" || gender === "" || nic === "" || add === "" || tp === "") {
-                                        alert("Please make sure you have filled the compulsory fields");
+                                function validateForm() {
+                                    //Username max 8 characters
+                                    var un = document.myform.username.value;
+                                    console.log(un);
+                                    if(un.length > 8) {
+                                        alert("Username can have 8 characters max");
                                         return false;
                                     }
-                                    return true;
-                                }
-
-                                function validateForm() {
-
-                                    var validation = true;
-                                    if ((validateName() && validateTP() && validateEmail()) === true) {
-                                        return validation;
-                                    }
-                                    return false;
+                                    
+                                    return validateTP();
                                 }
 
 

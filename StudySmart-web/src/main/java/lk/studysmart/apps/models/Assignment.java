@@ -7,6 +7,7 @@ package lk.studysmart.apps.models;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Assignment.findAll", query = "SELECT a FROM Assignment a"),
     @NamedQuery(name = "Assignment.findByName", query = "SELECT a FROM Assignment a WHERE a.name = :name"),
-    @NamedQuery(name = "Assignment.findByMax", query = "SELECT a FROM Assignment a WHERE a.max = :max")})
+    @NamedQuery(name = "Assignment.findByMax", query = "SELECT a FROM Assignment a WHERE a.max = :max"),
+    @NamedQuery(name = "Assignment.findByClass2AndSubject", query = "SELECT a FROM Assignment a WHERE a.class1 = :class2 AND a.subject = :subject")})
 public class Assignment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +49,8 @@ public class Assignment implements Serializable {
     @NotNull
     @Column(name = "max")
     private int max;
+    @Column(name = "date")
+    private Date date;
     @JoinColumn(name = "class", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Class2 class1;
@@ -78,6 +82,14 @@ public class Assignment implements Serializable {
 
     public int getMax() {
         return max;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setMax(int max) {

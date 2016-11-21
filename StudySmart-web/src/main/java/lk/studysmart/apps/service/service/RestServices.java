@@ -5,13 +5,13 @@
  */
 package lk.studysmart.apps.service.service;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleMapProperty;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -23,7 +23,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
 import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendanceClass;
 import lk.studysmart.apps.models.AttendanceClassPK;
@@ -52,7 +51,7 @@ public class RestServices {
     private EntityManager em;
 
     /**
-     * Get students in a class and their attendance
+     * Get students in a class and their attendance for today (if marked).
      *
      * @param classid
      * @param request
@@ -77,25 +76,28 @@ public class RestServices {
 
         // First element of the array is the information about the previous marking
         JSONObject meta = new JSONObject();
+        // Previous attendance marked person might be null.
         if (ac != null) {
             meta.put("marked_name", ac.getMarkedby().getName());
         } else {
             meta.put("marked_name", "n/a");
         }
         jarr.put(meta);
+        // Put individual attendance into JSON Array
         for (User student : students) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", student.getUsername());
             jobj.put("name", student.getName());
-            Boolean attended = true;
+            Boolean attended = false;
             AttendancePK apk = new AttendancePK(student.getUsername(), date);
             try {
                 Attendance att = (Attendance) em.createNamedQuery("Attendance.findByUserAndDate")
                         .setParameter("attendancePk", apk)
                         .getSingleResult();
                 attended = att.getAttended();
+                jobj.put("controlled", false);  // Mark this as a recorded value. Do not controll by the UI.
             } catch (NoResultException e) {
-                // do nothing
+                jobj.put("controlled", true);   // Controll this record in ui.
             }
             jobj.put("attended", attended);
             jarr.put(jobj);
@@ -105,7 +107,73 @@ public class RestServices {
     }
 
     /**
+     * Get attendance details of students in a class in a period of date.
+     *
+     * @param classid
+     * @param from
+     * @param to
+     * @return
+     */
+    @GET
+    @Path("student/attendance/{classid}/{from}/{to}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getClassStudentsAttendanceInAPeriod(@PathParam("classid") Integer classid, @PathParam("from") String from, @PathParam("to") String to, @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+
+        Class2 class2 = em.find(Class2.class, classid);
+
+        // Get students in that class
+        List<User> students = em.createNamedQuery("User.findByClassLevel")
+                .setParameter("class2", class2)
+                .setParameter("level", 3)
+                .getResultList();
+
+        JSONArray jarrContainer = new JSONArray();
+
+        // Get individual attendance details
+        for (User student : students) {
+            try {
+                List<Attendance> lstAtten = em.createNamedQuery("Attendance.findByUserAndDateRange")
+                        .setParameter("username", student.getUsername())
+                        .setParameter("from", Utils.getFormattedDate(from))
+                        .setParameter("to", Utils.getFormattedDate(to))
+                        .getResultList();
+
+                JSONObject jobjStudent = new JSONObject();
+                jobjStudent.put("username", student.getUsername());
+                jobjStudent.put("name", student.getName());
+
+                // Put attendance details day-by-day to JSON.
+                JSONArray jarrAtts = new JSONArray();
+                for (Attendance att : lstAtten) {
+                    JSONObject jobjAtt = new JSONObject();
+                    jobjAtt.put("date", att.getAttendancePK().getDate());
+                    jobjAtt.put("attended", att.getAttended());
+                    jobjAtt.put("markedbyusername", att.getMarkedBy().getUsername());
+                    jobjAtt.put("markedbyname", att.getMarkedBy().getName());
+
+                    jarrAtts.put(jobjAtt);
+                }
+
+                // Put all attendance details into student details JSON object.
+                jobjStudent.put("attendance", jarrAtts);
+
+                // Put single complete into main array.
+                jarrContainer.put(jobjStudent);
+            } catch (ParseException ex) {
+                Logger.getLogger(RestServices.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+
+        return jarrContainer.toString();
+    }
+
+    /**
      * Get students in a specific classroom AND enrolled for the given subject.
+     * (Also returns marks for the term tests)
      *
      * @param classid
      * @param subjectid
@@ -115,7 +183,7 @@ public class RestServices {
     @GET
     @Path("student/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getStudents(@PathParam("classid") Integer classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
+    public String getStudentsByClassAndSubject(@PathParam("classid") Integer classid, @PathParam("subjectid") String subjectid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -123,31 +191,98 @@ public class RestServices {
         Subject subject = em.find(Subject.class, subjectid);
         Class2 class2 = em.find(Class2.class, classid);
 
+        JSONObject jobjRoot = new JSONObject();
         JSONArray jarray = new JSONArray();
 
         List<StudentSubject> studentSubjects = em.createNamedQuery("StudentSubject.findBySubject")
                 .setParameter("subject", subject)
                 .getResultList();
 
+        DecimalFormat numberFormat = new DecimalFormat("#.0000");   // Format to limit to 4 floating point values
+        List[] stat_marks = {new ArrayList(), new ArrayList(), new ArrayList()}; // To calculate mean and standard deviation
+        int[] stat_total = {0, 0, 0};
+        int[] max = {0, 0, 0};
+        int[] min = {100, 100, 100};
         for (StudentSubject ss : studentSubjects) {
             User user = ss.getUserId();
-            if (!user.getClass1().equals(class2)) {
+            if (user.getClass1() != null && !user.getClass1().equals(class2)) {
                 continue;
             }
 
             JSONObject jobj = new JSONObject();
             jobj.put("username", ss.getUserId().getUsername());
             jobj.put("name", ss.getUserId().getName());
+            jobj.put("subject", ss.getSubjectId().getIdSubject());
+
+            /**
+             * Get extra student details *** EXPERIMENTAL ***
+             */
+            // Get term test marks (for all 3 terms)
+            List<TermMarks> termMarks = em.createNamedQuery("TermMarks.findByUserSubject")
+                    .setParameter("username", ss.getUserId())
+                    .setParameter("subject", subject)
+                    .getResultList();
+            JSONArray jarrTerms = new JSONArray();
+            for (int i = 0; i < termMarks.size(); i++) {
+                int marks = termMarks.get(i).getValue();
+                stat_marks[i].add(marks);
+                stat_total[i] += marks;
+                JSONObject jobjTerm = new JSONObject();
+                jobjTerm.put("term", termMarks.get(i).getTerm());
+                jobjTerm.put("marks", marks);
+                jobjTerm.put("marker_username", termMarks.get(i).getMarkedby().getUsername());
+                jobjTerm.put("marker_name", termMarks.get(i).getMarkedby().getName());
+                jarrTerms.put(jobjTerm);
+            }
+            jobj.put("term_marks", jarrTerms);
+
+            /**
+             * End of extra student details
+             */
             jarray.put(jobj);
         }
+        jobjRoot.put("raw", jarray);
 
-        return jarray.toString();
+        // Calculate 3 means and standard deviations
+        JSONArray jarrStat = new JSONArray();
+        for (int j = 0; j < 3; j++) {
+            int n = stat_marks[j].size();
+            if (n == 0) {
+                continue;
+            }
+            double mean = stat_total[j] / (double)n;
+
+            // Calculating standard deviation
+            double deviation = 0;
+            for (int k = 0; k < n; k++) {
+                int stat_mark = (int) stat_marks[j].get(k);
+                deviation += Math.pow(stat_mark - mean, 2);
+                if (max[j] < stat_mark) // In search of maximum marks for this term
+                    max[j] = stat_mark;
+                if (min[j] > stat_mark) // In search of minimum marks for this term
+                    min[j] = stat_mark;
+            }
+            double std_dev = Math.sqrt(deviation / n);
+
+            // JSON structure
+            JSONObject jobjStat = new JSONObject();
+            jobjStat.put("term", j + 1);
+            jobjStat.put("mean", numberFormat.format(mean));
+            jobjStat.put("standard_deviation", numberFormat.format(std_dev));
+            jobjStat.put("max", max[j]);
+            jobjStat.put("min", min[j]);
+            jarrStat.put(jobjStat);
+        }
+        jobjRoot.put("stats", jarrStat);
+
+        return jobjRoot.toString();
     }
 
     /**
      * Get the subjects which are taught by the teacher and for the specific
      * classroom.
      *
+     * @param teacherid
      * @param classid
      * @param request
      * @return
@@ -269,6 +404,33 @@ public class RestServices {
     }
 
     /**
+     * Get classes by grade.
+     *
+     * @param grade
+     * @param request
+     * @return
+     */
+    @GET
+    @Path("classes/{grade}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getClassesByGrade(@PathParam("grade") Integer grade, @Context HttpServletRequest request) {
+        List<Class2> classes = em.createNamedQuery("Class.findByGrade")
+                .setParameter("grade", grade)
+                .getResultList();
+
+        JSONArray jarr = new JSONArray();
+        for (Class2 class2 : classes) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", class2.getId());
+            jobj.put("grade", class2.getGrade());
+            jobj.put("subclass", class2.getSubclass());
+            jarr.put(jobj);
+        }
+
+        return jarr.toString();
+    }
+
+    /**
      * Get all the students
      *
      * @param request
@@ -315,9 +477,11 @@ public class RestServices {
             return "Not authorized";
         }
 
+        // Dates are URI encoded.
         from = from.replace("%", "/");
         to = to.replace("%2F", "/");
 
+        // Format the dates
         Date dFrom, dTo;
         try {
             dFrom = Utils.getFormattedDate(from);
@@ -327,6 +491,7 @@ public class RestServices {
             return null;
         }
 
+        // Query from the database
         List<Attendance> att_datas = em.createNamedQuery("Attendance.findByUserAndDateRange")
                 .setParameter("username", studentid)
                 .setParameter("from", dFrom)
@@ -334,7 +499,7 @@ public class RestServices {
                 .getResultList();
 
         JSONArray jarray = new JSONArray();
-
+        // Make individual objects into JSON objects
         for (Attendance att : att_datas) {
             JSONObject jobj = new JSONObject();
             jobj.put("date", Utils.getFormattedDateString(att.getAttendancePK().getDate()));
@@ -370,7 +535,7 @@ public class RestServices {
                 .getResultList();
 
         JSONArray jarr = new JSONArray();
-
+        // Make JSON objects
         for (StudentParent sp : spl) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", sp.getStudentid().getUsername());
@@ -451,7 +616,6 @@ public class RestServices {
      * Get all the messages related to the user.
      *
      * @param request
-     * @param studentid
      * @return
      */
     @GET
@@ -464,12 +628,12 @@ public class RestServices {
 
         User user = (User) request.getSession().getAttribute("user");
         Class2 class2 = user.getClass1();
+        // Prevent user from getting unwanted messages.
         if (class2 == null) {
             // build an impossible class ;)
             class2 = new Class2();
             class2.setGrade(-1);
             class2.setSubclass("zz");
-
         }
 
         List<Message> msgs = em.createNamedQuery("Message.findByFourOrs")
@@ -479,20 +643,98 @@ public class RestServices {
                 .setParameter("grade", class2.getGrade())
                 .getResultList();
 
-        JSONArray jarr = new JSONArray();
-        for (Message msg : msgs) {
-            JSONObject jobj = new JSONObject();
-            jobj.put("seen", msg.getSeen());
-            jobj.put("title", msg.getTitle());
-            jobj.put("content", msg.getContent());
-            jobj.put("target-date", Utils.getFormattedDateString(msg.getTargetdate()));
-            jobj.put("target-time", msg.getTargettime());
-            jobj.put("added-user-id", msg.getAddeduser().getUsername());
-            jobj.put("added-user-name", msg.getAddeduser().getName());
-            jobj.put("added-date", Utils.getFormattedDateString(msg.getAddeddate()));
-            jobj.put("added-time", msg.getAddedtime());
-            jobj.put("type", msg.getType());
+        JSONArray jarr = Utils.msgsToJsonArray(msgs, null);
 
+        // For teachers, Messages for the classes they teach are also added.
+        if (user.getLevel() == 2) {
+            List<TeacherTeaches> teachings = em.createNamedQuery("TeacherTeaches.findByUser")
+                    .setParameter("user", user)
+                    .getResultList();
+
+            List<Integer> teachingGrades = new ArrayList<>();
+            List<Class2> teachingClasses = new ArrayList<>();
+            for (TeacherTeaches teaching : teachings) {
+                Class2 clz = teaching.getClass1();
+                if (teachingClasses.contains(clz)) {
+                    continue;
+                }
+                teachingClasses.add(clz);
+
+                if (teachingGrades.contains(clz.getGrade())) {
+                    continue;
+                }
+                teachingGrades.add(clz.getGrade());
+            }
+
+            for (Integer teachingGrade : teachingGrades) {
+                List<Message> msgs2 = em.createNamedQuery("Message.findByGrade")
+                        .setParameter("grade", teachingGrade)
+                        .getResultList();
+
+                jarr = Utils.msgsToJsonArray(msgs2, jarr);
+            }
+
+            for (Class2 teachingClass : teachingClasses) {
+                List<Message> msgs3 = em.createNamedQuery("Message.findByClass")
+                        .setParameter("class2", teachingClass)
+                        .getResultList();
+
+                jarr = Utils.msgsToJsonArray(msgs3, jarr);
+            }
+
+        }
+
+        return jarr.toString();
+    }
+    
+    @GET
+    @Path("messages/private")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getPrivateMsgs(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return null;
+        }
+        
+        List<Message> msgs = em.createNamedQuery("Message.findByTypeAndTargetUser")
+                .setParameter("type", 1)
+                .setParameter("user", request.getSession().getAttribute("user"))
+                .getResultList();
+        
+        return msgs;
+    }
+
+    @GET
+    @Path("messages/public")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPublicMessages(@Context HttpServletRequest request) {
+        List<Message> publicMsgs = em.createNamedQuery("Message.findByType")
+                .setParameter("type", 5)
+                .getResultList();
+
+        return Utils.msgsToJsonArray(publicMsgs, null).toString();
+    }
+
+    /**
+     * Get all subjects
+     *
+     * @param request
+     * @return
+     */
+    @GET
+    @Path("subjects/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllSubjects(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+
+        List<Subject> subjects = em.createNamedQuery("Subject.findAll").getResultList();
+        JSONArray jarr = new JSONArray();
+        for (Subject subject : subjects) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", subject.getIdSubject());
+            jobj.put("name", subject.getName());
+            jobj.put("grade", subject.getGrade());
             jarr.put(jobj);
         }
 

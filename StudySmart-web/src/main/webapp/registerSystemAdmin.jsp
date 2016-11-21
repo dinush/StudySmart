@@ -48,21 +48,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="page-header">
-            <div id="page-title">
-                <h1>Study Smart</h1>
-            </div>                
-            <div class="user-details">
-                Signed in as:
-                <span id="user-name">
-                    <%                        out.print(user.getName());
-                    %>
-                </span>
-                <a href="logout">
-                    (logout)
-                </a>                    
-            </div>
-        </div>
+        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -169,6 +155,14 @@
                             <script>
                                 function validateEmail()
                                 {
+                                    //Username max 8 characters
+                                    var un = document.myform.username.value;
+                                    console.log(un);
+                                    if(un.length > 8) {
+                                        alert("Username can have 8 characters max");
+                                        return false;
+                                    }
+                                    
                                     var x = document.myform.email.value;
                                     var atposition = x.indexOf("@");
                                     var dotposition = x.lastIndexOf(".");
@@ -201,29 +195,10 @@
                                     return true;
                                 }
 
-
-
-
-                                function validateName() {
-
-                                    var nm = document.myform.nm.value;
-                                    var gender = document.myform.gender.value;
-                                    var nic = document.myform.nic.value;
-                                    var add = document.myform.add.value;
-                                    var tp = document.myform.tp.value;
-                                    console.log("DEBUG vname ->");
-                                    if (nm === "" || gender === "" || nic === "" || add === "" || tp === "") {
-                                        alert("Please make sure you have filled the compulsory fields");
-                                        return false;
-                                    }
-                                    return true;
-                                }
-
-
                                 function validateForm() {
 
                                     var validation = true;
-                                    if ((validateName() && validateTP() && validateEmail()) === true) {
+                                    if ((validateTP() && validateEmail()) === true) {
                                         return validation;
                                     }
                                     return false;
