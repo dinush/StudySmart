@@ -27,7 +27,9 @@ import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendanceClass;
 import lk.studysmart.apps.models.AttendanceClassPK;
 import lk.studysmart.apps.models.AttendancePK;
+import lk.studysmart.apps.models.Categories;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Forumposts;
 import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
@@ -739,5 +741,75 @@ public class RestServices {
         }
 
         return jarr.toString();
+    }
+    
+    
+      /**Get threads created by a teacher*/
+    @GET
+    @Path("teacherthreads/{classid}/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getThreads(@PathParam("classid") String classid,
+            @PathParam("subjectid") String subjectid,
+                    @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        List<Categories> categories = em.createNamedQuery("Categories.findByTeacher")
+                .setParameter("catBy", user.getUsername())
+                .setParameter("class1", classid)
+                .setParameter("subject", subjectid)
+                .getResultList();
+                
+        JSONArray jarr = new JSONArray();
+        
+        for(Categories category: categories){
+            JSONObject jobj = new JSONObject();
+            jobj.put("catname", category.getCatName());
+            jobj.put("catdescription", category.getCatDescription());
+            jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
+    
+    /* Get the discussion thread by class, subject, lesson */
+    @GET
+    @Path("forum/{lessonid}/{classid}/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDiscussion(@PathParam("lessonid") String lessonid,
+            @PathParam("classid") String classid,
+            @PathParam("subjectid") String subjectid,
+                    @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        else{
+            List<Forumposts> forumPosts = em.createNamedQuery("Forumposts.findByClassSubjectLesson")
+                .setParameter("catName", lessonid)
+                .setParameter("class1", classid)
+                .setParameter("subject", subjectid)
+                .getResultList();
+                
+        JSONArray jarr = new JSONArray();
+            
+        
+           
+        for(Forumposts forumpost: forumPosts){
+            JSONObject jobj = new JSONObject();
+            jobj.put("postaddedby", forumpost.getAddedBy());
+            jobj.put("post", forumpost.getPost());
+            jobj.put("postdate", utils.Utils.getFormattedDateString(forumpost.getDate()));
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
+
+               
+    
+
+
     }
 }
