@@ -28,6 +28,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import lk.studysmart.apps.models.Forumposts;
 import lk.studysmart.apps.models.User;
 import org.json.JSONObject;
 
@@ -35,11 +36,11 @@ import org.json.JSONObject;
  *
  * @author Acer E-15
  */
+@WebServlet(name = "ForumPosts", urlPatterns = {"/ForumPosts"})
+public class ForumPosts extends HttpServlet {
 
-@WebServlet(name = "Categories", urlPatterns = {"/Categories"})
-public class Categories extends HttpServlet {
     
-    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
+     @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU");
 
     @Resource
@@ -49,7 +50,6 @@ public class Categories extends HttpServlet {
     EntityManager em;
 
     protected User user;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,36 +72,34 @@ public class Categories extends HttpServlet {
             builder.append(line);
         }
         
-        
-        
         JSONObject jobj = new JSONObject(builder.toString());
         JSONObject meta = jobj.getJSONObject("meta");
-        String catname = meta.getString("cat_name");
-        String catdescription = meta.getString("cat_description");
-        String catclass = meta.getString("class");
-        String catsubject = meta.getString("subject");
-        Date catdate = utils.Utils.getFormattedDate();
+        String mypost = meta.getString("mypost");
+        String mylesson = meta.getString("mylesson");
+        String myclass = meta.getString("myclass");
+        String mysubject = meta.getString("mysubject");
+        Date mydate = utils.Utils.getFormattedDate();
+        String time = utils.Utils.getFormattedTime();
         
-        
-        
-        lk.studysmart.apps.models.Categories categories = new lk.studysmart.apps.models.Categories();
-        categories.setCatName(catname);
-        categories.setCatDescription(catdescription);
-        categories.setCatBy(user.getUsername());
-        categories.setClass1(catclass);
-        categories.setSubject(catsubject);
-        categories.setCatDate(catdate);
-        
+        lk.studysmart.apps.models.Forumposts forum = new Forumposts();
+        forum.setAddedBy(user.getUsername());
+        forum.setCatName(mylesson);
+        forum.setClass1(myclass);
+        forum.setDate(mydate);
+        forum.setTime(time);
+        forum.setSubject(mysubject);
+        forum.setPost(mypost);
         
         try {
             utx.begin();
-            em.persist(categories);
+            em.persist(forum);
             utx.commit();
+        
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(Categories.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForumPosts.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-         
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
