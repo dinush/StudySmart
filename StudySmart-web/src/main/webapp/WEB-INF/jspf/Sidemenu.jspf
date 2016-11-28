@@ -20,6 +20,7 @@
                 <li role="presentation"><a href="addMembershipDetails.jsp">Enter Membership Details</a></li>
             </ul>
         </li>
+        
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
         
         <% } %>
@@ -32,17 +33,8 @@
         <% if (acc_level == 3) { %>
         <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
-                Try<span class="caret"></span>
-            </a>
-             <ul class="dropdown-menu">
-                 <li role="presentation"><a href="try.jsp">Discuss</a></li>
-                 <li role="presentation"><a href="categories.jsp">Category</a></li>
-             </ul>
+        <li role="presentation"><a href="try.jsp">Discussion Forum</a></li>
         
-   
-        </li>
             <% } %>
 
         <% if (acc_level == 2) { %>
@@ -60,7 +52,9 @@
                 <li role="presentation"><a href="addMembershipDetails.jsp">Enter Membership Details</a></li>
             </ul>
         </li>
+        
         <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
+        <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
             <% } %>
 
         <% if (acc_level > 0) { %>
