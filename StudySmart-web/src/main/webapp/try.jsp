@@ -28,17 +28,23 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script type="text/javascript">
+            
+             $(function () {
+                getThreads();
+            });
+
+
             function getThreads() {
-                var user = '<% request.getParameter("user"); %>';
-                var classid = '<% user.getClass1(); %>';
-                var subjectid = document.getElementsByClassName("subjects")[0];
-                if (classid === '' || subjectid === '') {
+                var user = '<% out.print(user.getUsername()); %>';
+                var classid = '<% out.print(user.getClass1().getId()); %>';
+                if (classid === '') {
+                    console.log("class null");
                     return;
                 }
 
 
                 $.ajax({
-                    url: "ws/rest/teacherthreads/" + classid.value + "/" + subjectid.value,
+                    url: "ws/rest/teacherthreads/" + classid + "/null",
                     async: false
                 })
                         .done(function (data) {
@@ -46,9 +52,11 @@
                             tbl.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid.value + "&subject=" + subjectid.value + "'>" + data[i].catname + "</a></td>";
+                                row += "<td>" + data[i].catsubject + "</td>";
+                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid + "&subject=" + data[i].catsubject + "'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
+                                row += "<td>" + data[i].catby + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
 
@@ -128,9 +136,11 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Lesson Name</th>
+                                                    <th>Subject</th>
+                                                    <th>Lesson</th>
                                                     <th>Lesson Description</th>
                                                     <th> Date </th>
+                                                    <th> By </th>
 
                                                 </tr>
                                             </thead>

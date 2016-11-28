@@ -33,6 +33,7 @@
         <% if (acc_level == 3) { %>
         <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
         <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
+        <li role="presentation"><a href="try.jsp">Discussion Forum</a></li>
         
             <% } %>
 

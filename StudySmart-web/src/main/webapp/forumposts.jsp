@@ -32,7 +32,7 @@
         <script type="text/javascript">
 
 
-            function sendPecket() {
+            function sendPacket() {
                 var packet = {};
                 packet['meta'] = {};
                 packet['meta']['mypost'] = $('#mypost').val();
@@ -131,7 +131,7 @@
 
                                     </div>
 
-                                    <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">
+                                    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" style="align:right" data-target="#myModal">
                                         Add Your Post
                                     </button>
 

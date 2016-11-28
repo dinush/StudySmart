@@ -760,23 +760,45 @@ public class RestServices {
             return "Not authorized";
         }
         User user = (User) request.getSession().getAttribute("user");
-        List<Categories> categories = em.createNamedQuery("Categories.findByTeacher")
-                .setParameter("catBy", user.getUsername())
-                .setParameter("class1", classid)
-                .setParameter("subject", subjectid)
-                .getResultList();
+        if (user.getLevel() == 2){
+            List<Categories> categories = em.createNamedQuery("Categories.findByTeacher")
+                    .setParameter("catBy", user.getUsername())
+                    .setParameter("class1", classid)
+                    .setParameter("subject", subjectid)
+                    .getResultList();
 
-        JSONArray jarr = new JSONArray();
+            JSONArray jarr = new JSONArray();
 
-        for (Categories category : categories) {
-            JSONObject jobj = new JSONObject();
-            jobj.put("catname", category.getCatName());
-            jobj.put("catdescription", category.getCatDescription());
-            jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
-            jarr.put(jobj);
+            for (Categories category : categories) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("catname", category.getCatName());
+                jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jarr.put(jobj);
+            }
+
+            return jarr.toString();
         }
+        else{
+            List<Categories> categories = em.createNamedQuery("Categories.findByClass1")
+                    .setParameter("class1", classid)
+                    .getResultList();
+            
+            JSONArray jarr = new JSONArray();
 
-        return jarr.toString();
+            for (Categories category : categories) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("catsubject", category.getSubject());
+                jobj.put("catname", category.getCatName());
+                jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jobj.put("catby", category.getCatBy());
+                jarr.put(jobj);
+            }
+
+            return jarr.toString();
+            
+        }
     }
 
     /* Get the discussion thread by class, subject, lesson */
