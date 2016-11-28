@@ -25,7 +25,6 @@
 
 
 <% 
-    Date date = new Date();
     DateFormat format = new SimpleDateFormat("MMMM dd yyyy");
 %>
 <!DOCTYPE html>
@@ -70,9 +69,6 @@
                     async: true
                 })
                         .done(function(data) {
-                            // set today
-                            var date = document.getElementById("date");
-                            date.innerHTML = new Date();
                             // previuos marker, if any
                             var prev_marker = document.getElementById("marked-user-name");
                             if(data[0].marked_name !== "n/a") {
@@ -151,6 +147,7 @@
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
                                     <div class="col-lg-3">
+                                        <h4>Select the class</h4>
                                         <select name="class" class="form-control" id="class" onchange="getAttendance()">
                                         </select>
                                     </div>
@@ -158,7 +155,7 @@
                                 </div>
                                 <br>
                                 
-                                <h3>Attendance Details for <span id="date"></span></h3>
+                                <h3>Attendance Details for <% out.print(format.format(new Date())); %></h3>
                                 
                                 <h5 id="marked-user-name"></h5>
                                 
