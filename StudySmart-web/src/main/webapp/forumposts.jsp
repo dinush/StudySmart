@@ -96,9 +96,6 @@
                 getDiscussion();
             });
 
-
-
-
         </script>
         <title>StudySmart</title>
     </head>
@@ -126,8 +123,11 @@
                                         </div>
                                     </div>
 
+                                    <a href="http://app.readspeaker.com/cgi-bin/rsent?customerid=5204&amp;lang=en_us&amp;speed=140&amp;readid=speak&amp;url=http://localhost:8080/StudySmart-web/forumposts.jsp" 
+                                        onclick="readpage(this.href, 'speak'); return false;"
+                                        target="_blank"></a>
+                                    <div id="speak"></div>
                                     <div id="discussion">
-
 
                                     </div>
 
