@@ -147,6 +147,7 @@
                             <div id="main-content" class="col-md-8">
                                 <div class="row">
                                     <div class="col-lg-3">
+                                        <h4>Select the class</h4>
                                         <select name="class" class="form-control" id="class" onchange="getAttendance()">
                                         </select>
                                     </div>
