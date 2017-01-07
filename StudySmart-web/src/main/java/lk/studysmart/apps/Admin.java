@@ -8,6 +8,7 @@ package lk.studysmart.apps;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -92,6 +93,10 @@ public class Admin extends HttpServlet {
             case "news/general": {
                 addGeneralNews(request);
                 response.sendRedirect("index.jsp?msg=News Added Successfully");
+            }
+            break;
+            case "changeUser": {
+                forwardUserList(request, response, "/changeUser.jsp");
             }
             break;
             default: {
@@ -271,6 +276,17 @@ public class Admin extends HttpServlet {
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /**
+     * Forward details about all the users.
+     * @param request 
+     */
+    private void forwardUserList(HttpServletRequest request, HttpServletResponse response, String forwardUrl) throws ServletException, IOException {
+        List<User> users = em.createNamedQuery("User.findAll").getResultList();
+        
+        request.setAttribute("users", users);
+        getServletContext().getRequestDispatcher(forwardUrl).forward(request, response);
     }
     
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

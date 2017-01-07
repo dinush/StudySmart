@@ -90,7 +90,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li role="presentation"><a href="registerStudent.jsp">Register User</a></li>
-                <li role="presentation"><a href="changeuser.jsp">Change User</a></li>
+                <li role="presentation"><a href="Admin?action=changeUser">Change User</a></li>
             </ul>
         </li>
         <li role="presentation"><a href="addPublicNews.jsp">Manage Public News</a></li>
