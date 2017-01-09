@@ -5,9 +5,14 @@
  */
 package lk.studysmart.apps;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -17,6 +22,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +40,8 @@ import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.Utils;
 
 /**
@@ -72,7 +80,28 @@ public class Admin extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-
+        
+        if (request.getParameter("action") == null) {   // In cases like POST/PUT
+            String purpose = request.getParameter("purpose");
+            if(purpose == null) {
+                response.sendRedirect("/index.jsp");
+            }
+            switch (purpose) {
+                case "changeExistingUser": {
+                    try {
+                        updateUserDetails(request);
+                        response.getWriter().write("Successfully updated.");
+                    } catch (ParseException | NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | IllegalStateException ex) {
+                        Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                        response.getWriter().write("Update failed.\n" + ex.getLocalizedMessage());
+                    }
+                }
+                break;
+            }
+            
+            return;
+        }
+        
         switch (request.getParameter("action")) {
             /**
              * Register a new student.
@@ -92,6 +121,10 @@ public class Admin extends HttpServlet {
             case "news/general": {
                 addGeneralNews(request);
                 response.sendRedirect("index.jsp?msg=News Added Successfully");
+            }
+            break;
+            case "changeUser": {
+                forwardUserList(request, response, "/changeUser.jsp");
             }
             break;
             default: {
@@ -272,6 +305,53 @@ public class Admin extends HttpServlet {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * Forward details about all the users.
+     * @param request 
+     */
+    private void forwardUserList(HttpServletRequest request, HttpServletResponse response, String forwardUrl) throws ServletException, IOException {
+        List<User> users = em.createNamedQuery("User.findAll").getResultList();
+        
+        request.setAttribute("users", users);
+        getServletContext().getRequestDispatcher(forwardUrl).forward(request, response);
+    }
+    
+    /**
+     * Update details of existing user
+     * @param request 
+     */
+    private void updateUserDetails(HttpServletRequest request) throws ParseException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException, IllegalStateException {
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String password = request.getParameter("password"); // this will be null if password is not changing
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+        Date birthday = utils.Utils.getFormattedDate(request.getParameter("birthday"));
+        String address = request.getParameter("address");
+        String nic = request.getParameter("nic");
+        String phone = request.getParameter("phone");
+        
+        User changingUser = em.find(User.class, username);
+        changingUser.setName(name);
+        if (password != null)
+            changingUser.setPassword(password);
+        changingUser.setEmail(email);
+        changingUser.setGender(gender);
+        changingUser.setBirthdate(birthday);
+        changingUser.setAddress(address);
+        changingUser.setNic(nic);
+        changingUser.setPhone(phone);
+        
+        utx.begin();
+        em.merge(changingUser);
+        try {
+            utx.commit();
+        } catch (HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

@@ -31,7 +31,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script src="js/Chart/Chart.js"></script>
@@ -41,7 +40,6 @@
             var doughnutChart = null;
 
             $(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $("#from").datepicker({
                     daysOfWeekDisabled: [0, 6],
                     title: "From",
@@ -142,7 +140,9 @@
                 studentid = $("#student").val();
             <% }%>
 
-                if ($('#from').val() > $('#to').val()) {
+                var fromDate = new Date($('#from').val());
+                var toDate = new Date($('#to').val());
+                if (fromDate > toDate) {
                     alert('Invalid date period');
                     return;
                 }

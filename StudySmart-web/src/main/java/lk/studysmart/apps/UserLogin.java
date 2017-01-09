@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.User;
 import org.mindrot.jbcrypt.BCrypt;
 
