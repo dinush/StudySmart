@@ -22,12 +22,9 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 90px 180px;
                 text-align: center;
                 text-decoration: none;
-                display: inline-block;
                 font-size: 16px;
-                margin: 4px 2px;
                 cursor: pointer;
             }
         </style>
@@ -48,7 +45,7 @@
 </head>
 <body  style="background-color" >
     <div class="container"  style="background-color:" >
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -62,16 +59,15 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">
-                             
+                            <div id="main-content" class="col-md-12">
                                  
-                                <table>
+                                <table style="width:100%;">
                                     <tr>
-                                      <td><a href="#" class="button">Teacher-Student Collaboration</a></td>
-                                      <td><a href="#" class="button">Student Resources</a></td>
+                                        <td><a href="#">Teacher-Student Collaboration</a></td>
+                                        <td><a href="#">Student Resources</a></td>
                                     </tr>
                                     <tr>
-                                      <td><a href="quizMain.jsp" class="button">Individual Activities</a></td> 
+                                        <td colspan="2"><a href="quizMain.jsp">Individual Activities</a></td> 
                                     </tr>
                                   </table>
 
