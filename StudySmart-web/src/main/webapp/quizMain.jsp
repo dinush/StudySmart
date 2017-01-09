@@ -18,18 +18,7 @@
 <html>
     <head>
         <style>
-            .button {
-                background-color: #66b5ff;
-                border: none;
-                color: white;
-                padding: 90px 180px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-            }
+            
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -52,7 +41,8 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="#">VLE</a></li>
+            <li><a href="vleMainInterface.jsp">VLE</a></li>
+            <li><a href="#">Quizzes</a></li>
         </ol>
         <table border="0">
             <tr>
@@ -67,11 +57,8 @@
                                  
                                 <table>
                                     <tr>
-                                      <td><a href="#" class="button">Teacher-Student Collaboration</a></td>
-                                      <td><a href="#" class="button">Student Resources</a></td>
-                                    </tr>
-                                    <tr>
-                                      <td><a href="quizMain.jsp" class="button">Individual Activities</a></td> 
+                                        <td><a href="historyTeachQuizMain.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:128px;height:128px;"></a></td>
+                                      
                                     </tr>
                                   </table>
 
