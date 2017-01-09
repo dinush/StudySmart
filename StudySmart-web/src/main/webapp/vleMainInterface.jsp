@@ -32,7 +32,7 @@
     </script>
     <title>StudySmart</title>
 </head>
-<body>
+<body background=".jpg">
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
