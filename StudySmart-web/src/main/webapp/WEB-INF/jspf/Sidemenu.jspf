@@ -41,7 +41,7 @@
 
         <% if (acc_level == 3) { %>
         <li role="presentation"><a href="viewattendance.jsp">View Attendance</a></li>
-        <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
+        <li role="presentation"><a href="vleMainInterface.jsp">Access VLE</a></li>
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
                 Try<span class="caret"></span>
@@ -70,7 +70,7 @@
                 <li role="presentation"><a href="addMembershipDetails.jsp">Enter Membership Details</a></li>
             </ul>
         </li>
-        <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
+        <li role="presentation"><a href="teacherQuizMain.jsp">Manage VLE</a></li>
             <% } %>
 
         <% if (acc_level > 0) { %>
