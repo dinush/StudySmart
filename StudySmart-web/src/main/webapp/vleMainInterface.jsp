@@ -18,7 +18,31 @@
 <html>
     <head>
         <style>
-            .button {
+            .button1 {
+                background-color: #66b5ff;
+                border: none;
+                color: white;
+                padding: 90px 180px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+            .button2 {
+                background-color: #66b5ff;
+                border: none;
+                color: white;
+                padding: 45px 70px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+            .button3 {
                 background-color: #66b5ff;
                 border: none;
                 color: white;
@@ -44,7 +68,7 @@
     <title>StudySmart</title>
 </head>
 <body  style="background-color" >
-    <div class="container"  style="background-color:" >
+    <div class="container" >
         <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
@@ -63,11 +87,12 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                        <td><a href="#">Teacher-Student Collaboration</a></td>
-                                        <td><a href="#">Student Resources</a></td>
+                                       <td><a href="#" class="button2"><img src="images/individual.png" alt="HTML5 Icon" style="width:190px;height:150px;">Individual Activities</a></td>
+                                      <td><a href="#" class="button2"><img src="images/teacher.png" alt="HTML5 Icon" style="width:250px;height:150px;">Teacher-Student Collaboration</a></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><a href="quizMain.jsp">Individual Activities</a></td> 
+                                     <td><a href="#" class="button2"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;">Student Resources</a></td>
+                                     <td><a href="#" class="button2"><img src="images/URL.png" alt="HTML5 Icon" style="width:250px;height:150px;">Student Collaboration</a></td>
                                     </tr>
                                   </table>
 

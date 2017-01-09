@@ -49,42 +49,179 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                
-                                <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                  Dropdown
-                                  <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                  <li><a href="#">Action</a></li>
-                                  <li><a href="#">Another action</a></li>
-                                  <li><a href="#">Something else here</a></li>
-                                  <li role="separator" class="divider"></li>
-                                  <li><a href="#">Separated link</a></li>
-                                </ul>
-                              </div>
+                               
                                 <form>
-                                    Problem:<br>
-                                    <input type="text" name="problem"><br>
-                                    Answer 1:<br>
-                                    <input type="text" name="Answer1">
+                                <label for="exampleInputEmail1">Select Subject</label>     
+                                <select class="form-control">
+                                    <option>Science</option>
+                                    <option>History</option>
+                                    <option>ICT</option>
+                                    <option>Geography</option>
+                                 </select>
                                     <br>
-                                    Answer 2:<br>
-                                    <input type="text" name="Answer2">
                                     <br>
-                                    Answer 3:<br>
-                                    <input type="text" name="Answer3">
                                     <br>
-                                    Answer 4:<br>
-                                    <input type="text" name="Answer4">
+                                    
+                                    
+                                
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Question 1</label>
+                                      <input type="email" class="form-control" id="q1" name="q1" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 1</label>
+                                      <input type="password" class="form-control" id="a11" name="a11" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 2</label>
+                                      <input type="password" class="form-control" id="a12" name="a12" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 3</label>
+                                      <input type="password" class="form-control" id="a13" name="a13" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 4</label>
+                                      <input type="password" class="form-control" id="a14" name="a14" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Correct Answer</label>
+                                      <input type="password" class="form-control" id="a1" name="a1" placeholder="Correct Answer">
+                                    </div>
+                                    
                                     <br>
-                                    Answer 5:<br>
-                                    <input type="text" name="Answer5">
+                                    -------------------------------------------------------------------------------------------------------------------------------
                                     <br>
-                                    Correct Answer No :<br>
-                                    <input type="text" name="RightAnswer">
                                     <br>
-                                  </form>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Question 2</label>
+                                      <input type="email" class="form-control" id="q2" name="q2" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 1</label>
+                                      <input type="password" class="form-control" id="a21" name="a21" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 2</label>
+                                      <input type="password" class="form-control" id="a22" name="a22" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 3</label>
+                                      <input type="password" class="form-control" id="a23" name="a23" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 4</label>
+                                      <input type="password" class="form-control" id="a24" name="a24" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Correct Answer</label>
+                                      <input type="password" class="form-control" id="a2 name="a2" placeholder="Correct Answer">
+                                    </div>
+                                    
+                                    <br>
+                                    -------------------------------------------------------------------------------------------------------------------------------
+                                    <br>
+                                    <br>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Question 3</label>
+                                      <input type="email" class="form-control" id="q3" name="q3" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 1</label>
+                                      <input type="password" class="form-control" id="a31" name="a31" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 2</label>
+                                      <input type="password" class="form-control" id="a32" name="a32" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 3</label>
+                                      <input type="password" class="form-control" id="a33" name="a33" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 4</label>
+                                      <input type="password" class="form-control" id="a34" name="a34" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Correct Answer</label>
+                                      <input type="password" class="form-control" id="a3" name="a3" placeholder="Correct Answer">
+                                    </div>
+                                    
+                                    <br>
+                                    -------------------------------------------------------------------------------------------------------------------------------
+                                    <br>
+                                    <br>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Question 4</label>
+                                      <input type="email" class="form-control" id="q4" name="q4" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 1</label>
+                                      <input type="password" class="form-control" id="a41" name="a41" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 2</label>
+                                      <input type="password" class="form-control" id="a42" name="a42" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 3</label>
+                                      <input type="password" class="form-control" id="a43" name="a43" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 4</label>
+                                      <input type="password" class="form-control" id="a44" name="a44" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Correct Answer</label>
+                                      <input type="password" class="form-control" id="a4" name="a4" placeholder="Correct Answer">
+                                    </div>
+                                    
+                                    <br>
+                                    -------------------------------------------------------------------------------------------------------------------------------
+                                    <br>
+                                    <br>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Question 5</label>
+                                      <input type="email" class="form-control" id="q1" name="q1" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 1</label>
+                                      <input type="password" class="form-control" id="a51" name="a51" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 2</label>
+                                      <input type="password" class="form-control" id="a52" name="a52" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 3</label>
+                                      <input type="password" class="form-control" id="a53" name="a53" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Answer 4</label>
+                                      <input type="password" class="form-control" id="a54" name="a54" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Correct Answer</label>
+                                      <input type="password" class="form-control" id="a5" name="a5" placeholder="Correct Answer">
+                                    </div>
+                                    
+                                    <br>
+                                   
+                                    
+                                   
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                 </form>
+                                                                               
+                                    
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
