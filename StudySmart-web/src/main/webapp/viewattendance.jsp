@@ -140,7 +140,9 @@
                 studentid = $("#student").val();
             <% }%>
 
-                if ($('#from').val() > $('#to').val()) {
+                var fromDate = new Date($('#from').val());
+                var toDate = new Date($('#to').val());
+                if (fromDate > toDate) {
                     alert('Invalid date period');
                     return;
                 }

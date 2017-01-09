@@ -59,13 +59,9 @@
                 <li role="presentation"><a href="addMembershipDetails.jsp">Enter Membership Details</a></li>
             </ul>
         </li>
-<<<<<<< HEAD
-        <li role="presentation"><a href="teacherQuizMain.jsp">Manage VLE</a></li>
-=======
         
         <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
->>>>>>> 3ff0e31b97cde5670eb3d85a7c74c103370cddc3
             <% } %>
 
         <% if (acc_level > 0) { %>
