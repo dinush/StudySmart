@@ -33,8 +33,6 @@
 
         <!-- Inline CSS based on choices in "Settings" tab -->
         <!--<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>-->
-        <script src="js/jqwidgets/jqxcore.js"></script>
-        <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
@@ -42,6 +40,14 @@
 //                $('#bday-container input').datepicker({
 //                    endDate: new Date()
 //                });
+
+                // limit date to 5 years and back
+                var dlimit = new Date();
+                dlimit.setFullYear(dlimit.getFullYear() - 5);
+                $('#bd').datepicker({
+                    title: "Birthday",
+                    endDate: dlimit
+                });
 
                 $.ajax({
                     url: "ws/rest/classes",
@@ -56,6 +62,8 @@
                             }
                             loadSubjects(document.getElementById('class'));
                         });
+                        
+                
             });
             
             function checkUsername(elem) {
