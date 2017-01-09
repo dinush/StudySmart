@@ -38,9 +38,10 @@
         </a>                 
         <br>
 
-        <span onclick="$('#msg_popout').toggle();markAsSeen();">Inbox <span class="badge" id="no_of_msgs"></span></span>
+        <span onclick="$('#msg_popout').toggle();markAsSeen();" style="cursor: pointer; color: blue;">Inbox <span class="badge" id="no_of_msgs"></span></span>
         <div class="list-group" id="msg_popout" hidden="true" style="position: absolute; z-index: 1000; width: 300px; height: auto; max-height: 500px; background-color: white; margin-top: 5px; margin-left: -5px;">
             
         </div>
+        <a href="message.jsp">(go to message center)</a>
     </div>
 </div>

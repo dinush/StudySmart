@@ -18,61 +18,61 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import lk.studysmart.apps.models.TermMarks;
+import lk.studysmart.apps.models.User;
 
 /**
  *
  * @author dinush
  */
 @Stateless
-@Path("lk.studysmart.apps.models.termmarks")
-public class TermMarksFacadeREST extends AbstractFacade<TermMarks> {
+@Path("lk.studysmart.apps.models.user")
+public class UserFacadeREST extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public TermMarksFacadeREST() {
-        super(TermMarks.class);
+    public UserFacadeREST() {
+        super(User.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(TermMarks entity) {
+    public void create(User entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, TermMarks entity) {
+    public void edit(@PathParam("id") String id, User entity) {
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@PathParam("id") String id) {
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public TermMarks find(@PathParam("id") Integer id) {
+    public User find(@PathParam("id") String id) {
         return super.find(id);
     }
 
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TermMarks> findAll() {
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
+    public List<User> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TermMarks> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<User> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

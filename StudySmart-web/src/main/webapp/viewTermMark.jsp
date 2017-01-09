@@ -36,14 +36,12 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             var barChart = null;
 
             $(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 <% if (acc_level == 3) { %>
                     getSubjects("<%out.print(user.getUsername());%>");
                 <% } %>
@@ -91,26 +89,15 @@
                                 labels: chartLabels,
                                 datasets: [
                                     {
-                                        label: "Marks",
+                                        label: "Term Test Marks",
                                         data: chartValues,
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(75,192,192,0.4)",
+                                        backgroundColor: [
+                                            "rgba(75,192,192,0.5)",
+                                            "rgba(0,153,204,0.5)",
+                                            "rgba(153,0,204,0.5)"
+                                        ],
                                         borderColor: "rgba(75,192,192,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
+                                        borderWidth: 1
                                     }
                                 ]
                             };
@@ -125,7 +112,7 @@
 
                 var canvas = document.getElementById("chart");
                 barChart = new Chart(canvas, {
-                    type: "line",
+                    type: "bar",
                     options: {
                         scales: {
                             yAxes: [{

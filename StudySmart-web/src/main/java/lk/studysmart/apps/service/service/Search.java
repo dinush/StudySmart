@@ -54,7 +54,7 @@ public class Search {
                 jobj.put("subclass", user.getClass1().getSubclass());
             }
             jobj.put("gender", user.getGender());
-            jobj.put("birthdate", user.getBirthdate());
+            jobj.put("birthdate", (user.getBirthdate() != null) ? utils.Utils.getFormattedDateStringNotFriendly(user.getBirthdate()) : "" );
             jobj.put("nic", user.getNic());
             jobj.put("address", user.getAddress());
             jobj.put("occupation", user.getOccupation());
@@ -65,4 +65,5 @@ public class Search {
         
         return jarr.toString();
     }
+
 }

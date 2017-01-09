@@ -25,18 +25,24 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
 
-        <script>
+        <script type = "text/javascript" >
+            $(function () {
+                $('#error').hide();
+
+                getClasses(0);
+                getClasses(1);
+            });
 
             function sendPacket() {
                 var packet = {};
                 packet['meta'] = {};
                 packet['meta']['cat_name'] = $('#cat_name').val();
                 packet['meta']['cat_description'] = $('#cat_description').val();
-
+                packet['meta']['class'] = $('#class').val();
+                packet['meta']['subject'] = $('#subject').val();
 
                 $.ajax({
                     type: "POST",
@@ -46,13 +52,79 @@
                     contentType: "text/plain"
                 })
                         .done(function (data) {
-                            alert("successfully updated");
+                            alert("succesfully updated");
+
                         });
 
                 return false;
-
-
             }
+
+            function getClasses(n) {
+                $.ajax({
+                    url: "ws/rest/teacher/<% out.print(user.getUsername());%>/classes",
+                    async: false
+                })
+                        .done(function (data) {
+                            var sel_cls = document.getElementsByClassName("classes");
+                            sel_cls[n].innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                sel_cls[n].innerHTML += row;
+                            }
+                            getSubjects(n);
+                        });
+            }
+
+
+            function getSubjects(n) {
+
+                var classid = document.getElementsByClassName("classes")[n];
+
+                $.ajax({
+                    url: "ws/rest/teacher/<% out.print(user.getUsername());%>/subjects/" + classid.value,
+                    async: false
+                })
+                        .done(function (data) {
+                            var sel_sbj = document.getElementsByClassName("subjects");
+                            sel_sbj[n].innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                sel_sbj[n].innerHTML += row;
+                            }
+                            getThreads();
+                        });
+            }
+
+            function getThreads() {
+
+                var classid = document.getElementsByClassName("classes")[0];
+                var subjectid = document.getElementsByClassName("subjects")[0];
+                if (classid === '' || subjectid === '') {
+                    return;
+                }
+                
+
+                $.ajax({
+                    url: "ws/rest/teacherthreads/" + classid.value + "/" + subjectid.value,
+                    async: false
+                })
+                        .done(function (data) {
+                            var tbl = document.getElementById("tbl");
+                            tbl.innerHTML = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<tr>";
+                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
+                                row += "<td>" + data[i].catdescription + "</td>";
+                                row += "<td>" + data[i].catdate + "</td>";
+                                row += "</tr>";
+                                tbl.innerHTML += row;
+
+
+                            }
+                        });
+            }
+
+
         </script>
         <title>StudySmart</title>
     </head>
@@ -74,26 +146,69 @@
                                 <div id="main-content" class="col-md-8">
 
                                     <!--editing starts here-->
-                                    <h3><b><i><u> Create New Category </u></i></b></h3>
+
+                                    <!-- Show threads created by the teacher so far-->
+<!--                                    <h2><b style="color:#428bca;">Discussion Forum</b></h2>-->
                                     <br>
+                                    
+                                    
+                                    <form class="form-inline" onsubmit="return sendPacket()">
+                                        
+                                                <div class="form-group">
+
+                                                    <select name="class" class="form-control classes" id="class" onchange="getSubjects(0)"></select>
+                                                    <select name="subject" class="form-control subjects" id="subject" onchange="getThreads()" ></select>
+                                                    <br>
+                                                </div>
+                                            
+
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Lesson Name</th>
+                                                            <th>Lesson Description</th>
+                                                            <th> Date </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbl">
+
+                                                    </tbody>
+                                                </table>
+                                                <br><br>
+                                            
+                                    </form>
+
+
+                                    <!--Create new category-->
+                                    <h3><b><u> Create New Discussion: </u></b></h3>
+                                   
                                     <form class="form-inline" onsubmit="return sendPacket()">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
                                                 <div class="form-group">
 
+                                                    <select name="class" class="form-control classes" id="class" onchange="getSubjects(1)"></select>
+                                                    <select name="subject" class="form-control subjects" id="subject"></select>
+
+
                                                     <input type="text" name="cat_name" class="form-control" id="cat_name" placeholder="New Category Name">
                                                 </div>
                                             </div>
-                                            <div class="panel-body">
 
-                                                <div class="form-group">
 
-                                                    <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
-                                                </div>
+                                            <div class="form-group">
+
+                                                <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
                                             </div>
                                         </div>
+
                                         <button type="submit" class="btn btn-primary" style="float:right;"><h4> Submit</h4> </button>
                                     </form>
+
+
+
+
 
                                     <!--ends here-->
                                 </div>
@@ -101,7 +216,7 @@
                                     <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                                 </div>
                             </div>
-                        </div>
+
                     </td>
                 </tr>
             </table>
@@ -109,3 +224,4 @@
 
     </body>
 </html>
+

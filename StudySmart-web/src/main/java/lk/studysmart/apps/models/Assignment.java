@@ -7,6 +7,7 @@ package lk.studysmart.apps.models;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,6 +49,8 @@ public class Assignment implements Serializable {
     @NotNull
     @Column(name = "max")
     private int max;
+    @Column(name = "date")
+    private Date date;
     @JoinColumn(name = "class", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Class2 class1;
@@ -79,6 +82,14 @@ public class Assignment implements Serializable {
 
     public int getMax() {
         return max;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setMax(int max) {

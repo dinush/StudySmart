@@ -5,6 +5,7 @@
  */
 package lk.studysmart.apps.service.service;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +27,9 @@ import lk.studysmart.apps.models.Attendance;
 import lk.studysmart.apps.models.AttendanceClass;
 import lk.studysmart.apps.models.AttendanceClassPK;
 import lk.studysmart.apps.models.AttendancePK;
+import lk.studysmart.apps.models.Categories;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Forumposts;
 import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
@@ -104,13 +107,14 @@ public class RestServices {
 
         return jarr.toString();
     }
-    
+
     /**
      * Get attendance details of students in a class in a period of date.
+     *
      * @param classid
      * @param from
      * @param to
-     * @return 
+     * @return
      */
     @GET
     @Path("student/attendance/{classid}/{from}/{to}")
@@ -119,45 +123,45 @@ public class RestServices {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
-        
+
         Class2 class2 = em.find(Class2.class, classid);
-        
+
         // Get students in that class
         List<User> students = em.createNamedQuery("User.findByClassLevel")
                 .setParameter("class2", class2)
                 .setParameter("level", 3)
                 .getResultList();
-        
+
         JSONArray jarrContainer = new JSONArray();
-        
+
         // Get individual attendance details
-        for(User student : students) {
+        for (User student : students) {
             try {
                 List<Attendance> lstAtten = em.createNamedQuery("Attendance.findByUserAndDateRange")
                         .setParameter("username", student.getUsername())
                         .setParameter("from", Utils.getFormattedDate(from))
                         .setParameter("to", Utils.getFormattedDate(to))
                         .getResultList();
-                
+
                 JSONObject jobjStudent = new JSONObject();
                 jobjStudent.put("username", student.getUsername());
                 jobjStudent.put("name", student.getName());
-                
+
                 // Put attendance details day-by-day to JSON.
                 JSONArray jarrAtts = new JSONArray();
-                for(Attendance att : lstAtten) {
+                for (Attendance att : lstAtten) {
                     JSONObject jobjAtt = new JSONObject();
                     jobjAtt.put("date", att.getAttendancePK().getDate());
                     jobjAtt.put("attended", att.getAttended());
                     jobjAtt.put("markedbyusername", att.getMarkedBy().getUsername());
                     jobjAtt.put("markedbyname", att.getMarkedBy().getName());
-                    
+
                     jarrAtts.put(jobjAtt);
                 }
-                
+
                 // Put all attendance details into student details JSON object.
                 jobjStudent.put("attendance", jarrAtts);
-                
+
                 // Put single complete into main array.
                 jarrContainer.put(jobjStudent);
             } catch (ParseException ex) {
@@ -165,12 +169,13 @@ public class RestServices {
                 return null;
             }
         }
-        
+
         return jarrContainer.toString();
     }
 
     /**
      * Get students in a specific classroom AND enrolled for the given subject.
+     * (Also returns marks for the term tests)
      *
      * @param classid
      * @param subjectid
@@ -188,12 +193,18 @@ public class RestServices {
         Subject subject = em.find(Subject.class, subjectid);
         Class2 class2 = em.find(Class2.class, classid);
 
+        JSONObject jobjRoot = new JSONObject();
         JSONArray jarray = new JSONArray();
 
         List<StudentSubject> studentSubjects = em.createNamedQuery("StudentSubject.findBySubject")
                 .setParameter("subject", subject)
                 .getResultList();
 
+        DecimalFormat numberFormat = new DecimalFormat("#.0000");   // Format to limit to 4 floating point values
+        List[] stat_marks = {new ArrayList(), new ArrayList(), new ArrayList()}; // To calculate mean and standard deviation
+        int[] stat_total = {0, 0, 0};
+        int[] max = {0, 0, 0};
+        int[] min = {100, 100, 100};
         for (StudentSubject ss : studentSubjects) {
             User user = ss.getUserId();
             if (user.getClass1() != null && !user.getClass1().equals(class2)) {
@@ -204,35 +215,73 @@ public class RestServices {
             jobj.put("username", ss.getUserId().getUsername());
             jobj.put("name", ss.getUserId().getName());
             jobj.put("subject", ss.getSubjectId().getIdSubject());
-            
-            /** 
-             * Get extra student details 
-             * *** EXPERIMENTAL ***
+
+            /**
+             * Get extra student details *** EXPERIMENTAL ***
              */
             // Get term test marks (for all 3 terms)
             List<TermMarks> termMarks = em.createNamedQuery("TermMarks.findByUserSubject")
                     .setParameter("username", ss.getUserId())
                     .setParameter("subject", subject)
-                .getResultList();
+                    .getResultList();
             JSONArray jarrTerms = new JSONArray();
-            for (TermMarks tm : termMarks) {
+            for (int i = 0; i < termMarks.size(); i++) {
+                int marks = termMarks.get(i).getValue();
+                stat_marks[i].add(marks);
+                stat_total[i] += marks;
                 JSONObject jobjTerm = new JSONObject();
-                jobjTerm.put("term", tm.getTerm());
-                jobjTerm.put("marks", tm.getValue());
-                jobjTerm.put("marker_username", tm.getMarkedby().getUsername());
-                jobjTerm.put("marker_name", tm.getMarkedby().getName());
+                jobjTerm.put("term", termMarks.get(i).getTerm());
+                jobjTerm.put("marks", marks);
+                jobjTerm.put("marker_username", termMarks.get(i).getMarkedby().getUsername());
+                jobjTerm.put("marker_name", termMarks.get(i).getMarkedby().getName());
                 jarrTerms.put(jobjTerm);
             }
             jobj.put("term_marks", jarrTerms);
-            
+
             /**
              * End of extra student details
              */
-            
             jarray.put(jobj);
         }
+        jobjRoot.put("raw", jarray);
 
-        return jarray.toString();
+        // Calculate 3 means and standard deviations
+        JSONArray jarrStat = new JSONArray();
+        for (int j = 0; j < 3; j++) {
+            int n = stat_marks[j].size();
+            if (n == 0) {
+                continue;
+            }
+            double mean = stat_total[j] / (double) n;
+
+            // Calculating standard deviation
+            double deviation = 0;
+            for (int k = 0; k < n; k++) {
+                int stat_mark = (int) stat_marks[j].get(k);
+                deviation += Math.pow(stat_mark - mean, 2);
+                if (max[j] < stat_mark) // In search of maximum marks for this term
+                {
+                    max[j] = stat_mark;
+                }
+                if (min[j] > stat_mark) // In search of minimum marks for this term
+                {
+                    min[j] = stat_mark;
+                }
+            }
+            double std_dev = Math.sqrt(deviation / n);
+
+            // JSON structure
+            JSONObject jobjStat = new JSONObject();
+            jobjStat.put("term", j + 1);
+            jobjStat.put("mean", numberFormat.format(mean));
+            jobjStat.put("standard_deviation", numberFormat.format(std_dev));
+            jobjStat.put("max", max[j]);
+            jobjStat.put("min", min[j]);
+            jarrStat.put(jobjStat);
+        }
+        jobjRoot.put("stats", jarrStat);
+
+        return jobjRoot.toString();
     }
 
     /**
@@ -359,12 +408,13 @@ public class RestServices {
 
         return jarray.toString();
     }
-    
+
     /**
      * Get classes by grade.
+     *
      * @param grade
      * @param request
-     * @return 
+     * @return
      */
     @GET
     @Path("classes/{grade}")
@@ -373,16 +423,16 @@ public class RestServices {
         List<Class2> classes = em.createNamedQuery("Class.findByGrade")
                 .setParameter("grade", grade)
                 .getResultList();
-        
+
         JSONArray jarr = new JSONArray();
-        for(Class2 class2:classes) {
+        for (Class2 class2 : classes) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", class2.getId());
             jobj.put("grade", class2.getGrade());
             jobj.put("subclass", class2.getSubclass());
             jarr.put(jobj);
         }
-        
+
         return jarr.toString();
     }
 
@@ -600,47 +650,65 @@ public class RestServices {
                 .getResultList();
 
         JSONArray jarr = Utils.msgsToJsonArray(msgs, null);
-        
+
         // For teachers, Messages for the classes they teach are also added.
-        if(user.getLevel() == 2) {
+        if (user.getLevel() == 2) {
             List<TeacherTeaches> teachings = em.createNamedQuery("TeacherTeaches.findByUser")
                     .setParameter("user", user)
                     .getResultList();
 
             List<Integer> teachingGrades = new ArrayList<>();
             List<Class2> teachingClasses = new ArrayList<>();
-            for(TeacherTeaches teaching : teachings) {
+            for (TeacherTeaches teaching : teachings) {
                 Class2 clz = teaching.getClass1();
-                if(teachingClasses.contains(clz))
+                if (teachingClasses.contains(clz)) {
                     continue;
+                }
                 teachingClasses.add(clz);
 
-                if(teachingGrades.contains(clz.getGrade()))
-                    continue;            
+                if (teachingGrades.contains(clz.getGrade())) {
+                    continue;
+                }
                 teachingGrades.add(clz.getGrade());
             }
-            
-            for(Integer teachingGrade : teachingGrades) {
+
+            for (Integer teachingGrade : teachingGrades) {
                 List<Message> msgs2 = em.createNamedQuery("Message.findByGrade")
-                    .setParameter("grade", teachingGrade)
-                    .getResultList();
-                
+                        .setParameter("grade", teachingGrade)
+                        .getResultList();
+
                 jarr = Utils.msgsToJsonArray(msgs2, jarr);
             }
-            
-            for(Class2 teachingClass : teachingClasses) {
+
+            for (Class2 teachingClass : teachingClasses) {
                 List<Message> msgs3 = em.createNamedQuery("Message.findByClass")
                         .setParameter("class2", teachingClass)
                         .getResultList();
-                
+
                 jarr = Utils.msgsToJsonArray(msgs3, jarr);
             }
-            
+
         }
 
         return jarr.toString();
     }
-    
+
+    @GET
+    @Path("messages/private")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getPrivateMsgs(@Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return null;
+        }
+
+        List<Message> msgs = em.createNamedQuery("Message.findByTypeAndTargetUser")
+                .setParameter("type", 1)
+                .setParameter("user", request.getSession().getAttribute("user"))
+                .getResultList();
+
+        return msgs;
+    }
+
     @GET
     @Path("messages/public")
     @Produces(MediaType.APPLICATION_JSON)
@@ -648,14 +716,15 @@ public class RestServices {
         List<Message> publicMsgs = em.createNamedQuery("Message.findByType")
                 .setParameter("type", 5)
                 .getResultList();
-        
+
         return Utils.msgsToJsonArray(publicMsgs, null).toString();
     }
-        
+
     /**
      * Get all subjects
+     *
      * @param request
-     * @return 
+     * @return
      */
     @GET
     @Path("subjects/all")
@@ -664,17 +733,107 @@ public class RestServices {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
-        
+
         List<Subject> subjects = em.createNamedQuery("Subject.findAll").getResultList();
         JSONArray jarr = new JSONArray();
-        for(Subject subject:subjects) {
+        for (Subject subject : subjects) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", subject.getIdSubject());
             jobj.put("name", subject.getName());
             jobj.put("grade", subject.getGrade());
             jarr.put(jobj);
         }
-        
+
         return jarr.toString();
     }
+
+    /**
+     * Get threads created by a teacher
+     */
+    @GET
+    @Path("teacherthreads/{classid}/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getThreads(@PathParam("classid") String classid,
+            @PathParam("subjectid") String subjectid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (user.getLevel() == 2){
+            List<Categories> categories = em.createNamedQuery("Categories.findByTeacher")
+                    .setParameter("catBy", user.getUsername())
+                    .setParameter("class1", classid)
+                    .setParameter("subject", subjectid)
+                    .getResultList();
+
+            JSONArray jarr = new JSONArray();
+
+            for (Categories category : categories) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("catname", category.getCatName());
+                jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jarr.put(jobj);
+            }
+
+            return jarr.toString();
+        }
+        else{
+            List<Categories> categories = em.createNamedQuery("Categories.findByClass1")
+                    .setParameter("class1", classid)
+                    .getResultList();
+            
+            JSONArray jarr = new JSONArray();
+
+            for (Categories category : categories) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("catsubject", category.getSubject());
+                jobj.put("catname", category.getCatName());
+                jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jobj.put("catby", category.getCatBy());
+                jarr.put(jobj);
+            }
+
+            return jarr.toString();
+            
+        }
+    }
+
+    /* Get the discussion thread by class, subject, lesson */
+    @GET
+    @Path("forum/{lessonid}/{classid}/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDiscussion(@PathParam("lessonid") String lessonid,
+            @PathParam("classid") String classid,
+            @PathParam("subjectid") String subjectid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        } else {
+            List<Forumposts> forumPosts = em.createNamedQuery("Forumposts.findByClassSubjectLesson")
+                    .setParameter("catName", lessonid)
+                    .setParameter("class1", classid)
+                    .setParameter("subject", subjectid)
+                    .getResultList();
+
+            JSONArray jarr = new JSONArray();
+
+            for (Forumposts forumpost : forumPosts) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("postaddedby", forumpost.getAddedBy());
+                jobj.put("post", forumpost.getPost());
+                jobj.put("postdate", utils.Utils.getFormattedDateString(forumpost.getDate()));
+                jobj.put("posttime", forumpost.getTime());
+                jarr.put(jobj);
+            }
+
+            return jarr.toString();
+        }
+
+    }
 }
+    
+    
+

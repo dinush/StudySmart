@@ -31,7 +31,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script src="js/Chart/Chart.js"></script>
@@ -41,7 +40,6 @@
             var doughnutChart = null;
 
             $(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $("#from").datepicker({
                     daysOfWeekDisabled: [0, 6],
                     title: "From",
@@ -64,7 +62,6 @@
                 initDoughnutChart();
             <% } else { %>
                 loadClasses();
-
             <% } %>
             });
 
@@ -212,15 +209,16 @@
                                 var row = "<option value='" + data[i].id + "'> Grade" + data[i].name + "</option>";
                                 sel_cls.innerHTML += row;
                             }
-                            studentsInClassForPeriod();
-                            initBarChart();
+                            studentsInClassForPeriod(data[0].id);
                         });
             }
 
-            function studentsInClassForPeriod() {
+            function studentsInClassForPeriod(classid) {
+                if (classid === undefined)
+                    classid = $('#class').val();
                 //Construct the url
                 var RESTurl = "ws/rest/student/attendance/";
-                RESTurl += $('#class').val() + "/";
+                RESTurl += classid + "/";
                 RESTurl += encodeURIComponent($("#from").val()) + "/";
                 RESTurl += encodeURIComponent($("#to").val());
 
@@ -257,7 +255,7 @@
                                 //Get attendance as percentage for given time period
                                 var perc = (nAttDays / attDetails.length) * 100;
                                 if (!isNaN(perc)) {
-                                    row += "<td>" + perc + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
+                                    row += "<td>" + perc.toFixed(0) + "% (" + nAttDays + "/" + attDetails.length + " days)</td>";
                                     chartData.push(perc);
                                     chartLabels.push(data[i].name + " (" + data[i].username + ")");
                                 } else {
@@ -265,7 +263,6 @@
                                 }
                                 row += "<td><a href='" + url + "' target='_blank'>view info</a></td>";
                                 row += "</tr>";
-                                console.log(row);
                                 tbl_data.innerHTML += row;
                             }
 
@@ -278,11 +275,14 @@
                                         fill: true,
                                         backgroundColor: "rgba(75,192,192,0.4)",
                                         lineTension: 0.1,
-                                        spanGaps: false,
+                                        borderCapStyle: 'butt',
+                                        borderDashOffset: 0.0,
                                         pointBorderColor: "rgba(75,192,192,1)",
                                         pointBackgroundColor: "#fff",
                                         pointBorderWidth: 1,
                                         pointHoverRadius: 5,
+                                        pointHitRadius: 10,
+                                        snapGaps: false,
                                         data: chartData
                                     }
                                 ]
@@ -299,121 +299,124 @@
                     initBarChart(data);
             }
         </script>
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li>View Attendance</li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-8">
+                                    <div class="panel panel-primary" >
 
+                                        <div class="panel-heading">Attendance Details</div>
+                                        <div class="panel-body">
 
-    </script>
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li>View Attendance</li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                <div class="panel panel-primary" >
+                                            <div class="well">
+                                                <h4>Filter Results</h4>
 
-                                    <div class="panel-heading">Attendance Details</div>
-                                    <div class="panel-body">
-
-                                        <div class="well">
-                                            <h4>Filter Results</h4>
-
-                                            <% if (user.getLevel() == 4) { %>
-                                            <div class="form-inline">
-                                                <div class="form-group">
-                                                    <label for="student">Student:</label>
-                                                    <select class="form-control" name="student" id="student" onchange="loadAttendance()"></select>
+                                                <% if (user.getLevel() == 4) { %>
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <label for="student">Student:</label>
+                                                        <select class="form-control" name="student" id="student" onchange="loadAttendance()"></select>
+                                                    </div>
                                                 </div>
+                                                <% }%>
+                                                <% if (user.getLevel() < 3) { %>
+                                                <div class="form-inline">
+
+                                                    <div class="form-group">
+                                                        <label for="class">Class:</label>
+                                                        <select name="class" id="class" class="form-control" onchange="studentsInClassForPeriod(this.value)">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                <div class="form-inline" style="margin-top:10px;">
+                                                    <div class="form-group">
+                                                        <label for="from">From:</label>
+                                                        <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateStringNotFriendly(new Date())); %>" 
+                                                               onchange="<% if (user.getLevel() < 3) {
+                                                                        out.print("studentsInClassForPeriod(undefined)");
+                                                                    } else {
+                                                                        out.print("loadAttendance()");
+                                                                    } %>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="from">To:</label>
+                                                        <input class="form-control" type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateStringNotFriendly(new Date()));%>"
+                                                               onchange="<% if (user.getLevel() < 3) {
+                                                                        out.print("studentsInClassForPeriod(undefined)");
+                                                                    } else {
+                                                                        out.print("loadAttendance()");
+                                                                    } %>">
+                                                    </div>
+                                                </div>
+
                                             </div>
-                                            <% }%>
-                                            <% if (user.getLevel() < 3) { %>
-                                            <div class="form-inline">
-
-                                                <div class="form-group">
-                                                    <label for="class">Class:</label>
-                                                    <select name="class" id="class" class="form-control" onchange="studentsInClassForPeriod()">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <% } %>
-                                            <div class="form-inline" style="margin-top:10px;">
-                                                <div class="form-group">
-                                                    <label for="from">From:</label>
-                                                    <input class="form-control" type="text" id="from" name="from" value="<% out.print(Utils.getFormattedDateString(new Date())); %>" onchange="<% if (user.getLevel() < 3) {
-                                                            out.print("studentsInClassForPeriod()");
-                                                        } else {
-                                                            out.print("loadAttendance()");
-                                                        } %>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="from">To:</label>
-                                                    <input class="form-control" type="text" id="to" name="to" value="<% out.print(Utils.getFormattedDateString(new Date()));%>" onchange="loadAttendance()">
-                                                </div>
-                                            </div>
-
                                         </div>
+
+                                        <!--Chart-->
+                                        <canvas id="att_chart" height="100"></canvas>
+
+                                        <% if (user.getLevel() >= 3) { %>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Attended?</th>
+                                                    <th>Marked By</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbl_data">
+                                            </tbody>
+                                        </table>
+                                        <% } else { %>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Student ID</th>
+                                                    <th>Student Name</th>
+                                                    <th>Attendance %</th>
+                                                    <th>Detailed Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbl_data">
+                                            </tbody>
+                                        </table>
+                                        <% }%>
+
                                     </div>
 
-                                    <!--Chart-->
-                                    <canvas id="att_chart" height="100"></canvas>
-
-                                    <% if (user.getLevel() >= 3) { %>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Attended?</th>
-                                                <th>Marked By</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbl_data">
-                                        </tbody>
-                                    </table>
-                                    <% } else { %>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Student ID</th>
-                                                <th>Student Name</th>
-                                                <th>Attendance %</th>
-                                                <th>Detailed Info</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbl_data">
-                                        </tbody>
-                                    </table>
-                                    <% }%>
-
+                                </div>
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                                 </div>
 
                             </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
-                            </div>
+
 
                         </div>
 
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script>
 
-                    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-    <script>
-
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>

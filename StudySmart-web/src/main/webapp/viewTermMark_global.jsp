@@ -36,14 +36,12 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             var barChart = null;
 
             $(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 getClasses();
             });
             
@@ -80,8 +78,8 @@
             }
 
             function getStudents() {
-                var chartLabels = [];
-                var chartValues = [[], [], []];
+                var chartLabels = ['A', 'B', 'C', 'D', 'F'];
+                var chartValues = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 
                 var tbl = document.getElementById("tbl_data");
                 tbl.innerHTML = '';
@@ -91,19 +89,43 @@
                     async: true
                 })
                         .done(function (data) {
-                            for (var i = 0; i < data.length; i++) {
+                            stats = data.stats;
+                            raw = data.raw;                            
+                            // Processing raw data
+                            for (var i = 0; i < raw.length; i++) {
                                 var row = "<tr>";
-                                row += "<td>" + data[i].username + "</td>";
-                                row += "<td>" + data[i].name + "</td>";
-                                chartLabels.push(data[i].name);
+                                row += "<td>" + raw[i].username + "</td>";
+                                row += "<td>" + raw[i].name + "</td>";
                                 // Loop through avalible terms. 3 max
-                                for (var j = 0; j < data[i].term_marks.length; j++) {
-                                    var marks = data[i].term_marks[j].marks;
+                                for (var j = 0; j < raw[i].term_marks.length; j++) {
+                                    var marks = raw[i].term_marks[j].marks;
                                     row += "<td>" + marks + "</td>";
-                                    chartValues[j].push(marks)
+                                    if (marks >= 75)
+                                        chartValues[j][0]++;
+                                    else if (marks >= 65)
+                                        chartValues[j][1]++;
+                                    else if (marks >= 50)
+                                        chartValues[j][2]++;
+                                    else if (marks >= 35)
+                                        chartValues[j][3]++;
+                                    else
+                                        chartValues[j][4]++;
                                 }
                                 row += "</tr>";
                                 tbl.innerHTML += row;
+                            }
+                            // Processing statistics
+                            var elem_stat = document.getElementById("elem_stat");
+                            elem_stat.innerHTML = '';
+                            for( var i=0 ; i<stats.length ; i++ ) {
+                                var elem = "<div class='col-md-4 white-block'>";
+                                elem += "<h4>Term " + stats[i].term + "</h4>";
+                                elem += "Mean: <b>" + stats[i].mean + "</b><br />";
+                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b><br>";
+                                elem += "Maximum: <b>" + stats[i].max + "</b><br>";
+                                elem += "Minimum: <b>" + stats[i].min + "</b><br>";
+                                elem += "</div>";
+                                elem_stat.innerHTML += elem;
                             }
                             var data = {
                                 labels: chartLabels,
@@ -111,90 +133,42 @@
                                     {   // Term 1 marks
                                         label: "Term 1",
                                         data: chartValues[0],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(75,192,192,0.4)",
-                                        borderColor: "rgba(75,192,192,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                        borderColor: 'rgba(54, 162, 235, 1)'
                                     },
                                     {   // Term 2 marks
                                         label: "Term 2",
                                         data: chartValues[1],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(102,255,51,0.4)",
-                                        borderColor: "rgba(102,255,51,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(102,255,51,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(102,255,51,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
+                                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                                        borderColor: 'rgba(255, 206, 86, 1)'
                                     },
                                     {   // Term 3 marks
                                         label: "Term 3",
                                         data: chartValues[2],
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(255,102,102,0.4)",
-                                        borderColor: "rgba(255,102,102,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(255,102,102,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(255,102,102,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        spanGaps: false,
+                                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                                        borderColor: 'rgba(255, 99, 132, 1)'
                                     }
                                 ]
                             };
-                            updateChart(data);
+                            updateChart(data, raw.length);
                         });
             }
 
-            function updateChart(data) {
+            function updateChart(data, numberOfStudents) {
                 if (barChart !== null) {
                     barChart.destroy();
                 }
 
                 var canvas = document.getElementById("chart");
                 barChart = new Chart(canvas, {
-                    type: "line",
+                    type: "bar",
                     options: {
                         scales: {
                             yAxes: [{
                                     ticks: {
                                         min: 0,
                                         beginAtZero: true,
-                                        suggestedMax: 100
+                                        suggestedMax: numberOfStudents
                                     }
                                 }]
                         }
@@ -246,11 +220,23 @@
                                     </div>
 
                                 </div>
+                                
+                                <!--Statistics-->
+                                <div class="well" style="margin-top: 10px; height: 275px;">
+                                    <h3>Statistics</h3>
+                                    <hr>
+                                    <div id="elem_stat">
+                                    <!--Filled by JS-->
+                                    </div>
+                                </div>
+                                
                                 <div class="row">
+                                    <h3>Classes count by Terms</h3>
                                     <!--Chart-->
-                                    <canvas id="chart" height="100"></canvas>
+                                    <canvas id="chart" height="200px"></canvas>
                                 </div>
                                 <div class="row">
+                                    <h3>Individual student's marks</h3>
                                     <table class="table table-striped">
                                         <thead>
                                         <th>Username</th>

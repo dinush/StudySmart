@@ -8,6 +8,7 @@ package lk.studysmart.apps;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -77,6 +78,9 @@ public class Categories extends HttpServlet {
         JSONObject meta = jobj.getJSONObject("meta");
         String catname = meta.getString("cat_name");
         String catdescription = meta.getString("cat_description");
+        String catclass = meta.getString("class");
+        String catsubject = meta.getString("subject");
+        Date catdate = utils.Utils.getFormattedDate();
         
         
         
@@ -84,6 +88,10 @@ public class Categories extends HttpServlet {
         categories.setCatName(catname);
         categories.setCatDescription(catdescription);
         categories.setCatBy(user.getUsername());
+        categories.setClass1(catclass);
+        categories.setSubject(catsubject);
+        categories.setCatDate(catdate);
+        
         
         try {
             utx.begin();

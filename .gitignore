@@ -8,3 +8,4 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 StudySmart-web/target/*
+StudySmart-web/src/main/resources/META-INF/persistence.xml

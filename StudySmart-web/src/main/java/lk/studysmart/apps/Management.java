@@ -94,6 +94,12 @@ public class Management extends HttpServlet {
                 }
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
+            break;
+            case "sendpersonalmsg": {
+                sendPersonalMsg(request);
+                response.sendRedirect("index.jsp?msg=Message sent");
+            }
+            break;
         }
     }
 
@@ -235,6 +241,28 @@ public class Management extends HttpServlet {
             Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    protected void sendPersonalMsg(HttpServletRequest request) throws IOException {
+        User from = user;
+        String[] receivers = request.getParameterValues("receivers");
+        for (String receiver : receivers) {
+            User to = em.find(User.class, receiver);
+            Message msg = new Message();
+            msg.setAddeddate(Utils.getFormattedDate());
+            msg.setAddedtime(Utils.getFormattedTime());
+            msg.setAddeduser(from);
+            msg.setContent(request.getParameter("msg"));
+            msg.setTargetuser(to);
+            msg.setType(1);
+            try {
+                utx.begin();
+                em.persist(msg);
+                utx.commit();
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
