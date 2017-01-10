@@ -26,6 +26,10 @@
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
+<!--        Sweet alert 2-->
+        <script src="js/sweetalert.min.js"></script>
+        
+        <link rel="stylesheet" href="css/sweetalert.css" />
 
         <script type="text/javascript" src="js/rs_embhl.js"></script>
         
@@ -55,7 +59,11 @@
 
                 })
                         .done(function (data) {
-                            alert("succesfully updated");
+                            swal({
+                                title: "Success",   
+                                text: "Succesfully Posted !",   
+                                type: "success" 
+                          });
                             getDiscussion();
 
                         });
@@ -72,7 +80,11 @@
                     async: true,
                     type: 'DELETE',
                     success: function(res) {
-                        alert("Succesfully Deleted!!");
+                        swal({
+                            title: "",   
+                            text: "Succesfully Deleted !",   
+                            type: "error" 
+                      });
                         getDiscussion();
                         
                     }
