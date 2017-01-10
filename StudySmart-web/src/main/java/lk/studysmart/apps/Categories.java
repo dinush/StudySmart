@@ -94,6 +94,7 @@ public class Categories extends HttpServlet {
         
         
         try {
+            utils.Utils.entityValidator(categories);
             utx.begin();
             em.persist(categories);
             utx.commit();

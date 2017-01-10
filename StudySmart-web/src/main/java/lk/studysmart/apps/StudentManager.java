@@ -41,6 +41,7 @@ import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
+import lk.studysmart.apps.models.Test1;
 import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -231,6 +232,22 @@ public class StudentManager extends HttpServlet {
                 }
                 break;
             }
+            case "test":{
+                String firstname = request.getParameter("firstname");
+                String lastname = request.getParameter("lastname");
+                Test1 Tst1 = new Test1();
+                Tst1.setFname(firstname);
+                Tst1.setSname(lastname);
+            try {
+                utx.begin();
+                em.persist(Tst1);
+                utx.commit();
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            }
+            break;
             case "assignmentMarksSave": {
                 /**
                  * Save assignment marks to the database. Make sure inputs are

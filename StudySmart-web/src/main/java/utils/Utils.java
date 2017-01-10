@@ -63,6 +63,11 @@ public class Utils {
         return format.format(d);
     }
     
+    public static String getCalendarFormattedDate(Date d) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(d);
+    }
+    
     public static Date stringToDate(String sdate) throws ParseException {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         return format.parse(sdate);
@@ -86,7 +91,8 @@ public class Utils {
     }
     
     /**
-     * Convert <Message> to <JSONArray>
+     * Convert <Message> to <JSONArray>.
+     * Some items may be duplicated to be backward compatibility.
      * @param msgs
      * @param jarr
      * @return 
@@ -97,16 +103,22 @@ public class Utils {
         for (Message msg : msgs) {
             JSONObject jobj = new JSONObject();
             jobj.put("id", msg.getId());
+            jobj.put("badge", true);
             jobj.put("seen", msg.getSeen());
             jobj.put("title", msg.getTitle());
+            jobj.put("body", msg.getContent());
             jobj.put("content", msg.getContent());
-            if(msg.getTargetdate() != null)
+            if(msg.getTargetdate() != null) {
+                jobj.put("date", Utils.getCalendarFormattedDate(msg.getTargetdate()));
                 jobj.put("target_date", Utils.getFormattedDateString(msg.getTargetdate()));
+            }
             jobj.put("target_time", msg.getTargettime());
             jobj.put("added_user_id", msg.getAddeduser().getUsername());
             jobj.put("added_user_name", msg.getAddeduser().getName());
+            jobj.put("footer", msg.getAddeduser().getName());
             jobj.put("added_date", Utils.getFormattedDateString(msg.getAddeddate()));
             jobj.put("added_time", msg.getAddedtime());
+            jobj.put("classname", "purple-event");
             if (msg.getUrl() != null) {
                 jobj.put("url", msg.getUrl());
             }

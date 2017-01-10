@@ -25,13 +25,11 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
 
         <script type = "text/javascript" >
             $(function () {
-                $("#jqxcalendar").jqxCalendar({width: '100%', height: '250px'});
                 $('#error').hide();
 
                 getClasses(0);
@@ -96,6 +94,23 @@
                             getThreads();
                         });
             }
+            
+            function deleteThread(threadid){
+                
+                $.ajax({
+                    url: "ws/rest/forumdeletethread/" + threadid,
+                    async: true,
+                    type: 'DELETE',
+                    success: function(res) {
+                        alert("Succesfully Deleted!!");
+                        getThreads();
+                        
+                    }
+                });
+                
+                return false;
+                
+            }
 
             function getThreads() {
 
@@ -115,9 +130,10 @@
                             tbl.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
+                                row += "<td><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
+                                row += "<td><span class='glyphicon glyphicon-remove-circle pull-right' aria-hidden='true' onclick='deleteThread(" + data[i].catid + ")' style='cursor:pointer'></span></td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
 
@@ -170,6 +186,7 @@
                                                             <th>Lesson Name</th>
                                                             <th>Lesson Description</th>
                                                             <th> Date </th>
+                                                            <th></th>
 
                                                         </tr>
                                                     </thead>
@@ -186,7 +203,7 @@
                                     <h3><b><u> Create New Discussion: </u></b></h3>
                                    
                                     <form class="form-inline" onsubmit="return sendPacket()">
-                                        <div class="panel panel-info">
+                                        <div class="panel" style="background-color: #336699;">
                                             <div class="panel-heading">
                                                 <div class="form-group">
 
@@ -201,7 +218,7 @@
 
                                             <div class="form-group">
 
-                                                <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
+                                                <textarea type="Description" rows="5" cols="86.75" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
                                             </div>
                                         </div>
 

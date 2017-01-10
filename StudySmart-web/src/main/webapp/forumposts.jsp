@@ -25,11 +25,13 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
         <script type="text/javascript" src="js/rs_embhl.js"></script>
+        
         <script type="text/javascript">
+            
+           
 
 
             function sendPacket() {
@@ -41,7 +43,8 @@
 
                 packet['meta']['mylesson'] = '<% out.print(request.getParameter("lesson")); %>';
                 packet['meta']['myclass'] = '<% out.print(request.getParameter("class")); %>';
-                packet['meta']['mysubject'] = '<% out.print(request.getParameter("lesson")); %>';
+                packet['meta']['mysubject'] = '<% out.print(request.getParameter("subject")); %>';
+                packet['meta']['myid'] = '<% out.print(request.getParameter("catid")); %>';
 
                 $.ajax({
                     async: true,
@@ -53,12 +56,30 @@
                 })
                         .done(function (data) {
                             alert("succesfully updated");
+                            getDiscussion();
 
                         });
 
                 return false;
 
 
+            }
+            
+            function deletePost(postid){
+                
+                $.ajax({
+                    url: "ws/rest/forumdeletepost/" + postid,
+                    async: true,
+                    type: 'DELETE',
+                    success: function(res) {
+                        alert("Succesfully Deleted!!");
+                        getDiscussion();
+                        
+                    }
+                });
+                
+                return false;
+                
             }
 
             function getDiscussion() {
@@ -80,17 +101,16 @@
                                 html += "<div class='panel-heading'>";
                                 html += data[i].postaddedby + " on ";
                                 html += data[i].postdate + " @ " + data[i].posttime;
-
+                                html += "<span class='glyphicon glyphicon-remove-circle pull-right' aria-hidden='true' onclick='deletePost(" + data[i].postid + ")' style='cursor:pointer'></span>";
                                 html += "</div>";
                                 html += "<div class='panel-body'>";
                                 html += data[i].post;
-                                html += "</div>";
+                                html += "</div>"; 
                                 html += "</div>";
                                 discussion.innerHTML += html;
                             }
                         });
             }
-
 
             $(function () {
                 getDiscussion();
@@ -99,6 +119,7 @@
         </script>
         <title>StudySmart</title>
     </head>
+    <div id="speak" style="position:fixed; left:37%; top:57px; z-index:1000000"></div>
     <body>
         <div class="container">
             <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
@@ -117,16 +138,16 @@
                                 <div id="main-content" class="col-md-8">
 
                                     <!-- my editting-->
-                                    <div class="panel panel-primary" >
+                                    <div class="panel" style="background-color:#336699" >
                                         <div class="panel-heading">
-                                            <h1 class="panel-title"><i><b>Discussion Forum</b></i></h1>
+                                            <h1 class="panel-title"><i><b><font color="white">Discussion Forum</font></b></i></h1>
                                         </div>
                                     </div>
 
                                     <a href="http://app.readspeaker.com/cgi-bin/rsent?customerid=5204&amp;lang=en_us&amp;speed=140&amp;readid=speak&amp;url=http://localhost:8080/StudySmart-web/forumposts.jsp" 
                                         onclick="readpage(this.href, 'speak'); return false;"
                                         target="_blank"></a>
-                                    <div id="speak"></div>
+                                    
                                     <div id="discussion">
 
                                     </div>
@@ -141,10 +162,10 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="mypost">Add your post</h4>
+                                                    <h4 class="modal-title" >Add your post</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>
+                                                    <textarea class="form-control" id="mypost" placeholder="Try to input multiple lines here..."></textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

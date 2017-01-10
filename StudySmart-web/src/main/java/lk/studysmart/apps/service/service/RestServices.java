@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -773,6 +774,7 @@ public class RestServices {
                 JSONObject jobj = new JSONObject();
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catid", category.getCatId());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
                 jarr.put(jobj);
             }
@@ -792,6 +794,7 @@ public class RestServices {
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jobj.put("catid", category.getCatId());
                 jobj.put("catby", category.getCatBy());
                 jarr.put(jobj);
             }
@@ -826,6 +829,7 @@ public class RestServices {
                 jobj.put("post", forumpost.getPost());
                 jobj.put("postdate", utils.Utils.getFormattedDateString(forumpost.getDate()));
                 jobj.put("posttime", forumpost.getTime());
+                jobj.put("postid", forumpost.getId());
                 jarr.put(jobj);
             }
 
@@ -833,6 +837,41 @@ public class RestServices {
         }
 
     }
+    
+    @DELETE
+    @Path("forumdeletepost/{postid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deletepost(@PathParam("postid") Integer postid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }else{
+            Forumposts forumPosts = em.find(Forumposts.class, postid);
+            
+            em.remove(forumPosts);
+            return "deleted";
+        }
+        
+    }
+    
+    @DELETE
+    @Path("forumdeletethread/{threadid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deletethread(@PathParam("threadid") Integer threadid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }else{
+            Categories category = em.find(Categories.class, threadid);
+            
+            em.remove(category);
+            return "deleted";
+        }
+        
+    }
+    
+        
+            
 }
     
     
