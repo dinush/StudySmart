@@ -6,6 +6,7 @@
 package lk.studysmart.apps.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,12 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,11 +38,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Categories.findByCatName", query = "SELECT c FROM Categories c WHERE c.catName = :catName"),
     @NamedQuery(name = "Categories.findByCatDescription", query = "SELECT c FROM Categories c WHERE c.catDescription = :catDescription"),
     @NamedQuery(name = "Categories.findByCatBy", query = "SELECT c FROM Categories c WHERE c.catBy = :catBy"),
+    @NamedQuery(name = "Categories.findByTeacher", query = "SELECT c FROM Categories c WHERE c.catBy = :catBy AND c.class1 = :class1 AND c.subject = :subject"),
     @NamedQuery(name = "Categories.findByClass1", query = "SELECT c FROM Categories c WHERE c.class1 = :class1"),
     @NamedQuery(name = "Categories.findBySubject", query = "SELECT c FROM Categories c WHERE c.subject = :subject"),
-    @NamedQuery(name = "Categories.findByCatDate", query = "SELECT c FROM Categories c WHERE c.catDate = :catDate"),
-    @NamedQuery(name = "Categories.findByTeacher", query = "SELECT c FROM Categories c WHERE c.catBy = :catBy AND c.class1 = :class1 AND c.subject = :subject")})
+    @NamedQuery(name = "Categories.findByCatDate", query = "SELECT c FROM Categories c WHERE c.catDate = :catDate")})
 public class Categories implements Serializable {
+
+    @OneToMany(mappedBy = "catid")
+    private Collection<Forumposts> forumpostsCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,10 +68,14 @@ public class Categories implements Serializable {
     @Size(min = 1, max = 8)
     @Column(name = "cat_by")
     private String catBy;
-    @Size(max = 5)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
     @Column(name = "class")
     private String class1;
-    @Size(max = 25)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "subject")
     private String subject;
     @Column(name = "cat_date")
@@ -79,11 +89,13 @@ public class Categories implements Serializable {
         this.catId = catId;
     }
 
-    public Categories(Integer catId, String catName, String catDescription, String catBy) {
+    public Categories(Integer catId, String catName, String catDescription, String catBy, String class1, String subject) {
         this.catId = catId;
         this.catName = catName;
         this.catDescription = catDescription;
         this.catBy = catBy;
+        this.class1 = class1;
+        this.subject = subject;
     }
 
     public Integer getCatId() {
@@ -165,6 +177,15 @@ public class Categories implements Serializable {
     @Override
     public String toString() {
         return "lk.studysmart.apps.models.Categories[ catId=" + catId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Forumposts> getForumpostsCollection() {
+        return forumpostsCollection;
+    }
+
+    public void setForumpostsCollection(Collection<Forumposts> forumpostsCollection) {
+        this.forumpostsCollection = forumpostsCollection;
     }
     
 }

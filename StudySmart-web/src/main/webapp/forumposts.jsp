@@ -44,6 +44,7 @@
                 packet['meta']['mylesson'] = '<% out.print(request.getParameter("lesson")); %>';
                 packet['meta']['myclass'] = '<% out.print(request.getParameter("class")); %>';
                 packet['meta']['mysubject'] = '<% out.print(request.getParameter("subject")); %>';
+                packet['meta']['myid'] = '<% out.print(request.getParameter("catid")); %>';
 
                 $.ajax({
                     async: true,
@@ -55,7 +56,7 @@
                 })
                         .done(function (data) {
                             alert("succesfully updated");
-                            
+                            getDiscussion();
 
                         });
 
@@ -137,9 +138,9 @@
                                 <div id="main-content" class="col-md-8">
 
                                     <!-- my editting-->
-                                    <div class="panel panel-primary" >
+                                    <div class="panel" style="background-color:#336699" >
                                         <div class="panel-heading">
-                                            <h1 class="panel-title"><i><b>Discussion Forum</b></i></h1>
+                                            <h1 class="panel-title"><i><b><font color="white">Discussion Forum</font></b></i></h1>
                                         </div>
                                     </div>
 
