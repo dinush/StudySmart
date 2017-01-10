@@ -62,7 +62,7 @@
             </ul>
         </li>
         
-        <li role="presentation"><a href="index.jsp">Manage VLE</a></li>
+        <li role="presentation"><a href="teachQuizMain.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
             <% } %>
 
