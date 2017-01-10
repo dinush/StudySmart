@@ -26,16 +26,22 @@
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-<!--        Sweet alert 2-->
+        <!--        Sweet alert 2-->
         <script src="js/sweetalert.min.js"></script>
-        
+
         <link rel="stylesheet" href="css/sweetalert.css" />
 
         <script type="text/javascript" src="js/rs_embhl.js"></script>
-        
+
         <script type="text/javascript">
-            
-           
+//             $(document).ready(function(){
+//                 swal({
+//                    title: "Sweet!",
+//                    text: "Here's a custom image.",
+//                    imageUrl: 'images/textToSpeech.JPG'
+//                  });
+//             }
+
 
 
             function sendPacket() {
@@ -60,10 +66,10 @@
                 })
                         .done(function (data) {
                             swal({
-                                title: "Success",   
-                                text: "Succesfully Posted !",   
-                                type: "success" 
-                          });
+                                title: "Success",
+                                text: "Succesfully Posted !",
+                                type: "success"
+                            });
                             getDiscussion();
 
                         });
@@ -72,26 +78,26 @@
 
 
             }
-            
-            function deletePost(postid){
-                
+
+            function deletePost(postid) {
+
                 $.ajax({
                     url: "ws/rest/forumdeletepost/" + postid,
                     async: true,
                     type: 'DELETE',
-                    success: function(res) {
+                    success: function (res) {
                         swal({
-                            title: "",   
-                            text: "Succesfully Deleted !",   
-                            type: "error" 
-                      });
+                            title: "",
+                            text: "Succesfully Deleted !",
+                            type: "error"
+                        });
                         getDiscussion();
-                        
+
                     }
                 });
-                
+
                 return false;
-                
+
             }
 
             function getDiscussion() {
@@ -117,7 +123,7 @@
                                 html += "</div>";
                                 html += "<div class='panel-body'>";
                                 html += data[i].post;
-                                html += "</div>"; 
+                                html += "</div>";
                                 html += "</div>";
                                 discussion.innerHTML += html;
                             }
@@ -126,6 +132,11 @@
 
             $(function () {
                 getDiscussion();
+                swal({
+                    title: "Highlight The Text!",
+                    text: "and have it read out loud!.",
+                    imageUrl: 'images/textToSpeech.JPG'
+                  });
             });
 
         </script>
@@ -138,6 +149,9 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
+                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item active">Discussion Forum</li>
             </ol>
             <table border="0">
                 <tr>
@@ -157,9 +171,9 @@
                                     </div>
 
                                     <a href="http://app.readspeaker.com/cgi-bin/rsent?customerid=5204&amp;lang=en_us&amp;speed=140&amp;readid=speak&amp;url=http://localhost:8080/StudySmart-web/forumposts.jsp" 
-                                        onclick="readpage(this.href, 'speak'); return false;"
-                                        target="_blank"></a>
-                                    
+                                       onclick="readpage(this.href, 'speak'); return false;"
+                                       target="_blank"></a>
+
                                     <div id="discussion">
 
                                     </div>
