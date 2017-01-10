@@ -4,9 +4,18 @@
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation"><a href="index.jsp">Home</a></li>
         
-        <!--<li role="presentation"><a href="#">Profile</a></li>-->
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
+                Profile<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <% if (acc_level == 1) { %>
+                <li role="presentation"><a href="principalProfile.jsp">View Profile</a></li>
+                <% } %>
+                <li role="presentation"><a href="changePassword.jsp">Change Password</a></li>
+            </ul>
+        </li>
         <% if (acc_level == 1) { %>
-        <li role="presentation"><a href="principalProfile.jsp">Profile</a></li>
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
                 Manage Class<span class="caret"></span>
