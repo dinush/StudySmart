@@ -21,6 +21,9 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <!--        Sweet alert 2-->
+        <script src="js/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="css/sweetalert.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
@@ -41,8 +44,8 @@
                 packet['meta'] = {};
                 packet['meta']['cat_name'] = $('#cat_name').val();
                 packet['meta']['cat_description'] = $('#cat_description').val();
-                packet['meta']['class'] = $('#class').val();
-                packet['meta']['subject'] = $('#subject').val();
+                packet['meta']['class'] = document.getElementsByClassName("classes")[1].value;
+                packet['meta']['subject'] = $('#subject').val();document.getElementsByClassName("subjects")[1].value;
 
                 $.ajax({
                     type: "POST",
@@ -52,7 +55,11 @@
                     contentType: "text/plain"
                 })
                         .done(function (data) {
-                            alert("succesfully updated");
+                            swal({
+                                title: "Success",
+                                text: "New Discussion Thread Succesfully Created!",
+                                type: "success"
+                            });
 
                         });
 
@@ -102,7 +109,11 @@
                     async: true,
                     type: 'DELETE',
                     success: function(res) {
-                        alert("Succesfully Deleted!!");
+                        swal({
+                            title: "",
+                            text: "Succesfully Deleted !",
+                            type: "error"
+                        });
                         getThreads();
                         
                     }
@@ -172,7 +183,7 @@
                                     <br>
                                     
                                     
-                                    <form class="form-inline" onsubmit="return sendPacket()">
+                                    <form class="form-inline">
                                         
                                                 <div class="form-group">
 
