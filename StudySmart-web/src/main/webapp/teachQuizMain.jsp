@@ -51,8 +51,8 @@
                             <div id="main-content" class="col-md-8">
                                
                                 <form>
-                                <label for="exampleInputEmail1">Select Subject</label>     
-                                <select class="form-control">
+                                <label for="exampleInputEmail1" >Select Subject</label>     
+                                <select class="form-control" id="subject" name="subject" >
                                     <option>Science</option>
                                     <option>History</option>
                                     <option>ICT</option>

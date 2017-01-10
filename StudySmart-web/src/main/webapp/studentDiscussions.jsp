@@ -53,7 +53,7 @@
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td>" + data[i].catsubject + "</td>";
-                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid + "&subject=" + data[i].catsubject + "'>" + data[i].catname + "</a></td>";
+                                row += "<td id><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid + "&subject=" + data[i].catsubject + "'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
                                 row += "<td>" + data[i].catby + "</td>";
@@ -99,7 +99,7 @@
                                     <!-- DIscussion forum rules-->
 
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" style="margin-left:150px;" data-target="#myModal">
                                         Rules to Follow
                                     </button>
 
