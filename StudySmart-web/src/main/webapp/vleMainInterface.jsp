@@ -22,7 +22,7 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 90px 180px;
+                padding: 45px 70px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
@@ -34,7 +34,7 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 45px 70px;
+                padding: 40px 70px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
@@ -46,7 +46,7 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 90px 180px;
+                padding: 80px 180px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
@@ -71,7 +71,7 @@
     <title>StudySmart</title>
 </head>
 <body  style="background-color" >
-    <div class="container"  style="background-color: #4d79ff" >
+    <div class="container"  style="background-color:  #000066" >
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
@@ -91,12 +91,12 @@
                                  
                                 <table>
                                     <tr>
-                                       <td><a href="#" class="button2"><img src="images/individual.png" alt="HTML5 Icon" style="width:190px;height:150px;">Individual Activities</a></td>
-                                      <td><a href="#" class="button2"><img src="images/teacher.png" alt="HTML5 Icon" style="width:250px;height:150px;">Teacher-Student Collaboration</a></td>
+                                      <td><a href="#" class="button2"><img src="images/URL.png" alt="HTML5 Icon" style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
+                                      <td><a href="#" class="button2"><img src="images/teacher.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
                                     <tr>
-                                     <td><a href="#" class="button2"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;">Student Resources</a></td>
-                                     <td><a href="#" class="button2"><img src="images/URL.png" alt="HTML5 Icon" style="width:250px;height:150px;">Student Collaboration</a></td>
+                                     <td><a href="#" class="button1"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
+                                     <td><a href="#" class="button1"><img src="images/individual.png" alt="HTML5 Icon" style="width:190px;height:150px;"><font size="5"><b>Individual Activities</font></a></td>
                                     </tr>
                                   </table>
 
