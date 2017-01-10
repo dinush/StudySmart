@@ -25,7 +25,7 @@ import lk.studysmart.apps.models.User;
  * @author dinush
  */
 @Entity
-@Table(name = "Student_Parent")
+@Table(name = "student_parent")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "StudentParent.findAll", query = "SELECT s FROM StudentParent s"),

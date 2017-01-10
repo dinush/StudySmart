@@ -22,7 +22,7 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 45px 70px;
+                padding: 40px 60px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
@@ -34,7 +34,7 @@
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 40px 70px;
+                padding: 40px 40px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
@@ -49,9 +49,18 @@
                 padding: 80px 180px;
                 text-align: center;
                 text-decoration: none;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            .button4 {
+                background-color: #66b5ff;
+                border: none;
+                color: white;
+                padding: 30px 1px;
+                text-align: left;
+                text-decoration: none;
                 display: inline-block;
                 font-size: 16px;
-                margin: 4px 2px;
                 cursor: pointer;
             }
         </style>
@@ -73,6 +82,8 @@
 <body  style="background-color" >
     <div class="container"  style="background-color:  #000066" >
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+    <div class="container" >
+        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -86,13 +97,12 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">
-                             
+                            <div id="main-content" class="col-md-12">
                                  
-                                <table>
+                                <table style="width:100%;">
                                     <tr>
-                                      <td><a href="#" class="button2"><img src="images/URL.png" alt="HTML5 Icon" style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
-                                      <td><a href="#" class="button2"><img src="images/teacher.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
+                                      <td><a href="#" class="button1"><img src="images/URL.png" alt="HTML5 Icon" style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
+                                      <td><a href="#" class="button4"><img src="images/teacher.png" alt="HTML5 Icon" style="width:200px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
                                     <tr>
                                      <td><a href="#" class="button1"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
