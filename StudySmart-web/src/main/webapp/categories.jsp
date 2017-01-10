@@ -152,6 +152,8 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
+                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item active">Discussion Forum</li>
             </ol>
             <table border="0">
                 <tr>
