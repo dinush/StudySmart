@@ -26,7 +26,20 @@
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-    </script>
+        <script>
+            function checkPasswordMatch() {
+                var newPass = document.getElementById("new_password").value;
+                var repPass = document.getElementById("repeat_password").value;
+                
+                
+                if (newPass === repPass)
+                    return true;
+                else {
+                    alert("New password and repeat password does not match");
+                    return false;
+                }
+            }
+        </script>
     <title>StudySmart</title>
 </head>
 <body>
@@ -52,18 +65,18 @@
                                 <% } %>
                                 
                                 <div class="col-sm-6 col-sm-offset-2">
-                                     <form action="management?action=changePassword" method="POSt">
+                                    <form action="management?action=changePassword" method="POSt" onsubmit="return checkPasswordMatch()">
                                         <div class="form-group">
                                             <label for="current_password">Current Password</label>
                                             <input type="password" class="form-control" name="current_password" />
                                         </div>
                                         <div class="form-group">
                                             <label for="new_password">New Password</label>
-                                            <input type="password" class="form-control" name="new_password" />
+                                            <input type="password" class="form-control" name="new_password" id="new_password"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="repeat_password">Repeat Password</label>
-                                            <input type="password" class="form-control" name="repeat_password" />
+                                            <input type="password" class="form-control" name="repeat_password" id="repeat_password"/>
                                         </div>
                                          <input type="submit" class="btn btn-primary" value="Change" />
                                     </form>
