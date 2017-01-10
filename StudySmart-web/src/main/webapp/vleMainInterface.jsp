@@ -29,6 +29,7 @@
                 font-size: 16px;
                 margin: 4px 2px;
                 cursor: pointer;
+                border-radius: 12px;
             }
             .button2 {
                 background-color: #66b5ff;
@@ -41,27 +42,32 @@
                 font-size: 16px;
                 margin: 4px 2px;
                 cursor: pointer;
+                border-radius: 12px;
             }
             .button3 {
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 80px 180px;
+                padding: 40px 60px;
                 text-align: center;
                 text-decoration: none;
+                display: inline-block;
                 font-size: 16px;
+                margin: 4px 2px;
                 cursor: pointer;
+                border-radius: 12px;
             }
             .button4 {
                 background-color: #66b5ff;
                 border: none;
                 color: white;
-                padding: 30px 1px;
+                padding: 40px 61px;
                 text-align: left;
                 text-decoration: none;
                 display: inline-block;
                 font-size: 16px;
                 cursor: pointer;
+                border-radius: 12px;
             }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -79,9 +85,7 @@
     </script>
     <title>StudySmart</title>
 </head>
-<body  style="background-color" >
-    <div class="container"  style="background-color:  #000066" >
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+<body  style="background-color:  " >
     <div class="container" >
         <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
@@ -97,16 +101,16 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-12">
+                            <div id="main-content" class="col-md-12" >
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="#" class="button1"><img src="images/URL.png" alt="HTML5 Icon" style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
-                                      <td><a href="#" class="button4"><img src="images/teacher.png" alt="HTML5 Icon" style="width:200px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
+                                      <td><a href="#" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
+                                      <td><a href="#" class="button2"><img src="images/teacher.png" align="right" style="width:320px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
-                                    <tr>
-                                     <td><a href="#" class="button1"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
-                                     <td><a href="#" class="button1"><img src="images/individual.png" alt="HTML5 Icon" style="width:190px;height:150px;"><font size="5"><b>Individual Activities</font></a></td>
+                                     <tr>
+                                     <td><a href="#" class="button3"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
+                                     <td><a href="#" class="button4"><img src="images/individual.png" alt="HTML5 align="right"  Icon" style="width:150px;height:170px;"><font size="5"><b>Individual Activities</font></a></td>
                                     </tr>
                                   </table>
 
