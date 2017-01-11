@@ -45,7 +45,7 @@
                 packet['meta']['cat_name'] = $('#cat_name').val();
                 packet['meta']['cat_description'] = $('#cat_description').val();
                 packet['meta']['class'] = document.getElementsByClassName("classes")[1].value;
-                packet['meta']['subject'] = $('#subject').val();document.getElementsByClassName("subjects")[1].value;
+                packet['meta']['subject'] = document.getElementsByClassName("subjects")[1].value;
 
                 $.ajax({
                     type: "POST",

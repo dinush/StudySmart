@@ -4,7 +4,7 @@
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation"><a href="index.jsp">Home</a></li>
         
-        <!--<li role="presentation"><a href="#">Profile</a></li>-->
+        <!--<li role="presentation"><a href="profile.jsp">Profile</a></li>-->
         <% if (acc_level == 1) { %>
         <li role="presentation"><a href="principalProfile.jsp">Profile</a></li>
         <li role="presentation" class="dropdown">

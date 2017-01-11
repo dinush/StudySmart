@@ -28,20 +28,11 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <!--        Sweet alert 2-->
         <script src="js/sweetalert.min.js"></script>
-
         <link rel="stylesheet" href="css/sweetalert.css" />
 
         <script type="text/javascript" src="js/rs_embhl.js"></script>
 
         <script type="text/javascript">
-//             $(document).ready(function(){
-//                 swal({
-//                    title: "Sweet!",
-//                    text: "Here's a custom image.",
-//                    imageUrl: 'images/textToSpeech.JPG'
-//                  });
-//             }
-
 
 
             function sendPacket() {
