@@ -8,6 +8,10 @@
         <servlet-name>ChangeUser</servlet-name>
         <servlet-class>lk.studysmart.apps.ChangeUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QuizInsertion</servlet-name>
+        <servlet-class>lk.studysmart.apps.QuizInsertion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Categories</servlet-name>
         <url-pattern>/Categories</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ChangeUser</servlet-name>
         <url-pattern>/ChangeUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizInsertion</servlet-name>
+        <url-pattern>/QuizInsertion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

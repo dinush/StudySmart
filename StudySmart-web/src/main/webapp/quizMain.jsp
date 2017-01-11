@@ -36,7 +36,7 @@
     <title>StudySmart</title>
 </head>
 <body  style="background-color" >
-    <div class="container"  style="background-color:" >
+    <div class="container"   >
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
@@ -52,15 +52,26 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">
+                            <div id="main-content" class="col-md-10" style="background-color:">
                              
-                                 
+                                <div style="text-align:center;">
+                                    <h2 style = "position: middle;"><span class="label label-primary" >Select a Subject</span></h2>
+                                </div>
+                                <br>
                                 <table>
                                     <tr>
-                                        <td><a href="historyTeachQuizMain.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:128px;height:128px;"></a></td>
-                                      
+                                        <td><a href="quizMVStuHistory.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMVStuScience.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px; margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMVStuGeography.jsp"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px; margin-left:40px;margin-righ:40px;"></a></td> 
                                     </tr>
-                                  </table>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td><a href="quizMVStuICT.jsp"><img src="images/ICT.png" alt="HTML5 Icon" style="width:200px;height:200px; margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMVStuEnglish.jsp"><img src="images/English.png" alt="HTML5 Icon" style="width:200px;height:200px;margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMVStuMaths.jsp"><img src="images/Maths.png" alt="HTML5 Icon" style="width:200px;height:200px; margin-left:40px;margin-righ:40px;"></a></td>
+                                    </tr>
+                                </table>
 
                             </div>
                             <div class="col-md-4">

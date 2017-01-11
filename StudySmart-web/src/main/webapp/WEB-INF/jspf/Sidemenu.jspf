@@ -4,6 +4,7 @@
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation"><a href="index.jsp">Home</a></li>
         
+
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
                 Profile<span class="caret"></span>
@@ -15,6 +16,7 @@
                 <li role="presentation"><a href="changePassword.jsp">Change Password</a></li>
             </ul>
         </li>
+
         <% if (acc_level == 1) { %>
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-hashopup="true" aria-expanded="false">
@@ -71,7 +73,7 @@
             </ul>
         </li>
         
-        <li role="presentation"><a href="teachQuizMain.jsp">Manage VLE</a></li>
+        <li role="presentation"><a href="teachVLEMUI.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
             <% } %>
 

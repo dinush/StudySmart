@@ -279,5 +279,15 @@ public class User implements Serializable {
     public void setAttendanceClassCollection(Collection<AttendanceClass> attendanceClassCollection) {
         this.attendanceClassCollection = attendanceClassCollection;
     }
+
+
+//    @XmlTransient
+//    public Collection<Quiz> getQuizCollection() {
+//        return quizCollection;
+//    }
+
+//    public void setQuizCollection(Collection<Quiz> quizCollection) {
+//        this.quizCollection = quizCollection;
+//    }
     
 }

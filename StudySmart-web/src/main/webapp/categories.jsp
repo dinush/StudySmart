@@ -45,7 +45,7 @@
                 packet['meta']['cat_name'] = $('#cat_name').val();
                 packet['meta']['cat_description'] = $('#cat_description').val();
                 packet['meta']['class'] = document.getElementsByClassName("classes")[1].value;
-                packet['meta']['subject'] = $('#subject').val();document.getElementsByClassName("subjects")[1].value;
+                packet['meta']['subject'] = document.getElementsByClassName("subjects")[1].value;
 
                 $.ajax({
                     type: "POST",
@@ -186,6 +186,7 @@
                                     <form class="form-inline">
                                         
                                                 <div class="form-group">
+                                                   
 
                                                     <select name="class" class="form-control classes" id="class" onchange="getSubjects(0)"></select>
                                                     <select name="subject" class="form-control subjects" id="subject" onchange="getThreads()" ></select>
