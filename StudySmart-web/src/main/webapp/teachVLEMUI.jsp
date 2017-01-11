@@ -46,7 +46,8 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-12">
-                                <a href="teachQuizMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Create Quiz</button></a> 
+                                <a href="teachQuizMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Create Quiz</button></a>
+                                <a href="uploadFile.jsp" ><button type="button" class="btn btn-primary btn-lg" >Upload a File</button></a>
                             </div>   
                         </div>
                     </div>

@@ -59,7 +59,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
     // Create path components to save the file
-    final String path = "c:/tmp/";
+    final String path = "c://tmp";
     File fpath = new File(path);
     if (!fpath.exists())
         fpath.mkdir();
