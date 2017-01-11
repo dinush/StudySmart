@@ -242,7 +242,7 @@ public class Acadamic {
             jAssign.put("name", oneAssign.getAssignment().getName());
             jAssign.put("subject", oneAssign.getAssignment().getSubject().getName());
             jAssign.put("max", oneAssign.getAssignment().getMax());
-            jAssign.put("date", utils.Utils.getFormattedDateString(oneAssign.getAssignment().getDate()));
+            jAssign.put("date", oneAssign.getAssignment().getDate() != null ? utils.Utils.getFormattedDateString(oneAssign.getAssignment().getDate()) : null);
             jAssign.put("marks", oneAssign.getMark());
             jAssign.put("max_marks", oneAssign.getAssignment().getMax());
             jAssign.put("comment", oneAssign.getComment());
