@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -77,6 +79,9 @@ public class Forumposts implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @JoinColumn(name = "catid", referencedColumnName = "cat_id")
+    @ManyToOne
+    private Categories catid;
 
     public Forumposts() {
     }
@@ -155,6 +160,14 @@ public class Forumposts implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Categories getCatid() {
+        return catid;
+    }
+
+    public void setCatid(Categories catid) {
+        this.catid = catid;
     }
 
     @Override

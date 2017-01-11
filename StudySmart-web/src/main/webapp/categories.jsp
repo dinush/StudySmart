@@ -21,6 +21,9 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <!--        Sweet alert 2-->
+        <script src="js/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="css/sweetalert.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
@@ -41,8 +44,8 @@
                 packet['meta'] = {};
                 packet['meta']['cat_name'] = $('#cat_name').val();
                 packet['meta']['cat_description'] = $('#cat_description').val();
-                packet['meta']['class'] = $('#class').val();
-                packet['meta']['subject'] = $('#subject').val();
+                packet['meta']['class'] = document.getElementsByClassName("classes")[1].value;
+                packet['meta']['subject'] = $('#subject').val();document.getElementsByClassName("subjects")[1].value;
 
                 $.ajax({
                     type: "POST",
@@ -52,7 +55,11 @@
                     contentType: "text/plain"
                 })
                         .done(function (data) {
-                            alert("succesfully updated");
+                            swal({
+                                title: "Success",
+                                text: "New Discussion Thread Succesfully Created!",
+                                type: "success"
+                            });
 
                         });
 
@@ -94,6 +101,27 @@
                             getThreads();
                         });
             }
+            
+            function deleteThread(threadid){
+                
+                $.ajax({
+                    url: "ws/rest/forumdeletethread/" + threadid,
+                    async: true,
+                    type: 'DELETE',
+                    success: function(res) {
+                        swal({
+                            title: "",
+                            text: "Succesfully Deleted !",
+                            type: "error"
+                        });
+                        getThreads();
+                        
+                    }
+                });
+                
+                return false;
+                
+            }
 
             function getThreads() {
 
@@ -113,9 +141,10 @@
                             tbl.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td id=cat_name><a href='forumposts.jsp?lesson=" + data[i].catname + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
+                                row += "<td><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
+                                row += "<td><span class='glyphicon glyphicon-remove-circle pull-right' aria-hidden='true' onclick='deleteThread(" + data[i].catid + ")' style='cursor:pointer'></span></td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
 
@@ -134,6 +163,8 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
+                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item active">Discussion Forum</li>
             </ol>
             <table border="0">
                 <tr>
@@ -152,7 +183,7 @@
                                     <br>
                                     
                                     
-                                    <form class="form-inline" onsubmit="return sendPacket()">
+                                    <form class="form-inline">
                                         
                                                 <div class="form-group">
                                                    
@@ -169,6 +200,7 @@
                                                             <th>Lesson Name</th>
                                                             <th>Lesson Description</th>
                                                             <th> Date </th>
+                                                            <th></th>
 
                                                         </tr>
                                                     </thead>
@@ -185,7 +217,7 @@
                                     <h3><b><u> Create New Discussion: </u></b></h3>
                                    
                                     <form class="form-inline" onsubmit="return sendPacket()">
-                                        <div class="panel panel-info">
+                                        <div class="panel" style="background-color: #336699;">
                                             <div class="panel-heading">
                                                 <div class="form-group">
 
@@ -200,7 +232,7 @@
 
                                             <div class="form-group">
 
-                                                <textarea type="Description" rows="5" cols="80" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
+                                                <textarea type="Description" rows="5" cols="86.75" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
                                             </div>
                                         </div>
 

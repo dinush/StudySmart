@@ -77,9 +77,12 @@ public class ForumPosts extends HttpServlet {
         String mypost = meta.getString("mypost");
         String mylesson = meta.getString("mylesson");
         String myclass = meta.getString("myclass");
+        Integer myid = meta.getInt("myid");
         String mysubject = meta.getString("mysubject");
         Date mydate = utils.Utils.getFormattedDate();
         String time = utils.Utils.getFormattedTime();
+        
+        lk.studysmart.apps.models.Categories cat = em.find(lk.studysmart.apps.models.Categories.class, myid);
         
         lk.studysmart.apps.models.Forumposts forum = new Forumposts();
         forum.setAddedBy(user.getUsername());
@@ -89,6 +92,7 @@ public class ForumPosts extends HttpServlet {
         forum.setTime(time);
         forum.setSubject(mysubject);
         forum.setPost(mypost);
+        forum.setCatid(cat);
         
         try {
             utx.begin();

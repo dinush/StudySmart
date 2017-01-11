@@ -775,6 +775,7 @@ public class RestServices {
                 JSONObject jobj = new JSONObject();
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
+                jobj.put("catid", category.getCatId());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
                 jarr.put(jobj);
             }
@@ -794,6 +795,7 @@ public class RestServices {
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
+                jobj.put("catid", category.getCatId());
                 jobj.put("catby", category.getCatBy());
                 jarr.put(jobj);
             }
@@ -852,6 +854,23 @@ public class RestServices {
         }
         
     }
+    
+    @DELETE
+    @Path("forumdeletethread/{threadid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deletethread(@PathParam("threadid") Integer threadid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }else{
+            Categories category = em.find(Categories.class, threadid);
+            
+            em.remove(category);
+            return "deleted";
+        }
+        
+    }
+    
         
     @GET
     @Path("questions/{subjectid}")

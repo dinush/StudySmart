@@ -100,6 +100,10 @@ public class Management extends HttpServlet {
                 response.sendRedirect("index.jsp?msg=Message sent");
             }
             break;
+            case "changePassword": {
+                changePassword(request, response);
+                /** Redirect is handled in the method called */
+            }
         }
     }
 
@@ -241,6 +245,29 @@ public class Management extends HttpServlet {
             Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    private void changePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String current_pw = request.getParameter("current_password");
+        String new_pw = request.getParameter("new_password");
+        /* Repeat password is checked in the frontend */
+        
+        if (!user.getPassword().equals(current_pw)) {
+            response.sendRedirect("changePassword.jsp?msg=Current password is wrong");
+            return;
+        }
+        
+        user.setPassword(new_pw);
+        
+        try {
+            utx.begin();
+            em.merge(user);
+            utx.commit();
+        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+            Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        response.sendRedirect("index.jsp?msg=Password changed");
     }
     
     protected void sendPersonalMsg(HttpServletRequest request) throws IOException {
