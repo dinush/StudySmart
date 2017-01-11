@@ -109,8 +109,8 @@
                                       <td><a href="#" class="button2"><img src="images/teacher.png" align="right" style="width:320px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
                                      <tr>
-                                     <td><a href="#" class="button3"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
-                                     <td><a href="#" class="button4"><img src="images/individual.png" alt="HTML5 align="right"  Icon" style="width:150px;height:170px;"><font size="5"><b>Individual Activities</font></a></td>
+                                     <td><a href="studentResourcesMUI.jsp" class="button3"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
+                                     <td><a href="quizMain.jsp" class="button4"><img src="images/individual.png" alt="HTML5 align="right"  Icon" style="width:150px;height:170px;"><font size="5"><b>Individual Activities</font></a></td>
                                     </tr>
                                   </table>
 

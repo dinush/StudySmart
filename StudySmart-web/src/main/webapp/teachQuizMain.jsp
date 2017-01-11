@@ -29,7 +29,7 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
 
-    </script>
+    
     
     <title>StudySmart</title>
 </head>
@@ -38,6 +38,8 @@
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
+            <li><a href="index.jsp">Home</a></li>
+            <li><a href="index.jsp">Home</a></li>
             <li><a href="index.jsp">Home</a></li>
         </ol>
         <table border="0">
@@ -50,14 +52,21 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                
-                                <form>
+                                <form method="post" action="QuizInsertion">
                                 <label for="exampleInputEmail1" >Select Subject</label>     
                                 <select class="form-control" id="subject" name="subject" >
-                                    <option>Science</option>
-                                    <option>History</option>
-                                    <option>ICT</option>
-                                    <option>Geography</option>
+                                    <option value="002">Science</option>
+                                    <option value="001">Maths</option>
+                                    <option value="004">ICT</option>
+                                    <option value="003">English</option>
                                  </select>
+                                <br>
+                                <br>
+                                <label for="grade">Select grade</label>
+                                <select class="form-control" id="grade" name="grade">
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                </select>
                                     <br>
                                     <br>
                                     <br>
@@ -65,153 +74,153 @@
                                     
                                 
                                     <div class="form-group">
-                                      <label for="exampleInputEmail1">Question 1</label>
-                                      <input type="email" class="form-control" id="q1" name="q1" placeholder="Question">
+                                      <label for="">Question 1</label>
+                                      <input type="text" class="form-control" id="q1" name="q1" placeholder="Question">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 1</label>
-                                      <input type="password" class="form-control" id="a11" name="a11" placeholder="Answer">
+                                      <label for="">Answer 1</label>
+                                      <input type="text" class="form-control" id="a11" name="a11" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 2</label>
-                                      <input type="password" class="form-control" id="a12" name="a12" placeholder="Answer">
+                                      <label for="">Answer 2</label>
+                                      <input type="text" class="form-control" id="a12" name="a12" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 3</label>
-                                      <input type="password" class="form-control" id="a13" name="a13" placeholder="Answer">
+                                      <label for="">Answer 3</label>
+                                      <input type="text" class="form-control" id="a13" name="a13" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 4</label>
-                                      <input type="password" class="form-control" id="a14" name="a14" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Correct Answer</label>
-                                      <input type="password" class="form-control" id="a1" name="a1" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                    -------------------------------------------------------------------------------------------------------------------------------
-                                    <br>
-                                    <br>
-                                    
-                                    <div class="form-group">
-                                      <label for="exampleInputEmail1">Question 2</label>
-                                      <input type="email" class="form-control" id="q2" name="q2" placeholder="Question">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 1</label>
-                                      <input type="password" class="form-control" id="a21" name="a21" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 2</label>
-                                      <input type="password" class="form-control" id="a22" name="a22" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 3</label>
-                                      <input type="password" class="form-control" id="a23" name="a23" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 4</label>
-                                      <input type="password" class="form-control" id="a24" name="a24" placeholder="Answer">
+                                      <label for="">Answer 4</label>
+                                      <input type="text" class="form-control" id="a14" name="a14" placeholder="Answer">
                                     </div>
   
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Correct Answer</label>
-                                      <input type="password" class="form-control" id="a2 name="a2" placeholder="Correct Answer">
+                                      <label for="">Correct Answer</label>
+                                      <input type="text" class="form-control" id="a1" name="a1" placeholder="Correct Answer">
                                     </div>
                                     
                                     <br>
-                                    -------------------------------------------------------------------------------------------------------------------------------
+                                    ---------------------------------------------------------------------------------------------------------------------
                                     <br>
                                     <br>
                                     
                                     <div class="form-group">
-                                      <label for="exampleInputEmail1">Question 3</label>
-                                      <input type="email" class="form-control" id="q3" name="q3" placeholder="Question">
+                                      <label for="">Question 2</label>
+                                      <input type="text" class="form-control" id="q2" name="q2" placeholder="Question">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 1</label>
-                                      <input type="password" class="form-control" id="a31" name="a31" placeholder="Answer">
+                                      <label for="">Answer 1</label>
+                                      <input type="text" class="form-control" id="a21" name="a21" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 2</label>
-                                      <input type="password" class="form-control" id="a32" name="a32" placeholder="Answer">
+                                      <label for="">Answer 2</label>
+                                      <input type="text" class="form-control" id="a22" name="a22" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 3</label>
-                                      <input type="password" class="form-control" id="a33" name="a33" placeholder="Answer">
+                                      <label for="">Answer 3</label>
+                                      <input type="text" class="form-control" id="a23" name="a23" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 4</label>
-                                      <input type="password" class="form-control" id="a34" name="a34" placeholder="Answer">
+                                      <label for="">Answer 4</label>
+                                      <input type="text" class="form-control" id="a24" name="a24" placeholder="Answer">
                                     </div>
   
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Correct Answer</label>
-                                      <input type="password" class="form-control" id="a3" name="a3" placeholder="Correct Answer">
+                                      <label for="">Correct Answer</label>
+                                      <input type="text" class="form-control" id="a2" name="a2" placeholder="Correct Answer">
                                     </div>
                                     
                                     <br>
-                                    -------------------------------------------------------------------------------------------------------------------------------
+                                   ---------------------------------------------------------------------------------------------------------------
                                     <br>
                                     <br>
                                     
                                     <div class="form-group">
-                                      <label for="exampleInputEmail1">Question 4</label>
-                                      <input type="email" class="form-control" id="q4" name="q4" placeholder="Question">
+                                      <label for="">Question 3</label>
+                                      <input type="text" class="form-control" id="q3" name="q3" placeholder="Question">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 1</label>
-                                      <input type="password" class="form-control" id="a41" name="a41" placeholder="Answer">
+                                      <label for="">Answer 1</label>
+                                      <input type="text" class="form-control" id="a31" name="a31" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 2</label>
-                                      <input type="password" class="form-control" id="a42" name="a42" placeholder="Answer">
+                                      <label for="">Answer 2</label>
+                                      <input type="text" class="form-control" id="a32" name="a32" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 3</label>
-                                      <input type="password" class="form-control" id="a43" name="a43" placeholder="Answer">
+                                      <label for="">Answer 3</label>
+                                      <input type="text" class="form-control" id="a33" name="a33" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 4</label>
-                                      <input type="password" class="form-control" id="a44" name="a44" placeholder="Answer">
+                                      <label for="">Answer 4</label>
+                                      <input type="text" class="form-control" id="a34" name="a34" placeholder="Answer">
                                     </div>
   
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Correct Answer</label>
-                                      <input type="password" class="form-control" id="a4" name="a4" placeholder="Correct Answer">
+                                      <label for="">Correct Answer</label>
+                                      <input type="text" class="form-control" id="a3" name="a3" placeholder="Correct Answer">
                                     </div>
                                     
                                     <br>
-                                    -------------------------------------------------------------------------------------------------------------------------------
+                                    -------------------------------------------------------------------------------------------------------
                                     <br>
                                     <br>
                                     
                                     <div class="form-group">
-                                      <label for="exampleInputEmail1">Question 5</label>
-                                      <input type="email" class="form-control" id="q1" name="q1" placeholder="Question">
+                                      <label for="">Question 4</label>
+                                      <input type="text" class="form-control" id="q4" name="q4" placeholder="Question">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 1</label>
-                                      <input type="password" class="form-control" id="a51" name="a51" placeholder="Answer">
+                                      <label for="1">Answer 1</label>
+                                      <input type="text" class="form-control" id="a41" name="a41" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 2</label>
-                                      <input type="password" class="form-control" id="a52" name="a52" placeholder="Answer">
+                                      <label for="">Answer 2</label>
+                                      <input type="text" class="form-control" id="a42" name="a42" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 3</label>
-                                      <input type="password" class="form-control" id="a53" name="a53" placeholder="Answer">
+                                      <label for="">Answer 3</label>
+                                      <input type="text" class="form-control" id="a43" name="a43" placeholder="Answer">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Answer 4</label>
-                                      <input type="password" class="form-control" id="a54" name="a54" placeholder="Answer">
+                                      <label for="">Answer 4</label>
+                                      <input type="text" class="form-control" id="a44" name="a44" placeholder="Answer">
                                     </div>
   
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Correct Answer</label>
-                                      <input type="password" class="form-control" id="a5" name="a5" placeholder="Correct Answer">
+                                      <label for="">Correct Answer</label>
+                                      <input type="text" class="form-control" id="a4" name="a4" placeholder="Correct Answer">
+                                    </div>
+                                    
+                                    <br>
+                                   -------------------------------------------------------------------------------------------------------
+                                    <br>
+                                    <br>
+                                    
+                                    <div class="form-group">
+                                      <label for="">Question 5</label>
+                                      <input type="text" class="form-control" id="q5" name="q5" placeholder="Question">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="">Answer 1</label>
+                                      <input type="text" class="form-control" id="a51" name="a51" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="">Answer 2</label>
+                                      <input type="text" class="form-control" id="a52" name="a52" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="">Answer 3</label>
+                                      <input type="text" class="form-control" id="a53" name="a53" placeholder="Answer">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="">Answer 4</label>
+                                      <input type="text" class="form-control" id="a54" name="a54" placeholder="Answer">
+                                    </div>
+  
+                                    <div class="form-group">
+                                      <label for="">Correct Answer</label>
+                                      <input type="text" class="form-control" id="a5" name="a5" placeholder="Correct Answer">
                                     </div>
                                     
                                     <br>

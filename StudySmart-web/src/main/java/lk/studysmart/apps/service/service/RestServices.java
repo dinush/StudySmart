@@ -32,6 +32,7 @@ import lk.studysmart.apps.models.Categories;
 import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.Forumposts;
 import lk.studysmart.apps.models.Message;
+import lk.studysmart.apps.models.Quiz;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
@@ -852,7 +853,18 @@ public class RestServices {
         
     }
         
-            
+    @GET
+    @Path("questions/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Quiz> getQuestions(@PathParam("subjectid") String subjectid,
+            @Context HttpServletRequest request){
+    
+        List<Quiz> quizes = em.createNamedQuery("Quiz.findBySubject")
+                .setParameter("subject", subjectid)
+                .getResultList();
+        
+        return quizes;
+    }
 }
     
     

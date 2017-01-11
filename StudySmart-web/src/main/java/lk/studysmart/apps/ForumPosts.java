@@ -36,7 +36,7 @@ import org.json.JSONObject;
  *
  * @author Acer E-15
  */
-@WebServlet(name = "ForumPosts", urlPatterns = {"/ForumPosts"})
+    @WebServlet(name = "ForumPosts", urlPatterns = {"/ForumPosts"})
 public class ForumPosts extends HttpServlet {
 
     
