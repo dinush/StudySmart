@@ -38,8 +38,8 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="teacherQuizMain.jsp">MAnage VLE</a></li>
-            <li><a href="#">Upload quiz file</a></li>
+            <li><a href="teachVLEMUI.jsp">VLE</a></li>
+            <li><a href="#">Upload File</a></li>
         </ol>
         <table border="0">
             <tr>
@@ -51,18 +51,20 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 <ul class="nav nav-tabs">
-                                    <li role="presentation" ><a href="teacherQuizMain.jsp">Create Quiz</a></li>
-                                    <li role="presentation" ><a href="viewQuizMark.jsp">View Marks</a></li>
                                     <li role="presentation" class="active" ><a href="#">Upload File</a></li><br>
                                  </ul>
                                         <br>
                                         <div>
                                           <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
-                                            Quiz Title:<br>
+                                            File Name:<br><br>
                                                 <div class="form-group">
-                                                        <input type="text" size="10px" class="form-control"  name="title" placeholder="Enter Quiz Title Here">
+                                                        <input type="text" size="10px" class="form-control"  name="title" placeholder="Enter file name here">
                                                 </div>
-                                            File:
+                                            Subject:<br><br>
+                                                <div class="form-group">
+                                                        <input type="text" size="10px" class="form-control"  name="title" placeholder="Enter subject here">
+                                                </div>
+                                            File:<br><br>
                                             <input type="file" name="file" id="file" /> <br/>
 
                                             <input type="submit" value="Upload" name="upload" id="/brainTeaseFileUpload" />
