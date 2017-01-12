@@ -56,6 +56,7 @@
                 margin: 4px 2px;
                 cursor: pointer;
                 border-radius: 12px;
+                height: 276px;
             }
             .button4 {
                 background-color: #66b5ff;
