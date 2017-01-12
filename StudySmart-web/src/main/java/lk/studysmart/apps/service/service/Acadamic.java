@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import lk.studysmart.apps.models.Achievement;
 import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
@@ -252,5 +253,18 @@ public class Acadamic {
         }
         
         return root.toString();
+    }
+    
+    @GET
+    @Path("achievements")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Achievement> getAchievementsBySubject(@Context HttpServletRequest request) {
+        User logged_user = (User) request.getSession().getAttribute("user");
+        
+        List<Achievement> achievements = em.createNamedQuery("Achievement.findByStudent")
+                .setParameter("student", logged_user)
+                .getResultList();
+        
+        return achievements;
     }
 }

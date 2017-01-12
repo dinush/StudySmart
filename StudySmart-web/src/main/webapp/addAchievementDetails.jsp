@@ -22,11 +22,21 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script>
+            $(function() {
+                $('#date').datepicker({
+                    
+                });
+            });
+        </script>
 
     <title>StudySmart</title>
 </head>
@@ -49,35 +59,18 @@
                         <div class="row">
                             <div id="main-content" class="col-md-8">
                                 
-                                <form>
-                                    <div class="form-group row">
-                                        <div class="col-lg-2"><b> Grade </b></div>
-                                        <div class="col-lg-4">
-                                            <select name="grade" class="form-control">
-                                                <option value="1">10</option>
-                                                <option value="2">11</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-lg-2"><b> Class </b></div>
-                                        <div class="col-lg-4">
-                                            <select name="class" class="form-control">
-                                                <option value="1">A</option>
-                                                <option value="2">B</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <form action="StudentManager?action=addachievement" method="POST">
+                                    
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
                                         <div class="col-xs-10">
-                                          <input class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                          <input name="stud_name" class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-lg-2"><b> Category </b></div>
                                         <div class="col-lg-4">
-                                            <select name="class" class="form-control">
+                                            <select name="category" class="form-control">
                                                 <option value="1">Academics</option>
                                                 <option value="2">Extra-Curricular</option>
                                             </select>
@@ -87,16 +80,16 @@
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-xs-2 col-form-label"> Date </label>
                                         <div class="col-xs-10">
-                                          <input class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="example-date-input">
+                                          <input id="date" name="date" class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="example-date-input">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                       <label for="exampleInputEmail1">Achievement</label>
-                                      <input type="Achievement" class="form-control" id="InputAchievement" placeholder="Achievement">
+                                      <input name="achive" type="Achievement" class="form-control" id="InputAchievement" placeholder="Achievement">
                                     </div>
                                     <div class="form-group">
                                       <label for="exampleInputPassword1">Description</label>
-                                      <textarea type="Description" class="form-control" id="InputDescription" placeholder="Description"></textarea>
+                                      <textarea name="descrip" type="Description" class="form-control" id="InputDescription" placeholder="Description"></textarea>
                                     </div>
                                    
                              
