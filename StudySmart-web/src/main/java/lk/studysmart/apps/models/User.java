@@ -54,6 +54,9 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Collection<Achievement> achievementCollection;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
+    private Collection<Url> urlCollection;
+
     @OneToMany(mappedBy = "markedby")
     private Collection<AttendanceClass> attendanceClassCollection;
 
@@ -290,6 +293,24 @@ public class User implements Serializable {
 
     public void setAchievementCollection(Collection<Achievement> achievementCollection) {
         this.achievementCollection = achievementCollection;
+    }
+
+//    @XmlTransient
+//    public Collection<Quiz> getQuizCollection() {
+//        return quizCollection;
+//    }
+
+//    public void setQuizCollection(Collection<Quiz> quizCollection) {
+//        this.quizCollection = quizCollection;
+//    }
+
+    @XmlTransient
+    public Collection<Url> getUrlCollection() {
+        return urlCollection;
+    }
+
+    public void setUrlCollection(Collection<Url> urlCollection) {
+        this.urlCollection = urlCollection;
     }
     
 }

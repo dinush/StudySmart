@@ -16,6 +16,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import lk.studysmart.apps.models.StudentParent;
+import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,5 +67,29 @@ public class Search {
         
         return jarr.toString();
     }
-
+    
+    /**
+     * Get the child of the parent
+     * (This provides only one child, yet!.)
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("child")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getTermtestMarksOfChild(
+            @Context HttpServletRequest request) {
+        User parent = (User) request.getSession().getAttribute("user");
+        
+        List<StudentParent> students = em.createNamedQuery("StudentParent.findByParentId")
+                .setParameter("parent", parent)
+                .getResultList();
+        
+        if (students.isEmpty())
+            return null;
+        
+        User student = students.get(0).getStudentid();  // Get the first child
+        
+        return student;
+    }
 }

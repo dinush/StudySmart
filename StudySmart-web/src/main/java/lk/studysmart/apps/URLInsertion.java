@@ -5,13 +5,10 @@
  */
 package lk.studysmart.apps;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,23 +16,29 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import lk.studysmart.apps.models.Quiz;
+import lk.studysmart.apps.models.Subject;
+import lk.studysmart.apps.models.Url;
+import lk.studysmart.apps.models.User;
 
 /**
  *
  * @author Kaveesh
  */
-@WebServlet(name = "FileUploadServlet", urlPatterns = {"/brainTeaseFileUpload"})
-@MultipartConfig
-public class BrainTeaserFileUpload extends HttpServlet {
+@WebServlet(name = "URLInsertion", urlPatterns = {"/UrlInsertion"})
+public class URLInsertion extends HttpServlet {
     
-    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
+     @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU");
 
     @Resource
@@ -44,6 +47,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
     @PersistenceContext
     EntityManager em;
 
+    protected User user;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,63 +60,49 @@ public class BrainTeaserFileUpload extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-    // Create path components to save the file
-    final String path = "c://tmp";
-    File fpath = new File(path);
-    if (!fpath.exists())
-        fpath.mkdir();
-    final String title = request.getParameter("title");
-    final Part filePart = request.getPart("file");
-    final String fileName = getFileName(filePart);
-
-    OutputStream out = null;
-    InputStream filecontent = null;
-    final PrintWriter writer = response.getWriter();
-
-    try {
-        System.out.println(path);
-        File fin = new File(path + File.separator + fileName);
-        if (!fin.exists())
-            fin.createNewFile();
-        out = new FileOutputStream(new File(path + File.separator
-                + fileName));
-        filecontent = filePart.getInputStream();
-
-        int read = 0;
-        final byte[] bytes = new byte[1024];
-
-        while ((read = filecontent.read(bytes)) != -1) {
-            //writer.println("read " + String.valueOf(read) + " bytes");
-            out.write(bytes, 0, read);
+        
+        //Get userID 
+        user = (User) request.getSession().getAttribute("user");
+        
+        //Getting data from frontend to Servlet
+        String subjectid = request.getParameter("subject");
+        Subject subject = em.find(Subject.class, subjectid);
+        String sGrade = request.getParameter("grade");
+        int grade = Integer.valueOf(sGrade);
+        
+        // get URL details
+        String topic = request.getParameter("topic");
+        String link = request.getParameter("link");
+       
+        
+        
+        
+        //set attributes' values to objects
+        Url url1 = new Url();
+        url1.setSubject(subject);
+        url1.setGrade(grade);
+        url1.setTopic(topic);
+        url1.setUrl(link);
+        url1.setUsername(user);
+        
+        //User Transaction
+        try {
+            //trascation
+            utils.Utils.entityValidator(url1);
+            utx.begin();
+            em.persist(url1);
+            utx.commit();
+        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+             Logger.getLogger(URLInsertion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        writer.println("New file " + fileName + " is Saved" );
-    } catch (FileNotFoundException fne) {
-        System.out.print(fne.getLocalizedMessage());
-    } finally {
-        if (out != null) {
-            out.close();
-        }
-        if (filecontent != null) {
-            filecontent.close();
-        }
-        if (writer != null) {
-            writer.close();
-        }
-    }
+        
+        
+        
+        
+        response.sendRedirect("teachVLEMUI.jsp");
+        
     }
 
-    private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
-        }
-    }
-    return null;
-}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

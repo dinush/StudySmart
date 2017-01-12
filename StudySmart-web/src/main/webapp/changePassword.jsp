@@ -25,11 +25,21 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
-        <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-
-
-    </script>
+        <script>
+            function checkPasswordMatch() {
+                var newPass = document.getElementById("new_password").value;
+                var repPass = document.getElementById("repeat_password").value;
+                
+                
+                if (newPass === repPass)
+                    return true;
+                else {
+                    alert("New password and repeat password does not match");
+                    return false;
+                }
+            }
+        </script>
     <title>StudySmart</title>
 </head>
 <body>
@@ -38,8 +48,6 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="teacherQuizMain.jsp">MAnage VLE</a></li>
-            <li><a href="#">Upload quiz file</a></li>
         </ol>
         <table border="0">
             <tr>
@@ -50,30 +58,30 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <ul class="nav nav-tabs">
-                                    <li role="presentation" ><a href="teacherQuizMain.jsp">Create Quiz</a></li>
-                                    <li role="presentation" ><a href="viewQuizMark.jsp">View Marks</a></li>
-                                    <li role="presentation" class="active" ><a href="#">Upload File</a></li><br>
-                                 </ul>
-                                        <br>
-                                        <div>
-                                          <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
-                                            Quiz Title:<br>
-                                                <div class="form-group">
-                                                        <input type="text" size="10px" class="form-control"  name="title" placeholder="Enter Quiz Title Here">
-                                                </div>
-                                            File:
-                                            <input type="file" name="file" id="file" /> <br/>
-
-                                            <input type="submit" value="Upload" name="upload" id="/brainTeaseFileUpload" />
-                                           </form>  
-                                        
-                                       
-                                            
-                                       
-                                            
+                                <% if(request.getParameter("msg") != null) { %>
+                                <script>
+                                    alert("<% out.print(request.getParameter("msg"));%>");
+                                </script>
+                                <% } %>
+                                
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <form action="management?action=changePassword" method="POSt" onsubmit="return checkPasswordMatch()">
+                                        <div class="form-group">
+                                            <label for="current_password">Current Password</label>
+                                            <input type="password" class="form-control" name="current_password" />
                                         </div>
-                               
+                                        <div class="form-group">
+                                            <label for="new_password">New Password</label>
+                                            <input type="password" class="form-control" name="new_password" id="new_password"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="repeat_password">Repeat Password</label>
+                                            <input type="password" class="form-control" name="repeat_password" id="repeat_password"/>
+                                        </div>
+                                         <input type="submit" class="btn btn-primary" value="Change" />
+                                    </form>
+                                </div>
+                                
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

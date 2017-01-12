@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Subject implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Collection<Url> urlCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private Collection<Assignment> assignmentCollection;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "subject")
@@ -161,6 +164,15 @@ public class Subject implements Serializable {
 
     public void setAssignmentCollection(Collection<Assignment> assignmentCollection) {
         this.assignmentCollection = assignmentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Url> getUrlCollection() {
+        return urlCollection;
+    }
+
+    public void setUrlCollection(Collection<Url> urlCollection) {
+        this.urlCollection = urlCollection;
     }
     
 }

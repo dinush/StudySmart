@@ -40,16 +40,37 @@
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             var barChart = null;
+            var student_username;
+            var student_name;
+            <% if (acc_level == 3) { %>
+                student_username = "<%out.print(user.getUsername());%>";
+                student_name = "<% out.print(user.getName()); %>"
+            <% } %>
 
             $(function () {
                 <% if (acc_level == 3) { %>
-                    getSubjects("<%out.print(user.getUsername());%>");
+                    getSubjects();
+                <% } else if (acc_level == 4) {%>
+                    getSubjectsOfStudent();
                 <% } %>
             });
-
-            function getSubjects(username) {
+            
+            function getSubjectsOfStudent() {
                 $.ajax({
-                    url: "ws/acadamic/subjects/" + username,
+                    url: "ws/search/child",
+                    async: true
+                })
+                        .done(function(data) {
+                            student_username = data.username;
+                            student_name = data.name;
+                            getSubjects();
+                        });
+            }
+
+            function getSubjects() {
+                $('#title_showing_name').html("Showing term test marks for " + student_name);
+                $.ajax({
+                    url: "ws/acadamic/subjects/" + student_username,
                     async: true
                 })
                         .done(function (data) {
@@ -71,7 +92,7 @@
                 tbl.innerHTML = '';
 
                 $.ajax({
-                    url: "ws/acadamic/marks/terms/<%out.print(user.getUsername());%>/" + $('#subject').val(),
+                    url: "ws/acadamic/marks/terms/" + student_username + "/" + $('#subject').val(),
                     async: true
                 })
                         .done(function (data) {
@@ -155,6 +176,8 @@
                                             
                                         </select>
                                     </div>
+                                    <% } else { %>
+                                    <h3 id="title_showing_name"></h3>
                                     <% } %>
 
                                     <div class="flat-panel">

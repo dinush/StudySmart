@@ -70,10 +70,17 @@
                                 <!--adding student registration-->
 
                                 <br>
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
+                                <form name="myform" method="POST" action="Admin?action=register/principal" onsubmit="return validateForm();">
+                                    <div class="form-group row">
+                                        <label for="username" class="col-xs-2 col-form-label">Username<span style="color:#cc0000;">*</span></label>
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="text" placeholder="Unique username of the new user" name="username" id="username" />
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Name<span style="color:#cc0000;"> *</span></label>
-                                        <div class="col-xs-10"><input class="form-control" type="text" placeholder="Amanda Baddage" name="nm" id="nm">
+                                        <div class="col-xs-10">
+                                            <input class="form-control" type="text" name="name" id="name">
                                         </div>
                                     </div>
 
@@ -98,7 +105,7 @@
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"><b> *</b></span></label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                            <input class="form-control" type="text" name="address" id="address">
                                         </div>
                                     </div>
 
@@ -112,33 +119,13 @@
                                     <div class="form-group row">
                                         <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="email" placeholder="artisanal@example.com" id="example-email-input">
+                                            <input name="email" class="form-control" type="email" placeholder="example@example.com" id="example-email-input">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput">No. of years in this position</label>
-                                        <input type="text" class="form-control"  id="formGroupExampleInput" placeholder="5" style="width:510px; margin-left:108px">
-                                    </div>
-                                    <div class="bootstrap-iso">
-
-                                        <div class="form-group row">
-                                            <label for="example-date-input" class="col-xs-2 col-form-label" style="margin-left:0px;">Working in our school since </label>
-                                            <div class="col-xs-10">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar-check-o">
-                                                        </i>
-                                                    </div>
-                                                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
 
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Qualifications </label>
-                                        <textarea type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
+                                        <textarea name="qualification" type="Description" class="form-control" id="InputDescription" style="margin-left:107px; width:510px;" placeholder="01. Qualification 1"></textarea>
                                     </div>
 
 

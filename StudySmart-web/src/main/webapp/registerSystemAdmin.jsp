@@ -71,12 +71,18 @@
                                 <!--adding student registration-->
 
                                 <br>
-                                <form name="myform" method="post" action="#" onsubmit="return validateForm();">
+                                <form name="myform" method="POST" action="Admin?action=register/admin" onsubmit="return validateForm();">
+                                    <div class="form-group row">
+                                        <label for="username" class="col-xs-2 col-form-label">Username <span style="color:#cc0000;">*</span></label>
+                                        <div class="col-xs-10">
+                                            <input name="username" id="username" class="form-control" type="text" />
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="example-text-input" class="col-xs-2 col-form-label">Name <span style="color:#cc0000;"> *</span></label>
                                         <div class="col-xs-10">
 
-                                            <input class="form-control" type="text" placeholder="Amanda Baddage" name="nm" id="nm">
+                                            <input class="form-control" type="text" name="name" id="name">
                                         </div>
                                     </div>
 
@@ -92,7 +98,7 @@
                                     <br>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">NIC <span style="color:#cc0000;"> *</span></label>
+                                        <label for="nic" class="col-xs-2 col-form-label">NIC <span style="color:#cc0000;"> *</span></label>
                                         <div class="col-xs-10">
 
                                             <input class="form-control" type="text" placeholder="XXXXXXXXXV" name="nic" id="nic">
@@ -100,43 +106,20 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="address" class="col-xs-2 col-form-label">Address <span style="color:#cc0000;"><b> *</b></span></label>
                                         <div class="col-xs-10">
-                                            <input class="form-control" type="text" placeholder="Peterson Lane, Col 05" name="add" id="add">
+                                            <input class="form-control" type="text" name="address" id="address">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone <span style="color:#cc0000;"><b> *</b></span></label>
+                                        <label for="tp" class="col-xs-2 col-form-label">Telephone <span style="color:#cc0000;"><b> *</b></span></label>
                                         <div class="col-xs-10">
                                             <input class="form-control" type="tel" placeholder="0XX-XXXXXXX" name="tp" id="tp">
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput">No. of years in this position:</label>
-                                        <input type="text" class="form-control"  id="formGroupExampleInput" placeholder="5" style="width:510px; margin-left:108px">
-                                    </div>
-                                    <div class="bootstrap-iso">
-
-                                        <div class="form-group row">
-                                            <label for="example-date-input" class="col-xs-2 col-form-label">Teaching since </label>
-                                            <div class="col-xs-10">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar-check-o">
-                                                        </i>
-                                                    </div>
-                                                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
                                     <br>
-
-
                                     <button type="submit" class="btn btn-primary" style="margin-left:520px;"><h4> Register</h4> </button>
                                 </form>
                                 <!-- finishing student registration-->

@@ -94,7 +94,7 @@
                             for (var i=0; i < data.length; i++) {
                                 var row = "<tr>";
                                 row += "<td><a href='ViewAssignmentMarks.jsp?assignment="+data[i].name+"'>" + data[i].name + "</a></td>";
-                                row += "<td>" + data[i].date + "</td>";
+                                row += "<td>" + (data[i].date !== undefined ? data[i].date : "") + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
                                 assignmentid = data[0].name;

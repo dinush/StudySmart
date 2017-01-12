@@ -80,6 +80,8 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
+                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item active">Discussion Forum</li>
             </ol>
             <table border="0">
                 <tr>
@@ -111,7 +113,7 @@
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
-                                                    <h4 class="modal-title" id="myModalLabel"><span style="color:#9370DB">Forum Etiquette</span></h4>
+                                                    <h4 class="modal-title" id="myModalLabel"><span style="color:#336699">Forum Etiquette</span></h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <%@ include file="WEB-INF/jspf/ForumRules.jspf" %>
