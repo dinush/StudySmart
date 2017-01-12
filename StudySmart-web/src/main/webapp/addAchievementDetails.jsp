@@ -22,11 +22,21 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script>
+            $(function() {
+                $('#date').datepicker({
+                    
+                });
+            });
+        </script>
 
     <title>StudySmart</title>
 </head>
@@ -70,7 +80,7 @@
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-xs-2 col-form-label"> Date </label>
                                         <div class="col-xs-10">
-                                          <input name="date" class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="example-date-input">
+                                          <input id="date" name="date" class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="example-date-input">
                                         </div>
                                     </div>
                                     <div class="form-group">
