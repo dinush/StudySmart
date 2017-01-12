@@ -64,7 +64,8 @@ public class QuizInsertion extends HttpServlet {
         
         //Getting data from frontend to Servlet
         String subjectid = request.getParameter("subject");
-        int grade = Integer.getInteger(request.getParameter("grade"));
+        String sGrade = request.getParameter("grade");
+        int grade = Integer.valueOf(sGrade);
         
         // get Q1 details
         String q1 = request.getParameter("q1");
@@ -210,7 +211,7 @@ public class QuizInsertion extends HttpServlet {
              Logger.getLogger(QuizInsertion.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
+        response.sendRedirect("teachVLEMUI.jsp");
         
     }
 
