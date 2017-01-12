@@ -27,6 +27,40 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
     </script>
+    <script>
+        function getResources(){
+            var subjectid = "002";
+            
+            $.ajax({
+                    url: "ws/rest/questions/" + subjectid,
+                    async: true
+                })
+                        .done(function (data) {
+                            var qpanel = document.getElementById("resource_panel");
+                            var pbody = "";
+                            for(var i=0; i < data.length; i++) {
+                                var presen = "<h3>" + data[i].question + "</h3>";
+                                presen += "<ul class='qlist'><li>" + data[i].option1 + "</li>";
+                                presen += "<li>" + data[i].option2 + "</li>";
+                                presen += "<li>" + data[i].option3 + "</li>";
+                                presen += "<li>" + data[i].option4 + "</li>";
+                                presen += "</ul>";
+                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div>";
+                                console.log(presen);
+                                
+                                pbody += presen;
+                            }
+                            
+                            qpanel.innerHTML = pbody;
+                        });
+            
+        }
+        
+        $(function() {
+            getResources();
+        })
+       
+    </script>
     <title>StudySmart</title>
 </head>
 <body>
@@ -35,7 +69,6 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="#">VLE</a></li>
         </ol>
         <table border="0">
             <tr>
@@ -45,11 +78,11 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-12">
-                                <a href="teachQuizMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Create Quiz</button></a>
-                                <a href="uploadFile.jsp" ><button type="button" class="btn btn-primary btn-lg" >Upload a File</button></a>
-                                 <a href="teachURLInsertMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Insert a URL</button></a>
-                            </div>   
+                            <div id="main-content" class="col-md-8">
+                            
+                            <div id="resource_panel"></div>
+                                
+                            </div>
                         </div>
                     </div>
                 </td>

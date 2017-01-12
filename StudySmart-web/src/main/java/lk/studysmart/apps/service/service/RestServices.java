@@ -877,9 +877,10 @@ public class RestServices {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Quiz> getQuestions(@PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request){
-    
-        List<Quiz> quizes = em.createNamedQuery("Quiz.findBySubject")
+        User student = (User) request.getSession().getAttribute("user");
+        List<Quiz> quizes = em.createNamedQuery("Quiz.findByGradeAndSubject")
                 .setParameter("subject", subjectid)
+                .setParameter("grade",student.getClass1().getGrade())
                 .getResultList();
         
         return quizes;

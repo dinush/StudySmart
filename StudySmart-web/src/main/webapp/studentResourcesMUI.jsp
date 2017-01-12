@@ -58,7 +58,7 @@
                                 <table>
                                     <tr>
                                         <td><a href="uploadBrainTeaseQuiz.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
                                         <td><a href="#"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td> 
                                     </tr>
                                     <tr>
