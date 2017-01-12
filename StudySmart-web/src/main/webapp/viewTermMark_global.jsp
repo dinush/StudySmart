@@ -118,13 +118,14 @@
                             var elem_stat = document.getElementById("elem_stat");
                             elem_stat.innerHTML = '';
                             for( var i=0 ; i<stats.length ; i++ ) {
-                                var elem = "<div class='col-md-4 white-block'>";
-                                elem += "<h4>Term " + stats[i].term + "</h4>";
-                                elem += "Mean: <b>" + stats[i].mean + "</b><br />";
-                                elem += "Standard Deviation: <b>" + stats[i].standard_deviation + "</b><br>";
-                                elem += "Maximum: <b>" + stats[i].max + "</b><br>";
-                                elem += "Minimum: <b>" + stats[i].min + "</b><br>";
-                                elem += "</div>";
+                                var elem = "<div class='panel panel-default'>";
+                                elem += "<div class=\"panel-heading\">Term " + stats[i].term + "</div>";
+                                elem += "<table class=\"table\">";
+                                elem += "<tr><td>Mean: <b>" + stats[i].mean + "</b></td></tr>";
+                                elem += "<tr><td>Standard Deviation: <b>" + stats[i].standard_deviation + "</b></td></tr>";
+                                elem += "<tr><td>Maximum: <b>" + stats[i].max + "</b></td></tr>";
+                                elem += "<tr><td>Minimum: <b>" + stats[i].min + "</b></td></tr>";
+                                elem += "</table>";
                                 elem_stat.innerHTML += elem;
                             }
                             var data = {
@@ -222,7 +223,7 @@
                                 </div>
                                 
                                 <!--Statistics-->
-                                <div class="well" style="margin-top: 10px; height: 275px;">
+                                <div class="well" style="margin-top: 10px;">
                                     <h3>Statistics</h3>
                                     <hr>
                                     <div id="elem_stat">
