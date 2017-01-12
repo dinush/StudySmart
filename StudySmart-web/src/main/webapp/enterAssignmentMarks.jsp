@@ -136,31 +136,41 @@
                                     <strong>Error : </strong> ${fn:escapeXml(param.msg)}
                                 </div>
                                 <% }%>
-                                <form class="form-inline" method="POST" action="StudentManager?action=assignmentMarksSave">
+                                
+                                <form class="form-horizontal" method="POST" action="StudentManager?action=assignmentMarksSave">
                                     <div class="form-group">
-                                        <label for="exampleInputName2" style="margin-left:90px;">Assignment Name: </label>
-                                        <input required name="name" type="text" class="form-control" id="exampleInputName2" placeholder="Assignment I">
+                                        <label for="name" class="col-sm-4 control-label">Assignment Name: </label>
+                                        <div class="col-sm-8">
+                                            <input required name="name" type="text" class="form-control" id="name">
+                                        </div>
                                     </div>
                                     <br />
                                     <div class="form-group">
-                                        <label for="max"  style="margin-left:0px;">Total Marks for the Assignment: </label>
-                                        <input required name="max" type="number" value="100" onchange="checkMax(this)" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
+                                        <label for="max"  class="col-sm-4 control-label">Maximum marks for this Assignment: </label>
+                                        <div class="col-sm-8">
+                                            <input required name="max" type="number" value="100" onchange="checkMax(this)" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
+                                        </div>
                                     </div>
                                     <br />
-                                    <div class="col-lg-3">
-                                        <select id="class" name="class" class="form-control" onchange="loadSubjects()">
+                                    <div class="col-sm-6">
+                                        <label for="class" class="col-sm-6 col-form-label">Class:</label>
+                                        <select id="class" name="class" class="col-sm-6 form-control" onchange="loadSubjects()">
                                             <c:forEach var="teach" items="${teaches}">
                                                 <option value="${teach.getClass1().getId()}">Grade ${teach.getClass1().getGrade()} ${teach.getClass1().getSubclass()}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
 
-                                    <div class="col-lg-3">
-                                        <select id="subject" name="subject" class="form-control" onchange="loadStudents()">
+                                    <div class="col-sm-6">
+                                        <label for="class" class="col-sm-6 col-form-label">Subject:</label>
+                                        <select id="subject" name="subject" class="col-sm-6 form-control" onchange="loadStudents()">
                                         </select>
                                     </div>
+                                    
+                                    <hr>
+                                    <br/>
 
-
+                                    <h4>Showing list of students:</h4>
                                     <!--students should be loaded to the table below-->
 
                                     <table class="table table-striped">
