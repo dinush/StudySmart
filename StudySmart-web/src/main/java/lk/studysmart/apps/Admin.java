@@ -111,6 +111,16 @@ public class Admin extends HttpServlet {
                 registerTeacher(request, response);
             }
             break;
+            case "register/principal": {
+                try {
+                    registerPrincipal(request);
+                    response.sendRedirect("index.jsp?msg=User registered");
+                } catch (HeuristicRollbackException | RollbackException | HeuristicMixedException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("index.jsp?msg=" + ex.getLocalizedMessage());
+                }
+            }
+            break;
             case "news/general": {
                 addGeneralNews(request);
                 response.sendRedirect("index.jsp?msg=News Added Successfully");
@@ -276,6 +286,28 @@ public class Admin extends HttpServlet {
         try {
             response.sendRedirect("index.jsp?msg=User registration successfull");
         } catch (IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void registerPrincipal(HttpServletRequest request) throws HeuristicRollbackException, RollbackException, HeuristicMixedException, SecurityException, IllegalStateException, SystemException, NotSupportedException {
+        User principal = new User();
+        principal.setUsername(request.getParameter("username"));
+        principal.setName(request.getParameter("name"));
+        principal.setGender(request.getParameter("gender"));
+        principal.setNic(request.getParameter("nic"));
+        principal.setAddress(request.getParameter("address"));
+        principal.setPhone(request.getParameter("tp"));
+        principal.setEmail(request.getParameter("email"));
+        principal.setQualifications(request.getParameter("qualification"));
+        principal.setPassword("123");
+        principal.setLevel(1);
+        
+        utx.begin();
+        em.persist(principal);
+        try {
+            utx.commit();
+        } catch (HeuristicRollbackException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
