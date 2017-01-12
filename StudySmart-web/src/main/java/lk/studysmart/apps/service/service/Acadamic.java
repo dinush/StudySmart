@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import lk.studysmart.apps.models.Achievement;
 import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
@@ -135,7 +136,7 @@ public class Acadamic {
             jobj.put("subjectid", assignment.getSubject().getIdSubject());
             jobj.put("classid", class2.getId());
             jobj.put("max", assignment.getMax());
-            jobj.put("date", utils.Utils.getFormattedDateString(assignment.getDate()));
+            jobj.put("date", ( assignment.getDate() != null ? utils.Utils.getFormattedDateString(assignment.getDate()) : null ));
             jarr.put(jobj);
         }
         
@@ -242,7 +243,7 @@ public class Acadamic {
             jAssign.put("name", oneAssign.getAssignment().getName());
             jAssign.put("subject", oneAssign.getAssignment().getSubject().getName());
             jAssign.put("max", oneAssign.getAssignment().getMax());
-            jAssign.put("date", utils.Utils.getFormattedDateString(oneAssign.getAssignment().getDate()));
+            jAssign.put("date", oneAssign.getAssignment().getDate() != null ? utils.Utils.getFormattedDateString(oneAssign.getAssignment().getDate()) : null);
             jAssign.put("marks", oneAssign.getMark());
             jAssign.put("max_marks", oneAssign.getAssignment().getMax());
             jAssign.put("comment", oneAssign.getComment());
@@ -252,5 +253,18 @@ public class Acadamic {
         }
         
         return root.toString();
+    }
+    
+    @GET
+    @Path("achievements")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Achievement> getAchievementsBySubject(@Context HttpServletRequest request) {
+        User logged_user = (User) request.getSession().getAttribute("user");
+        
+        List<Achievement> achievements = em.createNamedQuery("Achievement.findByStudent")
+                .setParameter("student", logged_user)
+                .getResultList();
+        
+        return achievements;
     }
 }

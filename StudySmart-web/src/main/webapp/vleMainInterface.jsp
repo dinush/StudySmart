@@ -105,7 +105,7 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="#" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>Student Collaboration</font></a></td>
+                                      <td><a href="studentResourceView.jsp" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>External Resources&nbsp;&nbsp;&nbsp;</font></a></td>
                                       <td><a href="#" class="button2"><img src="images/teacher.png" align="right" style="width:320px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
                                      <tr>

@@ -36,8 +36,8 @@
     <title>StudySmart</title>
 </head>
 <body  style="background-color" >
-    <div class="container"  style="background-color:#66b5ff" >
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+    <div class="container"  style="background-color:" >
+        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -58,7 +58,7 @@
                                 <table>
                                     <tr>
                                         <td><a href="uploadBrainTeaseQuiz.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
                                         <td><a href="#"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td> 
                                     </tr>
                                     <tr>

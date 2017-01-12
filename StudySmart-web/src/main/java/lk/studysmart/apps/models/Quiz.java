@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Quiz.findByOption3", query = "SELECT q FROM Quiz q WHERE q.option3 = :option3"),
     @NamedQuery(name = "Quiz.findByOption4", query = "SELECT q FROM Quiz q WHERE q.option4 = :option4"),
     @NamedQuery(name = "Quiz.findByAnswers", query = "SELECT q FROM Quiz q WHERE q.answers = :answers"),
-    @NamedQuery(name = "Quiz.findByGrade", query = "SELECT q FROM Quiz q WHERE q.grade = :grade")})
+    @NamedQuery(name = "Quiz.findByGrade", query = "SELECT q FROM Quiz q WHERE q.grade = :grade"),
+    @NamedQuery(name = "Quiz.findByGradeAndSubject", query = "SELECT q FROM Quiz q WHERE q.grade = :grade and q.subject = :subject ")
+})
 public class Quiz implements Serializable {
 
     private static final long serialVersionUID = 1L;

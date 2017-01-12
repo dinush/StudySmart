@@ -151,45 +151,51 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">                   
-                                <form onsubmit="return sendPacket()">
-                                    <div style="float: left; margin: 5px;">
-                                        Class:
-                                        <select name="class" class="form-control" id="class" onchange="getSubjects()"></select>
+                            <div id="main-content" class="col-md-8">      
+                                <div class="flat-panel">
+                                    <div class="flat-panel-head">
+                                        Entering term test marks
                                     </div>
-                                    <div style="float: left; margin: 5px;">
-                                        Subject:
-                                        <select name="subject" class="form-control" id="subject" onchange="getStudents()"></select>
-                                    </div>
-                                    <div style="float: left; margin: 5px;">
-                                        Term:
-                                        <select id="term" name="term" class="form-control" onchange="getStudents()">
-                                            <option value="1">Term 1</option>
-                                            <option value="2">Term 2</option>
-                                            <option value="3">Term 3</option>
-                                        </select>
-                                    </div>
-                                    <br>
-                                    
-                                    <div class="col-md-12">
-                                    <h3>Students and their marks for the term</h3>
-                                    </div>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Student ID</th>
-                                                <th>Student Name</th>
-                                                <th>Marks</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbl">
+                                    <div class="flat-panel-body">
+                                        <form onsubmit="return sendPacket()">
+                                            <div style="float: left; margin: 5px;">
+                                                Class:
+                                                <select name="class" class="form-control" id="class" onchange="getSubjects()"></select>
+                                            </div>
+                                            <div style="float: left; margin: 5px;">
+                                                Subject:
+                                                <select name="subject" class="form-control" id="subject" onchange="getStudents()"></select>
+                                            </div>
+                                            <div style="float: left; margin: 5px;">
+                                                Term:
+                                                <select id="term" name="term" class="form-control" onchange="getStudents()">
+                                                    <option value="1">Term 1</option>
+                                                    <option value="2">Term 2</option>
+                                                    <option value="3">Term 3</option>
+                                                </select>
+                                            </div>
+                                            <br>
 
-                                        </tbody>
-                                    </table>
-                                    <button type="submit" class="btn btn-default">Save</button>
+                                            <div class="col-md-12">
+                                                <h3>Students and their marks for the term</h3>
+                                            </div>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Student ID</th>
+                                                        <th>Student Name</th>
+                                                        <th>Marks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbl">
 
-                                </form>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" class="btn btn-primary col-sm-offset-8" style="width:100px;">Save</button>
 
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>

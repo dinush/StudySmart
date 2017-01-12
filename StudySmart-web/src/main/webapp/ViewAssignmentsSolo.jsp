@@ -40,21 +40,39 @@
         <script src="js/Chart/Chart.js"></script>
         <script type = "text/javascript" >
             var barChart = null;
+            var student_username;
+            var student_name;
+            <% if (user.getLevel() == 3) { %>
+                student_username = "<% out.print(user.getUsername()); ; %>";
+                student_name = "<% out.print(user.getName()); %>";
+            <% } %>
 
             $(function () {
-                getSubjects();
+                <% if (user.getLevel() == 3) { %>
+                    getSubjects();
+                <% } else if (user.getLevel() == 4) { %>
+                    getSubjectsOfStudent();
+                <% } %>
             });
             
-            var username;
-            <% if( acc_level == 3 ) { %>    
-                username = '<% out.print(user.getUsername()); %>';
-            <% } %>
             var subjectid;
             var assignmentid;
+            
+            function getSubjectsOfStudent() {
+                $.ajax({
+                    url: "ws/search/child",
+                    async: true
+                })
+                        .done(function(data) {
+                            student_username = data.username;
+                            student_name = data.name;
+                            getSubjects();
+                        });
+            }
 
             function getSubjects() {
                 $.ajax({
-                    url: "ws/acadamic/subjects/" + username,
+                    url: "ws/acadamic/subjects/" + student_username,
                     async: true
                 })
                         .done(function (data) {
@@ -73,7 +91,7 @@
                 var chartLabels = [];
                 var chartValues = [];
                 $.ajax({
-                    url: "ws/acadamic/assignments/" + username + "/subject/" + subjectid,
+                    url: "ws/acadamic/assignments/" + student_username + "/subject/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
@@ -88,7 +106,7 @@
                                 var row = "<tr>";
                                 row += "<td>" + data[i].name + "</td>";
                                 row += "<td>" + ((data[i].marks/data[i].max_marks)*100).toFixed(2) + "%</td>";
-                                row += "<td>" + data[i].date + "</td>";
+                                row += "<td>" + (data[i].date !== undefined ? data[i].date : "") + "</td>";
                                 row += "<td>" + data[i].comment + "</td>";
                                 row += "<td>" + data[i].author_name + "</td>";
                                 row += "</tr>";
