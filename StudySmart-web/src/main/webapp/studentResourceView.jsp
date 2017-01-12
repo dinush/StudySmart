@@ -36,17 +36,12 @@
                     async: true
                 })
                         .done(function (data) {
+                            console.log(data);
                             var qpanel = document.getElementById("resource_panel");
                             var pbody = "";
                             for(var i=0; i < data.length; i++) {
-                                var presen = "<h3>" + data[i].question + "</h3>";
-                                presen += "<ul class='qlist'><li>" + data[i].option1 + "</li>";
-                                presen += "<li>" + data[i].option2 + "</li>";
-                                presen += "<li>" + data[i].option3 + "</li>";
-                                presen += "<li>" + data[i].option4 + "</li>";
-                                presen += "</ul>";
-                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div>";
-                                console.log(presen);
+                                var presen = "<h3>" + data[i].topic + "</h3>";
+                                presen += "<h4>" + data[i].url + "</h4>";
                                 
                                 pbody += presen;
                             }

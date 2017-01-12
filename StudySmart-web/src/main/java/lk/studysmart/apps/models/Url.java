@@ -17,26 +17,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kaveesh
+ * @author dinush
  */
-//Queries 
 @Entity
 @Table(name = "url")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Url.findAll", query = "SELECT u FROM Url u"),
-    @NamedQuery(name = "Url.findByIdURL", query = "SELECT u FROM Url u WHERE u.idURL = :idURL"),
-    @NamedQuery(name = "Url.findByGrade", query = "SELECT u FROM Url u WHERE u.grade = :grade"),
-    @NamedQuery(name = "Url.findByTopic", query = "SELECT u FROM Url u WHERE u.topic = :topic"),
-    @NamedQuery(name = "Url.findByUrl", query = "SELECT u FROM Url u WHERE u.url = :url"),
-    @NamedQuery(name = "Url.findByGradeAndSubject", query = "SELECT u FROM Url u WHERE u.grade = :grade and u.subject = :subject")
-})
+    @NamedQuery(name = "Url.findAll", query = "SELECT u FROM Url u")
+    , @NamedQuery(name = "Url.findByIdURL", query = "SELECT u FROM Url u WHERE u.idURL = :idURL")
+    , @NamedQuery(name = "Url.findByGrade", query = "SELECT u FROM Url u WHERE u.grade = :grade")
+    , @NamedQuery(name = "Url.findByTopic", query = "SELECT u FROM Url u WHERE u.topic = :topic")
+    , @NamedQuery(name = "Url.findByUrl", query = "SELECT u FROM Url u WHERE u.url = :url")
+    , @NamedQuery(name = "Url.findByGradeAndSubject", query = "SELECT u FROM Url u WHERE u.grade = :grade and u.subject = :subject")})
 public class Url implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,25 +42,19 @@ public class Url implements Serializable {
     @Basic(optional = false)
     @Column(name = "idURL")
     private Integer idURL;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "grade")
-    private int grade;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    private Integer grade;
+    @Size(max = 255)
     @Column(name = "topic")
     private String topic;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 300)
+    @Size(max = 255)
     @Column(name = "url")
     private String url;
     @JoinColumn(name = "subject", referencedColumnName = "idSubject")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Subject subject;
     @JoinColumn(name = "username", referencedColumnName = "username")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User username;
 
     public Url() {
@@ -71,13 +62,6 @@ public class Url implements Serializable {
 
     public Url(Integer idURL) {
         this.idURL = idURL;
-    }
-
-    public Url(Integer idURL, int grade, String topic, String url) {
-        this.idURL = idURL;
-        this.grade = grade;
-        this.topic = topic;
-        this.url = url;
     }
 
     public Integer getIdURL() {
@@ -88,11 +72,11 @@ public class Url implements Serializable {
         this.idURL = idURL;
     }
 
-    public int getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 

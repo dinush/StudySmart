@@ -890,16 +890,27 @@ public class RestServices {
     @GET
     @Path("resources/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Url> getResources(@PathParam("subjectid") String subjectid,
+    public String getResources(@PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request){
         User student = (User) request.getSession().getAttribute("user");
         Subject subject = em.find(Subject.class, subjectid);
-        List<Url> urls = em.createNamedQuery( "Url.findByGradeAndSubject")
+        List<Url> urls = em.createNamedQuery("Url.findByGradeAndSubject")
                 .setParameter("subject", subject)
                 .setParameter("grade",student.getClass1().getGrade())
                 .getResultList();
         
-        return urls;
+        JSONArray jsonArray = new JSONArray();
+        for (int i=0 ; i < urls.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("subject", urls.get(i).getSubject().getName());
+            jsonObject.put("id", urls.get(i).getIdURL());
+            jsonObject.put("topic", urls.get(i).getTopic());
+            jsonObject.put("url", urls.get(i).getUrl());
+            
+            jsonArray.put(jsonObject);
+        }
+        
+        return jsonArray.toString();
     }
 }
     
