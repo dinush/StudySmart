@@ -38,6 +38,7 @@ import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TeacherTeaches;
 import lk.studysmart.apps.models.TermMarks;
+import lk.studysmart.apps.models.Url;
 import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -880,10 +881,25 @@ public class RestServices {
         User student = (User) request.getSession().getAttribute("user");
         List<Quiz> quizes = em.createNamedQuery("Quiz.findByGradeAndSubject")
                 .setParameter("subject", subjectid)
-                .setParameter("grade",student.getClass1().getGrade())
+                .setParameter("grade", student.getClass1().getGrade())
                 .getResultList();
         
         return quizes;
+    }
+    
+    @GET
+    @Path("resources/{subjectid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Url> getResources(@PathParam("subjectid") String subjectid,
+            @Context HttpServletRequest request){
+        User student = (User) request.getSession().getAttribute("user");
+        Subject subject = em.find(Subject.class, subjectid);
+        List<Url> urls = em.createNamedQuery( "Url.findByGradeAndSubject")
+                .setParameter("subject", subject)
+                .setParameter("grade",student.getClass1().getGrade())
+                .getResultList();
+        
+        return urls;
     }
 }
     

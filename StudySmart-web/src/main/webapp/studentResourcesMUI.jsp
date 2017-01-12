@@ -36,8 +36,8 @@
     <title>StudySmart</title>
 </head>
 <body  style="background-color" >
-    <div class="container"  style="background-color:#66b5ff" >
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+    <div class="container"  style="background-color:" >
+        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
