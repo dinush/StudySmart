@@ -30,6 +30,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import lk.studysmart.apps.models.Achievement;
 import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Attendance;
@@ -352,6 +353,37 @@ public class StudentManager extends HttpServlet {
                 } catch (ParseException ex) {
                     Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            break;
+            case "addachievement": {
+                String stud_nameid = request.getParameter("stud_name");
+                String categ = request.getParameter("category");
+                String dateid = request.getParameter("date");
+                String achiveid = request.getParameter("achive");
+                String descripid = request.getParameter("descrip");
+                
+                User student = em.find(User.class, stud_nameid);
+                
+                Achievement ach = new Achievement();
+                ach.setCategory(categ);
+            try {
+                Date date = utils.Utils.stringToDate(dateid);
+                ach.setDate(date);
+                ach.setDescription(descripid);
+                ach.setStudent(student);
+                ach.setTitle(achiveid);
+                
+                try {
+                    utx.begin();
+                    em.persist(ach);
+                    utx.commit();
+                }   catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            } catch (ParseException ex) {
+                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
             }
             break;
             default:
