@@ -136,61 +136,66 @@
                                     <strong>Error : </strong> ${fn:escapeXml(param.msg)}
                                 </div>
                                 <% }%>
-                                
-                                <form class="form-horizontal" method="POST" action="StudentManager?action=assignmentMarksSave">
-                                    <div class="form-group">
-                                        <label for="name" class="col-sm-4 control-label">Assignment Name: </label>
-                                        <div class="col-sm-8">
-                                            <input required name="name" type="text" class="form-control" id="name">
-                                        </div>
+                                <div class="flat-panel">
+                                    <div class="flat-panel-head">
+                                        Entering assignment marks
                                     </div>
-                                    <br />
-                                    <div class="form-group">
-                                        <label for="max"  class="col-sm-4 control-label">Maximum marks for this Assignment: </label>
-                                        <div class="col-sm-8">
-                                            <input required name="max" type="number" value="100" onchange="checkMax(this)" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
-                                        </div>
+                                    <div class="flat-panel-body">
+                                        <form class="form-horizontal" method="POST" action="StudentManager?action=assignmentMarksSave">
+                                            <div class="form-group">
+                                                <label for="name" class="col-sm-4 control-label">Assignment Name: </label>
+                                                <div class="col-sm-8">
+                                                    <input required name="name" type="text" class="form-control" id="name">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="max"  class="col-sm-4 control-label">Maximum marks for this Assignment: </label>
+                                                <div class="col-sm-8">
+                                                    <input required name="max" type="number" value="100" onchange="checkMax(this)" class="form-control" id="max" placeholder="Max marks allowed" value="<% out.print((request.getAttribute("max") != null ? request.getAttribute("max") : ""));%>">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="col-sm-6">
+                                                <label for="class" class="col-sm-6 col-form-label">Class:</label>
+                                                <select id="class" name="class" class="col-sm-6 form-control" onchange="loadSubjects()">
+                                                    <c:forEach var="teach" items="${teaches}">
+                                                        <option value="${teach.getClass1().getId()}">Grade ${teach.getClass1().getGrade()} ${teach.getClass1().getSubclass()}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <label for="class" class="col-sm-6 col-form-label">Subject:</label>
+                                                <select id="subject" name="subject" class="col-sm-6 form-control" onchange="loadStudents()">
+                                                </select>
+                                            </div>
+
+                                            <hr>
+                                            <br/>
+
+                                            <h4>Showing list of students:</h4>
+                                            <!--students should be loaded to the table below-->
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Student Name</th>
+                                                        <th>Marks Obtained</th>
+                                                        <th>Marks %</th>
+                                                        <th>Comment</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="table-body">
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <button type="submit" class="btn btn-primary col-sm-offset-9" style="width:100px;">Submit</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <br />
-                                    <div class="col-sm-6">
-                                        <label for="class" class="col-sm-6 col-form-label">Class:</label>
-                                        <select id="class" name="class" class="col-sm-6 form-control" onchange="loadSubjects()">
-                                            <c:forEach var="teach" items="${teaches}">
-                                                <option value="${teach.getClass1().getId()}">Grade ${teach.getClass1().getGrade()} ${teach.getClass1().getSubclass()}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label for="class" class="col-sm-6 col-form-label">Subject:</label>
-                                        <select id="subject" name="subject" class="col-sm-6 form-control" onchange="loadStudents()">
-                                        </select>
-                                    </div>
-                                    
-                                    <hr>
-                                    <br/>
-
-                                    <h4>Showing list of students:</h4>
-                                    <!--students should be loaded to the table below-->
-
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Student Name</th>
-                                                <th>Marks Obtained</th>
-                                                <th>Marks %</th>
-                                                <th>Comment</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
-                                    <div>
-                                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
-                                    </div>
-                                </form>
-
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
