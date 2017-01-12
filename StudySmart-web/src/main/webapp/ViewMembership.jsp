@@ -28,33 +28,7 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-        <%-- <script>
-            function getAchievements() {
-                $.ajax({
-                    url: "ws/acadamic/achievements",
-                    async: true
-                }) .done(function(data) {
-                    var tbl = document.getElementById("tbl_data");
-                    
-                    for(var i=0; i < data.length; i++) {
-                        var row = tbl.insertRow(-1);
-                        var date_cell = row.insertCell(0);
-                        var achievements_cell = row.insertCell(1);
-                        var description_cell = row.insertCell(2);
-                        
-                        date_cell.innerHTML = data[i].date.split("T")[0];
-                        achievements_cell.innerHTML = data[i].title;
-                        description_cell.innerHTML = data[i].description;
-                    }
-                    
-                    
-                });
-            }
-            
-            $(function() {
-                getAchievements();
-            });
-        </script> --%>
+
     <title>StudySmart</title>
 </head>
 <body>
