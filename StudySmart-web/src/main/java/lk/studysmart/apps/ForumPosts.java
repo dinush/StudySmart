@@ -94,9 +94,25 @@ public class ForumPosts extends HttpServlet {
         forum.setPost(mypost);
         forum.setCatid(cat);
         
+        lk.studysmart.apps.models.Message msg = new lk.studysmart.apps.models.Message();
+        
+        boolean seen = false;
+        String d = utils.Utils.getFormattedDateString(mydate);
+        String content = user.getName() + "posted a reply on the discussion on" + mysubject + "under " + mylesson + "on" + d + "@" + time;
+        
+        msg.setSeen(seen);
+        msg.setContent(content);
+        msg.setAddedtime(time);
+        msg.setAddeddate(mydate);
+        msg.setAddeduser(user);
+        lk.studysmart.apps.models.Class2 cls = em.find(lk.studysmart.apps.models.Class2.class, Integer.parseInt(myclass));
+        msg.setClass1(cls);
+        msg.setType(4);
+        
         try {
             utx.begin();
             em.persist(forum);
+            em.persist(msg);
             utx.commit();
         
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
