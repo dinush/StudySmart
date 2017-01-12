@@ -32,7 +32,7 @@
             var subjectid = "002";
             
             $.ajax({
-                    url: "ws/rest/questions/" + subjectid,
+                    url: "ws/rest/resources/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
@@ -58,14 +58,15 @@
         
         $(function() {
             getResources();
-        })
+        });
        
     </script>
-    <title>StudySmart</title>
+    <title>StudySmart</title>   
 </head>
 <body>
     <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
+     
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
