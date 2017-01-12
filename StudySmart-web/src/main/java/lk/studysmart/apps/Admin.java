@@ -121,6 +121,16 @@ public class Admin extends HttpServlet {
                 }
             }
             break;
+            case "register/admin": {
+            try {
+                registerAdmin(request);
+                response.sendRedirect("index.jsp?msg=User registered");
+            } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("index.jsp?msg=Error: " + ex.getLocalizedMessage());
+            }
+            }
+            break;
             case "news/general": {
                 addGeneralNews(request);
                 response.sendRedirect("index.jsp?msg=News Added Successfully");
@@ -310,6 +320,23 @@ public class Admin extends HttpServlet {
         } catch (HeuristicRollbackException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void registerAdmin(HttpServletRequest request) throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException, NotSupportedException {
+        User admin = new User();
+        
+        admin.setLevel(0);
+        admin.setPassword("123");
+        admin.setUsername(request.getParameter("username"));
+        admin.setName(request.getParameter("name"));
+        admin.setGender(request.getParameter("gender"));
+        admin.setNic(request.getParameter("nic"));
+        admin.setAddress(request.getParameter("address"));
+        admin.setPhone(request.getParameter("tp"));
+        
+        utx.begin();
+        em.persist(admin);
+        utx.commit();
     }
     
     private void addGeneralNews(HttpServletRequest request) {
