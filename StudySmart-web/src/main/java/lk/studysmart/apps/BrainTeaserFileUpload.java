@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,7 +27,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import lk.studysmart.apps.models.Subject;
+import lk.studysmart.apps.models.Upload;
+import lk.studysmart.apps.models.User;
 
 /**
  *
@@ -44,7 +54,8 @@ public class BrainTeaserFileUpload extends HttpServlet {
     @PersistenceContext
     EntityManager em;
 
-
+    User user;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -58,14 +69,15 @@ public class BrainTeaserFileUpload extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        user = (User) request.getSession().getAttribute("user");
+        
     // Create path components to save the file
-    final String path = "c://tmp";
+    final String path = "/home/dinush/";
     File fpath = new File(path);
     if (!fpath.exists())
         fpath.mkdir();
-    final String title = request.getParameter("title");
     final Part filePart = request.getPart("file");
-    final String fileName = getFileName(filePart);
+    final String fileName = request.getParameter("filename");
 
     OutputStream out = null;
     InputStream filecontent = null;
@@ -87,6 +99,22 @@ public class BrainTeaserFileUpload extends HttpServlet {
             //writer.println("read " + String.valueOf(read) + " bytes");
             out.write(bytes, 0, read);
         }
+        
+        // Save details in DB
+        Subject subject = em.find(Subject.class, request.getParameter("subject"));
+        Upload upload = new Upload();
+        upload.setUser(user);
+        upload.setSubject(subject);
+        upload.setFilename(fileName);
+        
+        try {
+            utx.begin();
+            em.persist(upload);
+            utx.commit();
+        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+            Logger.getLogger(BrainTeaserFileUpload.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         writer.println("New file " + fileName + " is Saved" );
     } catch (FileNotFoundException fne) {
         System.out.print(fne.getLocalizedMessage());
