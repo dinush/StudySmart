@@ -16,10 +16,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import lk.studysmart.apps.models.StudentParent;
+import lk.studysmart.apps.models.Internalresources;
 import lk.studysmart.apps.models.Subject;
-import lk.studysmart.apps.models.Upload;
-import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,17 +32,32 @@ public class Resources {
     private EntityManager em;
     
     @GET
-    @Path("get/internal/{subjectid}/")
+    @Path("get/list/internal/{subjectid}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Upload> getInternalResources(@PathParam("subjectid") String subjectid,
+    public String getInternalResources(@PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request) {
         
         Subject subject = em.find(Subject.class, subjectid);
         
-        List<Upload> upload = em.createNamedQuery("Upload.findBySubject")
+        JSONArray jarray = new JSONArray();
+        
+        List<Internalresources> resources = em.createNamedQuery("Resource.findBySubject")
                 .setParameter("subject", subject)
                 .getResultList();
         
-        return upload;
+        for ( int i=0; i < resources.size(); i++ ){
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", resources.get(i).getId());
+            jobj.put("uploader_username", resources.get(i).getUser().getUsername());
+            jobj.put("uploader_name", resources.get(i).getUser().getName());
+            jobj.put("subject_id", resources.get(i).getSubject().getIdSubject());
+            jobj.put("subject_name", resources.get(i).getSubject().getName());
+            jobj.put("filename", resources.get(i).getFilename());
+            jobj.put("description", resources.get(i).getDescription());
+            
+            jarray.put(jobj);
+        }
+        
+        return jarray.toString();
     }
 }
