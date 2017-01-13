@@ -28,8 +28,27 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
-
-    </script>
+        <script>
+            function getSubjects() {
+                var subject_select = document.getElementById("subject");
+                $.ajax({
+                    url: "ws/rest/subjects/all",
+                    async: true
+                })
+                        .done (function(data) {
+                            var subjects_html = "";
+                            for (var i=0; i < data.length; i++) {
+                                var subject_html = "<option value='" + data[i].id + "'>Grade " + data[i].grade + " " + data[i].name + "</option>";
+                                subjects_html += subject_html;
+                            }
+                            subject_select.innerHTML = subjects_html;
+                        });
+            }
+            
+            $(function() {
+                getSubjects();
+            });
+        </script>
     <title>StudySmart</title>
 </head>
 <body>
@@ -62,7 +81,9 @@
                                                 </div>
                                             Subject:<br><br>
                                                 <div class="form-group">
-                                                        <input type="text" size="10px" class="form-control"  name="subject" placeholder="Enter subject here">
+                                                    <select id="subject" name="subject" class="form-control">
+                                                        
+                                                    </select>
                                                 </div>
                                             File:<br><br>
                                             <input type="file" name="file" id="file" /> <br/>
