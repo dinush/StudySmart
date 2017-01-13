@@ -299,7 +299,7 @@ public class RestServices {
     @GET
     @Path("teacher/{teacherid}/subjects/{classid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTeachingSubjects(@PathParam("teacherid") String teacherid, @PathParam("classid") Integer classid, @Context HttpServletRequest request) {
+    public String getTeachingSubjectsByClass(@PathParam("teacherid") String teacherid, @PathParam("classid") Integer classid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -321,6 +321,33 @@ public class RestServices {
             jarray.put(jobj);
         }
         return jarray.toString();
+    }
+    
+    @GET
+    @Path("teacher/{teacherid}/subjects")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSubjectsTaughtByATeacher(
+            @PathParam("teacherid") String teacherid,
+            @Context HttpServletRequest request
+    ) 
+    {
+        User teacher = em.find(User.class, teacherid);
+        
+        List<TeacherTeaches> teaches = em.createNamedQuery("TeacherTeaches.findByUser")
+                .setParameter("user", teacher)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for (int i=0; i < teaches.size(); i++) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", teaches.get(i).getSubjectId().getIdSubject());
+            jobj.put("name", teaches.get(i).getSubjectId().getName());
+            jobj.put("grade", teaches.get(i).getSubjectId().getGrade());
+            
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
     }
 
     /**
