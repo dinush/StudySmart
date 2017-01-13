@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Upload.findAll", query = "SELECT u FROM Upload u")
     , @NamedQuery(name = "Upload.findById", query = "SELECT u FROM Upload u WHERE u.id = :id")
+    , @NamedQuery(name = "Upload.findBySubject", query = "SELECT u FROM Upload u WHERE u.subject = :subject")
     , @NamedQuery(name = "Upload.findByFilename", query = "SELECT u FROM Upload u WHERE u.filename = :filename")})
 public class Upload implements Serializable {
 

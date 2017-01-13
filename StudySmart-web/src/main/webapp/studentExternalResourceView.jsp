@@ -32,11 +32,21 @@
             var subjectid = "002";
             
             $.ajax({
-                    url: "ws/resources/get/internal/" + subjectid,
+                    url: "ws/rest/resources/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
+                            console.log(data);
+                            var qpanel = document.getElementById("resource_panel");
+                            var pbody = "";
+                            for(var i=0; i < data.length; i++) {
+                                var presen = "<h3>" + data[i].topic + "</h3>";
+                                presen += "<h4>" + data[i].url + "</h4>";
+                                
+                                pbody += presen;
+                            }
                             
+                            qpanel.innerHTML = pbody;
                         });
             
         }
@@ -65,15 +75,9 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <table id="resource_table">
-                                    <thead>
-                                    <th>Filename</th>
-                                    <th>Uploaded person name</th>
-                                    </thead>
-                                    <tbody id="resource_table_body">
-                                        
-                                    </tbody>
-                                </table>
+                            
+                            <div id="resource_panel"></div>
+                                
                             </div>
                         </div>
                     </div>
