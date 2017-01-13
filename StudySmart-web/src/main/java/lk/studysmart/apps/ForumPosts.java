@@ -98,9 +98,10 @@ public class ForumPosts extends HttpServlet {
         
         boolean seen = false;
         String d = utils.Utils.getFormattedDateString(mydate);
-        String content = user.getName() + "posted a reply on the discussion on" + mysubject + "under " + mylesson + "on" + d + "@" + time;
+        String content = user.getName() + " posted a reply on the discussion on" + mysubject + "under " + mylesson + "on" + d + "@" + time;
         
         msg.setSeen(seen);
+        msg.setTitle("New forum post on " + mysubject);
         msg.setContent(content);
         msg.setAddedtime(time);
         msg.setAddeddate(mydate);

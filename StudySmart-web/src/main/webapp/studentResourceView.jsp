@@ -29,14 +29,24 @@
     </script>
     <script>
         function getResources(){
-            var subjectid = "002";
+            var subjectid = "005";
             
             $.ajax({
                     url: "ws/resources/get/internal/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
-                            
+                            console.log(JSON.stringify(data));
+                            var tbl_body = document.getElementById("resource_table_body");
+                            for (var i=0 ; i < data.length; i++) {
+                                var row = tbl_body.insertRow(-1);
+                                
+                                var cell_filename = row.insertCell(0);
+                                var cell_uploaded_person = row.insertCell(1);
+                                
+                                cell_filename.innerHTML = data[i].filename;
+                                cell_uploaded_person.innerHTML = data[i].user.name;
+                            }
                         });
             
         }
@@ -65,10 +75,10 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <table id="resource_table">
+                                <table id="resource_table" class="table">
                                     <thead>
-                                    <th>Filename</th>
-                                    <th>Uploaded person name</th>
+                                        <th>Filename</th>
+                                        <th>Uploaded person name</th>
                                     </thead>
                                     <tbody id="resource_table_body">
                                         

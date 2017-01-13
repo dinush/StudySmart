@@ -12,6 +12,10 @@
         <servlet-name>QuizInsertion</servlet-name>
         <servlet-class>lk.studysmart.apps.QuizInsertion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Download</servlet-name>
+        <servlet-class>lk.studysmart.apps.Download</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Categories</servlet-name>
         <url-pattern>/Categories</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>QuizInsertion</servlet-name>
         <url-pattern>/QuizInsertion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Download</servlet-name>
+        <url-pattern>/Download</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

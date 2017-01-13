@@ -24,7 +24,7 @@
 </script>
 <div class="page-header">
     <div id="page-title">
-        <h1 style="float: left;">Study Smart <small><i>VLE</i></small>  </h1><img src="images/atom.gif" height="48" width="54" style="float:left; margin-top: 10px;"/>
+        <img src="images/logo-big.png" height="120" width="151" style="float:left;"/><h1 style="float: left; margin-top: 60px;"><small><i>VLE</i></small>  </h1><img src="images/atom.gif" height="48" width="54" style="float:left; margin-top: 60px;"/>
     </div>                
     <div class="user-details">
         Signed in as:
