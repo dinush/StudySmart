@@ -62,8 +62,9 @@ public class Downloader extends HttpServlet {
         
         ServletOutputStream writer = response.getOutputStream();
         
-        response.setContentType("APPLICATION/OCTET-STREAM");
+        response.setContentType("application/pdf");
         response.setHeader("Content-Disposition","attachment; filename=\"" + resource.getFilename() + "\"");
+        response.setContentLength((int) resource.getBlob().length);
         
         writer.write(resource.getBlob());
         writer.flush();
