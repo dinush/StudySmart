@@ -47,7 +47,8 @@
                                 var cell_filename = row.insertCell(0);
                                 var cell_uploaded_person = row.insertCell(1);
                                 
-                                cell_filename.innerHTML = data[i].filename;
+                                cell_filename.innerHTML = "<a href='downloader?fileid=" + data[i].id + "'>"
+                                                            + data[i].filename + "</a>";
                                 cell_uploaded_person.innerHTML = data[i].uploader_name;
                             }
                         });
