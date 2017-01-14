@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Message.findByTargettime", query = "SELECT m FROM Message m WHERE m.targettime = :targettime ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByAddeddate", query = "SELECT m FROM Message m WHERE m.addeddate = :addeddate ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByAddedtime", query = "SELECT m FROM Message m WHERE m.addedtime = :addedtime ORDER BY m.addeddate DESC, m.addedtime DESC"),
-    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type ORDER BY m.addeddate DESC ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByUserlevel", query = "SELECT m FROM Message m WHERE m.userlevel = :userlevel ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByGrade", query = "SELECT m FROM Message m WHERE m.grade = :grade ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByClass", query = "SELECT m FROM Message m WHERE m.class1 = :class2 ORDER BY m.addeddate DESC, m.addedtime DESC"),
