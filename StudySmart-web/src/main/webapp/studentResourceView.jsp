@@ -45,10 +45,12 @@
                                 var row = tbl_body.insertRow(-1);
                                 
                                 var cell_filename = row.insertCell(0);
-                                var cell_uploaded_person = row.insertCell(1);
+                                var cell_description = row.insertCell(1);
+                                var cell_uploaded_person = row.insertCell(2);
                                 
                                 cell_filename.innerHTML = "<a href='downloader?fileid=" + data[i].id + "'>"
                                                             + data[i].filename + "</a>";
+                                cell_description.innerHTML = data[i].description !== undefined ? data[i].description : " ";
                                 cell_uploaded_person.innerHTML = data[i].uploader_name;
                             }
                         });
@@ -82,6 +84,7 @@
                                 <table id="resource_table" class="table">
                                     <thead>
                                         <th>Filename</th>
+                                        <th>Description</th>
                                         <th>Uploaded person name</th>
                                     </thead>
                                     <tbody id="resource_table_body">
