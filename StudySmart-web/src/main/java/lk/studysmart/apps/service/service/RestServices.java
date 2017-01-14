@@ -323,6 +323,12 @@ public class RestServices {
         return jarray.toString();
     }
     
+    /**
+     * Get the subjects taught by a teacher
+     * @param teacherid
+     * @param request
+     * @return 
+     */
     @GET
     @Path("teacher/{teacherid}/subjects")
     @Produces(MediaType.APPLICATION_JSON)
