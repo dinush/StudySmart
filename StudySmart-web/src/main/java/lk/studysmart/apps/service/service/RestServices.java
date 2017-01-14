@@ -383,6 +383,35 @@ public class RestServices {
 
         return jarr.toString();
     }
+    
+    @GET
+    @Path("subjects/student/{studentid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSubjectsByStudent(
+            @PathParam("studentid") String studentid,
+            @Context HttpServletRequest request
+    ) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        User student = em.find(User.class, studentid);
+        
+        List<StudentSubject> studentSubjects = em.createNamedQuery("StudentSubject.findByUser")
+                .setParameter("user", student)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for (StudentSubject stu_sub : studentSubjects) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", stu_sub.getSubjectId().getIdSubject());
+            jobj.put("name", stu_sub.getSubjectId().getName());
+            jobj.put("grade", stu_sub.getSubjectId().getGrade());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
 
     /**
      * Get subject which are related to the given class
