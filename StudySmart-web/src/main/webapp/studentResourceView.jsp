@@ -29,10 +29,13 @@
     </script>
     <script>
         function getResources(){
-            var subjectid = "005";
+        <% if (request.getParameter("subject") == null) { %>
+                window.location = "index.jsp?msg=No subject selected";
+        <% } %>
+            var subjectid = "<% out.print(request.getParameter("subject")); %>";
             
             $.ajax({
-                    url: "ws/resources/get/internal/" + subjectid,
+                    url: "ws/resources/get/list/internal/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
@@ -45,7 +48,7 @@
                                 var cell_uploaded_person = row.insertCell(1);
                                 
                                 cell_filename.innerHTML = data[i].filename;
-                                cell_uploaded_person.innerHTML = data[i].user.name;
+                                cell_uploaded_person.innerHTML = data[i].uploader_name;
                             }
                         });
             

@@ -41,7 +41,7 @@ public class Resources {
         
         JSONArray jarray = new JSONArray();
         
-        List<Internalresources> resources = em.createNamedQuery("Resource.findBySubject")
+        List<Internalresources> resources = em.createNamedQuery("Internalresources.findBySubject")
                 .setParameter("subject", subject)
                 .getResultList();
         

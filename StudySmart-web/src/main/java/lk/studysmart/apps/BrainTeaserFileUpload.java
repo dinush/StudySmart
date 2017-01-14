@@ -31,8 +31,7 @@ import javax.transaction.UserTransaction;
 import lk.studysmart.apps.models.Internalresources;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.User;
-import sun.misc.IOUtils;
-import sun.nio.ch.IOUtil;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -73,7 +72,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
 
         InputStream filecontent = filePart.getInputStream();
         
-        byte[] bytes = IOUtils.readFully(filecontent, 0, true);
+        byte[] bytes = IOUtils.readFully(filecontent, Integer.valueOf(Long.toString(filePart.getSize())));
 
         Subject subject = em.find(Subject.class, request.getParameter("subject"));
         
