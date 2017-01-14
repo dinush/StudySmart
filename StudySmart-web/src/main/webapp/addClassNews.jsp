@@ -100,12 +100,12 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                                <!--class specific news-->
-                                <h3><b><i><u> Add Class-Specific Announcements </u></i></b></h3>
-                                <br>
                                 <form onsubmit="return sendPacket()">
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            Class specific announcements
+                                        </div>
+                                        <div class="flat-panel-body">
                                             <h3 class="panel-title">
                                                 <div class="form-group">
                                                     <label for="class" >Class: </label>
@@ -118,8 +118,6 @@
                                                     <input type="text" name="date" class="form-control" id="date" placeholder="">
                                                 </div>
                                             </h3>
-                                        </div>
-                                        <div class="panel-body">
                                             <div class="form-group">
                                                 <label for="title">Title: </label>
                                                 <input type="text" class="form-control" id="title" name="title"     placeholder="Title">
@@ -132,7 +130,7 @@
                                                 <label for="urls">Urls:</label>
                                                 <input type="text" name="urls" id="urls" class="form-control" placeholder="Optional"/>
                                             </div>
-                                            <button type="submit" class="btn btn-primary" style="float: right"><h4> Submit</h4> </button>
+                                            <button type="submit" class="btn btn-primary">Finish</button>
                                         </div>
                                     </div>
                                     
