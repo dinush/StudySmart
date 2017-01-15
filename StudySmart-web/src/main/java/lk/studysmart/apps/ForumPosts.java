@@ -97,7 +97,9 @@ public class ForumPosts extends HttpServlet {
         lk.studysmart.apps.models.Message msg = new lk.studysmart.apps.models.Message();
         
         boolean seen = false;
+        String newstitle = "Discussion";   
         String d = utils.Utils.getFormattedDateString(mydate);
+
         String content = user.getName() + " posted a reply on the discussion on " + mysubject + " under " + mylesson + " on " + d + "@" + time;
         
         msg.setSeen(seen);
@@ -105,6 +107,7 @@ public class ForumPosts extends HttpServlet {
         msg.setContent(content);
         msg.setAddedtime(time);
         msg.setAddeddate(mydate);
+        msg.setTitle(newstitle);
         msg.setAddeduser(user);
         lk.studysmart.apps.models.Class2 cls = em.find(lk.studysmart.apps.models.Class2.class, Integer.parseInt(myclass));
         msg.setClass1(cls);

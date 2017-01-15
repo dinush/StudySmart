@@ -784,7 +784,23 @@ public class RestServices {
 
         return Utils.msgsToJsonArray(publicMsgs, null).toString();
     }
-
+    
+    @DELETE
+    @Path("deletemsgs/{msgid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deleteMessages(@PathParam("msgid") Integer msgid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }else{
+            Message m = em.find(Message.class, msgid);
+            
+            em.remove(m);
+            return "deleted";
+        }
+        
+    }
+    
     /**
      * Get all subjects
      *

@@ -20,6 +20,7 @@ import lk.studysmart.apps.models.Achievement;
 import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Membership;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
@@ -266,5 +267,18 @@ public class Acadamic {
                 .getResultList();
         
         return achievements;
+    }
+    
+     @GET
+    @Path("membership")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
+    public List<Membership> getMembershipBySubject(@Context HttpServletRequest request) {
+        User logged_user = (User) request.getSession().getAttribute("user");
+        
+        List<Membership> membership = em.createNamedQuery("Membership.findByStudent")
+                .setParameter("student", logged_user)
+                .getResultList();
+        
+        return membership;
     }
 }

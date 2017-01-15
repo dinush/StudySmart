@@ -64,6 +64,8 @@
         
         <li role="presentation"><a href="teachVLEMUI.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
+        <li role="presentation"><a href="textEditor.jsp">Text Editor</a></li>
+
             <% } %>
 
         <% if (acc_level > 0) { %>
@@ -85,11 +87,11 @@
                 <li role="presentation"><a href="viewTermMark.jsp">View Term Test Marks</a></li>
                 <li role="presentation"><a href="ViewAssignmentsSolo.jsp">View Assignment Marks</a></li>
                 <li role="presentation"><a href="ViewAchivementStu.jsp">View Achivement </a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Membership </a></li>
+                <li role="presentation"><a href="ViewMembership.jsp">View Membership </a></li>
                 <% } else { %>
                 <li role="presentation"><a href="ViewAssignments.jsp">View Assignment Marks</a></li>
                 <li role="presentation"><a href="ViewAchivementStu.jsp">View Achivement </a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Membership </a></li>
+                <li role="presentation"><a href="ViewMembership.jsp">View Membership </a></li>
                 <% } %>
             </ul>
         </li>
