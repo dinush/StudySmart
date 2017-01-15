@@ -99,6 +99,10 @@
                                     alert("<% out.print(request.getParameter("msg"));%>");
                                 </script>
                                 <% } %>
+                                <h3>Remove user <br/>
+                                <small>Click on the user who you want to remove</small>
+                                </h3>
+                                <hr>
                                 <table id="users" cellspacing="0" class="display dataTable">
                                     <thead>
                                         <tr>

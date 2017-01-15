@@ -107,7 +107,8 @@
             html += "active";
         }
         html += "'>";
-        html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
+        if (msg.title !== undefined)
+            html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
         html += "<p class='list-group-item-text'>" + msg.content + "</p>";
         html += "<div style='margin-top:5px;font-size:12px;'>";
         if(msg.target_date !== undefined)
