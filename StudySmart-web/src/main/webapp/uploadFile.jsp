@@ -28,64 +28,83 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
+        <script>
+            function getSubjects() {
+                var subject_select = document.getElementById("subject");
+                $.ajax({
+                    url: "ws/rest/subjects/all",
+                    async: true
+                })
+                        .done(function (data) {
+                            var subjects_html = "";
+                            for (var i = 0; i < data.length; i++) {
+                                var subject_html = "<option value='" + data[i].id + "'>Grade " + data[i].grade + " " + data[i].name + "</option>";
+                                subjects_html += subject_html;
+                            }
+                            subject_select.innerHTML = subjects_html;
+                        });
+            }
 
-    </script>
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="teachVLEMUI.jsp">VLE</a></li>
-            <li><a href="#">Upload File</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                <ul class="nav nav-tabs">
-                                    <li role="presentation" class="active" ><a href="#">Upload File</a></li><br>
-                                 </ul>
-                                        <br>
-                                        <div>
-                                          <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
-                                            File Name:<br><br>
-                                                <div class="form-group">
-                                                        <input type="text" size="10px" class="form-control"  name="filename" placeholder="Enter file name here">
-                                                </div>
-                                            Subject:<br><br>
-                                                <div class="form-group">
-                                                        <input type="text" size="10px" class="form-control"  name="subject" placeholder="Enter subject here">
-                                                </div>
-                                            File:<br><br>
-                                            <input type="file" name="file" id="file" /> <br/>
-
-                                            <input type="submit" value="Upload" name="upload" id="/brainTeaseFileUpload" />
-                                           </form>  
-                                        
-                                       
-                                            
-                                       
-                                            
+            $(function () {
+                getSubjects();
+            });
+        </script>
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="teachVLEMUI.jsp">VLE</a></li>
+                <li><a href="#">Upload File</a></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-8">
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            File upload for subjects
                                         </div>
-                               
-                            </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                        <div class="flat-panel-body">
+                                            <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
+                                                <div class="form-group">
+                                                    <label for="filename">Filename</label>
+                                                    <input type="text" size="10px" class="form-control"  name="filename" placeholder="Enter file name here">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="subject">Subject</label>
+                                                    <select id="subject" name="subject" class="form-control">
+
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="file">File</label>
+                                                    <input type="file" name="file" id="file"/> 
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Finish</button>
+                                            </form>  
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
+    </body>
 </html>

@@ -22,13 +22,69 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <link rel="stylesheet" href="css/selectize.bootstrap2.css"/>
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-
+        <script src="js/selectize.min.js"></script>
+        <script>
+            <% if (user.getLevel() < 3) { %>
+            function getStudents() {
+                $.ajax({
+                    url: "ws/search/students/all",
+                    async: true
+                })
+                        .done(function (data) {
+                            var receivers_sel = document.getElementById("students");
+                            receivers_sel.innerHTML = "<option disabled selected value=''>Select student</option>";
+                            for (var i = 0; i < data.length; i++) {
+                                var row = "<option value='" + data[i].username + "'>" + data[i].name + " (" + data[i].username + ")</option>";
+                                receivers_sel.innerHTML += row;
+                            }
+                            $('#students').selectize({
+                                persist: false,
+                                maxItems: 1
+                            });
+                        });
+            }
+            <% } %>
+            function getMembership() {
+                $.ajax({
+                    <% if (user.getLevel() < 3) { %>
+                    url: "ws/acadamic/membership/" + $('#students').val(),
+                    <% } else { %>
+                    url: "ws/acadamic/membership/",
+                    <% } %>
+                    async: true
+                }) .done(function(data) {
+                    var tbl = document.getElementById("tbl_data");
+                    tbl.innerHTML = "";
+                    for(var i=0; i < data.length; i++) {
+                        var row = tbl.insertRow(-1);
+                        var date_cell = row.insertCell(0);
+                        var membership_cell = row.insertCell(1);
+                        var discription_cell = row.insertCell(2);
+                        
+                        date_cell.innerHTML = data[i].date.split("T")[0];
+                        membership_cell.innerHTML = data[i].title;
+                        discription_cell.innerHTML = data[i].discription;
+                    }
+                    
+                    
+                });
+            }
+            
+            $(function() {
+            <% if (user.getLevel() < 3) { %>
+                getStudents();
+            <% } else { %>
+                getMembership();
+            <% } %>
+            });
+        </script>
     <title>StudySmart</title>
 </head>
 <body>
@@ -51,7 +107,10 @@
                                 <%--   <div class="flat-panel-head">
                                             Category
                                 </div> --%>
-                                <h3>List of Achievement as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
+                                <% if (user.getLevel() < 3) { %>
+                                Select student <select id="students" name="student" onchange="getMembership()"></select>
+                                <% } %>
+                                <h3>List of Membership as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
                                 <div class="row">
                                         <table class="table table-striped">
                                             <thead>

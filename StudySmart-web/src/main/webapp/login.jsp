@@ -28,7 +28,7 @@
     <body>
         <div class="container">
             <div class="page-header">
-                <div id="page-title">
+                <div id="page-title" style="margin-top: 0;">
                     <h1><small>Welcome to</small><br />Study Smart <small>Learning Management System</small></h1>
                 </div>     
             </div>

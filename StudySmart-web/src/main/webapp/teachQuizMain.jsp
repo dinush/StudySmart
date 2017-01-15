@@ -1,4 +1,4 @@
-<%-- 
+    <%-- 
     Document   : index
     Created on : Jun 29, 2016, 8:10:42 PM
     Author     : dinush
@@ -28,219 +28,122 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
+        <script>
+            function getSubjects() {
 
-    
-    
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="index.jsp">Home</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                               
-                                <form method="post" action="QuizInsertion">
-                                <label for="exampleInputEmail1" >Select Subject</label>     
-                                <select class="form-control" id="subject" name="subject" >
-                                    <option value="002">Science</option>
-                                    <option value="001">Maths</option>
-                                    <option value="004">ICT</option>
-                                    <option value="003">English</option>
-                                 </select>
-                                <br>
-                                <br>
-                                <label for="grade">Select grade</label>
-                                <select class="form-control" id="grade" name="grade">
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                </select>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    
-                                    
-                                
-                                    <div class="form-group">
-                                      <label for="">Question 1</label>
-                                      <input type="text" class="form-control" id="q1" name="q1" placeholder="Question">
+                $.ajax({
+                    url: "ws/rest/teacher/<% out.print(user.getUsername());%>/subjects",
+                    async: true
+                })
+                        .done(function (data) {
+                            var select_subject = document.getElementById("subject");
+                            var subjects_html = "";
+                            for (var i = 0; i < data.length; i++) {
+                                var subject_html = "<option value='"
+                                        + data[i].id + "'>Grade "
+                                        + data[i].grade + " "
+                                        + data[i].name + "</option>";
+                                subjects_html += subject_html;
+                            }
+
+                            select_subject.innerHTML = subjects_html;
+                        });
+            }
+
+            $(function () {
+                getSubjects();
+            });
+        </script>
+
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="teachVLEMUI.jsp">VLE</a></li>
+                <li>Create quiz</li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-8">
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            Creating a new quiz
+                                        </div>
+                                        <div class="flat-panel-body">
+                                            <form method="post" action="QuizInsertion" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="subject" class="col-sm-3 control-label">Select Subject</label>     
+                                                    <div class="col-sm-9">
+                                                        <select class="form-control" id="subject" name="subject" >
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="question" class="col-sm-3 control-label">Question</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="question" name="question" placeholder="Question">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="opt1" class="col-sm-3 control-label">Option 1</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="opt1" name="opt1" placeholder="Option 1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="opt2" class="col-sm-3 control-label">Option 2</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="opt2" name="opt2" placeholder="Option 2">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="opt3" class="col-sm-3 control-label">Option 3</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="opt3" name="opt3" placeholder="Option 3">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="opt4" class="col-sm-3 control-label">Option 4</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="opt4" name="opt4" placeholder="Option 4">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="ans" class="col-sm-3 control-label">Correct Answer #</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" class="form-control" id="ans" name="ans" placeholder="Correct answer number" max="4" min="1">
+                                                    </div>
+                                                </div>
+
+                                                <br>
+
+                                                <button type="submit" class="btn btn-primary col-sm-offset-10" style="width: 100px;">Submit</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 1</label>
-                                      <input type="text" class="form-control" id="a11" name="a11" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 2</label>
-                                      <input type="text" class="form-control" id="a12" name="a12" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 3</label>
-                                      <input type="text" class="form-control" id="a13" name="a13" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 4</label>
-                                      <input type="text" class="form-control" id="a14" name="a14" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="">Correct Answer</label>
-                                      <input type="text" class="form-control" id="a1" name="a1" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                    ---------------------------------------------------------------------------------------------------------------------
-                                    <br>
-                                    <br>
-                                    
-                                    <div class="form-group">
-                                      <label for="">Question 2</label>
-                                      <input type="text" class="form-control" id="q2" name="q2" placeholder="Question">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 1</label>
-                                      <input type="text" class="form-control" id="a21" name="a21" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 2</label>
-                                      <input type="text" class="form-control" id="a22" name="a22" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 3</label>
-                                      <input type="text" class="form-control" id="a23" name="a23" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 4</label>
-                                      <input type="text" class="form-control" id="a24" name="a24" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="">Correct Answer</label>
-                                      <input type="text" class="form-control" id="a2" name="a2" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                   ---------------------------------------------------------------------------------------------------------------
-                                    <br>
-                                    <br>
-                                    
-                                    <div class="form-group">
-                                      <label for="">Question 3</label>
-                                      <input type="text" class="form-control" id="q3" name="q3" placeholder="Question">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 1</label>
-                                      <input type="text" class="form-control" id="a31" name="a31" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 2</label>
-                                      <input type="text" class="form-control" id="a32" name="a32" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 3</label>
-                                      <input type="text" class="form-control" id="a33" name="a33" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 4</label>
-                                      <input type="text" class="form-control" id="a34" name="a34" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="">Correct Answer</label>
-                                      <input type="text" class="form-control" id="a3" name="a3" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                    -------------------------------------------------------------------------------------------------------
-                                    <br>
-                                    <br>
-                                    
-                                    <div class="form-group">
-                                      <label for="">Question 4</label>
-                                      <input type="text" class="form-control" id="q4" name="q4" placeholder="Question">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="1">Answer 1</label>
-                                      <input type="text" class="form-control" id="a41" name="a41" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 2</label>
-                                      <input type="text" class="form-control" id="a42" name="a42" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 3</label>
-                                      <input type="text" class="form-control" id="a43" name="a43" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 4</label>
-                                      <input type="text" class="form-control" id="a44" name="a44" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="">Correct Answer</label>
-                                      <input type="text" class="form-control" id="a4" name="a4" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                   -------------------------------------------------------------------------------------------------------
-                                    <br>
-                                    <br>
-                                    
-                                    <div class="form-group">
-                                      <label for="">Question 5</label>
-                                      <input type="text" class="form-control" id="q5" name="q5" placeholder="Question">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 1</label>
-                                      <input type="text" class="form-control" id="a51" name="a51" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 2</label>
-                                      <input type="text" class="form-control" id="a52" name="a52" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 3</label>
-                                      <input type="text" class="form-control" id="a53" name="a53" placeholder="Answer">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="">Answer 4</label>
-                                      <input type="text" class="form-control" id="a54" name="a54" placeholder="Answer">
-                                    </div>
-  
-                                    <div class="form-group">
-                                      <label for="">Correct Answer</label>
-                                      <input type="text" class="form-control" id="a5" name="a5" placeholder="Correct Answer">
-                                    </div>
-                                    
-                                    <br>
-                                   
-                                    
-                                   
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                 </form>
-                                                                               
-                                    
-                            </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
+    </body>
 </html>

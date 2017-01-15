@@ -65,6 +65,8 @@
         
         <li role="presentation"><a href="teachVLEMUI.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
+        <li role="presentation"><a href="textEditor.jsp">Text Editor</a></li>
+
             <% } %>
 
         <% if (acc_level > 0) { %>
@@ -85,12 +87,12 @@
                 <% if (acc_level > 2) { %>
                 <li role="presentation"><a href="viewTermMark.jsp">View Term Test Marks</a></li>
                 <li role="presentation"><a href="ViewAssignmentsSolo.jsp">View Assignment Marks</a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Achivement </a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Membership </a></li>
+                <li role="presentation"><a href="ViewAchivementStu.jsp">View Achievement </a></li>
+                <li role="presentation"><a href="ViewMembership.jsp">View Membership </a></li>
                 <% } else { %>
                 <li role="presentation"><a href="ViewAssignments.jsp">View Assignment Marks</a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Achivement </a></li>
-                <li role="presentation"><a href="ViewAchivementStu.jsp">View Membership </a></li>
+                <li role="presentation"><a href="ViewAchivements.jsp">View Achievements </a></li>
+                <li role="presentation"><a href="ViewMembership.jsp">View Membership </a></li>
                 <% } %>
             </ul>
         </li>
@@ -104,8 +106,9 @@
                 User Management<span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li role="presentation"><a href="registerStudent.jsp">Register Users</a></li>
-                <li role="presentation"><a href="changeUser.jsp">Change Users</a></li>
+                <li role="presentation"><a href="registerStudent.jsp">Register User</a></li>
+                <li role="presentation"><a href="changeUser.jsp">Change User</a></li>
+                <li role="presentation"><a href="removeUser.jsp">Remove User</a></li>
             </ul>
         </li>
         <li role="presentation"><a href="addPublicNews.jsp">Manage Public News</a></li>

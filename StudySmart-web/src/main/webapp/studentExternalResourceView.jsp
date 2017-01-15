@@ -28,40 +28,55 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
     </script>
     <script>
-        function getResources(){
-            var subjectid = "002";
-            
+        function getSubjects() {
             $.ajax({
-                    url: "ws/rest/resources/" + subjectid,
-                    async: true
-                })
-                        .done(function (data) {
-                            console.log(data);
-                            var qpanel = document.getElementById("resource_panel");
-                            var pbody = "";
-                            for(var i=0; i < data.length; i++) {
-                                var presen = "<h3>" + data[i].topic + "</h3>";
-                                presen += "<h4>" + data[i].url + "</h4>";
-                                
-                                pbody += presen;
-                            }
-                            
-                            qpanel.innerHTML = pbody;
-                        });
-            
+                url: "ws/rest/subjects/student/<% out.print(user.getUsername()); %>",
+                async: true
+            })
+                    .done(function(data) {
+                        var subject_select = document.getElementById("subject");
+                        var subjects = "";
+                        for(var i=0; i < data.length; i++) {
+                            var subject = "<option value='" + data[i].id + "'>" + data[i].name + " " + data[i].id + "</option>";
+                            subjects += subject;
+                        }
+                        subject_select.innerHTML = subjects;
+                        getResources();
+                    });
         }
         
-        $(function() {
-            getResources();
+        function getResources() {
+
+            $.ajax({
+                url: "ws/rest/resources/" + $('#subject').val(),
+                async: true
+            })
+                    .done(function (data) {
+                        var resources_elem = document.getElementById("resources");
+                        resources_elem.innerHTML = "";
+                        var resources = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var resource = "<h4>" + data[i].topic + "</h4>";
+                            resource += "<a href='" + data[i].url + "'>" + data[i].url + "</a>";
+                            resource += "<hr>";
+                            resources += resource;
+                        }
+                        resources_elem.innerHTML = resources;
+                    });
+
+        }
+
+        $(function () {
+            getSubjects();
         });
-       
+
     </script>
     <title>StudySmart</title>   
 </head>
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
-     
+
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
@@ -75,9 +90,15 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                            
-                            <div id="resource_panel"></div>
-                                
+
+                                <div class="well">
+                                    <h5>Select the subject</h5>
+                                    <select id="subject" class="form-control" onchange="getResources()"></select>
+                                </div>
+
+                                <div id="resources">
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,6 +106,6 @@
             </tr>
         </table>
     </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
+    <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>

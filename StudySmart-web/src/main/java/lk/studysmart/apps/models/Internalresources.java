@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,14 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author dinush
  */
 @Entity
-@Table(name = "upload")
+@Table(name = "internalresources")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Upload.findAll", query = "SELECT u FROM Upload u")
-    , @NamedQuery(name = "Upload.findById", query = "SELECT u FROM Upload u WHERE u.id = :id")
-    , @NamedQuery(name = "Upload.findBySubject", query = "SELECT u FROM Upload u WHERE u.subject = :subject")
-    , @NamedQuery(name = "Upload.findByFilename", query = "SELECT u FROM Upload u WHERE u.filename = :filename")})
-public class Upload implements Serializable {
+    @NamedQuery(name = "Internalresources.findAll", query = "SELECT i FROM Internalresources i")
+    , @NamedQuery(name = "Internalresources.findById", query = "SELECT i FROM Internalresources i WHERE i.id = :id")
+    , @NamedQuery(name = "Internalresources.findByFilename", query = "SELECT i FROM Internalresources i WHERE i.filename = :filename")
+    , @NamedQuery(name = "Internalresources.findBySubject", query = "SELECT i FROM Internalresources i WHERE i.subject = :subject")
+    , @NamedQuery(name = "Internalresources.findByDescription", query = "SELECT i FROM Internalresources i WHERE i.description = :description")})
+public class Internalresources implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,26 +45,35 @@ public class Upload implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(min = 1, max = 100)
     @Column(name = "filename")
     private String filename;
+    @Size(max = 250)
+    @Column(name = "description")
+    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "filecontent")
+    private byte[] blob;
     @JoinColumn(name = "subject", referencedColumnName = "idSubject")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Subject subject;
     @JoinColumn(name = "user", referencedColumnName = "username")
     @ManyToOne(optional = false)
     private User user;
 
-    public Upload() {
+    public Internalresources() {
     }
 
-    public Upload(Integer id) {
+    public Internalresources(Integer id) {
         this.id = id;
     }
 
-    public Upload(Integer id, String filename) {
+    public Internalresources(Integer id, String filename, byte[] blob) {
         this.id = id;
         this.filename = filename;
+        this.blob = blob;
     }
 
     public Integer getId() {
@@ -79,6 +90,22 @@ public class Upload implements Serializable {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public byte[] getBlob() {
+        return blob;
+    }
+
+    public void setBlob(byte[] blob) {
+        this.blob = blob;
     }
 
     public Subject getSubject() {
@@ -107,10 +134,10 @@ public class Upload implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Upload)) {
+        if (!(object instanceof Internalresources)) {
             return false;
         }
-        Upload other = (Upload) object;
+        Internalresources other = (Internalresources) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -119,7 +146,7 @@ public class Upload implements Serializable {
 
     @Override
     public String toString() {
-        return "lk.studysmart.apps.models.Upload[ id=" + id + " ]";
+        return "lk.studysmart.apps.models.Internalresources[ id=" + id + " ]";
     }
     
 }
