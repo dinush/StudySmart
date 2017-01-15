@@ -57,14 +57,14 @@
                                  
                                 <table>
                                     <tr>
-                                        <td><a href="uploadBrainTeaseQuiz.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="studentResourceView.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td> 
+                                        <td><a href="studentResourceView.jsp?subject=007"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp?subject=002"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp?subject=008"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td> 
                                     </tr>
                                     <tr>
-                                        <td><a href="#"><img src="images/ICT.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/English.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Maths.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp?subject=004"><img src="images/ICT.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp?subject=003"><img src="images/English.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="studentResourceView.jsp?subject=001"><img src="images/Maths.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
                                     </tr>
                                   </table>
 

@@ -39,7 +39,7 @@
                 })
                         .done(function(data) {
                             var students_select = document.getElementById("students");
-                            students_select.innerHTML = ""
+                            students_select.innerHTML = "";
                             var students_html = "";
                             for (var i=0; i < data.length; i++) {
                                 var student_html = "<option name='students' value='" + data[i].username + "'>" + data[i].name + "(" + data[i].username + ")" + "</option>";
