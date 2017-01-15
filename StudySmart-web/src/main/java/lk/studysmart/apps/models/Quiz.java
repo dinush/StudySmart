@@ -23,24 +23,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kaveesh
+ * @author dinush
  */
 @Entity
 @Table(name = "quiz")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Quiz.findAll", query = "SELECT q FROM Quiz q"),
-    @NamedQuery(name = "Quiz.findByIdQuiz", query = "SELECT q FROM Quiz q WHERE q.idQuiz = :idQuiz"),
-    @NamedQuery(name = "Quiz.findBySubject", query = "SELECT q FROM Quiz q WHERE q.subject = :subject"),
-    @NamedQuery(name = "Quiz.findByQuestion", query = "SELECT q FROM Quiz q WHERE q.question = :question"),
-    @NamedQuery(name = "Quiz.findByOption1", query = "SELECT q FROM Quiz q WHERE q.option1 = :option1"),
-    @NamedQuery(name = "Quiz.findByOption2", query = "SELECT q FROM Quiz q WHERE q.option2 = :option2"),
-    @NamedQuery(name = "Quiz.findByOption3", query = "SELECT q FROM Quiz q WHERE q.option3 = :option3"),
-    @NamedQuery(name = "Quiz.findByOption4", query = "SELECT q FROM Quiz q WHERE q.option4 = :option4"),
-    @NamedQuery(name = "Quiz.findByAnswers", query = "SELECT q FROM Quiz q WHERE q.answers = :answers"),
-    @NamedQuery(name = "Quiz.findByGrade", query = "SELECT q FROM Quiz q WHERE q.grade = :grade"),
-    @NamedQuery(name = "Quiz.findByGradeAndSubject", query = "SELECT q FROM Quiz q WHERE q.grade = :grade and q.subject = :subject ")
-})
+    @NamedQuery(name = "Quiz.findAll", query = "SELECT q FROM Quiz q")
+    , @NamedQuery(name = "Quiz.findByIdQuiz", query = "SELECT q FROM Quiz q WHERE q.idQuiz = :idQuiz")
+    , @NamedQuery(name = "Quiz.findByQuestion", query = "SELECT q FROM Quiz q WHERE q.question = :question")
+    , @NamedQuery(name = "Quiz.findByOption1", query = "SELECT q FROM Quiz q WHERE q.option1 = :option1")
+    , @NamedQuery(name = "Quiz.findByOption2", query = "SELECT q FROM Quiz q WHERE q.option2 = :option2")
+    , @NamedQuery(name = "Quiz.findByOption3", query = "SELECT q FROM Quiz q WHERE q.option3 = :option3")
+    , @NamedQuery(name = "Quiz.findByOption4", query = "SELECT q FROM Quiz q WHERE q.option4 = :option4")
+    , @NamedQuery(name = "Quiz.findByAnswers", query = "SELECT q FROM Quiz q WHERE q.answers = :answers")})
 public class Quiz implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +45,6 @@ public class Quiz implements Serializable {
     @Basic(optional = false)
     @Column(name = "idQuiz")
     private Integer idQuiz;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "Subject")
-    private String subject;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 500)
@@ -80,10 +71,9 @@ public class Quiz implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "answers")
     private String answers;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "grade")
-    private int grade;
+    @JoinColumn(name = "Subject", referencedColumnName = "idSubject")
+    @ManyToOne(optional = false)
+    private Subject subject;
     @JoinColumn(name = "username", referencedColumnName = "username")
     @ManyToOne
     private User username;
@@ -95,14 +85,12 @@ public class Quiz implements Serializable {
         this.idQuiz = idQuiz;
     }
 
-    public Quiz(Integer idQuiz, String subject, String question, String option1, String option2, String answers, int grade) {
+    public Quiz(Integer idQuiz, String question, String option1, String option2, String answers) {
         this.idQuiz = idQuiz;
-        this.subject = subject;
         this.question = question;
         this.option1 = option1;
         this.option2 = option2;
         this.answers = answers;
-        this.grade = grade;
     }
 
     public Integer getIdQuiz() {
@@ -111,14 +99,6 @@ public class Quiz implements Serializable {
 
     public void setIdQuiz(Integer idQuiz) {
         this.idQuiz = idQuiz;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getQuestion() {
@@ -169,12 +149,12 @@ public class Quiz implements Serializable {
         this.answers = answers;
     }
 
-    public int getGrade() {
-        return grade;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public User getUsername() {

@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
-        <link rel="stylesheet" href="css/selectize.bootstrap2.css"/>
+        <link rel="stylesheet" href="css/selectize.bootstrap2.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
@@ -31,7 +31,6 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/selectize.min.js"></script>
         <script>
-            <% if (user.getLevel() < 3) { %>
             function getStudents() {
                 $.ajax({
                     url: "ws/search/students/all",
@@ -50,71 +49,73 @@
                             });
                         });
             }
-            <% } %>
-            function getMembership() {
+            function getAchievements() {
                 $.ajax({
-                    <% if (user.getLevel() < 3) { %>
-                    url: "ws/acadamic/membership",
-                    <% } else { %>
-                    url: "ws/acadamic/membership/" + $('#students').val();
-                    <% } %>
+                    url: "ws/acadamic/achievements/" + $('#students').val(),
                     async: true
-                }) .done(function(data) {
+                }).done(function (data) {
                     var tbl = document.getElementById("tbl_data");
-                    
-                    for(var i=0; i < data.length; i++) {
+                    tbl.innerHTML = "";
+                    for (var i = 0; i < data.length; i++) {
                         var row = tbl.insertRow(-1);
                         var date_cell = row.insertCell(0);
-                        var membership_cell = row.insertCell(1);
-                        var discription_cell = row.insertCell(2);
-                        
+                        var achievements_cell = row.insertCell(1);
+                        var description_cell = row.insertCell(2);
+
                         date_cell.innerHTML = data[i].date.split("T")[0];
-                        membership_cell.innerHTML = data[i].title;
-                        discription_cell.innerHTML = data[i].discription;
+                        achievements_cell.innerHTML = data[i].title;
+                        description_cell.innerHTML = data[i].description;
                     }
-                    
-                    
+
+
                 });
             }
-            
-            $(function() {
-            <% if (user.getLevel() < 3) { %>
+
+            $(function () {
                 getStudents();
-            <% } else { %>
-                getMembership();
-            <% } %>
+                getAchievements();
             });
+
+            function printPageArea() {
+                var printContent = document.getElementById("main-content");
+                var WinPrint = window.open('', '', 'width=900,height=650');
+                WinPrint.document.write(printContent.innerHTML);
+                WinPrint.document.close();
+                WinPrint.focus();
+                WinPrint.print();
+                WinPrint.close();
+            }
         </script>
-    <title>StudySmart</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="ViewMembership.jsp">Membership</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-8">
-                                <%--   <div class="flat-panel-head">
-                                            Category
-                                </div> --%>
-                                Select student <select id="students" name="student" onchange="getAchievements()"></select>
-                                <h3>List of Membership as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
-                                <div class="row">
+        <title>StudySmart</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="ViewAchivementStu.jsp">Achievement</a></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-sm-8">
+                                    <%--   <div class="flat-panel-head">
+                                                Category
+                                    </div> --%>
+                                    Select student <select id="students" name="student" onchange="getAchievements()"></select>
+                                    <h3>List of Achievement as of <% out.print(utils.Utils.getFormattedDateString(new Date()));%></h3>
+                                    <div class="row">
                                         <table class="table table-striped">
                                             <thead>
                                                 <%--   <th>Category</th> --%>
                                             <th>Date</th>
-                                            <th>Membership</th>
+                                            <th>Achievement</th>
                                             <th>Description</th>                                       
                                             </thead>
                                             <tbody id="tbl_data">
@@ -122,16 +123,18 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                            <button class="btn btn-success" onclick="printPageArea()"><i>Print PDF</i></button>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                </div>
+
                             </div>
-                            <div class="col-md-4">
-                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
-                            </div>
-                        
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+       
+    </body>
 </html>

@@ -33,6 +33,32 @@ public class Search {
     private EntityManager em;
     
     @GET
+    @Path("students/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllStudents(@Context HttpServletRequest request) {
+        List<User> students = em.createNamedQuery("User.findByLevel")
+                .setParameter("level", 3)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for(User student : students) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("username", student.getUsername());
+            jobj.put("name", student.getName());
+            
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
+    
+    /**
+     * Get user using username.
+     * @param username
+     * @param request
+     * @return 
+     */
+    @GET
     @Path("user/exact/{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public String searchByUsername(@PathParam("username") String username, @Context HttpServletRequest request) {

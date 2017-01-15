@@ -131,12 +131,16 @@
                 <td valign="top" class="table-col-max">
                     <div class="content">
                         <div class="row">
-                            <div id="main-content" class="col-md-8">
+                            <div id="main-content" class="col-md-12">
                                 <% if(request.getParameter("msg") != null) { %>
                                 <script>
                                     alert("<% out.print(request.getParameter("msg"));%>");
                                 </script>
                                 <% } %>
+                                <h3>Change user <br/>
+                                <small>Click on the user who you want to change</small>
+                                </h3>
+                                <hr>
                                 <table id="users" cellspacing="0" class="display dataTable">
                                     <thead>
                                         <tr>
@@ -221,9 +225,6 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                            <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
                     </div>

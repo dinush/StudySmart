@@ -36,8 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Subject.findByGrade", query = "SELECT s FROM Subject s WHERE s.grade = :grade")})
 public class Subject implements Serializable {
 
-    @OneToMany(mappedBy = "subject")
-    private Collection<Upload> uploadCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Collection<Quiz> quizCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Collection<Internalresources> internalresourcesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private Collection<Url> urlCollection;
@@ -179,12 +182,21 @@ public class Subject implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Upload> getUploadCollection() {
-        return uploadCollection;
+    public Collection<Internalresources> getInternalresourcesCollection() {
+        return internalresourcesCollection;
     }
 
-    public void setUploadCollection(Collection<Upload> uploadCollection) {
-        this.uploadCollection = uploadCollection;
+    public void setInternalresourcesCollection(Collection<Internalresources> internalresourcesCollection) {
+        this.internalresourcesCollection = internalresourcesCollection;
+    }
+
+    @XmlTransient
+    public Collection<Quiz> getQuizCollection() {
+        return quizCollection;
+    }
+
+    public void setQuizCollection(Collection<Quiz> quizCollection) {
+        this.quizCollection = quizCollection;
     }
     
 }

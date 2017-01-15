@@ -299,7 +299,7 @@ public class RestServices {
     @GET
     @Path("teacher/{teacherid}/subjects/{classid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTeachingSubjects(@PathParam("teacherid") String teacherid, @PathParam("classid") Integer classid, @Context HttpServletRequest request) {
+    public String getTeachingSubjectsByClass(@PathParam("teacherid") String teacherid, @PathParam("classid") Integer classid, @Context HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -321,6 +321,39 @@ public class RestServices {
             jarray.put(jobj);
         }
         return jarray.toString();
+    }
+    
+    /**
+     * Get the subjects taught by a teacher
+     * @param teacherid
+     * @param request
+     * @return 
+     */
+    @GET
+    @Path("teacher/{teacherid}/subjects")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSubjectsTaughtByATeacher(
+            @PathParam("teacherid") String teacherid,
+            @Context HttpServletRequest request
+    ) 
+    {
+        User teacher = em.find(User.class, teacherid);
+        
+        List<TeacherTeaches> teaches = em.createNamedQuery("TeacherTeaches.findByUser")
+                .setParameter("user", teacher)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for (int i=0; i < teaches.size(); i++) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", teaches.get(i).getSubjectId().getIdSubject());
+            jobj.put("name", teaches.get(i).getSubjectId().getName());
+            jobj.put("grade", teaches.get(i).getSubjectId().getGrade());
+            
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
     }
 
     /**
@@ -348,6 +381,35 @@ public class RestServices {
             jarr.put(jobj);
         }
 
+        return jarr.toString();
+    }
+    
+    @GET
+    @Path("subjects/student/{studentid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSubjectsByStudent(
+            @PathParam("studentid") String studentid,
+            @Context HttpServletRequest request
+    ) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }
+        
+        User student = em.find(User.class, studentid);
+        
+        List<StudentSubject> studentSubjects = em.createNamedQuery("StudentSubject.findByUser")
+                .setParameter("user", student)
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for (StudentSubject stu_sub : studentSubjects) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", stu_sub.getSubjectId().getIdSubject());
+            jobj.put("name", stu_sub.getSubjectId().getName());
+            jobj.put("grade", stu_sub.getSubjectId().getGrade());
+            jarr.put(jobj);
+        }
+        
         return jarr.toString();
     }
 
@@ -722,7 +784,23 @@ public class RestServices {
 
         return Utils.msgsToJsonArray(publicMsgs, null).toString();
     }
-
+    
+    @DELETE
+    @Path("deletemsgs/{msgid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deleteMessages(@PathParam("msgid") Integer msgid,
+            @Context HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "Not authorized";
+        }else{
+            Message m = em.find(Message.class, msgid);
+            
+            em.remove(m);
+            return "deleted";
+        }
+        
+    }
+    
     /**
      * Get all subjects
      *
