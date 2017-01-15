@@ -300,13 +300,36 @@ public class Acadamic {
     @GET
     @Path("membership")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
-    public List<Membership> getMembershipBySubject(@Context HttpServletRequest request) {
+    public List<Membership> getMembershipByLoggedInUser(@Context HttpServletRequest request) {
         User logged_user = (User) request.getSession().getAttribute("user");
         
-        List<Membership> membership = em.createNamedQuery("Membership.findByStudent")
-                .setParameter("student", logged_user)
-                .getResultList();
+        if (logged_user.getLevel() == 4) {
+            StudentParent stu_par = (StudentParent) em.createNamedQuery("StudentParent.findByParentId")
+                    .setParameter("parent", logged_user)
+                    .getResultList().get(0);
+            
+            logged_user = stu_par.getStudentid();
+        }
         
-        return membership;
+        return getMembership(logged_user);
+    }
+    
+    @GET
+    @Path("membership/{studentid}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
+    public List<Membership> getMembershipByLoggedInUser(
+            @PathParam("studentid") String studentid,
+            @Context HttpServletRequest request
+    ) {
+        User student = em.find(User.class, studentid);
+        
+        return getMembership(student);
+    }
+    
+    private List<Membership> getMembership(User requestedUser) {
+        List<Membership> memberships = em.createNamedQuery("Membership.findByStudent")
+                .setParameter("student", requestedUser)
+                .getResultList();
+        return memberships;
     }
 }

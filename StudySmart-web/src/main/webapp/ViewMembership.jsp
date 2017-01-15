@@ -54,14 +54,14 @@
             function getMembership() {
                 $.ajax({
                     <% if (user.getLevel() < 3) { %>
-                    url: "ws/acadamic/membership",
+                    url: "ws/acadamic/membership/" + $('#students').val(),
                     <% } else { %>
-                    url: "ws/acadamic/membership/" + $('#students').val();
+                    url: "ws/acadamic/membership/",
                     <% } %>
                     async: true
                 }) .done(function(data) {
                     var tbl = document.getElementById("tbl_data");
-                    
+                    tbl.innerHTML = "";
                     for(var i=0; i < data.length; i++) {
                         var row = tbl.insertRow(-1);
                         var date_cell = row.insertCell(0);
@@ -107,7 +107,9 @@
                                 <%--   <div class="flat-panel-head">
                                             Category
                                 </div> --%>
-                                Select student <select id="students" name="student" onchange="getAchievements()"></select>
+                                <% if (user.getLevel() < 3) { %>
+                                Select student <select id="students" name="student" onchange="getMembership()"></select>
+                                <% } %>
                                 <h3>List of Membership as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
                                 <div class="row">
                                         <table class="table table-striped">
