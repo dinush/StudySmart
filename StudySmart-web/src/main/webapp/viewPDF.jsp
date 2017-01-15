@@ -12,6 +12,27 @@
         <title>View File</title>
     </head>
     <body>
+<<<<<<< HEAD
+        
+        <%  
+            String id=(request.getParameter("id"));
+            String action=(request.getParameter("action"));
+            if(action =="delete"){
+                    if(action =="delete"){
+                    String value = request.getParameter("id");
+                    int v =Integer.parseInt(value);
+
+                
+                    DBConn dbconn = new DBConn();
+                    Connection conn = dbconn.Connection();
+                    Statement myStatement = conn.createStatement();
+                    String sqlString = "Delete file FROM file_Upload WHERE id = '"+v+"'";
+                    
+                    myStatement.executeUpdate(sqlString);
+                
+            }
+=======
+>>>>>>> c4bd76e8667f5bce0140897072b7183747a92549
 
         <%
             String id = (request.getParameter("id"));
