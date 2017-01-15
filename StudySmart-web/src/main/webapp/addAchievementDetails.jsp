@@ -98,20 +98,7 @@
                                 
                             </div>
                             <div class="col-md-4">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Calendar</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div id="jqxcalendar"></div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">News feed</h3>
-                                    </div>
-                                    <div class="panel-body"></div>
-                                </div>
+                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
                     </div>

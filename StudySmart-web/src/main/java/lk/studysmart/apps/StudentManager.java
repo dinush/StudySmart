@@ -381,6 +381,7 @@ public class StudentManager extends HttpServlet {
                 }   catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                response.sendRedirect("ViewAchivementStu.jsp");
             } catch (ParseException ex) {
                 Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -400,7 +401,7 @@ public class StudentManager extends HttpServlet {
                 Date date = utils.Utils.stringToDate(dateid);
                 mem.setDate(date);
                 mem.setDiscription(descripid);
-                mem.setStudent(stud_nameid);
+                mem.setStudent(student);
                 mem.setTitle(memberid);
                 
                 try {
