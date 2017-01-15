@@ -56,7 +56,7 @@
             });
 
             function printPageArea() {
-                var printContent = document.getElementById("main-content");
+                var printContent = document.getElementById("printingarea");
                 var WinPrint = window.open('', '', 'width=900,height=650');
                 WinPrint.document.write(printContent.innerHTML);
                 WinPrint.document.close();
@@ -87,6 +87,7 @@
                                     <%--   <div class="flat-panel-head">
                                                 Category
                                     </div> --%>
+                                    <div id="printingarea">
                                     <h3>List of Achievement as of <% out.print(utils.Utils.getFormattedDateString(new Date()));%></h3>
                                     <div class="row">
                                         <table class="table table-striped">
@@ -100,6 +101,7 @@
 
                                             </tbody>
                                         </table>
+                                    </div>
                                     </div>
                                             <button class="btn btn-success" onclick="printPageArea()"><i>Print PDF</i></button>
                                 </div>
