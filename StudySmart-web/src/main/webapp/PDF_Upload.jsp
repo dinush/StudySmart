@@ -84,8 +84,8 @@
                                                         <td><center><%out.print(rs.getString("id")); %></center></td>
                                                         <td><center><%out.print(rs.getString("file_name")); %></center></td>
                                                         <td><center><a target="blank" href='viewPDF.jsp?id=<%out.print(rs.getString("id"));%>'>View</a></center></td>
-<!--                                                    <td><center><a target="blank" href='viewPDF.jsp?action=delete&id=<%out.print(rs.getString("id"));%>'>Delete</a></center></td>
-                                                -->
+                                                        <td><center><a target="blank" href='viewPDF.jsp?action=delete&id=<%out.print(rs.getString("id"));%>'>Delete</a></center></td>
+                                                
                                                 </tr>
                                             <%
                                                     }
