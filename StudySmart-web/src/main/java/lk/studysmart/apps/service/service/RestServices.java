@@ -834,9 +834,11 @@ public class RestServices {
     @GET
     @Path("teacherthreads/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getThreads(@PathParam("classid") String classid,
+    public String getThreads(
+            @PathParam("classid") String classid,
             @PathParam("subjectid") String subjectid,
-            @Context HttpServletRequest request) {
+            @Context HttpServletRequest request
+    ) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -869,8 +871,10 @@ public class RestServices {
             JSONArray jarr = new JSONArray();
 
             for (Categories category : categories) {
+                Subject subject = em.find(Subject.class, category.getSubject());
                 JSONObject jobj = new JSONObject();
                 jobj.put("catsubject", category.getSubject());
+                jobj.put("subject_name", subject.getName());
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
@@ -954,15 +958,32 @@ public class RestServices {
     @GET
     @Path("questions/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Quiz> getQuestions(@PathParam("subjectid") String subjectid,
+    public String getQuestions(@PathParam("subjectid") String subjectid,
             @Context HttpServletRequest request){
         User student = (User) request.getSession().getAttribute("user");
-        List<Quiz> quizes = em.createNamedQuery("Quiz.findByGradeAndSubject")
-                .setParameter("subject", subjectid)
-                .setParameter("grade", student.getClass1().getGrade())
+        Subject subject = em.find(Subject.class, subjectid);
+        List<Quiz> quizes = em.createNamedQuery("Quiz.findBySubject")
+                .setParameter("subject", subject)
                 .getResultList();
         
-        return quizes;
+        JSONArray jarr = new JSONArray();
+        for (Quiz quiz : quizes) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("id", quiz.getIdQuiz());
+            jobj.put("subject_id", quiz.getSubject().getIdSubject());
+            jobj.put("subject_name", quiz.getSubject().getName());
+            jobj.put("question", quiz.getQuestion());
+            jobj.put("option1", quiz.getOption1());
+            jobj.put("option2", quiz.getOption2());
+            jobj.put("option3", quiz.getOption3());
+            jobj.put("option4", quiz.getOption4());
+            jobj.put("answer", quiz.getAnswers());
+            jobj.put("user_username", quiz.getUsername().getUsername());
+            jobj.put("user_name", quiz.getUsername().getName());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
     }
     
     @GET

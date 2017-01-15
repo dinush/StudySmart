@@ -141,8 +141,13 @@
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
                 <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
-                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
-                <li class="breadcrumb-item active">Discussion Forum</li>
+                <% if (acc_level <= 2) { %>
+                <li class="breadcrumb-item"><a href="categories.jsp">Discussion Forum</a></li>
+                <% } %>
+                <% if (acc_level == 3) { %>
+                <li class="breadcrumb-item"><a href="studentDiscussions.jsp">Discussion Forum</a></li>
+                <% } %>
+                <li class="breadcrumb-item active"><% out.print((request.getParameter("subject") + "-" + request.getParameter("lesson"))); %></li>
             </ol>
             <table border="0">
                 <tr>

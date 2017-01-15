@@ -29,7 +29,12 @@
     </script>
     <script>
         function getQuestions(){
-            var subjectid = "002";
+        <% 
+            if (request.getParameter("subject") == null) {
+                response.sendRedirect("index.jsp");
+            } 
+        %>
+            var subjectid = '<% out.print(request.getParameter("subject")); %>';
             
             $.ajax({
                     url: "ws/rest/questions/" + subjectid,
@@ -37,16 +42,20 @@
                 })
                         .done(function (data) {
                             var qpanel = document.getElementById("quiz_panel");
+                            if (data.length > 0) {
+                                var subject_view = document.getElementById("subject");
+                                subject_view.innerHTML = "Quizes for " + data[0].subject_name;
+                            }
                             var pbody = "";
                             for(var i=0; i < data.length; i++) {
-                                var presen = "<hr><h4>" + data[i].question + "</h4>";
+                                var presen = "<h4>" + data[i].question + "</h4>";
                                 presen += "<ul class='qlist list-group'>";
                                 presen += "<li class='list-group-item'>" + data[i].option1 + "</li>";
                                 presen += "<li class='list-group-item'>" + data[i].option2 + "</li>";
                                 presen += "<li class='list-group-item'>" + data[i].option3 + "</li>";
                                 presen += "<li class='list-group-item'>" + data[i].option4 + "</li>";
                                 presen += "</ul>";
-                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div><hr>";
+                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answer+"'><b>Click to show answer</b></div><hr>";
                                 console.log(presen);
                                 
                                 pbody += presen;
@@ -80,14 +89,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-12">
-                                <label for="exampleInputEmail1" >Select Subject</label>     
-                                <select class="form-control" id="subject" name="subject" onchange="getQuestions()"   >
-                                    <option value="002">Science</option>
-                                    <option value="001">Maths</option>
-                                    <option value="004">ICT</option>
-                                    <option value="003">English</option>
-                                </select>
-                                
+                                <h3 id="subject"></h3>
                                 <div id="quiz_panel"></div>
                                
                             </div>
