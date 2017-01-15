@@ -80,13 +80,6 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-12">
-                                <label for="exampleInputEmail1" >Select Subject</label>     
-                                <select class="form-control" id="subject" name="subject" onchange="getQuestions()"   >
-                                    <option value="002">Science</option>
-                                    <option value="001">Maths</option>
-                                    <option value="004">ICT</option>
-                                    <option value="003">English</option>
-                                </select>
                                 
                                 <div id="quiz_panel"></div>
                                

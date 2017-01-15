@@ -71,6 +71,9 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
+            <li><a href="vleMainInterface.jsp">VLE</a></li>
+            <li><a href="studentResourcesMUI.jsp">Subject Select</a></li>
+            <li>Subject: <% out.print(request.getParameter("subject")); %></a></li>
         </ol>
         <table border="0">
             <tr>

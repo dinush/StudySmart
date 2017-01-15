@@ -23,18 +23,43 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
         <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
+        <link rel="stylesheet" href="css/selectize.bootstrap2.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
-        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/selectize.min.js"></script>
         <script>
+            function getStudents() {
+                $.ajax({
+                    url: "ws/search/students/all",
+                    async: true
+                })
+                        .done(function(data) {
+                            var students_select = document.getElementById("students");
+                            students_select.innerHTML = "";
+                            var students_html = "";
+                            for (var i=0; i < data.length; i++) {
+                                var student_html = "<option name='students' value='" + data[i].username + "'>" + data[i].name + "(" + data[i].username + ")" + "</option>";
+                                students_html += student_html;
+                            }
+                            students_select.innerHTML = students_html;
+                            
+                            $('#students').selectize({
+                                persist: true,
+                                maxItems: 1
+                            });
+                        });
+            }
+            
             $(function() {
+                getStudents();
                 $('#date').datepicker({
                     
                 });
+                
             });
         </script>
 
@@ -61,14 +86,14 @@
                                 
                                 <form action="StudentManager?action=addachievement" method="POST">
                                     
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name:</label>
-                                        <div class="col-xs-10">
-                                          <input name="stud_name" class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                                    <div class="form-group">
+                                        <label for="students" class="col-xs-3 col-form-label">Student Name:</label>
+                                        <div class="col-xs-9">
+                                            <select id="students" name="students"></select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col-lg-2"><b> Category </b></div>
+                                        <div class="col-lg-3"><b> Category </b></div>
                                         <div class="col-lg-4">
                                             <select name="category" class="form-control">
                                                 <option value="1">Academics</option>
@@ -78,14 +103,16 @@
                                     </div>
                                     
                                     <div class="form-group row">
-                                        <label for="example-date-input" class="col-xs-2 col-form-label"> Date </label>
-                                        <div class="col-xs-10">
+                                        <label for="example-date-input" class="col-xs-3 col-form-label"> Date </label>
+                                        <div class="col-xs-9">
                                           <input id="date" name="date" class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="example-date-input">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputEmail1">Achievement</label>
-                                      <input name="achive" type="Achievement" class="form-control" id="InputAchievement" placeholder="Achievement">
+                                      <label for="exampleInputEmail1" class="col-xs-3 col-form-label">Achievement</label>
+                                      <div class="col-xs-9">
+                                        <input name="achive" type="Achievement" class="form-control" id="InputAchievement" placeholder="Achievement">
+                                      </div>
                                     </div>
                                     <div class="form-group">
                                       <label for="exampleInputPassword1">Description</label>

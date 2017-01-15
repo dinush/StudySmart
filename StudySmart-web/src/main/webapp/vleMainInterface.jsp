@@ -56,9 +56,9 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="studentResourceView.jsp" ><img src="images/URL.png"  style="width:230px;height:150px;  margin-left:30px""></a></td>
+                                      <td><a href="studentExternalResourceView.jsp" ><img src="images/URL.png"  style="width:230px;height:150px;  margin-left:30px""></a></td>
                                       
-                                      <td><a href="#" ><img src="images/teacher.png" align="center" style="width:320px;height:150px;"></a></td>
+                                      <td><a href="studentDiscussions.jsp"><img src="images/teacher.png" align="center" style="width:320px;height:150px;"></a></td>
                                     </tr>
                                     <tr>
                                      <td><h5><font size="5"  style=" margin-left:30px"><b>External Resources&nbsp;&nbsp;&nbsp;</font></td>
