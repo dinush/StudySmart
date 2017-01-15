@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
         
-        <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+        <script src='js/tinymce/tinymce.min.js'></script>
 <!--<script src="tinymce/tinymce.min.js/"></script>
 <script src="tinymce/init-tinymce.js/"></script>
 <script src="tinymce/jquery.tinymce.min.js/"></script>-->
@@ -43,7 +43,7 @@
       'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
       'save table contextmenu directionality emoticons template paste textcolor'
     ],
-    content_css: 'css/content.css',
+    content_css: 'js\tinymce\skins\lightgray\content.min.css',
     toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
   });
   </script>

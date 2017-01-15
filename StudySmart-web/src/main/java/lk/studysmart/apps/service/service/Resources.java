@@ -10,14 +10,18 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import lk.studysmart.apps.models.FileUpload;
 import lk.studysmart.apps.models.Internalresources;
 import lk.studysmart.apps.models.Subject;
+import lk.studysmart.apps.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,5 +63,21 @@ public class Resources {
         }
         
         return jarray.toString();
+    }
+    
+    @DELETE
+    @Path("internal/delete/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteInternalResource(@PathParam("id") int id, 
+            @Context HttpServletRequest request) {
+        
+        User user = (User) request.getSession().getAttribute("user");
+        
+        FileUpload fileUpload = (FileUpload) em.createNamedQuery("FileUpload.findByUser")
+                .setParameter("user", user)
+                .getResultList().get(0);
+        
+        em.remove(fileUpload);
+       
     }
 }

@@ -51,6 +51,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByClassLevel", query = "SELECT u FROM User u WHERE u.class1 = :class2 AND u.level = :level")})
 public class User implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uid")
+    private Collection<FileUpload> fileUploadCollection;
+
     @OneToMany(mappedBy = "username")
     private Collection<Quiz> quizCollection;
 
@@ -346,6 +349,15 @@ public class User implements Serializable {
 
     public void setQuizCollection(Collection<Quiz> quizCollection) {
         this.quizCollection = quizCollection;
+    }
+
+    @XmlTransient
+    public Collection<FileUpload> getFileUploadCollection() {
+        return fileUploadCollection;
+    }
+
+    public void setFileUploadCollection(Collection<FileUpload> fileUploadCollection) {
+        this.fileUploadCollection = fileUploadCollection;
     }
     
 }
