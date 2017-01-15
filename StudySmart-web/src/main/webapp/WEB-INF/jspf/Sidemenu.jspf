@@ -21,7 +21,7 @@
             </ul>
         </li>
         
-        <li role="presentation"><a href="errorPage.jsp">Access VLE</a></li>
+        <li role="presentation"><a href="vleMainInterface.jsp">Access VLE</a></li>
         
         <% } %>
 
