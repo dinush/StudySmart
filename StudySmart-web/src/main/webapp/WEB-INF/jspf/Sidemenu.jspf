@@ -64,6 +64,8 @@
         
         <li role="presentation"><a href="teachVLEMUI.jsp">Manage VLE</a></li>
         <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
+        <li role="presentation"><a href="textEditor.jsp">Text Editor</a></li>
+
             <% } %>
 
         <% if (acc_level > 0) { %>
@@ -103,8 +105,9 @@
                 User Management<span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li role="presentation"><a href="registerStudent.jsp">Register Users</a></li>
-                <li role="presentation"><a href="changeUser.jsp">Change Users</a></li>
+                <li role="presentation"><a href="registerStudent.jsp">Register User</a></li>
+                <li role="presentation"><a href="changeUser.jsp">Change User</a></li>
+                <li role="presentation"><a href="removeUser.jsp">Remove User</a></li>
             </ul>
         </li>
         <li role="presentation"><a href="addPublicNews.jsp">Manage Public News</a></li>

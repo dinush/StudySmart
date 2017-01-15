@@ -82,7 +82,8 @@
         html += "<h4 class='list-group-item-heading'>" + msg.title + "</h4>";
         html += "<p class='list-group-item-text'>" + msg.content + "</p>";
         html += "<div style='margin-top:5px;font-size:12px;'>";
-        html += "Date: " + msg.target_date;
+        if( msg.target_date !== undefined )
+            html += "Due date: " + msg.target_date;
         if(msg.target_time !== undefined)
             html += " Time: " + msg.target_time;
         html += "</div>";
