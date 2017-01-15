@@ -110,7 +110,7 @@
                                 <% if (user.getLevel() < 3) { %>
                                 Select student <select id="students" name="student" onchange="getMembership()"></select>
                                 <% } %>
-                                <h3>List of Membership as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
+                                <h3>List of Memberships as of <% out.print(utils.Utils.getFormattedDateString(new Date())); %></h3>
                                 <div class="row">
                                         <table class="table table-striped">
                                             <thead>
