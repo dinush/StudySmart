@@ -21,6 +21,7 @@ import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
 import lk.studysmart.apps.models.Membership;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
@@ -266,6 +267,13 @@ public class Acadamic {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Achievement> getAchievementsByLoggedInUser(@Context HttpServletRequest request) {
         User logged_user = (User) request.getSession().getAttribute("user");
+        
+        if (logged_user.getLevel() == 4) {
+            StudentParent stu_par = (StudentParent) em.createNamedQuery("StudentParent.findByParentId")
+                    .setParameter("parent", logged_user)
+                    .getResultList().get(0);
+            logged_user = stu_par.getStudentid();
+        }
         
         return getAchievements(logged_user);
     }
