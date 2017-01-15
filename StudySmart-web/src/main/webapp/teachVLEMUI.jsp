@@ -49,6 +49,8 @@
                                 <a href="teachQuizMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Create Quiz</button></a>
                                 <a href="uploadFile.jsp" ><button type="button" class="btn btn-primary btn-lg" >Upload a File</button></a>
                                  <a href="teachURLInsertMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Insert a URL</button></a>
+                                <a href="categories.jsp" ><button type="button" class="btn btn-primary btn-lg" >Discussion Forum</button></a>
+                            
                             </div>   
                         </div>
                     </div>
@@ -56,6 +58,5 @@
             </tr>
         </table>
     </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>

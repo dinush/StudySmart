@@ -56,7 +56,7 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
-            <li class="breadcrumb-item active">Discussion Forum</li>
+            <li class="breadcrumb-item active">Draft a Letter</li>
         </ol>
         <table border="0">
             <tr>

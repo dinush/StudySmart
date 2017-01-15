@@ -64,8 +64,8 @@
         </li>
         
         <li role="presentation"><a href="teachVLEMUI.jsp">Manage VLE</a></li>
-        <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>
-        <li role="presentation"><a href="textEditor.jsp">Text Editor</a></li>
+<!--        <li role="presentation"><a href="categories.jsp">Discussion Forum</a></li>-->
+        <li role="presentation"><a href="textEditor.jsp">Draft a Letter</a></li>
 
             <% } %>
 
