@@ -66,6 +66,45 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+<<<<<<< HEAD
+                                                <td><center><b>Id</b></center><td><center><b>Title</b></center></td><td><center><b>File</b></center></td>
+                                        </tr>
+                                        <%
+                                        try
+                                        {
+
+                                                User user1 = (User) request.getSession().getAttribute("user");
+                                                String username = user1.getUsername();
+                                                DBConn dbconn=new DBConn();
+                                                Connection myconnection= dbconn.Connection();
+
+                                                String sqlString = "SELECT * FROM file_upload where uid = '"+username+"'";
+                                                Statement myStatement = myconnection.createStatement();
+                                                ResultSet rs=myStatement.executeQuery(sqlString);
+
+                                                if(!rs.isBeforeFirst())
+                                                {
+                                                        %>
+                                                                <tr>
+                                                                <td colspan="3"><center><%out.print("No Files!"); %></center></td>
+                                                                </tr>
+                                                        <%
+                                                }    
+
+                                                while(rs.next())
+                                                {   
+                                            %>
+                                                <tr>
+                                                        <td><center><%out.print(rs.getString("id")); %></center></td>
+                                                        <td><center><%out.print(rs.getString("file_name")); %></center></td>
+                                                        <td><center><a target="blank" href='viewPDF.jsp?id=<%out.print(rs.getString("id"));%>'>View</a></center></td>
+                                                        <td><center><a target="blank" href='viewPDF.jsp?action=delete&id=<%out.print(rs.getString("id"));%>'>Delete</a></center></td>
+                                                
+                                                </tr>
+                                            <%
+                                                    }
+                                            %>
+=======
                                             <td><center><b>Id</b></center><td><center><b>Title</b></center></td><td><center><b>File</b></center></td>
                                     </tr>
                                     <%
@@ -100,6 +139,7 @@
                                     <%
                                         }
                                     %>
+>>>>>>> c4bd76e8667f5bce0140897072b7183747a92549
 
                                     </tbody> 
                                 </table>

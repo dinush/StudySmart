@@ -98,7 +98,8 @@ public class QuizInsertion extends HttpServlet {
              Logger.getLogger(QuizInsertion.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        response.sendRedirect("teachVLEMUI.jsp");
+        //Redirest the page after completion of quiz entering
+        response.sendRedirect("teachQuizMain.jsp?status=success");
         
     }
 
