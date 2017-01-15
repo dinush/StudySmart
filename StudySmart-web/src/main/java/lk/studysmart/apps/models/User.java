@@ -58,6 +58,9 @@ public class User implements Serializable {
     private Collection<Internalresources> internalresourcesCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Collection<Membership> membershipCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Collection<Achievement> achievementCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
@@ -320,6 +323,14 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Membership> getMembershipCollection() {
+        return membershipCollection;
+    }
+
+    public void setMembershipCollection(Collection<Membership> membershipCollection) {
+        this.membershipCollection = membershipCollection;
+    }
+    
     public Collection<Internalresources> getInternalresourcesCollection() {
         return internalresourcesCollection;
     }

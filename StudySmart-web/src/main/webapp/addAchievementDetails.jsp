@@ -99,8 +99,8 @@
                             </div>
                             
                             <div class="col-md-4">
-                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
-                                </div>
+                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                            </div>
                         </div>
                     </div>
                 </td>

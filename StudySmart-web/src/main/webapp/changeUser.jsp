@@ -137,6 +137,10 @@
                                     alert("<% out.print(request.getParameter("msg"));%>");
                                 </script>
                                 <% } %>
+                                <h3>Change user <br/>
+                                <small>Click on the user who you want to change</small>
+                                </h3>
+                                <hr>
                                 <table id="users" cellspacing="0" class="display dataTable">
                                     <thead>
                                         <tr>

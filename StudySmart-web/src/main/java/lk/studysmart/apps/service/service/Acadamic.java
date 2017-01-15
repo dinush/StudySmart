@@ -20,6 +20,8 @@ import lk.studysmart.apps.models.Achievement;
 import lk.studysmart.apps.models.Assignment;
 import lk.studysmart.apps.models.AssignmentMarks;
 import lk.studysmart.apps.models.Class2;
+import lk.studysmart.apps.models.Membership;
+import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.StudentSubject;
 import lk.studysmart.apps.models.Subject;
 import lk.studysmart.apps.models.TermMarks;
@@ -255,16 +257,56 @@ public class Acadamic {
         return root.toString();
     }
     
+    /**
+     * Get achievements for logged in user.
+     * @param request
+     * @return 
+     */
     @GET
     @Path("achievements")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Achievement> getAchievementsBySubject(@Context HttpServletRequest request) {
+    public List<Achievement> getAchievementsByLoggedInUser(@Context HttpServletRequest request) {
         User logged_user = (User) request.getSession().getAttribute("user");
         
+        if (logged_user.getLevel() == 4) {
+            StudentParent stu_par = (StudentParent) em.createNamedQuery("StudentParent.findByParentId")
+                    .setParameter("parent", logged_user)
+                    .getResultList().get(0);
+            logged_user = stu_par.getStudentid();
+        }
+        
+        return getAchievements(logged_user);
+    }
+    
+    @GET
+    @Path("achievements/{studentid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Achievement> getAchievementsByStudent(
+            @PathParam("studentid") String studentid,
+            @Context HttpServletRequest request
+    ) {
+        User student = em.find(User.class, studentid);
+        
+        return getAchievements(student);
+    }
+    
+    private List<Achievement> getAchievements(User requestedUser) {
         List<Achievement> achievements = em.createNamedQuery("Achievement.findByStudent")
+                .setParameter("student", requestedUser)
+                .getResultList();
+        return achievements;
+    }
+    
+    @GET
+    @Path("membership")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
+    public List<Membership> getMembershipBySubject(@Context HttpServletRequest request) {
+        User logged_user = (User) request.getSession().getAttribute("user");
+        
+        List<Membership> membership = em.createNamedQuery("Membership.findByStudent")
                 .setParameter("student", logged_user)
                 .getResultList();
         
-        return achievements;
+        return membership;
     }
 }
