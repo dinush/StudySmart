@@ -55,7 +55,7 @@
                     async: true
                 }).done(function (data) {
                     var tbl = document.getElementById("tbl_data");
-
+                    tbl.innerHTML = "";
                     for (var i = 0; i < data.length; i++) {
                         var row = tbl.insertRow(-1);
                         var date_cell = row.insertCell(0);
