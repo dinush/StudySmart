@@ -27,7 +27,6 @@
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-         <!--        Sweet alert 2-->
         <script src="js/sweetalert.min.js"></script>
         <link rel="stylesheet" href="css/sweetalert.css" />
 
@@ -59,13 +58,13 @@
             });
         </script>
         
-        <% if(request.getParameter("status").equalsIgnoreCase("success")){%>
+        <% if( request.getParameter("status") != null && request.getParameter("status").equalsIgnoreCase("success")){%>
         <script type="text/javascript"> 
-            alert("");
+            alert("Quiz Successfully added");
             swal({
-                        title: "Success",
-                         text: "Succesfully Posted !",
-                         type: "success"
+                  title: "",
+                  text: "Succesfully Posted !",
+                  type: "success"
             });
         </script>
         <% } %>

@@ -56,9 +56,9 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="studentExternalResourceView.jsp" ><img src="images/URL.png"  style="width:230px;height:150px;  margin-left:30px""></a></td>
+                                      <td><a href="studentExternalResourceView.jsp" ><img src="images/URL.png"  style="width:200px;height:120px;  margin-left:30px""></a></td>
                                       
-                                      <td><a href="studentDiscussions.jsp"><img src="images/teacher.png" align="center" style="width:320px;height:150px;"></a></td>
+                                      <td><a href="studentDiscussions.jsp"><img src="images/teacher.png" align="center" style="width:320px;height:130px;"></a></td>
                                     </tr>
                                     <tr>
                                      <td><h5><font size="5"  style=" margin-left:30px"><b>External Resources&nbsp;&nbsp;&nbsp;</font></td>
@@ -74,7 +74,7 @@
                                     </tr>
                                      <tr>
                                      <td><a href="studentResourcesMUI.jsp" ><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px; margin-left:30px"></a></td>
-                                     <td><a href="quizMain.jsp" ><img src="images/individual.png" alt="HTML5 align="left"  Icon" style="width:150px;height:170px; margin-left:80px"></a></td>
+                                     <td><a href="quizMain.jsp" ><img src="images/individual.png" alt="HTML5 align="left"  Icon" style="width:150px;height:150px; margin-left:80px"></a></td>
                                     </tr>
                                     
                                     <tr>
