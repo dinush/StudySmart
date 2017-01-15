@@ -57,14 +57,14 @@
                                  
                                 <table>
                                     <tr>
-                                        <td><a href="uploadBrainTeaseQuiz.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="studentResourceView.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Geography.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td> 
+                                        <td><a href="uploadBrainTeaseQuiz.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:150px;height:150px;  margin-left: 150px;"></a></td>
+                                        <td><a href="studentResourceView.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
+                                        <td><a href="#"><img src="images/Geography.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td> 
                                     </tr>
                                     <tr>
-                                        <td><a href="#"><img src="images/ICT.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/English.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
-                                        <td><a href="#"><img src="images/Maths.png" alt="HTML5 Icon" style="width:200px;height:200px;"></a></td>
+                                        <td><a href="#"><img src="images/ICT.png" alt="HTML5 Icon" style="width:150px;height:150px;  margin-left: 150px;"></a></td>
+                                        <td><a href="#"><img src="images/English.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
+                                        <td><a href="#"><img src="images/Maths.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
                                     </tr>
                                   </table>
 
