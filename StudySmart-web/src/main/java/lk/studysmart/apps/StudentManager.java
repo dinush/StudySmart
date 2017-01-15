@@ -38,6 +38,7 @@ import lk.studysmart.apps.models.AttendanceClass;
 import lk.studysmart.apps.models.AttendanceClassPK;
 import lk.studysmart.apps.models.AttendancePK;
 import lk.studysmart.apps.models.Class2;
+//import lk.studysmart.apps.models.Membership;
 import lk.studysmart.apps.models.Message;
 import lk.studysmart.apps.models.StudentParent;
 import lk.studysmart.apps.models.Subject;
@@ -386,6 +387,37 @@ public class StudentManager extends HttpServlet {
                 
             }
             break;
+//            case "addmembership": {
+//                String stud_nameid = request.getParameter("stud_name");
+//                String dateid = request.getParameter("date");
+//                String memberid = request.getParameter("membership");
+//                String descripid = request.getParameter("description");
+//                
+//                User student = em.find(User.class, stud_nameid);
+//                
+//                Membership mem = new Membership();
+//            try {
+//                Date date = utils.Utils.stringToDate(dateid);
+//                mem.setDate(date);
+//                mem.setDiscription(descripid);
+//                mem.setStudent(stud_nameid);
+//                mem.setTitle(memberid);
+//                
+//                try {
+//                    utx.begin();
+//                    em.persist(mem);
+//                    utx.commit();
+//                }   catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+//                        Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                
+//                response.sendRedirect("index.jsp");
+//            } catch (ParseException ex) {
+//                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//                
+//            }
+//            break;
             default:
                 System.out.println("Unhandled route");
                 break;

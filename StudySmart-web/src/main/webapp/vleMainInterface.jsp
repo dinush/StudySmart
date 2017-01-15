@@ -56,6 +56,7 @@
                 margin: 4px 2px;
                 cursor: pointer;
                 border-radius: 12px;
+                height: 276px;
             }
             .button4 {
                 background-color: #66b5ff;
@@ -81,7 +82,6 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
-
     </script>
     <title>StudySmart</title>
 </head>
@@ -105,7 +105,7 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="studentResourceView.jsp" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>External Resources&nbsp;&nbsp;&nbsp;</font></a></td>
+                                      <td><a href="studentExternalResourceView.jsp" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>External Resources&nbsp;&nbsp;&nbsp;</font></a></td>
                                       <td><a href="#" class="button2"><img src="images/teacher.png" align="right" style="width:320px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
                                     </tr>
                                      <tr>

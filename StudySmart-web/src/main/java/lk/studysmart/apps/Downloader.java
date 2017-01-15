@@ -7,8 +7,6 @@ package lk.studysmart.apps;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,28 +14,21 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import lk.studysmart.apps.models.Quiz;
-import lk.studysmart.apps.models.Subject;
+import lk.studysmart.apps.models.Internalresources;
 import lk.studysmart.apps.models.User;
 
 /**
  *
- * @author Kaveesh
+ * @author dinush
  */
-@WebServlet(name = "QuizInsertion", urlPatterns = {"/QuizInsertion"})
-public class QuizInsertion extends HttpServlet {
+public class Downloader extends HttpServlet {
     
-     @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
+    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU");
 
     @Resource
@@ -59,47 +50,25 @@ public class QuizInsertion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
-        //Get userID 
         user = (User) request.getSession().getAttribute("user");
+        if (user == null)
+            response.sendRedirect("login.jsp");
         
-        //Getting data from frontend to Servlet
-        String subjectid = request.getParameter("subject");
-        Subject subject = em.find(Subject.class, subjectid);
+        int fileid = Integer.valueOf(request.getParameter("fileid"));
         
-        // get Q1 details
-        String q1 = request.getParameter("question");
-        String q11Option = request.getParameter("opt1");
-        String q12Option = request.getParameter("opt2");
-        String q13Option = request.getParameter("opt3");
-        String q14Option = request.getParameter("opt4");
-        String q1Answer = request.getParameter("ans");
+        Internalresources resource = em.find(Internalresources.class, fileid);
         
+        ServletOutputStream writer = response.getOutputStream();
         
-        //set attributes' values to objects
-        Quiz quiz1 = new Quiz();
-        quiz1.setSubject(subject);
-        quiz1.setOption1(q11Option);
-        quiz1.setOption2(q12Option);
-        quiz1.setOption3(q13Option);
-        quiz1.setOption4(q14Option);
-        quiz1.setAnswers(q1Answer);
-        quiz1.setUsername(user);
-        quiz1.setQuestion(q1);
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition","attachment; filename=\"" + resource.getFilename() + "\"");
+        response.setContentLength((int) resource.getBlob().length);
         
-        //User Transaction
-        try {
-            //trascation
-            utils.Utils.entityValidator(quiz1);
-            utx.begin();
-            em.persist(quiz1);
-            utx.commit();
-        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
-             Logger.getLogger(QuizInsertion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        response.sendRedirect("teachVLEMUI.jsp");
-        
+        writer.write(resource.getBlob());
+        writer.flush();
+        writer.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

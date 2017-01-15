@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(lk.studysmart.apps.service.service.Acadamic.class);
         resources.add(lk.studysmart.apps.service.service.Admin.class);
         resources.add(lk.studysmart.apps.service.service.Class2FacadeREST.class);
+        resources.add(lk.studysmart.apps.service.service.Resources.class);
         resources.add(lk.studysmart.apps.service.service.RestServices.class);
         resources.add(lk.studysmart.apps.service.service.Search.class);
         resources.add(lk.studysmart.apps.service.service.UserFacadeREST.class);

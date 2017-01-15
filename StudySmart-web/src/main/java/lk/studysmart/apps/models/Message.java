@@ -32,23 +32,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "message")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Message.findAll", query = "SELECT m FROM Message m"),
-    @NamedQuery(name = "Message.findById", query = "SELECT m FROM Message m WHERE m.id = :id"),
-    @NamedQuery(name = "Message.findBySeen", query = "SELECT m FROM Message m WHERE m.seen = :seen"),
-    @NamedQuery(name = "Message.findByTitle", query = "SELECT m FROM Message m WHERE m.title = :title"),
-    @NamedQuery(name = "Message.findByContent", query = "SELECT m FROM Message m WHERE m.content = :content"),
-    @NamedQuery(name = "Message.findByUrl", query = "SELECT m FROM Message m WHERE m.url = :url"),
-    @NamedQuery(name = "Message.findByTargetdate", query = "SELECT m FROM Message m WHERE m.targetdate = :targetdate"),
-    @NamedQuery(name = "Message.findByTargettime", query = "SELECT m FROM Message m WHERE m.targettime = :targettime"),
-    @NamedQuery(name = "Message.findByAddeddate", query = "SELECT m FROM Message m WHERE m.addeddate = :addeddate"),
-    @NamedQuery(name = "Message.findByAddedtime", query = "SELECT m FROM Message m WHERE m.addedtime = :addedtime"),
-    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type"),
-    @NamedQuery(name = "Message.findByUserlevel", query = "SELECT m FROM Message m WHERE m.userlevel = :userlevel"),
-    @NamedQuery(name = "Message.findByGrade", query = "SELECT m FROM Message m WHERE m.grade = :grade"),
-    @NamedQuery(name = "Message.findByClass", query = "SELECT m FROM Message m WHERE m.class1 = :class2"),
-    @NamedQuery(name = "Message.findByAddedUser", query = "SELECT m FROM Message m WHERE m.addeduser = :user"),
+    @NamedQuery(name = "Message.findAll", query = "SELECT m FROM Message m ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findById", query = "SELECT m FROM Message m WHERE m.id = :id ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findBySeen", query = "SELECT m FROM Message m WHERE m.seen = :seen ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByTitle", query = "SELECT m FROM Message m WHERE m.title = :title ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByContent", query = "SELECT m FROM Message m WHERE m.content = :content ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByUrl", query = "SELECT m FROM Message m WHERE m.url = :url ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByTargetdate", query = "SELECT m FROM Message m WHERE m.targetdate = :targetdate ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByTargettime", query = "SELECT m FROM Message m WHERE m.targettime = :targettime ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByAddeddate", query = "SELECT m FROM Message m WHERE m.addeddate = :addeddate ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByAddedtime", query = "SELECT m FROM Message m WHERE m.addedtime = :addedtime ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByUserlevel", query = "SELECT m FROM Message m WHERE m.userlevel = :userlevel ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByGrade", query = "SELECT m FROM Message m WHERE m.grade = :grade ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByClass", query = "SELECT m FROM Message m WHERE m.class1 = :class2 ORDER BY m.addeddate DESC, m.addedtime DESC"),
+    @NamedQuery(name = "Message.findByAddedUser", query = "SELECT m FROM Message m WHERE m.addeduser = :user ORDER BY m.addeddate DESC, m.addedtime DESC"),
     @NamedQuery(name = "Message.findByFourOrs", query = "SELECT m FROM Message m WHERE (m.targetuser = :user OR m.userlevel = :userlevel OR m.class1 = :class2 OR m.grade = :grade) AND (m.type <> 5) ORDER BY m.addeddate DESC, m.addedtime DESC"),
-    @NamedQuery(name = "Message.findByTypeAndTargetUser", query = "SELECT m FROM Message m WHERE m.type = :type and m.targetuser = :user")})
+    @NamedQuery(name = "Message.findByTypeAndTargetUser", query = "SELECT m FROM Message m WHERE m.type = :type and m.targetuser = :user ORDER BY m.addeddate DESC, m.addedtime DESC")})
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -39,13 +39,14 @@
                             var qpanel = document.getElementById("quiz_panel");
                             var pbody = "";
                             for(var i=0; i < data.length; i++) {
-                                var presen = "<h3>" + data[i].question + "</h3>";
-                                presen += "<ul class='qlist'><li>" + data[i].option1 + "</li>";
-                                presen += "<li>" + data[i].option2 + "</li>";
-                                presen += "<li>" + data[i].option3 + "</li>";
-                                presen += "<li>" + data[i].option4 + "</li>";
+                                var presen = "<hr><h4>" + data[i].question + "</h4>";
+                                presen += "<ul class='qlist list-group'>";
+                                presen += "<li class='list-group-item'>" + data[i].option1 + "</li>";
+                                presen += "<li class='list-group-item'>" + data[i].option2 + "</li>";
+                                presen += "<li class='list-group-item'>" + data[i].option3 + "</li>";
+                                presen += "<li class='list-group-item'>" + data[i].option4 + "</li>";
                                 presen += "</ul>";
-                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div>";
+                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div><hr>";
                                 console.log(presen);
                                 
                                 pbody += presen;

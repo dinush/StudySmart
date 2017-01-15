@@ -29,29 +29,30 @@
     </script>
     <script>
         function getResources(){
-            var subjectid = "002";
+        <% if (request.getParameter("subject") == null) { %>
+                window.location = "index.jsp?msg=No subject selected";
+        <% } %>
+            var subjectid = "<% out.print(request.getParameter("subject")); %>";
             
             $.ajax({
-                    url: "ws/rest/resources/" + subjectid,
+                    url: "ws/resources/get/list/internal/" + subjectid,
                     async: true
                 })
                         .done(function (data) {
-                            var qpanel = document.getElementById("resource_panel");
-                            var pbody = "";
-                            for(var i=0; i < data.length; i++) {
-                                var presen = "<h3>" + data[i].question + "</h3>";
-                                presen += "<ul class='qlist'><li>" + data[i].option1 + "</li>";
-                                presen += "<li>" + data[i].option2 + "</li>";
-                                presen += "<li>" + data[i].option3 + "</li>";
-                                presen += "<li>" + data[i].option4 + "</li>";
-                                presen += "</ul>";
-                                presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answers+"'><b>Click to show answer</b></div>";
-                                console.log(presen);
+                            console.log(JSON.stringify(data));
+                            var tbl_body = document.getElementById("resource_table_body");
+                            for (var i=0 ; i < data.length; i++) {
+                                var row = tbl_body.insertRow(-1);
                                 
-                                pbody += presen;
+                                var cell_filename = row.insertCell(0);
+                                var cell_description = row.insertCell(1);
+                                var cell_uploaded_person = row.insertCell(2);
+                                
+                                cell_filename.innerHTML = "<a href='downloader?fileid=" + data[i].id + "'>"
+                                                            + data[i].filename + "</a>";
+                                cell_description.innerHTML = data[i].description !== undefined ? data[i].description : " ";
+                                cell_uploaded_person.innerHTML = data[i].uploader_name;
                             }
-                            
-                            qpanel.innerHTML = pbody;
                         });
             
         }
@@ -80,9 +81,16 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
-                            
-                            <div id="resource_panel"></div>
-                                
+                                <table id="resource_table" class="table">
+                                    <thead>
+                                        <th>Filename</th>
+                                        <th>Description</th>
+                                        <th>Uploaded person name</th>
+                                    </thead>
+                                    <tbody id="resource_table_body">
+                                        
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

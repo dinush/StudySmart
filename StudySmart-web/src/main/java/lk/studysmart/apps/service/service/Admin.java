@@ -37,12 +37,6 @@ import lk.studysmart.apps.models.User;
 @Path("admin")
 public class Admin {
     
-    @PersistenceUnit(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU");
-
-    @Resource
-    UserTransaction utx;
-
     @PersistenceContext
     EntityManager em;
     
@@ -54,13 +48,7 @@ public class Admin {
         
         User deleteUser = em.find(User.class, username);
         
-        try {
-            utx.begin();
-            em.remove(deleteUser);
-            utx.commit();
-        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        em.remove(deleteUser);
     }
     
 }
