@@ -834,9 +834,11 @@ public class RestServices {
     @GET
     @Path("teacherthreads/{classid}/{subjectid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getThreads(@PathParam("classid") String classid,
+    public String getThreads(
+            @PathParam("classid") String classid,
             @PathParam("subjectid") String subjectid,
-            @Context HttpServletRequest request) {
+            @Context HttpServletRequest request
+    ) {
         if (request.getSession().getAttribute("user") == null) {
             return "Not authorized";
         }
@@ -869,8 +871,10 @@ public class RestServices {
             JSONArray jarr = new JSONArray();
 
             for (Categories category : categories) {
+                Subject subject = em.find(Subject.class, category.getSubject());
                 JSONObject jobj = new JSONObject();
                 jobj.put("catsubject", category.getSubject());
+                jobj.put("subject_name", subject.getName());
                 jobj.put("catname", category.getCatName());
                 jobj.put("catdescription", category.getCatDescription());
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));

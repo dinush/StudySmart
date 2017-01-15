@@ -52,7 +52,10 @@
                             tbl.innerHTML = '';
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td>" + data[i].catsubject + "</td>";
+                                if (data[i].subject_name !== undefined)
+                                    row += "<td>" + data[i].subject_name + "</td>";
+                                else
+                                    row += "<td>" + data[i].catsubject + "</td>";
                                 row += "<td id><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid + "&subject=" + data[i].catsubject + "'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
@@ -80,7 +83,7 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
-                <li class="breadcrumb-item"><a href="studentVLEmain.jsp">Access VLE</a></li>
+                <li class="breadcrumb-item"><a href="vleMainInterface.jsp">Access VLE</a></li>
                 <li class="breadcrumb-item active">Discussion Forum</li>
             </ol>
             <table border="0">
