@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2017 at 11:36 AM
+-- Generation Time: Jan 15, 2017 at 12:44 PM
 -- Server version: 5.5.52-MariaDB
 -- PHP Version: 5.4.16
 
@@ -427,18 +427,6 @@ INSERT INTO `categories` (`cat_id`, `cat_name`, `cat_description`, `cat_by`, `cl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `child_parent`
---
-
-CREATE TABLE IF NOT EXISTS `child_parent` (
-  `studentid` varchar(255) NOT NULL,
-  `parentid` varchar(255) NOT NULL,
-  PRIMARY KEY (`studentid`,`parentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `class`
 --
 
@@ -830,18 +818,38 @@ CREATE TABLE IF NOT EXISTS `student_parent` (
   PRIMARY KEY (`_id`),
   UNIQUE KEY `uniq_parent_child` (`parentid`,`studentid`),
   KEY `fk_student_parent_2` (`studentid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `student_parent`
 --
 
 INSERT INTO `student_parent` (`_id`, `parentid`, `studentid`) VALUES
-(4, 'kdfh', 'st3'),
+(5, '389955p', '2006001'),
+(4, 'kdfh', '2006003'),
+(21, 'p2006001', '2006001'),
+(22, 'p2006002', '2006002'),
+(23, 'p2006003', '2006003'),
+(24, 'p2006004', '2006004'),
+(25, 'p2006005', '2006005'),
+(6, 'p2007001', '2007001'),
+(7, 'p2007002', '2007002'),
+(8, 'p2007003', '2007003'),
+(9, 'p2007004', '2007004'),
+(10, 'p2007005', '2007005'),
+(11, 'p2106001', '2106001'),
+(12, 'p2106002', '2106002'),
+(13, 'p2106003', '2106003'),
+(14, 'p2106004', '2106004'),
+(15, 'p2106005', '2106005'),
+(16, 'p2107001', '2107001'),
+(17, 'p2107002', '2107002'),
+(18, 'p2107003', '2107003'),
+(19, 'p2107004', '2107004'),
+(20, 'p2107005', '2107005'),
+(3, 'par1', '2006003'),
 (2, 'par1', 'st2'),
-(3, 'par1', 'st3'),
-(5, 'par10', 'st10'),
-(1, 'parent', 'st1');
+(1, 'parent', '2006002');
 
 -- --------------------------------------------------------
 
@@ -924,6 +932,23 @@ CREATE TABLE IF NOT EXISTS `teacherteaches` (
   KEY `subject_index` (`subjectId`),
   KEY `class_index` (`class`) USING BTREE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+
+--
+-- Dumping data for table `teacherteaches`
+--
+
+INSERT INTO `teacherteaches` (`id`, `userId`, `subjectId`, `class`) VALUES
+(1, 'tch2005', '001', 5),
+(2, 'tch2005', '002', 6),
+(13, 'tch002', '001', 5),
+(14, 'tch002', '001', 6),
+(15, 'tch002', '002', 5),
+(16, 'tch002', '002', 6),
+(20, 'tch2002', '003', 5),
+(21, 'tch2003 ', '002', 6),
+(22, 'tch2003 ', '006', 7),
+(23, 'tch2004', '005', 7),
+(24, 'tch2004', '006', 8);
 
 -- --------------------------------------------------------
 
@@ -1327,7 +1352,7 @@ ALTER TABLE `message`
 -- Constraints for table `quiz`
 --
 ALTER TABLE `quiz`
-  ADD CONSTRAINT `Quiz_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `Quiz_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `quiz_subject` FOREIGN KEY (`Subject`) REFERENCES `subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
