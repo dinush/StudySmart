@@ -256,20 +256,40 @@ public class Acadamic {
         return root.toString();
     }
     
+    /**
+     * Get achievements for logged in user.
+     * @param request
+     * @return 
+     */
     @GET
     @Path("achievements")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Achievement> getAchievementsBySubject(@Context HttpServletRequest request) {
+    public List<Achievement> getAchievementsByLoggedInUser(@Context HttpServletRequest request) {
         User logged_user = (User) request.getSession().getAttribute("user");
         
-        List<Achievement> achievements = em.createNamedQuery("Achievement.findByStudent")
-                .setParameter("student", logged_user)
-                .getResultList();
+        return getAchievements(logged_user);
+    }
+    
+    @GET
+    @Path("achievements/{studentid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Achievement> getAchievementsByStudent(
+            @PathParam("studentid") String studentid,
+            @Context HttpServletRequest request
+    ) {
+        User student = em.find(User.class, studentid);
         
+        return getAchievements(student);
+    }
+    
+    private List<Achievement> getAchievements(User requestedUser) {
+        List<Achievement> achievements = em.createNamedQuery("Achievement.findByStudent")
+                .setParameter("student", requestedUser)
+                .getResultList();
         return achievements;
     }
     
-     @GET
+    @GET
     @Path("membership")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON})
     public List<Membership> getMembershipBySubject(@Context HttpServletRequest request) {
