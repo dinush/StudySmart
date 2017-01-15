@@ -61,16 +61,16 @@
                                 <br>
                                 <table>
                                     <tr>
-                                        <td><a href="quizMVStuHistory.jsp"><img src="images/History.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
-                                        <td><a href="quizMVStuScience.jsp"><img src="images/Science.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td>
-                                        <td><a href="quizMVStuGeography.jsp"><img src="images/Geography.png" alt="HTML5 Icon" style="width:150px; height:150px; margin-left:40px;margin-righ:40px; "></a></td> 
+                                        <td><a href="quizMV.jsp?subject=007"><img src="images/History.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
+                                        <td><a href="quizMV.jsp?subject=002"><img src="images/Science.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMV.jsp?subject=008"><img src="images/Geography.png" alt="HTML5 Icon" style="width:150px; height:150px; margin-left:40px;margin-righ:40px; "></a></td> 
                                     </tr>
                                 </table>
                                 <table>
                                     <tr>
-                                        <td><a href="quizMVStuICT.jsp"><img src="images/ICT.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
-                                        <td><a href="quizMVStuEnglish.jsp"><img src="images/English.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px;"></a></td>
-                                        <td><a href="quizMVStuMaths.jsp"><img src="images/Maths.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMV.jsp?subject=004"><img src="images/ICT.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
+                                        <td><a href="quizMV.jsp?subject=003"><img src="images/English.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px;"></a></td>
+                                        <td><a href="quizMV.jsp?subject=001"><img src="images/Maths.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px;"></a></td>
                                     </tr>
                                 </table>
 
