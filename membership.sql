@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2017 at 08:22 AM
+-- Generation Time: Jan 15, 2017 at 06:52 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -32,16 +32,27 @@ CREATE TABLE IF NOT EXISTS `membership` (
   `date` date NOT NULL,
   `title` varchar(500) NOT NULL,
   `discription` varchar(1000) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  PRIMARY KEY (`id`),
+  KEY `student_index` (`student`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `membership`
 --
 
 INSERT INTO `membership` (`id`, `student`, `date`, `title`, `discription`) VALUES
-(1, 'bapjpm', '2017-01-18', 'menfedjp', 'rghtehbth'),
-(2, 'ggkfhfk', '2017-01-16', 'menfedjp', 'rghtehbth');
+(6, '2006002', '2017-01-16', '5uteut', 'rzyrur'),
+(7, '2006002', '2017-01-11', 'tnntn', 'fdhfmyh');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `membership`
+--
+ALTER TABLE `membership`
+  ADD CONSTRAINT `membership_user` FOREIGN KEY (`student`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

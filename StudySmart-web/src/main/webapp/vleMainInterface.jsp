@@ -18,58 +18,9 @@
 <html>
     <head>
         <style>
-            .button1 {
-                background-color: #66b5ff;
-                border: none;
-                color: white;
-                padding: 40px 60px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 12px;
-            }
-            .button2 {
-                background-color: #66b5ff;
-                border: none;
-                color: white;
-                padding: 40px 40px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 12px;
-            }
-            .button3 {
-                background-color: #66b5ff;
-                border: none;
-                color: white;
-                padding: 40px 60px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 12px;
-                height: 276px;
-            }
-            .button4 {
-                background-color: #66b5ff;
-                border: none;
-                color: white;
-                padding: 40px 61px;
-                text-align: left;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                cursor: pointer;
-                border-radius: 12px;
-            }
+            h5:hover {
+    background-color: #1a75ff;
+    }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -105,12 +56,30 @@
                                  
                                 <table style="width:100%;">
                                     <tr>
-                                      <td><a href="studentExternalResourceView.jsp" class="button1"><img src="images/URL.png"  style="width:230px;height:150px;"><font size="5"><b>External Resources&nbsp;&nbsp;&nbsp;</font></a></td>
-                                      <td><a href="#" class="button2"><img src="images/teacher.png" align="right" style="width:320px;height:150px;"><font size="5"><b>Teacher-Student Collaboration</font></a></td>
+                                      <td><a href="studentResourceView.jsp" ><img src="images/URL.png"  style="width:230px;height:150px;  margin-left:30px""></a></td>
+                                      
+                                      <td><a href="#" ><img src="images/teacher.png" align="center" style="width:320px;height:150px;"></a></td>
+                                    </tr>
+                                    <tr>
+                                     <td><h5><font size="5"  style=" margin-left:30px"><b>External Resources&nbsp;&nbsp;&nbsp;</font></td>
+                                     <td><h5><font size="5"><b>Teacher-Student Collaboration</font></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                     </tr>
                                      <tr>
-                                     <td><a href="studentResourcesMUI.jsp" class="button3"><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px;"><font size="5"><b>Student Resources</font></a></td>
-                                     <td><a href="quizMain.jsp" class="button4"><img src="images/individual.png" alt="HTML5 align="right"  Icon" style="width:150px;height:170px;"><font size="5"><b>Individual Activities</font></a></td>
+                                     <td><a href="studentResourcesMUI.jsp" ><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px; margin-left:30px"></a></td>
+                                     <td><a href="quizMain.jsp" ><img src="images/individual.png" alt="HTML5 align="left"  Icon" style="width:150px;height:170px; margin-left:80px"></a></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                     <td><h5><font size="5" style=" margin-left:30px"><b>Student Resources</font></td>
+                                     <td><h5><font size="5"  style=" margin-left:30px "><b>Individual Activities</font></td>
                                     </tr>
                                   </table>
 
