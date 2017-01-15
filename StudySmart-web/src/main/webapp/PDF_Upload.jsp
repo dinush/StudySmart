@@ -26,7 +26,20 @@
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-    </script>
+        <script>
+            function deleteFile(id) {
+                var ret = confirm("Are you sure to delete this file?");
+                if (!ret)
+                    return;
+                $.ajax({ 
+                    url: "ws/resources/internal/delete/" + id,
+                    async: true,
+                    type: "DELETE"
+                }) .done(function(data) {
+                    location.reload();
+                });
+            }
+        </script>
     <title>Upload Files</title>
 </head>
 <body>
@@ -81,7 +94,7 @@
                                         <td><center><%out.print(rs.getString("id")); %></center></td>
                                     <td><center><%out.print(rs.getString("file_name")); %></center></td>
                                     <td><center><a target="blank" href='viewPDF.jsp?id=<%out.print(rs.getString("id"));%>'>View</a></center></td>
-                                    <td><center><a target="blank" href='viewPDF.jsp?action=delete&id=<%out.print(rs.getString("id"));%>'>Delete</a></center></td>
+                                    <td><center><a target="blank" onclick="deleteFile('<%out.print(rs.getString("id"));%>')">Delete</a></center></td>
 
                                     </tr>
                                     <%

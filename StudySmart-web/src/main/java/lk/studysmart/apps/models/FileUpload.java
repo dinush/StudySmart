@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "FileUpload.findAll", query = "SELECT f FROM FileUpload f")
     , @NamedQuery(name = "FileUpload.findById", query = "SELECT f FROM FileUpload f WHERE f.id = :id")
-    , @NamedQuery(name = "FileUpload.findByFileName", query = "SELECT f FROM FileUpload f WHERE f.fileName = :fileName")})
+    , @NamedQuery(name = "FileUpload.findByFileName", query = "SELECT f FROM FileUpload f WHERE f.fileName = :fileName")
+    , @NamedQuery(name = "FileUpload.findByUser", query = "SELECT f FROM FileUpload f WHERE f.uid = :user")})
 public class FileUpload implements Serializable {
 
     private static final long serialVersionUID = 1L;
