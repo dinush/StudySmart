@@ -978,8 +978,8 @@ public class RestServices {
             jobj.put("option3", quiz.getOption3());
             jobj.put("option4", quiz.getOption4());
             jobj.put("answer", quiz.getAnswers());
-            jobj.put("user_username", quiz.getUsername().getUsername());
-            jobj.put("user_name", quiz.getUsername().getName());
+            jobj.put("user_username", quiz.getUsername() != null ? quiz.getUsername().getUsername() : null);
+            jobj.put("user_name", quiz.getUsername() != null ? quiz.getUsername().getName() : null);
             jarr.put(jobj);
         }
         
