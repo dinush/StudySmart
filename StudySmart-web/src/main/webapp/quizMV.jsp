@@ -44,7 +44,7 @@
                             if (data.length === 0) {
                                 /* Feedback */
                                 var panel = document.getElementById("quiz_panel");
-                                panel.innerHTML = "<h3><small><i>No quizes here</i></small></h3>";
+                                panel.innerHTML = "<h3><small><i>No quizzes here</i></small></h3>";
                                 return;
                             }
                             var qpanel = document.getElementById("quiz_panel");
