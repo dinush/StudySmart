@@ -50,7 +50,7 @@
                             var qpanel = document.getElementById("quiz_panel");
                             if (data.length > 0) {
                                 var subject_view = document.getElementById("subject");
-                                subject_view.innerHTML = "Quizes for " + data[0].subject_name;
+                                subject_view.innerHTML = "Quizes for " + data[0].subject_name + "<hr>";
                             }
                             var pbody = "";
                             for(var i=0; i < data.length; i++) {
