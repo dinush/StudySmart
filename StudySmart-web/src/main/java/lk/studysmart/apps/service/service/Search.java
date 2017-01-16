@@ -32,6 +32,11 @@ public class Search {
     @PersistenceContext(unitName = "lk.studysmart_StudySmart-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
     
+    /**
+     * Get all students
+     * @param request
+     * @return 
+     */
     @GET
     @Path("students/all")
     @Produces(MediaType.APPLICATION_JSON)
