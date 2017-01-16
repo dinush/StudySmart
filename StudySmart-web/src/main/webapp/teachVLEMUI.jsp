@@ -46,11 +46,36 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-12">
-                                <a href="teachQuizMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Create Quiz</button></a>
-                                <a href="uploadFile.jsp" ><button type="button" class="btn btn-primary btn-lg" >Upload a File</button></a>
-                                 <a href="teachURLInsertMain.jsp" ><button type="button" class="btn btn-primary btn-lg" >Insert a URL</button></a>
-                                <a href="categories.jsp" ><button type="button" class="btn btn-primary btn-lg" >Discussion Forum</button></a>
-                            
+                               
+                            <table style="width:100%;">
+                                    <tr>
+                                      <td><a href="teachURLInsertMain.jsp" ><img src="images/URL.png"  style="width:200px;height:120px;  margin-left:60px"></a></td>
+                                      
+                                      <td><a href="categories.jsp"><img src="images/teacher.png" align="center" style="width:320px;height:130px;"></a></td>
+                                    </tr>
+                                    <tr>
+                                     <td><h5><font size="5"  style=" margin-left:30px"><b>Insert External Resources&nbsp;&nbsp;&nbsp;</font></td>
+                                     <td><h5><font size="5"><b>Manage Discussion Forum</font></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                     <tr>
+                                     <td><a href="uploadFile.jsp" ><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px; margin-left:60px"></a></td>
+                                     <td><a href="teachQuizMain.jsp" ><img src="images/individual.png" alt="HTML5 align="left"  Icon" style="width:150px;height:150px; margin-left:80px"></a></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                     <td><h5><font size="5" style=" margin-left:30px"><b>Add Student Resources</font></td>
+                                     <td><h5><font size="5"  style=" margin-left:55px "><b>Create Quizzes</font></td>
+                                    </tr>
+                                  </table>
+                                
                             </div>   
                         </div>
                     </div>
