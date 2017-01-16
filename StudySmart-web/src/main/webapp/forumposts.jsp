@@ -108,7 +108,7 @@
                             for (var i = 0; i < data.length; i++) {
                                 var html = "<div class='panel  panel-info'>";
                                 html += "<div class='panel-heading'>";
-                                html += data[i].postaddedby + " on ";
+                                html += data[i].postaddedby_name + " on ";
                                 html += data[i].postdate + " @ " + data[i].posttime;
                                 html += "<span class='glyphicon glyphicon-remove-circle pull-right' aria-hidden='true' onclick='deletePost(" + data[i].postid + ")' style='cursor:pointer'></span>";
                                 html += "</div>";

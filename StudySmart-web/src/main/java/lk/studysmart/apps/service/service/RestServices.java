@@ -908,8 +908,10 @@ public class RestServices {
             JSONArray jarr = new JSONArray();
 
             for (Forumposts forumpost : forumPosts) {
+                User addedUser = em.find(User.class, forumpost.getAddedBy());
                 JSONObject jobj = new JSONObject();
                 jobj.put("postaddedby", forumpost.getAddedBy());
+                jobj.put("postaddedby_name", addedUser.getName());
                 jobj.put("post", forumpost.getPost());
                 jobj.put("postdate", utils.Utils.getFormattedDateString(forumpost.getDate()));
                 jobj.put("posttime", forumpost.getTime());

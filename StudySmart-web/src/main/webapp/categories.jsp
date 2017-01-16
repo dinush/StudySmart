@@ -101,26 +101,26 @@
                             getThreads();
                         });
             }
-            
-            function deleteThread(threadid){
-                
+
+            function deleteThread(threadid) {
+
                 $.ajax({
                     url: "ws/rest/forumdeletethread/" + threadid,
                     async: true,
                     type: 'DELETE',
-                    success: function(res) {
+                    success: function (res) {
                         swal({
                             title: "",
                             text: "Succesfully Deleted !",
                             type: "error"
                         });
                         getThreads();
-                        
+
                     }
                 });
-                
+
                 return false;
-                
+
             }
 
             function getThreads() {
@@ -130,7 +130,7 @@
                 if (classid === '' || subjectid === '') {
                     return;
                 }
-                
+
 
                 $.ajax({
                     url: "ws/rest/teacherthreads/" + classid.value + "/" + subjectid.value,
@@ -138,10 +138,16 @@
                 })
                         .done(function (data) {
                             var tbl = document.getElementById("tbl");
+                            var alert_panel = document.getElementById("alert");
                             tbl.innerHTML = '';
+                            if (data.length === 0) {
+                                alert_panel.innerHTML = "<h4><small><i>No discussions</i></small></h4>";
+                                return;
+                            }
+                            alert_panel.innerHTML = "";
                             for (var i = 0; i < data.length; i++) {
                                 var row = "<tr>";
-                                row += "<td><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid.value + "&subject="+subjectid.value+"'>" + data[i].catname + "</a></td>";
+                                row += "<td><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid.value + "&subject=" + subjectid.value + "'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
                                 row += "<td><span class='glyphicon glyphicon-remove-circle pull-right' aria-hidden='true' onclick='deleteThread(" + data[i].catid + ")' style='cursor:pointer'></span></td>";
@@ -176,23 +182,21 @@
                             <div class="row">
                                 <div id="main-content" class="col-md-8">
 
-                                    <!--editing starts here-->
+                                    <div class="flat-panel">
+                                        <div class="flat-panel-head">
+                                            Discussions
+                                        </div>
+                                        <div class="flat-panel-body">
+                                            <form class="form-inline">
 
-                                    <!-- Show threads created by the teacher so far-->
-<!--                                    <h2><b style="color:#428bca;">Discussion Forum</b></h2>-->
-                                    <br>
-                                    
-                                    
-                                    <form class="form-inline">
-                                        
                                                 <div class="form-group">
-                                                   
+
 
                                                     <select name="class" class="form-control classes" id="class" onchange="getSubjects(0)"></select>
                                                     <select name="subject" class="form-control subjects" id="subject" onchange="getThreads()" ></select>
                                                     <br>
                                                 </div>
-                                            
+
 
                                                 <table class="table table-striped">
                                                     <thead>
@@ -207,15 +211,17 @@
                                                     <tbody id="tbl">
 
                                                     </tbody>
+                                                    <div id="alert"></div>
                                                 </table>
                                                 <br><br>
-                                            
-                                    </form>
 
+                                            </form>
+                                        </div>
+                                    </div>
 
                                     <!--Create new category-->
                                     <h3><b><u> Create New Discussion: </u></b></h3>
-                                   
+
                                     <form class="form-inline" onsubmit="return sendPacket()">
                                         <div class="panel" style="background-color: #336699;">
                                             <div class="panel-heading">
@@ -230,9 +236,9 @@
                                             </div>
 
 
-                                            <div class="form-group">
+                                            <div class="form-group" style="width: 100%;">
 
-                                                <textarea type="Description" rows="5" cols="86.75" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description"></textarea>
+                                                <textarea type="Description" rows="5" name="cat_description" class="form-control" id="cat_description" placeholder="New Category Description" style="width: 100%;"></textarea>
                                             </div>
                                         </div>
 
