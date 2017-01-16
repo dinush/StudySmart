@@ -63,8 +63,8 @@
             <!-- Path -->
             <ol class="breadcrumb">
                 <li><a href="index.jsp">Home</a></li>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="index.jsp">Home</a></li>
+                <li><a href="teachVLEMUI.jsp">VLE</a></li>
+                <li>Add URL</li>
             </ol>
             <table border="0">
                 <tr>
