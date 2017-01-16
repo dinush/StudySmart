@@ -67,8 +67,6 @@ public class URLInsertion extends HttpServlet {
         //Getting data from frontend to Servlet
         String subjectid = request.getParameter("subject");
         Subject subject = em.find(Subject.class, subjectid);
-        String sGrade = request.getParameter("grade");
-        int grade = Integer.valueOf(sGrade);
         
         // get URL details
         String topic = request.getParameter("topic");
@@ -80,7 +78,7 @@ public class URLInsertion extends HttpServlet {
         //set attributes' values to objects
         Url url1 = new Url();
         url1.setSubject(subject);
-        url1.setGrade(grade);
+        url1.setGrade(subject.getGrade());
         url1.setTopic(topic);
         url1.setUrl(link);
         url1.setUsername(user);
