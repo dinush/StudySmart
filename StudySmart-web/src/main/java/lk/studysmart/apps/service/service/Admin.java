@@ -5,6 +5,7 @@
  */
 package lk.studysmart.apps.service.service;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -23,11 +24,15 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lk.studysmart.apps.models.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -39,6 +44,34 @@ public class Admin {
     
     @PersistenceContext
     EntityManager em;
+    
+    @GET
+    @Path("get/user/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllUsers(@Context HttpServletRequest request) {
+        List<User> users = (List<User>) em.createNamedQuery("User.findAll")
+                .getResultList();
+        
+        JSONArray jarr = new JSONArray();
+        for (User user : users) {
+            JSONObject jobj = new JSONObject();
+            jobj.put("username", user.getUsername());
+            jobj.put("name", user.getName());
+            jobj.put("email", user.getEmail());
+            jobj.put("level", user.getLevel());
+            jobj.put("class", user.getClass1());
+            jobj.put("gender", user.getGender());
+            jobj.put("birthdate", user.getBirthdate() != null ? utils.Utils.getFormattedDateString(user.getBirthdate()) : null);
+            jobj.put("nic", user.getNic());
+            jobj.put("address", user.getAddress());
+            jobj.put("occupation", user.getOccupation());
+            jobj.put("phone", user.getPhone());
+            jobj.put("qualifications", user.getQualifications());
+            jarr.put(jobj);
+        }
+        
+        return jarr.toString();
+    }
     
     @DELETE
     @Path("removeuser/{username}")

@@ -28,7 +28,7 @@
             $(function() {
                 
                 $.ajax({
-                    url: "ws/lk.studysmart.apps.models.user",
+                    url: "ws/admin/get/user/all",
                     async: true
                 }) .done (function (data) {
                     var table = document.getElementById("table_body");
