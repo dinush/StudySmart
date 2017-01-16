@@ -31,123 +31,122 @@
                 var ret = confirm("Are you sure to delete this file?");
                 if (!ret)
                     return;
-                $.ajax({ 
+                $.ajax({
                     url: "ws/resources/internal/delete/" + id,
                     async: true,
                     type: "DELETE"
-                }) .done(function(data) {
+                }).done(function (data) {
                     location.reload();
                 });
             }
         </script>
-    <title>Upload Files</title>
-</head>
-<body>
-    <div class="container">
-        <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
+        <title>Upload Files</title>
+    </head>
+    <body>
+        <div class="container">
+            <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-sm-8">
 
-                            <div class="col-md-12">
+                                    <table class='table'>
+                                        <thead> 
+                                        <th colspan="3">Uploaded Files</th>        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
 
-                                <table class='table'>
-                                    <thead> 
-                                    <th colspan="3">Uploaded Files</th>        
-                                    </thead>
-                                    <tbody>
+                                                <td><center><b>Id</b></center><td><center><b>Title</b></center></td><td><center><b>File</b></center></td>
+                                        </tr>
+                                        <%
+                                            try {
+
+                                                User user1 = (User) request.getSession().getAttribute("user");
+                                                String username = user1.getUsername();
+                                                DBConn dbconn = new DBConn();
+                                                Connection myconnection = dbconn.Connection();
+
+                                                String sqlString = "SELECT * FROM file_upload where uid = '" + username + "'";
+                                                Statement myStatement = myconnection.createStatement();
+                                                ResultSet rs = myStatement.executeQuery(sqlString);
+
+                                                if (!rs.isBeforeFirst()) {
+                                        %>
                                         <tr>
+                                            <td colspan="3"><center><%out.print("No Files!"); %></center></td>
+                                        </tr>
+                                        <%
+                                            }
 
-                                            <td><center><b>Id</b></center><td><center><b>Title</b></center></td><td><center><b>File</b></center></td>
-                                    </tr>
+                                            while (rs.next()) {
+                                        %>
+                                        <tr>
+                                            <td><center><%out.print(rs.getString("id")); %></center></td>
+                                        <td><center><%out.print(rs.getString("file_name")); %></center></td>
+                                        <td><center><a target="blank" href='viewPDF.jsp?id=<%out.print(rs.getString("id"));%>'>View</a></center></td>
+                                        <td><center><a target="blank" onclick="deleteFile('<%out.print(rs.getString("id"));%>')">Delete</a></center></td>
+
+                                        </tr>
+                                        <%
+                                            }
+                                        %>
+
+                                        </tbody> 
+                                    </table>
+                                    <br >
                                     <%
-                                        try {
-
-                                            User user1 = (User) request.getSession().getAttribute("user");
-                                            String username = user1.getUsername();
-                                            DBConn dbconn = new DBConn();
-                                            Connection myconnection = dbconn.Connection();
-
-                                            String sqlString = "SELECT * FROM file_upload where uid = '" + username + "'";
-                                            Statement myStatement = myconnection.createStatement();
-                                            ResultSet rs = myStatement.executeQuery(sqlString);
-
-                                            if (!rs.isBeforeFirst()) {
-                                    %>
-                                    <tr>
-                                        <td colspan="3"><center><%out.print("No Files!"); %></center></td>
-                                    </tr>
-                                    <%
+                                            rs.close();
+                                            myStatement.close();
+                                            myconnection.close();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
 
-                                        while (rs.next()) {
                                     %>
-                                    <tr>
-                                        <td><center><%out.print(rs.getString("id")); %></center></td>
-                                    <td><center><%out.print(rs.getString("file_name")); %></center></td>
-                                    <td><center><a target="blank" href='viewPDF.jsp?id=<%out.print(rs.getString("id"));%>'>View</a></center></td>
-                                    <td><center><a target="blank" onclick="deleteFile('<%out.print(rs.getString("id"));%>')">Delete</a></center></td>
+                                    <form method="post" action="PDFUpload" enctype="multipart/form-data">
+                                        <div style="margin-left:10px;">
+                                            <h1><span class="glyphicon glyphicon-file" style="color:#336699;"></span>Upload your documents</h1>
+                                            <br>
 
-                                    </tr>
-                                    <%
-                                        }
-                                    %>
+                                            <div class="form-group">
+                                                <label for="file_name">File Name</label>
+                                                <input type="text" class="form-control" id="file_name" placeholder="i.e My File" name="file_name">
+                                            </div>                                  
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">Select File</label>
+                                                <input class="btn btn-default" type="file" id="upload_file" name="upload_file">
+                                                <p class="help-block">Select only PDF files.</p>
+                                            </div>
 
-                                    </tbody> 
-                                </table>
-
-                                <%
-                                        rs.close();
-                                        myStatement.close();
-                                        myconnection.close();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                                %>
-
-                            </div>
-
-                            <div id="main-content"  >
-                                <form method="post" action="PDFUpload" enctype="multipart/form-data">
-                                    <div style="margin-left:10px;">
-                                        <h1><span class="glyphicon glyphicon-file" style="color:#336699;"></span>Upload your documents</h1>
+                                            <button type="submit" class="btn btn-default" >Upload</button>
+                                        </div>
                                         <br>
-                                    
-                                    <div class="form-group">
-                                        <label for="file_name">File Name</label>
-                                        <input type="text" class="form-control" id="file_name" placeholder="i.e My File" name="file_name">
-                                    </div>                                  
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">Select File</label>
-                                        <input class="btn btn-default" type="file" id="upload_file" name="upload_file">
-                                        <p class="help-block">Select only PDF files.</p>
-                                    </div>
 
-                                    <button type="submit" class="btn btn-default" >Upload</button>
-                                    </div>
-                                    <br>
-                                    
-                                </form>
+                                    </form>
+
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
+                                </div>
 
                             </div>
+
                         </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-                    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-
-</body>
+    </body>
 </html>
