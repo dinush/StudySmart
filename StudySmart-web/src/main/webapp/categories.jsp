@@ -60,7 +60,7 @@
                                 text: "New Discussion Thread Succesfully Created!",
                                 type: "success"
                             });
-
+                            getThreads();
                         });
 
                 return false;
