@@ -163,10 +163,10 @@
                                 row += "<td>" + data[i].date + "</td>";
                                 row += "<td>";
                                 if (data[i].attended) {
-                                    row += "Yes";
+                                    row += "<span style='color:blue';>Yes</span>";
                                     attended++;
                                 } else {
-                                    row += "No";
+                                    row += "<span style='color:red';>No</span>";
                                     absent++;
                                 }
                                 row += "</td>";
