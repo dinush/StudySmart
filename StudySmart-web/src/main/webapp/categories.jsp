@@ -46,6 +46,16 @@
                 packet['meta']['cat_description'] = $('#cat_description').val();
                 packet['meta']['class'] = document.getElementsByClassName("classes")[1].value;
                 packet['meta']['subject'] = document.getElementsByClassName("subjects")[1].value;
+                
+                if (!(packet['meta']['cat_name'] || packet['meta']['cat_description'])){
+                    swal({
+                                title: "Error",
+                                text: "Please enter the lesson name and a descripption!",
+                                type: "error"
+                            });
+                            return false;
+                }
+                
 
                 $.ajax({
                     type: "POST",

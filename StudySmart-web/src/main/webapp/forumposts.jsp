@@ -46,6 +46,15 @@
                 packet['meta']['myclass'] = '<% out.print(request.getParameter("class")); %>';
                 packet['meta']['mysubject'] = '<% out.print(request.getParameter("subject")); %>';
                 packet['meta']['myid'] = '<% out.print(request.getParameter("catid")); %>';
+                
+                if (!(packet['meta']['mypost'])){
+                    swal({
+                                title: "Error",
+                                text: "Please make a post!",
+                                type: "error"
+                            });
+                            return false;
+                }
 
                 $.ajax({
                     async: true,
