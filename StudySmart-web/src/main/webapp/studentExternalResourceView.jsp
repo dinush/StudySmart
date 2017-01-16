@@ -56,6 +56,10 @@
                     .done(function (data) {
                         var resources_elem = document.getElementById("resources");
                         resources_elem.innerHTML = "";
+                        if (data.length === 0) {
+                            resources_elem.innerHTML = "<h3><small><i>No resources yet!</i></small></h3>";
+                            return;
+                        }
                         var resources = "";
                         for (var i = 0; i < data.length; i++) {
                             resources_glob.push(data[i]);
@@ -110,10 +114,13 @@
                                     <h5>Select the subject</h5>
                                     <select id="subject" class="form-control" onchange="getResources()"></select>
                                 </div>
-
+                                
                                 <div id="resources">
                                     
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
                     </div>
