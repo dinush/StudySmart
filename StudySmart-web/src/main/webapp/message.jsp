@@ -35,7 +35,11 @@
 
         <script>
             $.ajax({
-                url: "ws/lk.studysmart.apps.models.user",
+                <% if (user.getLevel() == 3) { %>
+                url: "ws/search/students/all",
+                <% } else { %>
+                url: "ws/admin/get/user/all",
+                <% } %>
                 async: true
             })
                     .done(function (data) {
