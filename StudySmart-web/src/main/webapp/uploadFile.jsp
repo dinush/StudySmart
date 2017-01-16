@@ -77,7 +77,11 @@
                                             <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
                                                 <div class="form-group">
                                                     <label for="filename">Filename</label>
-                                                    <input type="text" size="10px" class="form-control"  name="filename" placeholder="Enter file name here">
+                                                    <input required type="text" size="10px" class="form-control"  name="filename" placeholder="Enter file name here">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Description</label>
+                                                    <input type="text" size="10px" class="form-control"  name="description" placeholder="Short description">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="subject">Subject</label>
@@ -87,7 +91,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="file">File</label>
-                                                    <input type="file" name="file" id="file"/> 
+                                                    <input required type="file" name="file" id="file"/> 
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">Finish</button>

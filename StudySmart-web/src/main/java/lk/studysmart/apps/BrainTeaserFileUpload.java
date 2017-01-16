@@ -69,6 +69,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
         
         final Part filePart = request.getPart("file");
         final String fileName = request.getParameter("filename");
+        final String description = request.getParameter("description");
 
         InputStream filecontent = filePart.getInputStream();
         
@@ -80,6 +81,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
         resource.setUser(user);
         resource.setSubject(subject);
         resource.setFilename(fileName);
+        resource.setDescription(description);
         resource.setBlob(bytes);
         
         try {
