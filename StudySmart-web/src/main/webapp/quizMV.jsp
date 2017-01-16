@@ -74,11 +74,14 @@
     <title>StudySmart</title>
 </head>
 <body>
-    <div class="container"  style="background-color:">
+    <div class="container">
         <%@include file="WEB-INF/jspf/PageHeader.jspf" %>
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
+            <li><a href="vleMainInterface.jsp">VLE</a></li>
+            <li><a href="quizMain.jsp">Quizzes</a></li>
+            <li>View quizzes</li>
         </ol>
         <table border="0">
             <tr>
