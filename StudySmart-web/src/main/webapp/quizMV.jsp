@@ -41,6 +41,12 @@
                     async: true
                 })
                         .done(function (data) {
+                            if (data.length === 0) {
+                                /* Feedback */
+                                var panel = document.getElementById("quiz_panel");
+                                panel.innerHTML = "<h3><small><i>No quizes here</i></small></h3>";
+                                return;
+                            }
                             var qpanel = document.getElementById("quiz_panel");
                             if (data.length > 0) {
                                 var subject_view = document.getElementById("subject");
@@ -56,7 +62,6 @@
                                 presen += "<li class='list-group-item'>" + data[i].option4 + "</li>";
                                 presen += "</ul>";
                                 presen += "<div style='cursor:pointer;color:blue' onclick=this.innerHTML='"+data[i].answer+"'><b>Click to show answer</b></div><hr>";
-                                console.log(presen);
                                 
                                 pbody += presen;
                             }
