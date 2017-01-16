@@ -55,8 +55,8 @@
                             <div id="main-content" class="col-md-12" style="background-color:">
                              
                                 <div style="text-align:center;">
-                               
-                                    <h4><b><font size="5">Select a Subject</font></
+
+                                    <h4><b><font size="5">Select a Subject</font></b></h4>
                                 </div>
                                 <br>
                                 <table>

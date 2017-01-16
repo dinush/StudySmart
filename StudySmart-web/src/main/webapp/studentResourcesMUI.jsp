@@ -18,7 +18,7 @@
 <html>
     <head>
         <style>
-            
+
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -31,53 +31,55 @@
         <script src="js/jqwidgets/jqxcalendar.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
+        <title>StudySmart</title>
+    </head>
+    <body  style="background-color" >
+        <div class="container"  style="background-color:" >
+            <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
+            <!-- Path -->
+            <ol class="breadcrumb">
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="vleMainInterface.jsp">VLE</a></li>
+                <li><a href="#">Student Resources</a></li>
+            </ol>
+            <table border="0">
+                <tr>
+                    <td valign="top" class="table-col-fixed">
+                        <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
+                    </td>
+                    <td valign="top" class="table-col-max">
+                        <div class="content">
+                            <div class="row">
+                                <div id="main-content" class="col-md-12" >
 
-    </script>
-    <title>StudySmart</title>
-</head>
-<body  style="background-color" >
-    <div class="container"  style="background-color:" >
-        <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
-        <!-- Path -->
-        <ol class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="vleMainInterface.jsp">VLE</a></li>
-            <li><a href="#">Student Resources</a></li>
-        </ol>
-        <table border="0">
-            <tr>
-                <td valign="top" class="table-col-fixed">
-                    <%@ include file="WEB-INF/jspf/Sidemenu.jspf" %>
-                </td>
-                <td valign="top" class="table-col-max">
-                    <div class="content">
-                        <div class="row">
-                            <div id="main-content" class="col-md-12" >
-                             
-                                 
-                                <table>
-                                    <tr>
-                                        <td><a href="studentResourceView.jsp?subject=007"><img src="images/History.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
-                                        <td><a href="studentResourceView.jsp?subject=002"><img src="images/Science.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
-                                        <td><a href="studentResourceView.jsp?subject=008"><img src="images/Geography.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td> 
-                                    </tr>
-                                    <tr>
-                                        <td><a href="studentResourceView.jsp?subject=004"><img src="images/ICT.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
-                                        <td><a href="studentResourceView.jsp?subject=003"><img src="images/English.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
-                                        <td><a href="studentResourceView.jsp?subject=001"><img src="images/Maths.png" alt="HTML5 Icon" style="width:150px;height:150px;"></a></td>
-                                    </tr>
-                                  </table>
+                                    <div style="text-align:center;">
 
-                            </div>
-                            <div class="col-md-4">
-                               <!-- <%@ include file="WEB-INF/jspf/Infopanel.jspf" %> -->
+                                        <h4><b><font size="5">Select a Subject</font></b></h4>
+                                    </div>
+                                    <br>
+                                    <table>
+                                        <tr>
+                                            <td><a href="studentResourceView.jsp?subject=007"><img src="images/History.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
+                                            <td><a href="studentResourceView.jsp?subject=002"><img src="images/Science.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td>
+                                            <td><a href="studentResourceView.jsp?subject=008"><img src="images/Geography.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td> 
+                                        </tr>
+                                        <tr>
+                                            <td><a href="studentResourceView.jsp?subject=004"><img src="images/ICT.png" alt="HTML5 Icon" style="width:150px;height:150px;margin-left:40px;margin-righ:40px; margin-left:190px "></a></td>
+                                            <td><a href="studentResourceView.jsp?subject=003"><img src="images/English.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td>
+                                            <td><a href="studentResourceView.jsp?subject=001"><img src="images/Maths.png" alt="HTML5 Icon" style="width:150px;height:150px; margin-left:40px;margin-righ:40px;"></a></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <!-- <%@ include file="WEB-INF/jspf/Infopanel.jspf" %> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
-</body>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
+    </body>
 </html>
