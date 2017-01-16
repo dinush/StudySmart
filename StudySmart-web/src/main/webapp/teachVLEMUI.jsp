@@ -21,12 +21,23 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
+        <link rel="stylesheet" href="css/sweetalert.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
-    </script>
+        <script src="js/sweetalert.min.js"></script>
+        <% if (request.getParameter("msg") != null) { %>
+        <script>
+            $(function() {
+                swal({
+                        title: "<% out.print(request.getParameter("msg")); %>",
+                        type: "success"
+                      });
+             });
+        </script>
+        <% } %>
     <title>StudySmart</title>
 </head>
 <body>

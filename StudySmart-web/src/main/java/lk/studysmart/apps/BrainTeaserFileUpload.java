@@ -93,7 +93,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
             response.getWriter().write("Error: " + ex.getLocalizedMessage());
         }
         
-        response.sendRedirect("teachVLEMUI.jsp");
+        response.sendRedirect("teachVLEMUI.jsp?msg=File Uploaded");
     }
 
     private String getFileName(final Part part) {
