@@ -61,7 +61,7 @@
                             resources_glob.push(data[i]);
                             var resource = "<h4>" + data[i].topic + "</h4>";
                             resource += "<a href='" + data[i].url + "'>" + data[i].url + "</a>";
-                            resource += "<div onclick=showEmbded('" + i + "') style='cursor:pointer;'>(Embded)</div>";
+                            resource += "<div onclick=showEmbded('" + i + "') style='cursor:pointer; color:blue;'>(Embded)</div>";
                             resource += "<div id='" + i + "'></div>"
                             resource += "<hr>";
                             resources += resource;
