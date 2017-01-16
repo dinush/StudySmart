@@ -93,6 +93,8 @@
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
+            <li><a href="vleMainInterface.jsp">VLE</a></li>
+            <li>External Resources</li>
         </ol>
         <table border="0">
             <tr>
