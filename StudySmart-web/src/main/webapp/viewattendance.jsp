@@ -188,15 +188,26 @@
             }
 
             function updateDoughnutChart(data) {
-                if (data === null)
+                if (data === null) {
                     return;
-
+                }
+                
                 if (doughnutChart === null) {
                     console.log("Chart object uninitialized");
                     return;
                 }
+                // Calculate the percentages
+                var attended = data[0];
+                var absent = data[1];
+                var attended_percentage = ( (attended / (attended + absent)) * 100 ).toFixed(2);
+                var absent_percentage = ( (absent / (attended + absent)) * 100 ).toFixed(2);
+                var doughnut_labels = [
+                    "Attended (" + attended_percentage + " %)",
+                    "Absent (" + absent_percentage + " %)"
+                ];
 
                 doughnutChart.data.datasets[0].data = data;
+                doughnutChart.data.labels = doughnut_labels;
                 doughnutChart.update();
             }
 
