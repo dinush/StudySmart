@@ -28,56 +28,57 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
     </script>
     <script>
-        function getResources(){
+        function getResources() {
         <% if (request.getParameter("subject") == null) { %>
-                window.location = "index.jsp?msg=No subject selected";
+            window.location = "index.jsp?msg=No subject selected";
         <% } %>
-            var subjectid = "<% out.print(request.getParameter("subject")); %>";
-            
+            var subjectid = "<% out.print(request.getParameter("subject"));%>";
+
             $.ajax({
-                    url: "ws/resources/get/list/internal/" + subjectid,
-                    async: true
-                })
-                        .done(function (data) {
-                            if (data.length === 0) {
-                                $('#alert').html("No resources here");
-                                return;
-                            }
-                            $('#alert').html("");
-                            var tbl_body = document.getElementById("resource_table_body");
-                            for (var i=0 ; i < data.length; i++) {
-                                var row = tbl_body.insertRow(-1);
-                                
-                                var cell_filename = row.insertCell(0);
-                                var cell_description = row.insertCell(1);
-                                var cell_uploaded_person = row.insertCell(2);
-                                
-                                cell_filename.innerHTML = "<a href='downloader?fileid=" + data[i].id + "'>"
-                                                            + data[i].filename + "</a>";
-                                cell_description.innerHTML = data[i].description !== undefined ? data[i].description : " ";
-                                cell_uploaded_person.innerHTML = data[i].uploader_name;
-                            }
-                        });
-            
+                url: "ws/resources/get/list/internal/" + subjectid,
+                async: true
+            })
+                    .done(function (data) {
+                        if (data.length === 0) {
+                            $('#alert').html("No resources here");
+                            return;
+                        }
+                        $('#alert').html("");
+                        var tbl_body = document.getElementById("resource_table_body");
+                        for (var i = 0; i < data.length; i++) {
+                            var row = tbl_body.insertRow(-1);
+
+                            var cell_filename = row.insertCell(0);
+                            var cell_description = row.insertCell(1);
+                            var cell_uploaded_person = row.insertCell(2);
+
+                            cell_filename.innerHTML = "<a href='downloader?fileid=" + data[i].id + "'>"
+                                    + data[i].filename + "</a>";
+                            cell_description.innerHTML = data[i].description !== undefined ? data[i].description : " ";
+                            cell_uploaded_person.innerHTML = data[i].uploader_name;
+                        }
+                    });
+
         }
-        
-        $(function() {
+
+        $(function () {
             getResources();
         });
-       
+
     </script>
     <title>StudySmart</title>   
 </head>
 <body>
     <div class="container">
         <%@include file="WEB-INF/jspf/PageHeaderVLE.jspf" %>
-     
+
         <!-- Path -->
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
             <li><a href="vleMainInterface.jsp">VLE</a></li>
             <li><a href="studentResourcesMUI.jsp">Student Resources</a></li>
-            <li>Subject: <% out.print(request.getParameter("subject")); %></a></li>
+            <li>Subject: <% out.print(request.getParameter("subject"));
+               %></a></li>
         </ol>
         <table border="0">
             <tr>
@@ -91,14 +92,17 @@
                                 <div id="alert"></div>
                                 <table id="resource_table" class="table">
                                     <thead>
-                                        <th>Filename</th>
-                                        <th>Description</th>
-                                        <th>Uploaded person name</th>
+                                    <th>Filename</th>
+                                    <th>Description</th>
+                                    <th>Uploaded person name</th>
                                     </thead>
                                     <tbody id="resource_table_body">
-                                        
+
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="col-md-4">
+                                <%@ include file="WEB-INF/jspf/Infopanel.jspf" %>
                             </div>
                         </div>
                     </div>
@@ -106,6 +110,6 @@
             </tr>
         </table>
     </div>
-                            <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
+    <script id="dsq-count-scr" src="//EXAMPLE.disqus.com/count.js" async></script>
 </body>
 </html>

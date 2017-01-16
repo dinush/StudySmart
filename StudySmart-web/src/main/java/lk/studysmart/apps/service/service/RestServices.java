@@ -872,6 +872,9 @@ public class RestServices {
 
             for (Categories category : categories) {
                 Subject subject = em.find(Subject.class, category.getSubject());
+                User addedUser = null;
+                if (category.getCatBy() != null)
+                    addedUser = em.find(User.class, category.getCatBy());
                 JSONObject jobj = new JSONObject();
                 jobj.put("catsubject", category.getSubject());
                 jobj.put("subject_name", subject.getName());
@@ -880,6 +883,7 @@ public class RestServices {
                 jobj.put("catdate", utils.Utils.getFormattedDateString(category.getCatDate()));
                 jobj.put("catid", category.getCatId());
                 jobj.put("catby", category.getCatBy());
+                jobj.put("catby_username", addedUser != null ? addedUser.getName() : category.getCatBy());
                 jarr.put(jobj);
             }
 

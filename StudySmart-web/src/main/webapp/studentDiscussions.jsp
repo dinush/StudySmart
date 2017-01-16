@@ -59,7 +59,7 @@
                                 row += "<td id><a href='forumposts.jsp?lesson=" + data[i].catname + "&catid=" + data[i].catid + "&class=" + classid + "&subject=" + data[i].catsubject + "'>" + data[i].catname + "</a></td>";
                                 row += "<td>" + data[i].catdescription + "</td>";
                                 row += "<td>" + data[i].catdate + "</td>";
-                                row += "<td>" + data[i].catby + "</td>";
+                                row += "<td>" + data[i].catby_username + "</td>";
                                 row += "</tr>";
                                 tbl.innerHTML += row;
 
