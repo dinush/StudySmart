@@ -39,7 +39,11 @@
                     async: true
                 })
                         .done(function (data) {
-                            console.log(JSON.stringify(data));
+                            if (data.length === 0) {
+                                $('#alert').html("No resources here");
+                                return;
+                            }
+                            $('#alert').html("");
                             var tbl_body = document.getElementById("resource_table_body");
                             for (var i=0 ; i < data.length; i++) {
                                 var row = tbl_body.insertRow(-1);
@@ -72,7 +76,7 @@
         <ol class="breadcrumb">
             <li><a href="index.jsp">Home</a></li>
             <li><a href="vleMainInterface.jsp">VLE</a></li>
-            <li><a href="studentResourcesMUI.jsp">Subject Select</a></li>
+            <li><a href="studentResourcesMUI.jsp">Student Resources</a></li>
             <li>Subject: <% out.print(request.getParameter("subject")); %></a></li>
         </ol>
         <table border="0">
@@ -84,6 +88,7 @@
                     <div class="content">
                         <div class="row">
                             <div id="main-content" class="col-md-8">
+                                <div id="alert"></div>
                                 <table id="resource_table" class="table">
                                     <thead>
                                         <th>Filename</th>
