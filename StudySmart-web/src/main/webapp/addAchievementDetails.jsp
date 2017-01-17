@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="students" class="col-xs-3 col-form-label">Student Name:</label>
                                         <div class="col-xs-9">
-                                            <select id="students" name="students"></select>
+                                            <select id="students" name="stud_name"></select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
