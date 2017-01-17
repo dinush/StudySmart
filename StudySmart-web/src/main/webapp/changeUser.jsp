@@ -21,9 +21,11 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="css/bootstrap-datepicker3.standalone.min.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
         <script>
             $(function() {
                 
@@ -58,6 +60,11 @@
                 });
                 
                 $('#form-panel').hide();
+                
+                $('#form-panel-birthday').datepicker({
+                    title: "Birthday",
+                    endDate: new Date()
+                });
             });
             
             function openForm(username) {
