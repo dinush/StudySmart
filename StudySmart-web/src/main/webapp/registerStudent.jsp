@@ -51,13 +51,13 @@
                     case '5':
                     case '6': {
                             var maxdate = new Date();
-                            maxdate.setFullYear(maxdate.getFullYear() - 15);
+                            maxdate.setFullYear(maxdate.getFullYear() - 16);
                             initDatepicker(maxdate);
                     } break;
                     case '7':
                     case '8': {
                             var maxdate = new Date();
-                            maxdate.setFullYear(maxdate.getFullYear() - 16);
+                            maxdate.setFullYear(maxdate.getFullYear() - 17);
                             initDatepicker(maxdate);
                     }
                         
