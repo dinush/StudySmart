@@ -36,19 +36,38 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
-            $(function () {
-//                $('#bday-container input').datepicker({
-//                    endDate: new Date()
-//                });
-
-                // limit date to 5 years and back
-                var dlimit = new Date();
-                dlimit.setFullYear(dlimit.getFullYear() - 5);
+            
+            function initDatepicker(maxdate) {
+                $('#bd').datepicker("destroy");
                 $('#bd').datepicker({
                     title: "Birthday",
-                    endDate: dlimit
+                    endDate: maxdate
                 });
-
+            }
+            
+            function limitDate() {
+                var classid = document.getElementById("class").value;
+                switch(classid) {
+                    case '5':
+                    case '6': {
+                            var maxdate = new Date();
+                            maxdate.setFullYear(maxdate.getFullYear() - 15);
+                            initDatepicker(maxdate);
+                    } break;
+                    case '7':
+                    case '8': {
+                            var maxdate = new Date();
+                            maxdate.setFullYear(maxdate.getFullYear() - 16);
+                            initDatepicker(maxdate);
+                    }
+                        
+                }
+            }
+            
+            $(function () {
+                $('#bd').datepicker({
+                    title: "Birthday"
+                });
                 $.ajax({
                     url: "ws/rest/classes",
                     async: true
@@ -61,6 +80,7 @@
                                 class_sel.innerHTML += row;
                             }
                             loadSubjects(document.getElementById('class'));
+                            limitDate();
                         });
                         
                 
@@ -85,6 +105,8 @@
             }
 
             function loadSubjects(sel) {
+                $("#bd").val("");
+                limitDate();
                 $.ajax({
                     url: "ws/rest/subjects/" + sel.value,
                     async: true
@@ -99,7 +121,7 @@
                                 row += "<td><input type='checkbox' name='subjects[]' value='" + data[i].id + "'/></td>";
                                 plh.innerHTML += row;
                             }
-                        })
+                        });
             }
 
         </script>
