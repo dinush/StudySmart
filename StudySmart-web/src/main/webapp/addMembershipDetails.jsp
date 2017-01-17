@@ -23,14 +23,39 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css"/>
         <link rel="stylesheet" href="css/bootstrap-datepicker.standalone.min.css" />
+        <link rel="stylesheet" href="css/selectize.bootstrap2.css" />
         <script src="js/jquery-2.0.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jqwidgets/jqxcore.js"></script>
         <script src="js/jqwidgets/jqxdatetimeinput.js"></script>
         <script src="js/jqwidgets/globalization/globalize.js"></script>
         <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/selectize.min.js"></script>
         <script>
+            function getStudents() {
+                $.ajax({
+                    url: "ws/search/students/all",
+                    async: true
+                })
+                        .done(function(data) {
+                            var students_select = document.getElementById("students");
+                            students_select.innerHTML = "";
+                            var students_html = "";
+                            for (var i=0; i < data.length; i++) {
+                                var student_html = "<option name='students' value='" + data[i].username + "'>" + data[i].name + "(" + data[i].username + ")" + "</option>";
+                                students_html += student_html;
+                            }
+                            students_select.innerHTML = students_html;
+                            
+                            $('#students').selectize({
+                                persist: true,
+                                maxItems: 1
+                            });
+                        });
+            }
+            
             $(function() {
+                getStudents();
                 $('#date').datepicker({
                     
                 });
@@ -59,15 +84,15 @@
                             <div id="main-content" class="col-md-8">
                                <form action="StudentManager?action=addmembership" method="POST">
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-xs-2 col-form-label">Student Name</label>
+                                        <label for="students" class="col-xs-2 col-form-label">Student Name</label>
                                         <div class="col-xs-10">
-                                          <input name="stud_name" class="form-control" type="text" placeholder="Amanda Baddage" id="example-text-input">
+                                            <select name="stud_name" id="students"></select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-xs-2 col-form-label"> Date of Enrollment </label>
                                         <div class="col-xs-10">
-                                          <input name="date" class="form-control" style="width:185px;" type="date" placeholder="2011-08-19" id="date">
+                                          <input name="date" class="form-control" style="width:185px;" type="date" id="date">
                                         </div>
                                     </div>
                                     <div class="form-group">
