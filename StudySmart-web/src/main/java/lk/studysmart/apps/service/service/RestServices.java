@@ -971,7 +971,7 @@ public class RestServices {
         List<Quiz> quizes = em.createNamedQuery("Quiz.findBySubject")
                 .setParameter("subject", subject)
                 .getResultList();
-        
+        //Create json array using list 
         JSONArray jarr = new JSONArray();
         for (Quiz quiz : quizes) {
             JSONObject jobj = new JSONObject();
@@ -999,11 +999,13 @@ public class RestServices {
             @Context HttpServletRequest request){
         User student = (User) request.getSession().getAttribute("user");
         Subject subject = em.find(Subject.class, subjectid);
+        // get list of objects in Url class
+        //pass parameters those want to do query
         List<Url> urls = em.createNamedQuery("Url.findByGradeAndSubject")
                 .setParameter("subject", subject)
                 .setParameter("grade",student.getClass1().getGrade())
                 .getResultList();
-        
+        //Convert list to Json object sent to frontend
         JSONArray jsonArray = new JSONArray();
         for (int i=0 ; i < urls.size(); i++) {
             JSONObject jsonObject = new JSONObject();

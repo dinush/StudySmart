@@ -35,6 +35,7 @@
                 url: "ws/rest/subjects/student/<% out.print(user.getUsername()); %>",
                 async: true
             })
+            //get subjects
                     .done(function(data) {
                         var subject_select = document.getElementById("subject");
                         var subjects = "";
@@ -46,7 +47,7 @@
                         getResources();
                     });
         }
-        
+        //Get resources those are uploaded by teachers
         function getResources() {
 
             $.ajax({
@@ -74,7 +75,7 @@
                     });
 
         }
-        
+        //Show entered url as embedded video
         function showEmbded(id) {
             var div = document.getElementById(id);
             var html = "<div class='embed-responsive embed-responsive-4by3'>";
@@ -82,7 +83,7 @@
             html += "</div>";
             div.innerHTML = html;
         }
-
+        //System automatically load subjects
         $(function () {
             getSubjects();
         });
