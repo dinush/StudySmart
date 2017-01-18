@@ -82,11 +82,13 @@ public class Management extends HttpServlet {
             }
             break;
             case "profile": {
+                // Send user data to the view
                 getUserProfile(request);
                 request.getRequestDispatcher("/profile.jsp").forward(request, response);
             }
             break;
             case "changeProfile": {
+                // Change user details to provided values in the request
                 try {
                     changeUserProfile(request);
                 } catch (ParseException ex) {

@@ -68,6 +68,13 @@ public class StudentManager extends HttpServlet {
 
     protected User user;
 
+    /**
+     * Get data in stream as a String
+     *
+     * @param request
+     * @return
+     * @throws IOException
+     */
     protected String getRequestData(HttpServletRequest request) throws IOException {
 
         StringBuilder buf = new StringBuilder();
@@ -79,7 +86,15 @@ public class StudentManager extends HttpServlet {
 
         return buf.toString();
     }
-    
+
+    /**
+     * Send msg from one user to another user
+     *
+     * @param title
+     * @param content
+     * @param toUsr
+     * @param fromUsr
+     */
     protected void sendPersonalMsg(String title, String content, User toUsr, User fromUsr) {
         Message msg = new Message();
         msg.setAddeddate(Utils.getFormattedDate());
@@ -89,7 +104,7 @@ public class StudentManager extends HttpServlet {
         msg.setTargetuser(toUsr);
         msg.setTitle(title);
         msg.setType(1);
-        
+
         try {
             utx.begin();
             em.persist(msg);
@@ -201,7 +216,7 @@ public class StudentManager extends HttpServlet {
                         utx.begin();
                         em.merge(mrk);
                         utx.commit();
-                        
+
                         // Send message to student stating that the term test marks are added.
                         String title = "Term " + term + " marks";
                         String content = "Term " + term + " marks added for " + subject.getName();
@@ -210,12 +225,12 @@ public class StudentManager extends HttpServlet {
                         List<StudentParent> stu_par = em.createNamedQuery("StudentParent.findByStudentId")
                                 .setParameter("student", student)
                                 .getResultList();
-                        if(stu_par.size() > 0) {
+                        if (stu_par.size() > 0) {
                             content += " (student: " + student.getName() + " [" + student.getUsername() + "])"; // add student info
                             sendPersonalMsg(title, content, stu_par.get(0).getParentid(), user);
-                        }       
+                        }
                     }
-                    
+
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                     Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -223,7 +238,7 @@ public class StudentManager extends HttpServlet {
             }
             case "assignmentmarks": {
                 if (user.getLevel() == 2) {
-
+                    // Send teaching subjects to the view
                     List teachSubjects = em.createNamedQuery("TeacherTeaches.findByUser")
                             .setParameter("user", user)
                             .getResultList();
@@ -235,20 +250,20 @@ public class StudentManager extends HttpServlet {
                 }
                 break;
             }
-            case "test":{
+            case "test": {
                 String firstname = request.getParameter("firstname");
                 String lastname = request.getParameter("lastname");
                 Test1 Tst1 = new Test1();
                 Tst1.setFname(firstname);
                 Tst1.setSname(lastname);
-            try {
-                utx.begin();
-                em.persist(Tst1);
-                utx.commit();
-            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
+                try {
+                    utx.begin();
+                    em.persist(Tst1);
+                    utx.commit();
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
             break;
             case "assignmentMarksSave": {
@@ -295,7 +310,7 @@ public class StudentManager extends HttpServlet {
                         continue;
                     }
 
-                    // Extract the username (after the identification prefix).
+                    // Extract the username (after the identification prefix [-]).
                     int indexOfDelim = elem.indexOf("-");
                     String username = elem.substring(indexOfDelim + 1);
                     User student = em.find(User.class, username);
@@ -308,7 +323,7 @@ public class StudentManager extends HttpServlet {
                     am.setMark(mark);
                     am.setComment(comment);
                     am.setAddedby(user);
-                    if( !utils.Utils.entityValidator(am) ) {
+                    if (!utils.Utils.entityValidator(am)) {     // Validate the entity.
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, "Entity validator failed");
                         return;
                     }
@@ -323,7 +338,7 @@ public class StudentManager extends HttpServlet {
 
                 response.sendRedirect("index.jsp");
             }
-            break;            
+            break;
             case "SingleStudentAttendance": {
                 /**
                  * Show attendance for a student in a static way.
@@ -333,7 +348,7 @@ public class StudentManager extends HttpServlet {
                 String username = request.getParameter("user");
                 String from = request.getParameter("from");
                 String to = request.getParameter("to");
-                
+
                 User student = em.find(User.class, username);
                 request.setAttribute("student", student);
                 // Get attendance details
@@ -343,14 +358,14 @@ public class StudentManager extends HttpServlet {
                             .setParameter("from", Utils.getFormattedDate(from))
                             .setParameter("to", Utils.getFormattedDate(to))
                             .getResultList();
-                    
+
                     request.setAttribute("lstAtt", lstAtt);
                     request.setAttribute("student-username", username);
                     request.setAttribute("student-name", student.getName());
                     request.setAttribute("student-class", "Grade " + student.getClass1().getGrade() + " " + student.getClass1().getSubclass());
                     request.setAttribute("from", from);
                     request.setAttribute("to", to);
-                    
+
                     request.getRequestDispatcher("/AttendanceSingle.jsp").forward(request, response);
                 } catch (ParseException ex) {
                     Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -363,30 +378,30 @@ public class StudentManager extends HttpServlet {
                 String dateid = request.getParameter("date");
                 String achiveid = request.getParameter("achive");
                 String descripid = request.getParameter("descrip");
-                
+
                 User student = em.find(User.class, stud_nameid);
-                
+
                 Achievement ach = new Achievement();
                 ach.setCategory(categ);
-            try {
-                Date date = utils.Utils.stringToDate(dateid);
-                ach.setDate(date);
-                ach.setDescription(descripid);
-                ach.setStudent(student);
-                ach.setTitle(achiveid);
-                
                 try {
-                    utx.begin();
-                    em.persist(ach);
-                    utx.commit();
-                }   catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                    Date date = utils.Utils.stringToDate(dateid);
+                    ach.setDate(date);
+                    ach.setDescription(descripid);
+                    ach.setStudent(student);
+                    ach.setTitle(achiveid);
+
+                    try {
+                        utx.begin();
+                        em.persist(ach);
+                        utx.commit();
+                    } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                response.sendRedirect("ViewAchivementStu.jsp");
-            } catch (ParseException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
+                    response.sendRedirect("ViewAchivementStu.jsp");
+                } catch (ParseException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
             break;
             case "addmembership": {
@@ -394,30 +409,30 @@ public class StudentManager extends HttpServlet {
                 String dateid = request.getParameter("date");
                 String memberid = request.getParameter("membership");
                 String descripid = request.getParameter("description");
-                
+
                 User student = em.find(User.class, stud_nameid);
-                
+
                 Membership mem = new Membership();
-            try {
-                Date date = utils.Utils.stringToDate(dateid);
-                mem.setDate(date);
-                mem.setDiscription(descripid);
-                mem.setStudent(student);
-                mem.setTitle(memberid);
-                
                 try {
-                    utx.begin();
-                    em.persist(mem);
-                    utx.commit();
-                }   catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                    Date date = utils.Utils.stringToDate(dateid);
+                    mem.setDate(date);
+                    mem.setDiscription(descripid);
+                    mem.setStudent(student);
+                    mem.setTitle(memberid);
+
+                    try {
+                        utx.begin();
+                        em.persist(mem);
+                        utx.commit();
+                    } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
                         Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                
-                response.sendRedirect("index.jsp");
-            } catch (ParseException ex) {
-                Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
+
+                    response.sendRedirect("index.jsp");
+                } catch (ParseException ex) {
+                    Logger.getLogger(StudentManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
             break;
 //            case "addmembership": {

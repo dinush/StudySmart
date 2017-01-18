@@ -59,13 +59,14 @@ public class UserLogin extends HttpServlet {
             String password = user.getPassword();
             boolean validPassword = false;
             
-            if (password.startsWith(HASHED_PASSWORD_PREFIX)) {
+            
+            if (password.startsWith(HASHED_PASSWORD_PREFIX)) {  // To use bcrypt later (not yet implemented)
                 validPassword = BCrypt.checkpw(request.getParameter("password"), password);
             } else {
                 validPassword = password.equals(request.getParameter("password"));
             }
             
-            if (!validPassword) {
+            if (!validPassword) {   // wrong password
                 response.sendRedirect("login.jsp?msg=Wrong Password");
                 return;
             } 
