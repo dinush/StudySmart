@@ -31,7 +31,9 @@
         <script src="js/bootstrap-datepicker.min.js"></script>
         <script type = "text/javascript" >
             $(function () {
-                $('#date-container input').datepicker({});
+                $('#date-container input').datepicker({
+                    startDate: new Date()
+                });
                 getClasses();
             });
 
