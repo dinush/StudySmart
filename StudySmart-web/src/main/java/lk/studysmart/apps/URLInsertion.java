@@ -96,8 +96,9 @@ public class URLInsertion extends HttpServlet {
         
         
         
+        //redirect page to teacher's VLE main interface with successfull message
+        response.sendRedirect("teachVLEMUI.jsp?msg=URL inserted successfully");
         
-        response.sendRedirect("teachVLEMUI.jsp");
         
     }
 

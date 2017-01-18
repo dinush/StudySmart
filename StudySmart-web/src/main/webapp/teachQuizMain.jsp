@@ -37,6 +37,7 @@
                     url: "ws/rest/teacher/<% out.print(user.getUsername());%>/subjects",
                     async: true
                 })
+                //Get teacher enrolled subjects 
                         .done(function (data) {
                             var select_subject = document.getElementById("subject");
                             var subjects_html = "";
@@ -52,7 +53,7 @@
                             
                         });
             }
-
+            //System automaticlly display teacher enrolled subjects
             $(function () {
                 getSubjects();
             });
@@ -66,6 +67,16 @@
                   text: "Succesfully Posted !",
                   type: "success"
             });
+        </script>
+        <% } %>
+        <% if (request.getParameter("") != null) { %>
+        <script>
+            $(function() {
+                swal({
+                        title: "<% out.print(request.getParameter("ststus")); %>",
+                        type: "success"
+                      });
+             });
         </script>
         <% } %>
         
@@ -95,6 +106,7 @@
                                             Creating a new quiz
                                         </div>
                                         <div class="flat-panel-body">
+                                            <!--Send information to the QuizInsertion servet in apps -->
                                             <form method="post" action="QuizInsertion" class="form-horizontal">
                                                 <div class="form-group">
                                                     <label for="subject" class="col-sm-3 control-label">Select Subject</label>     
