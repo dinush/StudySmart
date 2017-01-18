@@ -66,7 +66,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         user = (User) request.getSession().getAttribute("user");
-        
+        //Get information from tha frontend of file upload
         final Part filePart = request.getPart("file");
         final String fileName = request.getParameter("filename");
         final String description = request.getParameter("description");
@@ -77,6 +77,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
 
         Subject subject = em.find(Subject.class, request.getParameter("subject"));
         
+        //Set attribute values to object 
         Internalresources resource = new Internalresources();
         resource.setUser(user);
         resource.setSubject(subject);
@@ -92,7 +93,7 @@ public class BrainTeaserFileUpload extends HttpServlet {
             Logger.getLogger(BrainTeaserFileUpload.class.getName()).log(Level.SEVERE, null, ex);
             response.getWriter().write("Error: " + ex.getLocalizedMessage());
         }
-        
+        //Redirect page to the teacher's VLE main interface
         response.sendRedirect("teachVLEMUI.jsp?msg=File Uploaded");
     }
 

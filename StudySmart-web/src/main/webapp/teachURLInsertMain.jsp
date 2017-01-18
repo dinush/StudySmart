@@ -29,11 +29,13 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
         <script>
+            //get Subjects that teacher enrolls 
             function getSubjects() {
                 $.ajax({
                     url: "ws/rest/teacher/<% out.print(user.getUsername());%>/subjects",
                     async: true
                 })
+                //view teacher enrolled subjects using select
                         .done(function (data) {
                             var subject_select = document.getElementById("subject");
                             var options = "";
@@ -49,7 +51,7 @@
                 var preview = document.getElementById("preview");
                 preview.src = $("#link").val();
             }
-
+            //automatically load teacher enrolled subjects in select
             $(function () {
                 getSubjects();
             });
@@ -82,6 +84,7 @@
                                             Adding external URL
                                         </div>
                                         <div class="flat-panel-body">
+                                            <!--Send details to the servlet in lk.studysmart.apps -->
                                             <form method="POST" action="UrlInsertion">
 
                                                 <div class="form-group">

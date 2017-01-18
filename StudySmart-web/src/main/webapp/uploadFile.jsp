@@ -29,6 +29,7 @@
         <script src="js/jqwidgets/globalization/globalize.js"></script>
 
         <script>
+            //View all subjects
             function getSubjects() {
                 var subject_select = document.getElementById("subject");
                 $.ajax({
@@ -44,7 +45,7 @@
                             subject_select.innerHTML = subjects_html;
                         });
             }
-
+            //System automatically load every subjects
             $(function () {
                 getSubjects();
             });
@@ -74,6 +75,7 @@
                                             File upload for subjects
                                         </div>
                                         <div class="flat-panel-body">
+                                            <!--Send informaation to the brainTeaseFileUpload servlet in lk.studysmart.apps-->
                                             <form method="POST" action="brainTeaseFileUpload" enctype="multipart/form-data" >
                                                 <div class="form-group">
                                                     <label for="filename">Filename</label>

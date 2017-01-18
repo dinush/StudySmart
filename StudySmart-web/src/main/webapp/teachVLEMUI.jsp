@@ -60,8 +60,9 @@
                                
                             <table style="width:100%;">
                                     <tr>
+                                      <!--Direct main page to teacher's URL insertion interface  --> 
                                       <td><a href="teachURLInsertMain.jsp" ><img src="images/URL.png"  style="width:200px;height:120px;  margin-left:60px"></a></td>
-                                      
+                                      <!--Direct main page to teacher's manage discussion forum main interface  -->   
                                       <td><a href="categories.jsp"><img src="images/teacher.png" align="center" style="width:320px;height:130px;"></a></td>
                                     </tr>
                                     <tr>
@@ -77,7 +78,9 @@
                                         <td>&nbsp;</td>
                                     </tr>
                                      <tr>
+                                     <!--Direct main page to teacher's resource insertion interface  --> 
                                      <td><a href="uploadFile.jsp" ><img src="images/ebook.png" alt="HTML5 Icon" style="width:250px;height:150px; margin-left:60px"></a></td>
+                                     <!--Direct main page to teacher's quiz insertion interface  --> 
                                      <td><a href="teachQuizMain.jsp" ><img src="images/individual.png" alt="HTML5 align="left"  Icon" style="width:150px;height:150px; margin-left:80px"></a></td>
                                     </tr>
                                     
